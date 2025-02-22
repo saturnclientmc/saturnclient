@@ -1,10 +1,10 @@
-package org.auraclient.auracloaks;
+package org.auraclient.auraclient;
 
 import at.dhyan.open_imaging.GifDecoder;
-import org.auraclient.auracloaks.event.KeyInputHandler;
-import org.auraclient.auracloaks.utils.AnimatedCapeData;
-import org.auraclient.auracloaks.utils.IdentifierUtils;
-import org.auraclient.auracloaks.utils.RandomUtils;
+import org.auraclient.auraclient.event.KeyInputHandler;
+import org.auraclient.auraclient.utils.AnimatedCapeData;
+import org.auraclient.auraclient.utils.IdentifierUtils;
+import org.auraclient.auraclient.utils.RandomUtils;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;
@@ -25,8 +25,8 @@ import java.util.Objects;
 * Massive thank you to IIpho3nix for making this mod, i (leo) have modified it to fit Aura Client
 */
 
-public class AuraCloaks implements ModInitializer {
-    public static final String MOD_ID = "auracloaks";
+public class AuraClient implements ModInitializer {
+    public static final String MOD_ID = "auraclient";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     private static final File capesFolder = new File(MinecraftClient.getInstance().runDirectory, "Capes");
     public static final List<String> list = new ArrayList<>();
