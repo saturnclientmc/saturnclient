@@ -1,26 +1,27 @@
 {
   "schemaVersion": 1,
-  "id": "iicapemod",
+  "id": "auracloaks",
   "version": "${version}",
-  "name": "IIpho3nix's capes mod",
+  "name": "Auracloaks",
   "description": "A local cape mod for fabric with support for animated capes",
   "authors": [
-    "IIpho3nix"
+    "IIpho3nix",
+    "kleo-dev"
   ],
   "contact": {
     "website": "https://iipho3nix.me",
     "sources": "https://github.com/IIpho3nix/IIpho3nix-s-Capes-Mod"
   },
   "license": "GPL-3.0",
-  "icon": "assets/iicapemod/icon.png",
+  "icon": "assets/auracloaks/icon.png",
   "environment": "client",
   "entrypoints": {
     "main": [
-      "me.iipho3nix.iicapemod.CapesMod"
+      "org.auraclient.auracloaks.AuraCloaks"
     ]
   },
   "mixins": [
-    "iicapemod.mixins.json"
+    "auracloaks.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=${loader_version}",

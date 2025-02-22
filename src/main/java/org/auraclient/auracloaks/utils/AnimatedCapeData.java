@@ -1,4 +1,4 @@
-package me.iipho3nix.iicapemod.utils;
+package org.auraclient.auracloaks.utils;
 
 import net.minecraft.util.Identifier;
 

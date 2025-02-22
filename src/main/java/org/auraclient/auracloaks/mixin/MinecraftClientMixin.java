@@ -1,6 +1,6 @@
-package me.iipho3nix.iicapemod.mixin;
+package org.auraclient.auracloaks.mixin;
 
-import me.iipho3nix.iicapemod.CapesMod;
+import org.auraclient.auracloaks.AuraCloaks;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -14,6 +14,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MinecraftClientMixin {
     @Inject(at = @At("HEAD"), method = "tick")
     private void tick(CallbackInfo ci) {
-        CapesMod.tick();
+        AuraCloaks.tick();
     }
 }

@@ -1,12 +1,11 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "me.iipho3nix.iicapemod.mixin",
+  "package": "org.auraclient.auracloaks.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
     "AbstractClientPlayerEntityMixin",
-    "MinecraftClientMixin",
-    "TitleScreenMixin"
+    "MinecraftClientMixin"
   ],
   "injectors": {
     "defaultRequire": 1
