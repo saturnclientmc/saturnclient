@@ -10,8 +10,16 @@ public abstract class AuraWidget {
     public int y2;
     public MinecraftClient client;
 
-    public static int background = 0x5F000000;
-    public static int foreground = 0xFFFFFFFF;
+    public int background = 0x5F000000;
+    public int foreground = 0xFFFFFFFF;
+
+    AuraWidget(int x, int y, int width, int height) {
+        x1 = x;
+        y1 = y;
+
+        x2 = x + width;
+        y2 = y + height;
+    }
 
     void render(DrawContext context, boolean hover) {}
 
