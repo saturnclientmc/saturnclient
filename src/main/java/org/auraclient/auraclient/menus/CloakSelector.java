@@ -23,8 +23,6 @@ public class CloakSelector extends AuraUi {
         for (int i = 0; i < AuraClient.list.size(); i++) {
             String cloak = AuraClient.list.get(i);
             ImageButton img = new ImageButton(Identifier.of("auraclient", "textures/gui/cloaks/"+cloak.replaceAll("\\.(gif|png)", "")+".prev.png"), x, y, 32, 92);
-            img.textureHeight = 16;
-            img.textureWidth = 16;
             img.onClick = () -> {
                 AuraClient.cape = cloak;
             };

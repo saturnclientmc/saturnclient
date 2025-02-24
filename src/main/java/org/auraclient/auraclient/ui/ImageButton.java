@@ -7,23 +7,17 @@ import net.minecraft.util.Identifier;
 public class ImageButton extends AuraWidget {
     private final Identifier sprite;
     public int hoverBorder = 0xFFFFFFFF;
-    public int textureWidth;
-    public int textureHeight;
     public Runnable onClick;
 
     public ImageButton(Identifier sprite_, int x, int y, int width, int height) {
         super(x, y, width, height);
         this.sprite = sprite_;
-        this.textureWidth = width;
-        this.textureHeight = height;
         this.onClick = () -> {};
     }
 
     public ImageButton(Identifier sprite_, int x, int y, int width, int height, int textureWidth, int textureHeight) {
         super(x, y, width, height);
         this.sprite = sprite_;
-        this.textureWidth = textureWidth;
-        this.textureHeight = textureHeight;
         this.onClick = () -> {};
     }
 
