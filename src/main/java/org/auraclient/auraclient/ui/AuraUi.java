@@ -26,7 +26,7 @@ public abstract class AuraUi extends Screen {
 
         for (AuraWidget widget : widgets) {
             widget.client = client;
-            widget.render(context, isInside(mouseX, mouseY, widget.x1, widget.y1, widget.x2, widget.y2));
+            widget.render(context, isInside(mouseX, mouseY, widget.x, widget.y, widget.x + widget.width, widget.y + widget.height));
         }
     }
 
@@ -34,8 +34,8 @@ public abstract class AuraUi extends Screen {
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (button == 0) {
             for (AuraWidget widget : widgets) {
-                if (isInside(mouseX, mouseY, widget.x1, widget.y1, widget.x2, widget.y2)) {
-                    widget.mouseClicked();
+                if (isInside(mouseX, mouseY, widget.x, widget.y, widget.x + widget.width, widget.y + widget.height)) {
+                    widget.onClick.run();
                 }
             }
         }

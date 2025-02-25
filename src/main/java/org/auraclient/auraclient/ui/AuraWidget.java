@@ -2,26 +2,39 @@ package org.auraclient.auraclient.ui;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.util.Identifier;
 
-public abstract class AuraWidget {
-    public int x1;
-    public int y1;
-    public int x2;
-    public int y2;
+public class AuraWidget {
+    public int x;
+    public int y;
+    public int width;
+    public int height;
     public MinecraftClient client;
+    public Identifier sprite;
+    public Runnable onClick;
 
-    public int background = 0x5F000000;
-    public int foreground = 0xFFFFFFFF;
+    public AuraWidget(Identifier sprite, int x, int y, int width, int height) {
+        this.x = x;
+        this.y = y;
 
-    AuraWidget(int x, int y, int width, int height) {
-        x1 = x;
-        y1 = y;
-
-        x2 = x + width;
-        y2 = y + height;
+        this.width = width;
+        this.height = height;
+        this.sprite = sprite;
+        this.onClick = () -> {};
     }
 
-    void render(DrawContext context, boolean hover) {}
+    public AuraWidget(Identifier sprite, int x, int y, int width, int height, Runnable onClick) {
+        this.x = x;
+        this.y = y;
 
-    void mouseClicked() {}
+        this.width = width;
+        this.height = height;
+        this.sprite = sprite;
+        this.onClick = onClick;
+    }
+
+    void render(DrawContext context, boolean hover) {
+        context.drawTexture(RenderLayer::getGuiTextured, sprite, x, y, 0, 0, width, height, width, height);
+    }
 }

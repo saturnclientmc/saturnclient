@@ -2,8 +2,10 @@ package org.auraclient.auraclient.menus;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;
+import org.auraclient.auraclient.AuraClient;
+import org.auraclient.auraclient.ui.AuraTexture;
 import org.auraclient.auraclient.ui.AuraUi;
-import org.auraclient.auraclient.ui.Button;
+import org.auraclient.auraclient.ui.AuraWidget;
 
 public class MainMenu extends AuraUi {
     public MainMenu() {
@@ -12,7 +14,10 @@ public class MainMenu extends AuraUi {
 
     @Override
     public void ui(DrawContext context) {
-        widgets.add(new Button("Cloaks", (context.getScaledWindowWidth() - 50) / 2, (context.getScaledWindowHeight() - 20) / 2, 50, 20, () -> {
+        int x = (context.getScaledWindowWidth() - 30) / 2;
+        int y = (context.getScaledWindowHeight() - 14) / 2;
+
+        widgets.add(new AuraWidget(AuraTexture.BOX, x, y, 30, 14, () -> {
             client.setScreen(new CloakSelector());
         }));
     }
