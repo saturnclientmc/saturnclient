@@ -11,8 +11,8 @@ public class MainMenu extends Screen {
 
     @Override
     protected void init() {
-        ButtonWidget btn = ButtonWidget.builder(Text.literal("Cloaks"), (_button) -> {}).dimensions((this.width - 50) / 2, (this.height - 30) / 2, 50, 30).build();
-
-        addDrawableChild(btn);
+        addDrawableChild(ButtonWidget.builder(Text.literal("Cloaks"), (_button) -> {
+            client.setScreen(new CloakSelector());
+        }).dimensions((this.width - 50) / 2, (this.height - 30) / 2, 50, 30).build());
     }
 }
