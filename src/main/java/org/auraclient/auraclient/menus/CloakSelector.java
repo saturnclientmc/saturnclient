@@ -1,34 +1,18 @@
 package org.auraclient.auraclient.menus;
 
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
-import org.auraclient.auraclient.AuraClient;
-import org.auraclient.auraclient.ui.AuraUi;
-import org.auraclient.auraclient.ui.AuraTexture;
-import net.minecraft.util.Identifier;
-import org.auraclient.auraclient.ui.AuraWidget;
 
-public class CloakSelector extends AuraUi {
+public class CloakSelector extends Screen {
     public CloakSelector() {
-        super(Text.of("UI"));
+        super(Text.literal("Cloaks"));
     }
 
     @Override
-    public void ui(DrawContext context) {
-        int width = (32 * (AuraClient.list.size() + 1));
-        int x = (context.getScaledWindowWidth() - (width - 8)) / 2;
-        int y = (context.getScaledWindowHeight() - 92) / 2;
+    protected void init() {
+        ButtonWidget btn = ButtonWidget.builder(Text.literal("Cloaks"), (_button) -> {}).dimensions((this.width - 50) / 2, (this.height - 30) / 2, 50, 30).build();
 
-        widgets.add(new AuraWidget(AuraTexture.BOX, x - 8, y - 8, width, 108));
-
-        for (int i = 0; i < AuraClient.list.size(); i++) {
-            String cloak = AuraClient.list.get(i);
-
-            widgets.add(new AuraWidget(Identifier.of("auraclient", "textures/gui/cloaks/"+cloak.replaceAll("\\.(gif|png)", "")+".prev.png"), x, y, 32, 92, () -> {
-                AuraClient.cape = cloak;
-            }));
-
-            x += 40;
-        }
+        addDrawableChild(btn);
     }
 }

@@ -1,24 +1,18 @@
 package org.auraclient.auraclient.menus;
 
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
-import org.auraclient.auraclient.AuraClient;
-import org.auraclient.auraclient.ui.AuraTexture;
-import org.auraclient.auraclient.ui.AuraUi;
-import org.auraclient.auraclient.ui.AuraWidget;
 
-public class MainMenu extends AuraUi {
+public class MainMenu extends Screen {
     public MainMenu() {
-        super(Text.of("Main Menu"));
+        super(Text.literal("Custom Screen"));
     }
 
     @Override
-    public void ui(DrawContext context) {
-        int x = (context.getScaledWindowWidth() - 30) / 2;
-        int y = (context.getScaledWindowHeight() - 14) / 2;
+    protected void init() {
+        ButtonWidget btn = ButtonWidget.builder(Text.literal("Cloaks"), (_button) -> {}).dimensions((this.width - 50) / 2, (this.height - 30) / 2, 50, 30).build();
 
-        widgets.add(new AuraWidget(AuraTexture.BOX, x, y, 30, 14, () -> {
-            client.setScreen(new CloakSelector());
-        }));
+        addDrawableChild(btn);
     }
 }
