@@ -22,6 +22,5 @@ public class CloakSelector extends Screen {
 
             y += 35;
         }
-            
     }
 }
