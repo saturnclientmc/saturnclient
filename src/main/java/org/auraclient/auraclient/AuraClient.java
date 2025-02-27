@@ -17,8 +17,4 @@ public class AuraClient implements ModInitializer {
     public void onInitialize() {
         Cloaks.initialize();
     }
-
-    public static void tick() {
-        Cloaks.tick();
-    }
 }

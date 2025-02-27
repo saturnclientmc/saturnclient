@@ -1,5 +1,6 @@
 package org.auraclient.auraclient.mixin;
 
+import org.auraclient.auraclient.AuraClient;
 import org.auraclient.auraclient.cloaks.Cloaks;
 
 import net.fabricmc.api.EnvType;
@@ -17,7 +18,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class AbstractClientPlayerEntityMixin {
     @Inject(at = @At("RETURN"), method = "getSkinTextures", cancellable = true)
     private void getSkinTextures(CallbackInfoReturnable<SkinTextures> cir) {
+        // AbstractClientPlayerEntity player = (AbstractClientPlayerEntity) (Object) this;
+    
         if (((AbstractClientPlayerEntity) (Object) this) instanceof ClientPlayerEntity && Cloaks.capeCacheIdentifier != null) {
+            // AuraClient.LOGGER.info("Rendering skin for: " + player.getUuid());
             SkinTextures textures = cir.getReturnValue();
             cir.setReturnValue(new SkinTextures(
                     textures.texture(),
