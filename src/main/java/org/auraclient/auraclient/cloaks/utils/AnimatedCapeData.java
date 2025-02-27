@@ -2,20 +2,34 @@ package org.auraclient.auraclient.cloaks.utils;
 
 import net.minecraft.util.Identifier;
 
+/**
+ * Represents a single frame of an animated cape.
+ */
 public class AnimatedCapeData {
-    private final Identifier id;
-    private final int delay;
+    private final Identifier textureId;
+    private final int delayMs;
 
-    public AnimatedCapeData(Identifier id, int delay) {
-        this.id = id;
-        this.delay = delay;
+    /**
+     * Creates a new animated cape frame.
+     * @param textureId The texture identifier for this frame
+     * @param delayMs The delay in milliseconds before the next frame
+     */
+    public AnimatedCapeData(Identifier textureId, int delayMs) {
+        this.textureId = textureId;
+        this.delayMs = delayMs;
     }
 
-    public Identifier getId() {
-        return id;
+    /**
+     * @return The texture identifier for this frame
+     */
+    public Identifier getTextureId() {
+        return textureId;
     }
 
-    public int getDelay() {
-        return delay;
+    /**
+     * @return The delay in milliseconds before the next frame
+     */
+    public int getDelayMs() {
+        return delayMs;
     }
 }

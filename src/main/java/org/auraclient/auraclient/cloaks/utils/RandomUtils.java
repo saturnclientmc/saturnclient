@@ -2,28 +2,47 @@ package org.auraclient.auraclient.cloaks.utils;
 
 import java.util.Random;
 
-public class RandomUtils {
+/**
+ * Utility class for generating random strings and numbers.
+ */
+public final class RandomUtils {
+    private static final String ALPHANUMERIC = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    private static final String ALPHANUMERIC_LOWERCASE = "0123456789abcdefghijklmnopqrstuvwxyz";
+    private static final Random RANDOM = new Random();
+
+    private RandomUtils() {
+        // Prevent instantiation
+    }
+
+    /**
+     * Generates a random string of specified length using given characters.
+     */
     private static String random(final int length, final char[] chars) {
-        final StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < length; i++)
-            stringBuilder.append(chars[new Random().nextInt(chars.length)]);
-        return stringBuilder.toString();
+        StringBuilder sb = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            sb.append(chars[RANDOM.nextInt(chars.length)]);
+        }
+        return sb.toString();
     }
 
-    private static String random(final int length, final String chars) {
-        return random(length, chars.toCharArray());
-    }
-
+    /**
+     * Generates a random string of specified length using alphanumeric characters.
+     */
     public static String randomString(final int length) {
-        return random(length, "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
+        return random(length, ALPHANUMERIC.toCharArray());
     }
 
+    /**
+     * Generates a random lowercase string of specified length.
+     */
     public static String randomStringLowercase(final int length) {
-        return random(length, "0123456789abcdefghijklmnopqrstuvwxyz");
+        return random(length, ALPHANUMERIC_LOWERCASE.toCharArray());
     }
 
+    /**
+     * Generates a random integer between min and max (inclusive).
+     */
     public static int randBetween(int min, int max) {
-        Random r = new Random();
-        return r.nextInt(max - min) + min;
+        return RANDOM.nextInt(max - min + 1) + min;
     }
 }

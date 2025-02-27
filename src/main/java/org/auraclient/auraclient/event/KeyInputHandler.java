@@ -7,18 +7,33 @@ import net.minecraft.client.util.InputUtil;
 import org.auraclient.auraclient.menus.MainMenu;
 import org.lwjgl.glfw.GLFW;
 
+/**
+ * Handles keyboard input events for the Aura Client.
+ * Manages keybindings and their associated actions.
+ */
 public class KeyInputHandler {
-    public static final String KEY_CATEGORY_CAPES = "key.category.auraclient";
-    public static final String KEY_MAIN_MENU = "key.auraclient.main_menu";
-    public static KeyBinding mainMenuKey;
+    private static final String KEY_CATEGORY = "key.category.auraclient";
+    private static final String MAIN_MENU_KEY_ID = "key.auraclient.main_menu";
+    private static final int DEFAULT_MENU_KEY = GLFW.GLFW_KEY_RIGHT_SHIFT;
+    
+    private static KeyBinding mainMenuKeyBinding;
 
+    /**
+     * Registers all keybindings and their associated event handlers.
+     * Should be called during mod initialization.
+     */
     public static void register() {
-        mainMenuKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                KEY_MAIN_MENU, InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_RIGHT_SHIFT, KEY_CATEGORY_CAPES
+        // Register the main menu key binding
+        mainMenuKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+            MAIN_MENU_KEY_ID,
+            InputUtil.Type.KEYSYM,
+            DEFAULT_MENU_KEY,
+            KEY_CATEGORY
         ));
 
+        // Register the event handler for the main menu key
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if (mainMenuKey.wasPressed()) {
+            if (mainMenuKeyBinding.wasPressed()) {
                 client.setScreen(new MainMenu());
             }
         });

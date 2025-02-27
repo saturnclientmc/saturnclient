@@ -1,118 +1,154 @@
 package org.auraclient.auraclient.cloaks;
 
 import at.dhyan.open_imaging.GifDecoder;
-
+import net.minecraft.util.Identifier;
 import org.auraclient.auraclient.AuraClient;
 import org.auraclient.auraclient.cloaks.utils.AnimatedCapeData;
 import org.auraclient.auraclient.cloaks.utils.IdentifierUtils;
 import org.auraclient.auraclient.cloaks.utils.RandomUtils;
-import org.auraclient.auraclient.event.KeyInputHandler;
-
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.Identifier;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
+import java.io.InputStream;
+import java.util.*;
 
+/**
+ * Manages the cloak/cape system for Aura Client.
+ * Handles loading, caching, and animating player capes.
+ */
 public class Cloaks {
-    private static final File capesFolder = new File(MinecraftClient.getInstance().runDirectory, "Capes");
-    public static final List<String> list = new ArrayList<>();
-    private static final List<AnimatedCapeData> anicape = new ArrayList<>();
-    private static int capeindex = 0;
-    private static long mili = System.currentTimeMillis();
-    private static String lastCache = "NotCached";
+    private static final String CAPES_RESOURCE_PATH = "assets/auraclient/textures/capes/";
+    private static final List<AnimatedCapeData> animatedCapeFrames = new ArrayList<>();
+    private static int currentFrameIndex = 0;
+    private static long lastFrameTime = System.currentTimeMillis();
+    private static String lastCachedCape = "NoCache";
+    
+    public static final List<String> availableCapes = new ArrayList<>();
     public static Identifier capeCacheIdentifier = null;
-        public static String cape = "";
+    public static final Map<String, String> playerCapes = new HashMap<>();
     
-        public static void initialize() {
-            list.clear();
-            list.add("");
-            if (capesFolder.mkdir()) {
-                AuraClient.LOGGER.info("New Cape Folder Created");
-                downloadCloakTextures();
-            } else {
-                AuraClient.LOGGER.info("Cape Folder Already Exists");
-            }
-            loadCloakTextures();
-    
-            KeyInputHandler.register();
-        }
-    
-        public static void downloadCloakTextures() {
-            // Todo: Download the cloak textures and put them in the Capes folder
-        }
-    
-        private static void loadCloakTextures() {
-            if (capesFolder.isDirectory()) {
-                for (final File fileEntry : Objects.requireNonNull(capesFolder.listFiles())) {
-                    if (
-                            fileEntry.getName().endsWith(".png") || fileEntry.getName().endsWith(".gif")
-                    ) {
-                        list.add(fileEntry.getName());
-                    }
-                }
-            }
-        }
-    
-        public static void tick() {
-            if (!lastCache.equals(cape)) {
-                if (!cape.isEmpty()) {
-                    if (cape.endsWith(".gif")) {
-                        try {
-                            anicape.clear();
-                            Identifier frameIdentifier;
-                            File file = new File(capesFolder, cape);
-                            final FileInputStream data = new FileInputStream(file);
-                            final GifDecoder.GifImage gif = GifDecoder.read(data);
-                            final int frameCount = gif.getFrameCount();
-                            for (int i = 0; i < frameCount; i++) {
-                                final BufferedImage img = gif.getFrame(i);
-                                final int delay = gif.getDelay(i);
-                                frameIdentifier = Identifier.of(AuraClient.MOD_ID, "capes_" + RandomUtils.randomStringLowercase(10));
-                                IdentifierUtils.registerBufferedImageTexture(frameIdentifier, img);
-                                anicape.add(new AnimatedCapeData(frameIdentifier, delay));
-                            }
-                            capeindex = 0;
-                            capeCacheIdentifier = anicape.get(0).getId();
-                        lastCache = cape;
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                } else {
-                    BufferedImage img = null;
-                    File file = new File(capesFolder, cape);
-                    try {
-                        img = ImageIO.read(file);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+    /**
+     * Initializes the cloak system.
+     * Loads cape textures from resources.
+     */
+    public static void initialize() {
+        availableCapes.clear();
+        availableCapes.add("");
+        loadCloakTextures();
+    }
 
-                    capeCacheIdentifier = Identifier.of(AuraClient.MOD_ID, "capes_" + cape.toLowerCase(Locale.ROOT).replace(' ', '_').replaceAll("[^a-z0-9/._-]", ""));
-                    IdentifierUtils.registerBufferedImageTexture(capeCacheIdentifier, img);
-                    lastCache = cape;
-                }
+    /**
+     * Loads cloak textures from the resources.
+     * Supports both static (.png) and animated (.gif) capes.
+     */
+    private static void loadCloakTextures() {
+        // In a resource-based system, we would need to manually list available capes
+        // For now, we can add default capes that we know exist in resources
+        // This would need to be updated when adding new capes to resources
+        availableCapes.add("glitch.png");
+    }
+
+    /**
+     * Updates the cape animation state.
+     * Called every tick to handle animated capes.
+     */
+    public static void tick() {
+        String currentCape = playerCapes.values().stream().findFirst().orElse("");
+        
+        if (!lastCachedCape.equals(currentCape)) {
+            handleCapeChange(currentCape);
+        } else if (currentCape.endsWith(".gif")) {
+            updateAnimatedCape();
+        }
+    }
+
+    /**
+     * Handles loading and caching of a new cape texture.
+     * @param capeName Name of the cape file to load
+     */
+    private static void handleCapeChange(String capeName) {
+        if (!capeName.isEmpty()) {
+            if (capeName.endsWith(".gif")) {
+                loadAnimatedCape(capeName);
             } else {
-                capeCacheIdentifier = null;
-                lastCache = cape;
+                loadStaticCape(capeName);
             }
-        } else {
-            if (cape.endsWith(".gif")) {
-                if (capeindex > (anicape.size() - 1)) {
-                    capeindex = 0;
-                 }
-                 if (System.currentTimeMillis() > mili + anicape.get(capeindex).getDelay()) {
-                     mili = System.currentTimeMillis();
-                    capeCacheIdentifier = anicape.get(capeindex).getId();
-                    capeindex++;
+            lastCachedCape = capeName;
+        }
+    }
+
+    /**
+     * Loads and processes an animated cape from a GIF file in resources.
+     * @param fileName Name of the GIF file to load
+     */
+    private static void loadAnimatedCape(String fileName) {
+        try {
+            animatedCapeFrames.clear();
+            String resourcePath = CAPES_RESOURCE_PATH + fileName;
+            InputStream inputStream = Cloaks.class.getClassLoader().getResourceAsStream(resourcePath);
+            
+            if (inputStream != null) {
+                GifDecoder.GifImage gif = GifDecoder.read(inputStream);
+                int frameCount = gif.getFrameCount();
+                
+                for (int i = 0; i < frameCount; i++) {
+                    BufferedImage frame = gif.getFrame(i);
+                    int delay = gif.getDelay(i);
+                    Identifier frameId = Identifier.of(AuraClient.MOD_ID, 
+                        "capes_" + RandomUtils.randomStringLowercase(10));
+                    
+                    IdentifierUtils.registerBufferedImageTexture(frameId, frame);
+                    animatedCapeFrames.add(new AnimatedCapeData(frameId, delay));
                 }
+                
+                currentFrameIndex = 0;
+                capeCacheIdentifier = animatedCapeFrames.get(0).getTextureId();
             }
+            
+        } catch (IOException e) {
+            AuraClient.LOGGER.error("Failed to load animated cape from resources: " + fileName, e);
+        }
+    }
+
+    /**
+     * Loads and processes a static cape from a PNG file in resources.
+     * @param fileName Name of the PNG file to load
+     */
+    private static void loadStaticCape(String fileName) {
+        try {
+            String resourcePath = CAPES_RESOURCE_PATH + fileName;
+            InputStream inputStream = Cloaks.class.getClassLoader().getResourceAsStream(resourcePath);
+            
+            if (inputStream != null) {
+                BufferedImage image = ImageIO.read(inputStream);
+                
+                String safeFileName = fileName.toLowerCase(Locale.ROOT)
+                    .replace(' ', '_')
+                    .replaceAll("[^a-z0-9/._-]", "");
+                
+                capeCacheIdentifier = Identifier.of(AuraClient.MOD_ID, "capes_" + safeFileName);
+                IdentifierUtils.registerBufferedImageTexture(capeCacheIdentifier, image);
+            }
+            
+        } catch (IOException e) {
+            AuraClient.LOGGER.error("Failed to load static cape from resources: " + fileName, e);
+        }
+    }
+
+    /**
+     * Updates the current frame of an animated cape.
+     */
+    private static void updateAnimatedCape() {
+        if (currentFrameIndex >= animatedCapeFrames.size()) {
+            currentFrameIndex = 0;
+        }
+        
+        AnimatedCapeData currentFrame = animatedCapeFrames.get(currentFrameIndex);
+        if (System.currentTimeMillis() > lastFrameTime + currentFrame.getDelayMs()) {
+            lastFrameTime = System.currentTimeMillis();
+            capeCacheIdentifier = currentFrame.getTextureId();
+            currentFrameIndex++;
         }
     }
 }
