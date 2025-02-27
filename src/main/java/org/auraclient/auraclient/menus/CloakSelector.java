@@ -1,6 +1,6 @@
 package org.auraclient.auraclient.menus;
 
-import org.auraclient.auraclient.AuraClient;
+import org.auraclient.auraclient.cloaks.Cloaks;
 
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -13,11 +13,11 @@ public class CloakSelector extends Screen {
 
     @Override
     protected void init() {
-        int y = ((this.height - (35 * (AuraClient.list.size()))) / 2);
+        int y = ((this.height - (35 * (Cloaks.list.size()))) / 2);
 
-        for (String cloak : AuraClient.list) {
+        for (String cloak : Cloaks.list) {
             addDrawableChild(ButtonWidget.builder(Text.literal(cloak), (__) -> {
-                AuraClient.cape = cloak;
+                Cloaks.cape = cloak;
             }).dimensions((this.width - 50) / 2, y, 50, 30).build());
 
             y += 35;

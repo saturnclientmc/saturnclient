@@ -1,4 +1,4 @@
-package org.auraclient.auraclient.utils;
+package org.auraclient.auraclient.cloaks.utils;
 
 import net.minecraft.util.Identifier;
 

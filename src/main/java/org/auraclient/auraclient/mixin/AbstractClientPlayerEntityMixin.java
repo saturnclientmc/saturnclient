@@ -1,6 +1,7 @@
 package org.auraclient.auraclient.mixin;
 
-import org.auraclient.auraclient.AuraClient;
+import org.auraclient.auraclient.cloaks.Cloaks;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
@@ -16,12 +17,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class AbstractClientPlayerEntityMixin {
     @Inject(at = @At("RETURN"), method = "getSkinTextures", cancellable = true)
     private void getSkinTextures(CallbackInfoReturnable<SkinTextures> cir) {
-        if (((AbstractClientPlayerEntity) (Object) this) instanceof ClientPlayerEntity && AuraClient.capeCacheIdentifier != null) {
+        if (((AbstractClientPlayerEntity) (Object) this) instanceof ClientPlayerEntity && Cloaks.capeCacheIdentifier != null) {
             SkinTextures textures = cir.getReturnValue();
             cir.setReturnValue(new SkinTextures(
                     textures.texture(),
                     textures.textureUrl(),
-                    AuraClient.capeCacheIdentifier,
+                    Cloaks.capeCacheIdentifier,
                     textures.elytraTexture(),
                     textures.model(),
                     textures.secure()
