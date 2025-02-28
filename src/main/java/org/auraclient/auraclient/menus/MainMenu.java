@@ -6,7 +6,7 @@ import net.minecraft.text.Text;
 
 public class MainMenu extends Screen {
     public MainMenu() {
-        super(Text.literal("Custom Screen"));
+        super(Text.literal("Aura Client"));
     }
 
     @Override

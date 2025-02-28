@@ -3,6 +3,7 @@ package org.auraclient.auraclient;
 import net.fabricmc.api.ModInitializer;
 import org.auraclient.auraclient.cloaks.Cloaks;
 import org.auraclient.auraclient.event.KeyInputHandler;
+import org.auraclient.auraclient.auth.AuraApi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,8 +18,14 @@ public class AuraClient implements ModInitializer {
     @Override
     public void onInitialize() {
         LOGGER.info("Initializing " + MOD_ID);
-        KeyInputHandler.register();
-        Cloaks.initialize();
-        LOGGER.info(MOD_ID + " initialization complete");
+        
+        // Attempt authentication before initializing other features
+        if (AuraApi.authenticate()) {
+            KeyInputHandler.register();
+            Cloaks.initialize();
+            LOGGER.info(MOD_ID + " initialization complete");
+        } else {
+            LOGGER.error("Failed to authenticate with the server");
+        }
     }
 }

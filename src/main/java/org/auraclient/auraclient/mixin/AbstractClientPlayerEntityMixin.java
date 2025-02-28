@@ -4,6 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.util.SkinTextures;
+import net.minecraft.util.Identifier;
 import org.auraclient.auraclient.cloaks.Cloaks;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -17,31 +18,31 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(AbstractClientPlayerEntity.class)
 @Environment(EnvType.CLIENT)
 public class AbstractClientPlayerEntityMixin {
-    
+
     /**
      * Injects custom cape textures into the player's skin textures.
+     * 
      * @param cir Callback containing the original skin textures
      */
-    @Inject(
-        method = "getSkinTextures",
-        at = @At("RETURN"),
-        cancellable = true
-    )
+    @Inject(method = "getSkinTextures", at = @At("RETURN"), cancellable = true)
     private void getSkinTextures(CallbackInfoReturnable<SkinTextures> cir) {
         AbstractClientPlayerEntity player = (AbstractClientPlayerEntity) (Object) this;
-        
-        if (Cloaks.playerCapes.containsKey(player.getName().getString()) && 
-            Cloaks.capeCacheIdentifier != null) {
-            
-            SkinTextures textures = cir.getReturnValue();
-            cir.setReturnValue(new SkinTextures(
-                textures.texture(),
-                textures.textureUrl(),
-                Cloaks.capeCacheIdentifier,
-                textures.elytraTexture(),
-                textures.model(),
-                textures.secure()
-            ));
+
+        String uuid = player.getUuidAsString().replace("-", "");
+
+        if (Cloaks.playerCapes.containsKey(uuid)) {
+            String cloak = Cloaks.playerCapes.get(uuid);
+
+            if (!cloak.isEmpty()) {
+                SkinTextures textures = cir.getReturnValue();
+                cir.setReturnValue(new SkinTextures(
+                        textures.texture(),
+                        textures.textureUrl(),
+                        Identifier.of("auraclient", "textures/capes/" + cloak + ".png"),
+                        textures.elytraTexture(),
+                        textures.model(),
+                        textures.secure()));
+            }
         }
     }
 }
