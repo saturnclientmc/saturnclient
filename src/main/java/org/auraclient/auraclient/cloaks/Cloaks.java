@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Handles loading and caching of player capes.
  */
 public class Cloaks {
-    private static final String[] ANIMATED_CLOAKS = { "glitch", "forrest" };
+    private static final String[] ANIMATED_CLOAKS = { "glitch" };
 
     private static final String CAPES_RESOURCE_PATH = "assets/auraclient/textures/capes/";
     public static final List<String> availableCloaks = new ArrayList<>();

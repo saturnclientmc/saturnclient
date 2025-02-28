@@ -34,8 +34,6 @@ public class AuraApi {
 
             String authUrl = String.format("%s/auth?token=%s", URL, token);
 
-            AuraClient.LOGGER.info("Authenticating with URL: " + authUrl);
-
             URL url = URI.create(authUrl).toURL();
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");

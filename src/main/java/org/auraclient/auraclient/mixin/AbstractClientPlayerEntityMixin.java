@@ -18,7 +18,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(AbstractClientPlayerEntity.class)
 @Environment(EnvType.CLIENT)
 public class AbstractClientPlayerEntityMixin {
-
     /**
      * Injects custom cape textures into the player's skin textures.
      * 
