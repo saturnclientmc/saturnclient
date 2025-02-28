@@ -66,7 +66,7 @@ public class AuraApi {
             String cloak = jsonResponse.get("cloak").getAsString();
             if (cloak != null) {
                 AuraClient.LOGGER.info("Setting cloak to " + cloak + " for " + uuid);
-                Cloaks.playerCapes.put(uuid, cloak);
+                MinecraftClient.getInstance().execute(() -> Cloaks.setCape(uuid, cloak));
             }
 
             return success;
