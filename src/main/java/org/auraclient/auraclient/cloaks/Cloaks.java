@@ -46,7 +46,7 @@ public class Cloaks {
         if (!cloakName.isEmpty()) {
             Cloaks.playerCloaks.put(uuid, cloakName);
             if (Arrays.asList(ANIMATED_CLOAKS).contains(cloakName)) {
-                loadAnimatedCloak(uuid, cloakName + ".gif");
+                new Thread(() -> loadAnimatedCloak(uuid, cloakName + ".gif")).start();
             } else {
                 loadStaticCloak(cloakName + ".png");
             }
