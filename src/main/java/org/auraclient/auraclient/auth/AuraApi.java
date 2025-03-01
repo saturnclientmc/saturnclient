@@ -50,7 +50,7 @@ public class AuraApi {
 
             JsonObject jsonResponse = JsonParser.parseString(response.toString()).getAsJsonObject();
             boolean success = jsonResponse.get("success").getAsBoolean();
-            uuid = jsonResponse.get("uuid").getAsString();
+            uuid = jsonResponse.get("uuid").getAsString().replace("-", "");
 
             if (success) {
                 AuraClient.LOGGER.info("Successfully authenticated");

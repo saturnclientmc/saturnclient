@@ -3,7 +3,7 @@
   "minVersion": "0.8",
   "package": "org.auraclient.auraclient.mixin",
   "compatibilityLevel": "JAVA_17",
-  "client": ["AbstractClientPlayerEntityMixin"],
+  "client": ["AbstractClientPlayerEntityMixin", "EntityRendererMixin"],
   "injectors": {
     "defaultRequire": 1
   }

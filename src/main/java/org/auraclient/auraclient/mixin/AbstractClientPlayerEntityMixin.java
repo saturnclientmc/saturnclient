@@ -5,6 +5,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.util.SkinTextures;
 import net.minecraft.util.Identifier;
+
 import org.auraclient.auraclient.cloaks.Cloaks;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -24,7 +25,7 @@ public abstract class AbstractClientPlayerEntityMixin {
     @Inject(method = "getSkinTextures", at = @At("RETURN"), cancellable = true)
     private void injectCustomTextures(CallbackInfoReturnable<SkinTextures> cir) {
         AbstractClientPlayerEntity player = (AbstractClientPlayerEntity) (Object) this;
-        String uuid = player.getUuid().toString();
+        String uuid = player.getUuidAsString().replace("-", "");
 
         Identifier cloakTexture = Cloaks.getCurrentCloakTexture(uuid);
         if (cloakTexture != null) {
