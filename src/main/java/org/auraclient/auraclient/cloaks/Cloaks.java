@@ -3,7 +3,7 @@ package org.auraclient.auraclient.cloaks;
 import net.minecraft.util.Identifier;
 import org.auraclient.auraclient.AuraClient;
 import org.auraclient.auraclient.auth.AuraApi;
-import org.auraclient.auraclient.cloaks.utils.AnimatedCapeData;
+import org.auraclient.auraclient.cloaks.utils.AnimatedCloakData;
 import org.auraclient.auraclient.cloaks.utils.IdentifierUtils;
 
 import javax.imageio.ImageIO;
@@ -14,76 +14,78 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Manages the cloak/cape system for Aura Client.
- * Handles loading and caching of player capes.
+ * Manages the cloak system for Aura Client.
+ * Handles loading and caching of player cloaks.
  */
 public class Cloaks {
     private static final String[] ANIMATED_CLOAKS = { "glitch" };
 
-    private static final String CAPES_RESOURCE_PATH = "assets/auraclient/textures/capes/";
+    private static final String CLOAKS_RESOURCE_PATH = "assets/auraclient/textures/cloaks/";
     public static final List<String> availableCloaks = new ArrayList<>();
-    public static Identifier capeCacheIdentifier = null;
-    public static final Map<String, String> playerCapes = new HashMap<>();
-    public static final Map<String, List<AnimatedCapeData>> animatedCapes = new ConcurrentHashMap<>();
+    public static Identifier cloakCacheIdentifier = null;
+    public static final Map<String, String> playerCloaks = new HashMap<>();
+    public static final Map<String, List<AnimatedCloakData>> animatedCloaks = new ConcurrentHashMap<>();
     private static final Map<String, Long> lastFrameTime = new ConcurrentHashMap<>();
 
     /**
      * Initializes the cloak system.
-     * Loads cape textures from resources.
+     * Loads cloak textures from resources.
      */
     public static void initialize() {
         availableCloaks.add(0, "");
     }
 
     /**
-     * Handles loading and caching of a new cape texture.
+     * Handles loading and caching of a new cloak texture.
      * 
-     * @param capeName Name of the cape file to load
+     * @param cloakName Name of the cloak file to load
      */
-    public static void setCape(String uuid, String capeName) {
-        AuraApi.setCloak(capeName);
+    public static void setCloak(String uuid, String cloakName) {
+        AuraApi.setCloak(cloakName);
 
-        if (!capeName.isEmpty()) {
-            Cloaks.playerCapes.put(uuid, capeName);
-            if (Arrays.asList(ANIMATED_CLOAKS).contains(capeName)) {
-                loadAnimatedCape(uuid, capeName + ".gif");
+        if (!cloakName.isEmpty()) {
+            Cloaks.playerCloaks.put(uuid, cloakName);
+            if (Arrays.asList(ANIMATED_CLOAKS).contains(cloakName)) {
+                loadAnimatedCloak(uuid, cloakName + ".gif");
             } else {
-                loadStaticCape(capeName + ".png");
+                loadStaticCloak(cloakName + ".png");
             }
+        } else {
+            Cloaks.playerCloaks.remove(uuid);
         }
     }
 
     /**
-     * Loads and processes a static cape from a PNG file in resources.
+     * Loads and processes a static cloak from a PNG file in resources.
      * 
      * @param fileName Name of the PNG file to load
      */
-    private static void loadStaticCape(String fileName) {
+    private static void loadStaticCloak(String fileName) {
         try {
-            String resourcePath = CAPES_RESOURCE_PATH + fileName;
+            String resourcePath = CLOAKS_RESOURCE_PATH + fileName;
             InputStream inputStream = Cloaks.class.getClassLoader().getResourceAsStream(resourcePath);
 
             if (inputStream != null) {
                 BufferedImage image = ImageIO.read(inputStream);
 
-                // Add debug logging for static cape
-                AuraClient.LOGGER.info("Static cape dimensions: " + image.getWidth() + "x" + image.getHeight());
+                // Add debug logging for static cloak
+                AuraClient.LOGGER.info("Static cloak dimensions: " + image.getWidth() + "x" + image.getHeight());
 
                 String safeFileName = fileName.toLowerCase(Locale.ROOT)
                         .replace(' ', '_')
                         .replaceAll("[^a-z0-9/._-]", "");
 
-                capeCacheIdentifier = Identifier.of(AuraClient.MOD_ID, "capes_" + safeFileName);
-                IdentifierUtils.registerBufferedImageTexture(capeCacheIdentifier, image);
+                cloakCacheIdentifier = Identifier.of(AuraClient.MOD_ID, "cloaks_" + safeFileName);
+                IdentifierUtils.registerBufferedImageTexture(cloakCacheIdentifier, image);
             }
         } catch (IOException e) {
-            AuraClient.LOGGER.error("Failed to load static cape from resources: " + fileName, e);
+            AuraClient.LOGGER.error("Failed to load static cloak from resources: " + fileName, e);
         }
     }
 
-    private static void loadAnimatedCape(String uuid, String fileName) {
+    private static void loadAnimatedCloak(String uuid, String fileName) {
         try {
-            String resourcePath = CAPES_RESOURCE_PATH + fileName;
+            String resourcePath = CLOAKS_RESOURCE_PATH + fileName;
             InputStream inputStream = Cloaks.class.getClassLoader().getResourceAsStream(resourcePath);
 
             if (inputStream != null) {
@@ -93,7 +95,7 @@ public class Cloaks {
                 // Use our custom GifDecoder
                 GifDecoder.GifImage gif = GifDecoder.read(data);
 
-                List<AnimatedCapeData> frames = new ArrayList<>();
+                List<AnimatedCloakData> frames = new ArrayList<>();
                 int frameCount = gif.getFrameCount();
 
                 for (int i = 0; i < frameCount; i++) {
@@ -102,30 +104,30 @@ public class Cloaks {
                     int delay = gif.getDelay(i) * 10;
 
                     String frameId = fileName.replace(".gif", "") + "_frame_" + i;
-                    Identifier frameIdentifier = Identifier.of(AuraClient.MOD_ID, "capes_" + frameId);
+                    Identifier frameIdentifier = Identifier.of(AuraClient.MOD_ID, "cloaks_" + frameId);
                     IdentifierUtils.registerBufferedImageTexture(frameIdentifier, frame);
 
-                    frames.add(new AnimatedCapeData(frameIdentifier, delay));
+                    frames.add(new AnimatedCloakData(frameIdentifier, delay));
                 }
 
-                animatedCapes.put(uuid, frames);
+                animatedCloaks.put(uuid, frames);
                 lastFrameTime.put(uuid, System.currentTimeMillis());
 
-                AuraClient.LOGGER.info("Loaded " + frames.size() + " frames for animated cape: " + fileName);
+                AuraClient.LOGGER.info("Loaded " + frames.size() + " frames for animated cloak: " + fileName);
             }
         } catch (IOException e) {
-            AuraClient.LOGGER.error("Failed to load animated cape from resources: " + fileName, e);
+            AuraClient.LOGGER.error("Failed to load animated cloak from resources: " + fileName, e);
         }
     }
 
-    public static Identifier getCurrentCapeTexture(String uuid) {
-        if (!playerCapes.containsKey(uuid)) {
+    public static Identifier getCurrentCloakTexture(String uuid) {
+        if (!playerCloaks.containsKey(uuid)) {
             return null;
         }
 
-        String capeName = playerCapes.get(uuid);
-        if (Arrays.asList(ANIMATED_CLOAKS).contains(capeName)) {
-            List<AnimatedCapeData> frames = animatedCapes.get(uuid);
+        String cloakName = playerCloaks.get(uuid);
+        if (Arrays.asList(ANIMATED_CLOAKS).contains(cloakName)) {
+            List<AnimatedCloakData> frames = animatedCloaks.get(uuid);
             if (frames == null || frames.isEmpty()) {
                 return null;
             }
@@ -151,7 +153,7 @@ public class Cloaks {
 
             return frames.get(currentFrame).getTextureId();
         } else {
-            return Identifier.of(AuraClient.MOD_ID, "textures/capes/" + capeName + ".png");
+            return Identifier.of(AuraClient.MOD_ID, "textures/cloaks/" + cloakName + ".png");
         }
     }
 }

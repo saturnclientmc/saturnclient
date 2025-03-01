@@ -64,11 +64,10 @@ public class AuraApi {
             String cloak = jsonResponse.get("cloak").getAsString();
             if (cloak != null) {
                 AuraClient.LOGGER.info("Setting cloak to " + cloak + " for " + uuid);
-                MinecraftClient.getInstance().execute(() -> Cloaks.setCape(uuid, cloak));
+                MinecraftClient.getInstance().execute(() -> Cloaks.setCloak(uuid, cloak));
             }
 
             return success;
-
         } catch (Exception e) {
             AuraClient.LOGGER.error("Authentication failed", e);
             return false;
