@@ -13,12 +13,16 @@ import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AuraApi {
     private static final String URL = "http://localhost:3000";
 
     private static String token = null;
     private static String uuid = null;
+
+    public static List<AuraPlayer> players = new ArrayList<>();
 
     public static boolean authenticate() {
         try {

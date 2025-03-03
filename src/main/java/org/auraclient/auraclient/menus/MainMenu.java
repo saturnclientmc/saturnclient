@@ -1,7 +1,8 @@
 package org.auraclient.auraclient.menus;
 
+import org.auraclient.auraclient.widgets.AuraButton;
+
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
 
 public class MainMenu extends Screen {
@@ -11,10 +12,16 @@ public class MainMenu extends Screen {
 
     @Override
     protected void init() {
-        addDrawableChild(ButtonWidget.builder(Text.literal("Cloaks"), (_button) -> {
-            if (client.player != null) {
-                client.setScreen(new CloakSelector());
-            }
-        }).dimensions((this.width - 50) / 2, (this.height - 30) / 2, 50, 30).build());
+        super.init();
+
+        int buttonWidth = 50;
+        int buttonHeight = 30;
+
+        addDrawableChild(
+                new AuraButton(Text.literal("Cloaks"), (_button) -> {
+                    if (client.player != null) {
+                        client.setScreen(new CloakSelector());
+                    }
+                }, (this.width - buttonWidth) / 2, (this.height - buttonHeight) / 2, buttonWidth, buttonHeight));
     }
 }
