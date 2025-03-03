@@ -3,6 +3,7 @@ package org.auraclient.auraclient.cloaks;
 import net.minecraft.util.Identifier;
 import org.auraclient.auraclient.AuraClient;
 import org.auraclient.auraclient.auth.AuraApi;
+import org.auraclient.auraclient.auth.AuraPlayer;
 import org.auraclient.auraclient.cloaks.utils.AnimatedCloakData;
 import org.auraclient.auraclient.cloaks.utils.IdentifierUtils;
 
@@ -23,7 +24,6 @@ public class Cloaks {
     private static final String CLOAKS_RESOURCE_PATH = "assets/auraclient/textures/cloaks/";
     public static final List<String> availableCloaks = new ArrayList<>();
     public static Identifier cloakCacheIdentifier = null;
-    public static final Map<String, String> playerCloaks = new HashMap<>();
     public static final Map<String, List<AnimatedCloakData>> animatedCloaks = new ConcurrentHashMap<>();
     private static final Map<String, Long> lastFrameTime = new ConcurrentHashMap<>();
 
@@ -44,14 +44,22 @@ public class Cloaks {
         AuraApi.setCloak(cloakName);
 
         if (!cloakName.isEmpty()) {
-            Cloaks.playerCloaks.put(uuid, cloakName);
+            AuraPlayer player = AuraApi.players.get(uuid);
+            if (player == null) {
+                AuraPlayer newPlayer = new AuraPlayer();
+                newPlayer.cloak = cloakName;
+                AuraApi.players.put(uuid, newPlayer);
+            } else {
+                player.cloak = cloakName;
+            }
+
             if (Arrays.asList(ANIMATED_CLOAKS).contains(cloakName)) {
                 new Thread(() -> loadAnimatedCloak(uuid, cloakName + ".gif")).start();
             } else {
                 loadStaticCloak(cloakName + ".png");
             }
         } else {
-            Cloaks.playerCloaks.remove(uuid);
+            AuraApi.players.remove(uuid);
         }
     }
 
@@ -121,11 +129,11 @@ public class Cloaks {
     }
 
     public static Identifier getCurrentCloakTexture(String uuid) {
-        if (!playerCloaks.containsKey(uuid)) {
+        if (!AuraApi.players.containsKey(uuid)) {
             return null;
         }
 
-        String cloakName = playerCloaks.get(uuid);
+        String cloakName = AuraApi.players.get(uuid).cloak;
         if (Arrays.asList(ANIMATED_CLOAKS).contains(cloakName)) {
             List<AnimatedCloakData> frames = animatedCloaks.get(uuid);
             if (frames == null || frames.isEmpty()) {

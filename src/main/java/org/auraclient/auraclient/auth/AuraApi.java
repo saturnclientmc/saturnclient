@@ -13,16 +13,16 @@ import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AuraApi {
     private static final String URL = "http://localhost:3000";
 
     private static String token = null;
-    private static String uuid = null;
 
-    public static List<AuraPlayer> players = new ArrayList<>();
+    public static Map<String, AuraPlayer> players = new HashMap<>();
+    public static Map<String, String> playerNames = new HashMap<>();
 
     public static boolean authenticate() {
         try {
@@ -54,7 +54,10 @@ public class AuraApi {
 
             JsonObject jsonResponse = JsonParser.parseString(response.toString()).getAsJsonObject();
             boolean success = jsonResponse.get("success").getAsBoolean();
-            uuid = jsonResponse.get("uuid").getAsString().replace("-", "");
+            String uuid = jsonResponse.get("uuid").getAsString().replace("-", "");
+            String name = jsonResponse.get("name").getAsString();
+
+            playerNames.put(name, uuid);
 
             if (success) {
                 AuraClient.LOGGER.info("Successfully authenticated");
