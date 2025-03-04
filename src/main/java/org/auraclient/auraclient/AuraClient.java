@@ -18,7 +18,7 @@ public class AuraClient implements ModInitializer {
     @Override
     public void onInitialize() {
         LOGGER.info("Initializing " + MOD_ID);
-        
+
         // Attempt authentication before initializing other features
         if (AuraApi.authenticate()) {
             KeyInputHandler.register();
