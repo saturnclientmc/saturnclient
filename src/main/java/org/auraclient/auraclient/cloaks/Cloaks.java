@@ -43,24 +43,23 @@ public class Cloaks {
     public static void setCloak(String uuid, String cloakName) {
         AuraApi.setCloak(cloakName);
 
-        if (!cloakName.isEmpty()) {
-            AuraPlayer player = AuraApi.players.get(uuid);
-            if (player == null) {
-                AuraPlayer newPlayer = new AuraPlayer();
-                newPlayer.cloak = cloakName;
-                AuraApi.players.put(uuid, newPlayer);
-            } else {
-                player.cloak = cloakName;
-            }
+        AuraPlayer player = AuraApi.players.get(uuid);
+        if (player == null) {
+            AuraPlayer newPlayer = new AuraPlayer();
+            newPlayer.cloak = cloakName;
+            AuraApi.players.put(uuid, newPlayer);
+        } else {
+            player.cloak = cloakName;
+        }
 
+        if (!cloakName.isEmpty()) {
             if (Arrays.asList(ANIMATED_CLOAKS).contains(cloakName)) {
                 new Thread(() -> loadAnimatedCloak(uuid, cloakName + ".gif")).start();
             } else {
                 loadStaticCloak(cloakName + ".png");
             }
-        } else {
-            AuraApi.players.remove(uuid);
         }
+
     }
 
     /**
@@ -134,6 +133,11 @@ public class Cloaks {
         }
 
         String cloakName = AuraApi.players.get(uuid).cloak;
+
+        if (cloakName.isEmpty()) {
+            return null;
+        }
+
         if (Arrays.asList(ANIMATED_CLOAKS).contains(cloakName)) {
             List<AnimatedCloakData> frames = animatedCloaks.get(uuid);
             if (frames == null || frames.isEmpty()) {
