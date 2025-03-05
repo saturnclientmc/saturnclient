@@ -1,4 +1,4 @@
-package org.auraclient.auraclient.mixin;
+package org.saturnclient.saturnclient.mixin;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -13,7 +13,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.client.render.LightmapTextureManager;
 
-import org.auraclient.auraclient.auth.AuraApi;
+import org.saturnclient.saturnclient.auth.SaturnApi;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -27,7 +27,7 @@ public abstract class NameTagMixin<S extends EntityRenderState> {
     @Overwrite
     public void renderLabelIfPresent(S state, Text text_o, MatrixStack matrices,
             VertexConsumerProvider vertexConsumers, int light) {
-        Text text = isAura(state) ? Text.literal("" + "HexLeo") : text_o;
+        Text text = isSaturn(state) ? Text.literal("" + "HexLeo") : text_o;
 
         Vec3d vec3d = state.nameLabelPos;
         if (vec3d != null) {
@@ -52,10 +52,10 @@ public abstract class NameTagMixin<S extends EntityRenderState> {
         }
     }
 
-    private boolean isAura(S state) {
+    private boolean isSaturn(S state) {
         if (state instanceof PlayerEntityRenderState) {
             String name = ((PlayerEntityRenderState) state).name;
-            return AuraApi.playerNames.containsKey(name);
+            return SaturnApi.playerNames.containsKey(name);
         }
         return false;
     }

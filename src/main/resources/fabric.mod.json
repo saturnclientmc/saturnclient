@@ -1,21 +1,21 @@
 {
   "schemaVersion": 1,
-  "id": "auraclient",
+  "id": "saturnclient",
   "version": "${version}",
-  "name": "auraclient",
+  "name": "saturnclient",
   "description": "A Minecraft client mod",
   "authors": ["IIpho3nix", "kleo-dev"],
   "contact": {
     "website": "https://kleo-dev.netlify.app",
-    "sources": "https://github.com/kleo-dev/auraclient"
+    "sources": "https://github.com/kleo-dev/saturnclient"
   },
   "license": "GPL-3.0",
-  "icon": "assets/auraclient/icon.png",
+  "icon": "assets/saturnclient/icon.png",
   "environment": "client",
   "entrypoints": {
-    "main": ["org.auraclient.auraclient.AuraClient"]
+    "main": ["org.saturnclient.saturnclient.SaturnClient"]
   },
-  "mixins": ["auraclient.mixins.json"],
+  "mixins": ["saturnclient.mixins.json"],
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric": "*",

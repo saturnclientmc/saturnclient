@@ -1,4 +1,4 @@
-package org.auraclient.auraclient.widgets;
+package org.saturnclient.saturnclient.widgets;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Drawable;
@@ -6,12 +6,12 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
 
 /**
- * Represents a drawable texture in the Aura Client UI.
+ * Represents a drawable texture in the Saturn Client UI.
  * Uses the builder pattern for flexible texture creation and configuration.
  */
-public class AuraClientTexture implements Drawable {
+public class SaturnClientTexture implements Drawable {
     // Predefined textures
-    public static final Identifier BOX_1_1 = Identifier.of("auraclient", "textures/gui/box_1_1.png");
+    public static final Identifier BOX_1_1 = Identifier.of("saturnclient", "textures/gui/box_1_1.png");
 
     private final Identifier sprite;
     private int x;
@@ -21,9 +21,10 @@ public class AuraClientTexture implements Drawable {
 
     /**
      * Creates a new texture with the specified sprite.
+     * 
      * @param sprite The identifier for the texture sprite
      */
-    private AuraClientTexture(Identifier sprite) {
+    private SaturnClientTexture(Identifier sprite) {
         this.sprite = sprite;
         this.x = 0;
         this.y = 0;
@@ -33,22 +34,24 @@ public class AuraClientTexture implements Drawable {
 
     /**
      * Creates a new builder instance for the texture.
+     * 
      * @param sprite The identifier for the texture sprite
-     * @return A new AuraClientTexture instance
+     * @return A new SaturnClientTexture instance
      */
-    public static AuraClientTexture builder(Identifier sprite) {
-        return new AuraClientTexture(sprite);
+    public static SaturnClientTexture builder(Identifier sprite) {
+        return new SaturnClientTexture(sprite);
     }
 
     /**
      * Sets the dimensions and position of the texture.
-     * @param x The x coordinate
-     * @param y The y coordinate
-     * @param width The width of the texture
+     * 
+     * @param x      The x coordinate
+     * @param y      The y coordinate
+     * @param width  The width of the texture
      * @param height The height of the texture
      * @return This instance for method chaining
      */
-    public AuraClientTexture dimensions(int x, int y, int width, int height) {
+    public SaturnClientTexture dimensions(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -58,10 +61,11 @@ public class AuraClientTexture implements Drawable {
 
     /**
      * Sets the focused state of the texture.
+     * 
      * @param focused The focused state
      * @return This instance for method chaining
      */
-    public AuraClientTexture setFocused(boolean focused) {
+    public SaturnClientTexture setFocused(boolean focused) {
         return this;
     }
 

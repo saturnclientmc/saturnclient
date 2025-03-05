@@ -1,10 +1,10 @@
-package org.auraclient.auraclient.auth;
+package org.saturnclient.saturnclient.auth;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.minecraft.client.MinecraftClient;
-import org.auraclient.auraclient.AuraClient;
-import org.auraclient.auraclient.cloaks.Cloaks;
+import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.saturnclient.cloaks.Cloaks;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -16,19 +16,19 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AuraApi {
+public class SaturnApi {
     private static final String URL = "http://localhost:3000";
 
     private static String token = null;
 
-    public static Map<String, AuraPlayer> players = new HashMap<>();
+    public static Map<String, SaturnPlayer> players = new HashMap<>();
     public static Map<String, String> playerNames = new HashMap<>();
 
     public static boolean authenticate() {
         try {
             MinecraftClient client = MinecraftClient.getInstance();
             if (client.getSession() == null) {
-                AuraClient.LOGGER.error("No active Minecraft session found");
+                SaturnClient.LOGGER.error("No active Minecraft session found");
                 return false;
             }
 
@@ -60,7 +60,7 @@ public class AuraApi {
             playerNames.put(name, uuid);
 
             if (success) {
-                AuraClient.LOGGER.info("Successfully authenticated");
+                SaturnClient.LOGGER.info("Successfully authenticated");
             }
 
             // Update available cloaks list
@@ -70,20 +70,20 @@ public class AuraApi {
 
             String cloak = jsonResponse.get("cloak").getAsString();
             if (cloak != null) {
-                AuraClient.LOGGER.info("Setting cloak to " + cloak + " for " + uuid);
+                SaturnClient.LOGGER.info("Setting cloak to " + cloak + " for " + uuid);
                 MinecraftClient.getInstance().execute(() -> Cloaks.setCloak(uuid, cloak));
             }
 
             return success;
         } catch (Exception e) {
-            AuraClient.LOGGER.error("Authentication failed", e);
+            SaturnClient.LOGGER.error("Authentication failed", e);
             return false;
         }
     }
 
     public static void setCloak(String cloak) {
         if (token == null) {
-            AuraClient.LOGGER.error("No token found");
+            SaturnClient.LOGGER.error("No token found");
             return;
         }
 
@@ -109,14 +109,14 @@ public class AuraApi {
             boolean success = jsonResponse.get("success").getAsBoolean();
 
             if (success) {
-                AuraClient.LOGGER.info("Successfully set cloak");
+                SaturnClient.LOGGER.info("Successfully set cloak");
             } else {
-                AuraClient.LOGGER.error("Failed to set cloak");
-                AuraClient.LOGGER.error(jsonResponse.get("error").getAsString());
+                SaturnClient.LOGGER.error("Failed to set cloak");
+                SaturnClient.LOGGER.error(jsonResponse.get("error").getAsString());
             }
 
         } catch (Exception e) {
-            AuraClient.LOGGER.error("Failed to set cloak", e);
+            SaturnClient.LOGGER.error("Failed to set cloak", e);
         }
     }
 }

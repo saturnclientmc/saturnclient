@@ -1,18 +1,18 @@
-package org.auraclient.auraclient;
+package org.saturnclient.saturnclient;
 
 import net.fabricmc.api.ModInitializer;
-import org.auraclient.auraclient.cloaks.Cloaks;
-import org.auraclient.auraclient.event.KeyInputHandler;
-import org.auraclient.auraclient.auth.AuraApi;
+import org.saturnclient.saturnclient.cloaks.Cloaks;
+import org.saturnclient.saturnclient.event.KeyInputHandler;
+import org.saturnclient.saturnclient.auth.SaturnApi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Main class for the Aura Client mod.
- * Originally created by IIpho3nix and modified for Aura Client by leo.
+ * Main class for the Saturn Client mod.
+ * Originally created by IIpho3nix and modified for Saturn Client by leo.
  */
-public class AuraClient implements ModInitializer {
-    public static final String MOD_ID = "auraclient";
+public class SaturnClient implements ModInitializer {
+    public static final String MOD_ID = "saturnclient";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     @Override
@@ -20,7 +20,7 @@ public class AuraClient implements ModInitializer {
         LOGGER.info("Initializing " + MOD_ID);
 
         // Attempt authentication before initializing other features
-        if (AuraApi.authenticate()) {
+        if (SaturnApi.authenticate()) {
             KeyInputHandler.register();
             Cloaks.initialize();
             LOGGER.info(MOD_ID + " initialization complete");

@@ -1,4 +1,4 @@
-package org.auraclient.auraclient.mixin;
+package org.saturnclient.saturnclient.mixin;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -6,7 +6,7 @@ import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.util.SkinTextures;
 import net.minecraft.util.Identifier;
 
-import org.auraclient.auraclient.cloaks.Cloaks;
+import org.saturnclient.saturnclient.cloaks.Cloaks;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

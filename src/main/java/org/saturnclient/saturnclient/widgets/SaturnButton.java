@@ -1,4 +1,4 @@
-package org.auraclient.auraclient.widgets;
+package org.saturnclient.saturnclient.widgets;
 
 import java.awt.Color;
 
@@ -10,13 +10,13 @@ import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-public class AuraButton extends TexturedButtonWidget {
+public class SaturnButton extends TexturedButtonWidget {
     private TextWidget textWidget;
     private static final ButtonTextures BUTTON_TEXTURES = new ButtonTextures(
-            Identifier.ofVanilla("widget/aura_button"), Identifier.ofVanilla("widget/aura_button_disabled"),
-            Identifier.ofVanilla("widget/aura_button_highlighted"));
+            Identifier.ofVanilla("widget/saturn_button"), Identifier.ofVanilla("widget/saturn_button_disabled"),
+            Identifier.ofVanilla("widget/saturn_button_highlighted"));
 
-    public AuraButton(Text message, PressAction onPress, int x, int y, int width, int height) {
+    public SaturnButton(Text message, PressAction onPress, int x, int y, int width, int height) {
         super(x, y, width, height, BUTTON_TEXTURES, onPress);
 
         setMessage(message);

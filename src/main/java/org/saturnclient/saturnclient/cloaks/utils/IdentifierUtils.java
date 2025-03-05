@@ -1,4 +1,4 @@
-package org.auraclient.auraclient.cloaks.utils;
+package org.saturnclient.saturnclient.cloaks.utils;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.NativeImage;

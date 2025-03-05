@@ -1,11 +1,11 @@
-package org.auraclient.auraclient.cloaks;
+package org.saturnclient.saturnclient.cloaks;
 
 import net.minecraft.util.Identifier;
-import org.auraclient.auraclient.AuraClient;
-import org.auraclient.auraclient.auth.AuraApi;
-import org.auraclient.auraclient.auth.AuraPlayer;
-import org.auraclient.auraclient.cloaks.utils.AnimatedCloakData;
-import org.auraclient.auraclient.cloaks.utils.IdentifierUtils;
+import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.saturnclient.auth.SaturnApi;
+import org.saturnclient.saturnclient.auth.SaturnPlayer;
+import org.saturnclient.saturnclient.cloaks.utils.AnimatedCloakData;
+import org.saturnclient.saturnclient.cloaks.utils.IdentifierUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -15,13 +15,13 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Manages the cloak system for Aura Client.
+ * Manages the cloak system for Saturn Client.
  * Handles loading and caching of player cloaks.
  */
 public class Cloaks {
     private static final String[] ANIMATED_CLOAKS = { "glitch" };
 
-    private static final String CLOAKS_RESOURCE_PATH = "assets/auraclient/textures/cloaks/";
+    private static final String CLOAKS_RESOURCE_PATH = "assets/saturnclient/textures/cloaks/";
     public static final List<String> availableCloaks = new ArrayList<>();
     public static Identifier cloakCacheIdentifier = null;
     public static final Map<String, List<AnimatedCloakData>> animatedCloaks = new ConcurrentHashMap<>();
@@ -41,13 +41,13 @@ public class Cloaks {
      * @param cloakName Name of the cloak file to load
      */
     public static void setCloak(String uuid, String cloakName) {
-        AuraApi.setCloak(cloakName);
+        SaturnApi.setCloak(cloakName);
 
-        AuraPlayer player = AuraApi.players.get(uuid);
+        SaturnPlayer player = SaturnApi.players.get(uuid);
         if (player == null) {
-            AuraPlayer newPlayer = new AuraPlayer();
+            SaturnPlayer newPlayer = new SaturnPlayer();
             newPlayer.cloak = cloakName;
-            AuraApi.players.put(uuid, newPlayer);
+            SaturnApi.players.put(uuid, newPlayer);
         } else {
             player.cloak = cloakName;
         }
@@ -76,17 +76,17 @@ public class Cloaks {
                 BufferedImage image = ImageIO.read(inputStream);
 
                 // Add debug logging for static cloak
-                AuraClient.LOGGER.info("Static cloak dimensions: " + image.getWidth() + "x" + image.getHeight());
+                SaturnClient.LOGGER.info("Static cloak dimensions: " + image.getWidth() + "x" + image.getHeight());
 
                 String safeFileName = fileName.toLowerCase(Locale.ROOT)
                         .replace(' ', '_')
                         .replaceAll("[^a-z0-9/._-]", "");
 
-                cloakCacheIdentifier = Identifier.of(AuraClient.MOD_ID, "cloaks_" + safeFileName);
+                cloakCacheIdentifier = Identifier.of(SaturnClient.MOD_ID, "cloaks_" + safeFileName);
                 IdentifierUtils.registerBufferedImageTexture(cloakCacheIdentifier, image);
             }
         } catch (IOException e) {
-            AuraClient.LOGGER.error("Failed to load static cloak from resources: " + fileName, e);
+            SaturnClient.LOGGER.error("Failed to load static cloak from resources: " + fileName, e);
         }
     }
 
@@ -111,7 +111,7 @@ public class Cloaks {
                     int delay = gif.getDelay(i) * 10;
 
                     String frameId = fileName.replace(".gif", "") + "_frame_" + i;
-                    Identifier frameIdentifier = Identifier.of(AuraClient.MOD_ID, "cloaks_" + frameId);
+                    Identifier frameIdentifier = Identifier.of(SaturnClient.MOD_ID, "cloaks_" + frameId);
                     IdentifierUtils.registerBufferedImageTexture(frameIdentifier, frame);
 
                     frames.add(new AnimatedCloakData(frameIdentifier, delay));
@@ -120,19 +120,19 @@ public class Cloaks {
                 animatedCloaks.put(uuid, frames);
                 lastFrameTime.put(uuid, System.currentTimeMillis());
 
-                AuraClient.LOGGER.info("Loaded " + frames.size() + " frames for animated cloak: " + fileName);
+                SaturnClient.LOGGER.info("Loaded " + frames.size() + " frames for animated cloak: " + fileName);
             }
         } catch (IOException e) {
-            AuraClient.LOGGER.error("Failed to load animated cloak from resources: " + fileName, e);
+            SaturnClient.LOGGER.error("Failed to load animated cloak from resources: " + fileName, e);
         }
     }
 
     public static Identifier getCurrentCloakTexture(String uuid) {
-        if (!AuraApi.players.containsKey(uuid)) {
+        if (!SaturnApi.players.containsKey(uuid)) {
             return null;
         }
 
-        String cloakName = AuraApi.players.get(uuid).cloak;
+        String cloakName = SaturnApi.players.get(uuid).cloak;
 
         if (cloakName.isEmpty()) {
             return null;
@@ -165,7 +165,7 @@ public class Cloaks {
 
             return frames.get(currentFrame).getTextureId();
         } else {
-            return Identifier.of(AuraClient.MOD_ID, "textures/cloaks/" + cloakName + ".png");
+            return Identifier.of(SaturnClient.MOD_ID, "textures/cloaks/" + cloakName + ".png");
         }
     }
 }
