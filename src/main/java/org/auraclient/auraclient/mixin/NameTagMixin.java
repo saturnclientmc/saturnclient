@@ -23,9 +23,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+
 @Mixin(EntityRenderer.class)
 public abstract class NameTagMixin<S extends EntityRenderState> {
-    private static final Identifier BADGE_TEXTURE = Identifier.of("auraclient", "textures/player-badge.png");
+    private static final Identifier BADGE_TEXTURE = Identifier.of("auraclient", "icon.png");
 
     @Shadow
     public EntityRenderDispatcher dispatcher;
@@ -96,19 +98,19 @@ public abstract class NameTagMixin<S extends EntityRenderState> {
 
         int j = (int) (MinecraftClient.getInstance().options.getTextBackgroundOpacity(0.25F)
                 * 255.0F) << 24;
+        boolean bl = !state.sneaking;
 
-        drawBackground(state, matrices, vertexConsumers, backgroundX, -1.5f, totalWidth, 10, j);
+        if (bl) {
+            drawBackground(state, matrices, vertexConsumers, backgroundX, -1.5f, totalWidth, 10, j);
+        }
 
-        // Render Badge
-        renderBadgeIcon(matrices, vertexConsumers, xStart - badgeSize + 1, 3.4f, badgeSize, state.sneaking);
+        renderBadgeIcon(matrices, vertexConsumers, xStart - badgeSize + 1, 3.4f, badgeSize);
 
-        if (state.sneaking) {
-            textRenderer.draw(text, xStart, 0, -2130706433, false, matrix4f, vertexConsumers,
-                    TextLayerType.NORMAL, 0,
-                    light);
-        } else {
+        textRenderer.draw(text, xStart, 0, -2130706433, false, matrix4f, vertexConsumers,
+                bl ? TextLayerType.SEE_THROUGH : TextLayerType.NORMAL, 0, light);
+        if (bl) {
             textRenderer.draw(text, xStart, 0, -1, false, matrix4f, vertexConsumers,
-                    TextLayerType.SEE_THROUGH, 0,
+                    TextLayerType.NORMAL, 0,
                     LightmapTextureManager.applyEmission(light, 2));
         }
 
@@ -121,16 +123,14 @@ public abstract class NameTagMixin<S extends EntityRenderState> {
     private void drawBackground(S state, MatrixStack matrices, VertexConsumerProvider vertexConsumers,
             float x, float y, float width, float height, int color) {
         Matrix4f matrix = matrices.peek().getPositionMatrix();
-        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(
-                state.sneaking ? RenderLayer.getTextBackground()
-                        : RenderLayer.getTextBackgroundSeeThrough());
+        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getTextBackgroundSeeThrough());
 
         int a = (color >> 24) & 255; // Alpha
         int r = (color >> 16) & 255; // Red
         int g = (color >> 8) & 255; // Green
         int b = color & 255; // Blue
 
-        float z = state.sneaking ? -0.04f : 0.0f;
+        float z = 0;
 
         vertexConsumer.vertex(matrix, x, y + height, z).color(r, g, b, a).texture(0, 1).light(0xF000F0)
                 .overlay(OverlayTexture.DEFAULT_UV).normal(0, 0, 1);
@@ -142,21 +142,30 @@ public abstract class NameTagMixin<S extends EntityRenderState> {
                 .overlay(OverlayTexture.DEFAULT_UV).normal(0, 0, 1);
     }
 
-    private void renderBadgeIcon(MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x,
-            float y, float size, boolean sneaking) {
+    private void renderBadgeIcon(MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y,
+            float size) {
+        // Push the current matrix to stack
         matrices.push();
 
-        // Position badge correctly
+        // Set the position and scale for the badge
         matrices.translate(x, y, 0);
         matrices.scale(size, size, size);
 
-        Matrix4f matrix = matrices.peek().getPositionMatrix();
-        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(
-                RenderLayer.getEntityAlpha(BADGE_TEXTURE));
+        // Ensure the texture is binded for the badge
+        RenderSystem.setShaderTexture(0, BADGE_TEXTURE); // Bind your badge texture here
 
+        // Disable depth testing to always render on top
+        RenderSystem.disableDepthTest();
+        // Enable blending for transparency
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc(); // Standard alpha blending
+
+        // Set up the vertex consumer for the texture rendering
+        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityAlpha(BADGE_TEXTURE));
+        Matrix4f matrix = matrices.peek().getPositionMatrix();
         int light = LightmapTextureManager.MAX_LIGHT_COORDINATE;
 
-        // If sneaking, render the badge in gray
+        // Render the badge icon (a quad with your badge texture)
         vertexConsumer.vertex(matrix, -0.5f, -0.5f, 0).color(255, 255, 255, 255).texture(0, 0).light(light)
                 .overlay(OverlayTexture.DEFAULT_UV).normal(0, 0, 1);
         vertexConsumer.vertex(matrix, 0.5f, -0.5f, 0).color(255, 255, 255, 255).texture(1, 0).light(light)
@@ -166,6 +175,11 @@ public abstract class NameTagMixin<S extends EntityRenderState> {
         vertexConsumer.vertex(matrix, -0.5f, 0.5f, 0).color(255, 255, 255, 255).texture(0, 1).light(light)
                 .overlay(OverlayTexture.DEFAULT_UV).normal(0, 0, 1);
 
+        // Restore OpenGL states
+        RenderSystem.enableDepthTest();
+        RenderSystem.disableBlend();
+
+        // Pop the matrix stack after rendering
         matrices.pop();
     }
 

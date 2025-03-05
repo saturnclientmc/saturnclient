@@ -1,4 +1,4 @@
-package org.auraclient.auraclient;
+package org.auraclient.auraclient.widgets;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Drawable;
