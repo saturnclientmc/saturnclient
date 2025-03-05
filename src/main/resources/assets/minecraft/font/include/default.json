@@ -1,0 +1,11 @@
+{
+  "providers": [
+    {
+      "type": "bitmap",
+      "file": "minecraft:font/custom/saturn.png",
+      "ascent": 7,
+      "height": 8,
+      "chars": ["\uE002"]
+    }
+  ]
+}
