@@ -1,6 +1,7 @@
 package org.saturnclient.saturnclient;
 
 import net.fabricmc.api.ModInitializer;
+
 import org.saturnclient.saturnclient.cloaks.Cloaks;
 import org.saturnclient.saturnclient.event.KeyInputHandler;
 import org.saturnclient.saturnclient.auth.SaturnApi;
@@ -20,8 +21,8 @@ public class SaturnClient implements ModInitializer {
         LOGGER.info("Initializing " + MOD_ID);
 
         // Attempt authentication before initializing other features
+        KeyInputHandler.register();
         if (SaturnApi.authenticate()) {
-            KeyInputHandler.register();
             Cloaks.initialize();
             LOGGER.info(MOD_ID + " initialization complete");
         } else {

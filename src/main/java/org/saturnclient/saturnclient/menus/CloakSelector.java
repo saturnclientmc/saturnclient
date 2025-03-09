@@ -16,7 +16,7 @@ public class CloakSelector extends Screen {
         int y = ((this.height - (35 * (Cloaks.availableCloaks.size()))) / 2);
 
         for (String cloak : Cloaks.availableCloaks) {
-            addDrawableChild(new SaturnButton(Text.literal(cloak), (__) -> {
+            addDrawableChild(SaturnButton.builder(Text.literal(cloak), (__)->{
                 String uuid = client.player.getUuidAsString().replace("-", "");
                 Cloaks.setCloak(uuid, cloak);
             }, (this.width - 50) / 2, y, 50, 30));
