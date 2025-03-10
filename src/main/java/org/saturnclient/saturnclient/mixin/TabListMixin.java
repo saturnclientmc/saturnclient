@@ -13,6 +13,11 @@ public abstract class TabListMixin {
     @Shadow
     private Text displayName;
 
+    /**
+     * @author HexLeo
+     * @reason Adds the Saturn Client icon to the player's name if they are online
+     *         with Saturn Client
+     */
     @Overwrite
     @Nullable
     public Text getDisplayName() {

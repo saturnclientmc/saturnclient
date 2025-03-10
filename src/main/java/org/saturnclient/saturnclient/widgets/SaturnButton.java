@@ -1,38 +1,46 @@
 package org.saturnclient.saturnclient.widgets;
 
+import java.util.function.Consumer;
+import org.saturnclient.ui.SaturnWidget;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ButtonTextures;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.MathHelper;
 
-public class SaturnButton extends ButtonWidget {
+public class SaturnButton extends SaturnWidget {
+    public boolean active = true;
+    public String text;
+    public Consumer<SaturnButton> onPress;
+
+    public SaturnButton(String text, Consumer<SaturnButton> onPress) {
+        this.text = text;
+        this.onPress = onPress;
+    }
+
     private static final ButtonTextures TEXTURES = new ButtonTextures(
             Identifier.ofVanilla("widget/saturn_button"), Identifier.ofVanilla("widget/saturn_button_disabled"),
             Identifier.ofVanilla("widget/saturn_button_highlighted"));
 
-    protected SaturnButton(int x, int y, int width, int height, Text message, PressAction onPress,
-            NarrationSupplier narrationSupplier) {
-        super(x, y, width, height, message, onPress, narrationSupplier);
-    }
+    @Override
+    public void render(DrawContext context, boolean hovering) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
 
-    public static SaturnButton builder(Text message, PressAction onPress, int x, int y, int width, int height) {
-        return new SaturnButton(x, y, width, height, message, onPress, null);
+        context.drawGuiTexture(RenderLayer::getGuiTextured, TEXTURES.get(this.active, hovering), this.x,
+                this.y, this.width, this.height, ColorHelper.getWhite(this.alpha));
+
+        int i = this.active ? 16777215 : 10526880;
+        context.drawText(minecraftClient.textRenderer, this.text,
+                this.x + ((this.width - minecraftClient.textRenderer.getWidth(this.text)) / 2),
+                this.y + ((this.height - 7) / 2),
+                i | MathHelper.ceil(this.alpha * 255.0F) << 24, false);
     }
 
     @Override
-    public void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
-        MinecraftClient minecraftClient = MinecraftClient.getInstance();
-
-        context.drawGuiTexture(RenderLayer::getGuiTextured, TEXTURES.get(this.active, this.isSelected()), this.getX(),
-                this.getY(), this.getWidth(), this.getHeight(), ColorHelper.getWhite(this.alpha));
-
-        int i = this.active ? 16777215 : 10526880;
-
-        this.drawMessage(context, minecraftClient.textRenderer, i | MathHelper.ceil(this.alpha * 255.0F) << 24);
+    public void click() {
+        this.onPress.accept(this);
     }
 }

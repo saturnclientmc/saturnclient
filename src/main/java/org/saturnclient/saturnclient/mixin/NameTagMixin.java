@@ -24,6 +24,11 @@ public abstract class NameTagMixin<S extends EntityRenderState> {
     @Shadow
     public EntityRenderDispatcher dispatcher;
 
+    /**
+     * @author HexLeo
+     * @reason Adds the Saturn Client icon to the player's name if they are online
+     *         with Saturn Client
+     */
     @Overwrite
     public void renderLabelIfPresent(S state, Text text_o, MatrixStack matrices,
             VertexConsumerProvider vertexConsumers, int light) {
