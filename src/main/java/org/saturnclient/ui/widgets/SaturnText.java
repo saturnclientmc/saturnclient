@@ -1,4 +1,4 @@
-package org.saturnclient.saturnclient.widgets;
+package org.saturnclient.ui.widgets;
 
 import org.saturnclient.ui.SaturnWidget;
 import net.minecraft.client.MinecraftClient;

@@ -1,8 +1,8 @@
 package org.saturnclient.saturnclient.menus;
 
-import org.saturnclient.saturnclient.widgets.SaturnButton;
-import org.saturnclient.saturnclient.widgets.SaturnImageButton;
 import org.saturnclient.ui.SaturnUi;
+import org.saturnclient.ui.widgets.SaturnButton;
+import org.saturnclient.ui.widgets.SaturnImageButton;
 
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;

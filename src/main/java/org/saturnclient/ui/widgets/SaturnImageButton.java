@@ -1,4 +1,4 @@
-package org.saturnclient.saturnclient.widgets;
+package org.saturnclient.ui.widgets;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;

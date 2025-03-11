@@ -17,6 +17,12 @@ public class SaturnWidget {
     public void click() {
     }
 
+    public void keyPressed(int keyCode, int scanCode, int modifiers) {
+    }
+
+    public void charTyped(char typedChar) {
+    }
+
     public SaturnWidget setX(int x) {
         this.x = x;
         return this;

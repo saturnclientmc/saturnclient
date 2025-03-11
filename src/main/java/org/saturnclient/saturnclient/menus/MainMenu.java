@@ -1,8 +1,9 @@
 package org.saturnclient.saturnclient.menus;
 
-import org.saturnclient.saturnclient.widgets.SaturnButton;
 import org.saturnclient.ui.SaturnAnimation;
 import org.saturnclient.ui.SaturnUi;
+import org.saturnclient.ui.widgets.SaturnButton;
+
 import net.minecraft.text.Text;
 
 public class MainMenu extends SaturnUi {
