@@ -15,12 +15,18 @@ public class SaturnUi extends Screen {
     }
 
     public void draw(SaturnWidget widget) {
-        widgets.add(widget);
+        synchronized (widgets) {
+            widgets.add(widget);
+        }
     }
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        for (SaturnWidget widget : widgets) {
+        for (SaturnWidget widget : new ArrayList<>(widgets)) {
+            if (!widget.visible) {
+                continue;
+            }
+
             if (widget.animation != null) {
                 widget.animation.apply(widget);
             }
@@ -34,7 +40,11 @@ public class SaturnUi extends Screen {
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (button == 0) {
-            for (SaturnWidget widget : widgets) {
+            for (SaturnWidget widget : new ArrayList<>(widgets)) {
+                if (!widget.visible) {
+                    continue;
+                }
+
                 boolean isMouseInside = widget.x < mouseX && widget.x + widget.width > mouseX
                         && widget.y < mouseY && widget.y + widget.height > mouseY;
                 if (isMouseInside) {

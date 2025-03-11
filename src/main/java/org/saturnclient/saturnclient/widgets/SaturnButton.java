@@ -1,6 +1,5 @@
 package org.saturnclient.saturnclient.widgets;
 
-import java.util.function.Consumer;
 import org.saturnclient.ui.SaturnWidget;
 
 import net.minecraft.client.MinecraftClient;
@@ -12,18 +11,18 @@ import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.MathHelper;
 
 public class SaturnButton extends SaturnWidget {
+    public static final ButtonTextures TEXTURES = new ButtonTextures(
+            Identifier.ofVanilla("widget/saturn_button"), Identifier.ofVanilla("widget/saturn_button_disabled"),
+            Identifier.ofVanilla("widget/saturn_button_highlighted"));
+
     public boolean active = true;
     public String text;
-    public Consumer<SaturnButton> onPress;
+    public Runnable onPress;
 
-    public SaturnButton(String text, Consumer<SaturnButton> onPress) {
+    public SaturnButton(String text, Runnable onPress) {
         this.text = text;
         this.onPress = onPress;
     }
-
-    private static final ButtonTextures TEXTURES = new ButtonTextures(
-            Identifier.ofVanilla("widget/saturn_button"), Identifier.ofVanilla("widget/saturn_button_disabled"),
-            Identifier.ofVanilla("widget/saturn_button_highlighted"));
 
     @Override
     public void render(DrawContext context, boolean hovering) {
@@ -41,6 +40,6 @@ public class SaturnButton extends SaturnWidget {
 
     @Override
     public void click() {
-        this.onPress.accept(this);
+        this.onPress.run();
     }
 }

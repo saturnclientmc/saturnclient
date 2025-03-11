@@ -13,7 +13,8 @@ public class MainMenu extends SaturnUi {
     @Override
     protected void init() {
         draw(
-                new SaturnButton("Cloaks", (__) -> {
+                new SaturnButton("Settings", () -> {
+                    client.setScreen(new SettingsMenu());
                 }).setX(10).setY(10).setWidth(100).setHeight(20).setAnimation(SaturnAnimation.FADE_SLIDE.distance(15)));
     }
 }

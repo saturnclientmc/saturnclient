@@ -9,6 +9,7 @@ public class SaturnWidget {
     public int height;
     public float alpha = 1.0f;
     public SaturnAnimation animation = null;
+    public boolean visible = true;
 
     public void render(DrawContext context, boolean hovering) {
     }
@@ -57,6 +58,11 @@ public class SaturnWidget {
                 this.alpha = 0.0f;
                 break;
         }
+        return this;
+    }
+
+    public SaturnWidget setVisible(boolean visible) {
+        this.visible = visible;
         return this;
     }
 }
