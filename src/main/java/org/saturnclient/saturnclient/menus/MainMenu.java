@@ -16,6 +16,6 @@ public class MainMenu extends SaturnUi {
         draw(
                 new SaturnButton("Settings", () -> {
                     client.setScreen(new SettingsMenu());
-                }).setX(10).setY(10).setWidth(100).setHeight(20).setAnimation(SaturnAnimation.FADE_SLIDE.distance(15)));
+                }).setX(10).setY(10).setWidth(96).setHeight(25).setAnimation(SaturnAnimation.FADE_SLIDE.distance(15)));
     }
 }

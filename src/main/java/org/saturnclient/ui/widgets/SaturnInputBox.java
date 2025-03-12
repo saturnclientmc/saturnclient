@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
 
 public class SaturnInputBox extends SaturnWidget {
-    public static final Identifier TEXTURE = Identifier.ofVanilla("widget/saturn_button");
+    public static final Identifier TEXTURE = Identifier.ofVanilla("widget/saturn/button");
 
     public String text = "";
     public String placeholder = "";

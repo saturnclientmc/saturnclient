@@ -11,9 +11,10 @@ import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.MathHelper;
 
 public class SaturnButton extends SaturnWidget {
+    public static final Identifier BORDER_TEXTURE = Identifier.ofVanilla("widget/saturn/button_border");
     public static final ButtonTextures TEXTURES = new ButtonTextures(
-            Identifier.ofVanilla("widget/saturn_button"), Identifier.ofVanilla("widget/saturn_button_disabled"),
-            Identifier.ofVanilla("widget/saturn_button_highlighted"));
+            Identifier.ofVanilla("widget/saturn/button"), Identifier.ofVanilla("widget/saturn/button_disabled"),
+            Identifier.ofVanilla("widget/saturn/button"));
 
     public boolean active = true;
     public String text;
@@ -30,6 +31,11 @@ public class SaturnButton extends SaturnWidget {
 
         context.drawGuiTexture(RenderLayer::getGuiTextured, TEXTURES.get(this.active, hovering), this.x,
                 this.y, this.width, this.height, ColorHelper.getWhite(this.alpha));
+
+        if (hovering) {
+            context.drawGuiTexture(RenderLayer::getGuiTextured, BORDER_TEXTURE, this.x,
+                    this.y, this.width, this.height, ColorHelper.getArgb(255, 251, 60, 79));
+        }
 
         int i = this.active ? 16777215 : 10526880;
         context.drawText(minecraftClient.textRenderer, this.text,
