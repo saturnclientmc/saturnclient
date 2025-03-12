@@ -1,3 +1,5 @@
-# SaturnClient Cloaks
+# SaturnClient
 
-Thanks to `IIpho3nix` for making this mod.
+# Credits
+
+- Cloak rendering: `IIpho3nix`
