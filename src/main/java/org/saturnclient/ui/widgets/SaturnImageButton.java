@@ -19,8 +19,7 @@ public class SaturnImageButton extends SaturnButton {
 
     @Override
     public void render(DrawContext context, boolean hovering) {
-        context.drawGuiTexture(RenderLayer::getGuiTextured, SaturnButton.TEXTURES.get(this.active, hovering), this.x,
-                this.y, this.width, this.height, ColorHelper.getWhite(this.alpha));
+        super.render(context, hovering);
 
         context.drawTexture(RenderLayer::getGuiTextured, sprite, x + (width - imageWidth) / 2,
                 y + (height - imageHeight) / 2, 0, 0, imageWidth, imageHeight, imageWidth,

@@ -24,6 +24,8 @@ public class SaturnUi extends Screen {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        renderBackground(context, mouseX, mouseY, delta);
+
         for (SaturnWidget widget : new ArrayList<>(widgets)) {
             if (!widget.visible) {
                 continue;

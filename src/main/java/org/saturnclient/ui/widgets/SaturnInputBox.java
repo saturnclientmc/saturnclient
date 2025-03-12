@@ -2,17 +2,15 @@ package org.saturnclient.ui.widgets;
 
 import org.lwjgl.glfw.GLFW;
 import org.saturnclient.ui.SaturnWidget;
+import org.saturnclient.ui.Textures;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
 
 public class SaturnInputBox extends SaturnWidget {
-    public static final Identifier TEXTURE = Identifier.ofVanilla("widget/saturn/button");
-
     public String text = "";
     public String placeholder = "";
     public int cursorPosition = 0;
@@ -64,7 +62,7 @@ public class SaturnInputBox extends SaturnWidget {
 
     @Override
     public void render(DrawContext context, boolean hovering) {
-        context.drawGuiTexture(RenderLayer::getGuiTextured, TEXTURE, this.x,
+        context.drawGuiTexture(RenderLayer::getGuiTextured, Textures.BUTTON, this.x,
                 this.y, this.width, this.height, ColorHelper.getWhite(this.alpha));
 
         int scrollOffset = getScrollOffset();

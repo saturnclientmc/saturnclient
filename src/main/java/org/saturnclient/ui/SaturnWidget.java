@@ -3,14 +3,14 @@ package org.saturnclient.ui;
 import net.minecraft.client.gui.DrawContext;
 
 public class SaturnWidget {
-    public int x;
-    public int y;
-    public int width;
-    public int height;
+    public int x = 0;
+    public int y = 0;
+    public int width = 0;
+    public int height = 0;
     public float alpha = 1.0f;
     public SaturnAnimation animation = null;
     public boolean visible = true;
-
+ 
     public void render(DrawContext context, boolean hovering) {
     }
 
