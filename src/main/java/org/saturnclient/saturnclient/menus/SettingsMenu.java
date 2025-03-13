@@ -2,9 +2,9 @@ package org.saturnclient.saturnclient.menus;
 
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.Textures;
+import org.saturnclient.ui.animations.FadeIn;
 import org.saturnclient.ui.widgets.SaturnClickableImage;
-import org.saturnclient.ui.widgets.SaturnTexture;
-import org.saturnclient.ui.SaturnAnimation;
+import org.saturnclient.ui.widgets.SaturnImage;
 
 import net.minecraft.text.Text;
 
@@ -20,22 +20,22 @@ public class SettingsMenu extends SaturnUi {
         int modsX = (width - rectWidth) / 2;
         int modsY = (height - rectHeight) / 2;
 
-        draw(new SaturnTexture(Textures.SETTINGS_BG)
+        draw(new SaturnImage(Textures.SETTINGS_BG)
                 .setX(modsX)
                 .setY(modsY)
                 .setWidth(rectWidth)
                 .setHeight(rectHeight)
-                .setAnimation(SaturnAnimation.FADE_SLIDE));
+                .setAnimations(new FadeIn(1)));
 
         int tabsX = (width - 43) / 2;
         int tabsY = modsY - 17;
 
-        draw(new SaturnTexture(Textures.TABS)
+        draw(new SaturnImage(Textures.TABS)
                 .setX(tabsX)
                 .setY(tabsY)
                 .setWidth(43)
                 .setHeight(15)
-                .setAnimation(SaturnAnimation.FADE_SLIDE));
+                .setAnimations(new FadeIn(1)));
 
         int tabSize = 9;
         tabsX = (width - tabSize) / 2;
@@ -46,7 +46,7 @@ public class SettingsMenu extends SaturnUi {
                 .setY(tabsY + 3)
                 .setWidth(tabSize)
                 .setHeight(tabSize)
-                .setAnimation(SaturnAnimation.FADE_SLIDE));
+                .setAnimations(new FadeIn(1)));
 
         draw(new SaturnClickableImage(Textures.MODS_TAB, () -> {
             System.out.println("Pressed");
@@ -55,7 +55,7 @@ public class SettingsMenu extends SaturnUi {
                 .setY(tabsY + 3)
                 .setWidth(tabSize)
                 .setHeight(tabSize)
-                .setAnimation(SaturnAnimation.FADE_SLIDE));
+                .setAnimations(new FadeIn(1)));
 
         draw(new SaturnClickableImage(Textures.SEARCH, () -> {
             System.out.println("Pressed");
@@ -64,7 +64,7 @@ public class SettingsMenu extends SaturnUi {
                 .setY(tabsY + 3)
                 .setWidth(tabSize)
                 .setHeight(tabSize)
-                .setAnimation(SaturnAnimation.FADE_SLIDE));
+                .setAnimations(new FadeIn(1)));
 
         int modX = modsX + 15;
         int modY = modsY + 10;

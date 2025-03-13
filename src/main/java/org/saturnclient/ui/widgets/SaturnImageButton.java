@@ -31,9 +31,12 @@ public class SaturnImageButton extends SaturnButton {
     @Override
     public void render(DrawContext context, boolean hovering, int mouseX, int mouseY) {
         super.render(context, hovering, mouseX, mouseY);
+
+        int hoverColor = ((int) (alpha * 255) << 24) | (SaturnClient.COLOR & 0x00FFFFFF);
+
         context.drawTexture(RenderLayer::getGuiTextured, sprite, x + (width - imageWidth) / 2,
                 y + (height - imageHeight) / 2, 0, 0, imageWidth, imageHeight, imageWidth,
-                imageHeight, hovering ? SaturnClient.COLOR : ColorHelper.getWhite(alpha));
+                imageHeight, hovering ? hoverColor : ColorHelper.getWhite(alpha));
     }
 
     @Override

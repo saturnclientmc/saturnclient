@@ -1,11 +1,12 @@
 package org.saturnclient.saturnclient.menus;
 
-import org.saturnclient.ui.SaturnAnimation;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.Textures;
+import org.saturnclient.ui.animations.FadeIn;
+import org.saturnclient.ui.animations.Slide;
 import org.saturnclient.ui.widgets.SaturnButton;
 import org.saturnclient.ui.widgets.SaturnImageButton;
-import org.saturnclient.ui.widgets.SaturnTexture;
+import org.saturnclient.ui.widgets.SaturnSprite;
 
 import net.minecraft.text.Text;
 
@@ -22,9 +23,10 @@ public class MainMenu extends SaturnUi {
         draw(
                 new SaturnButton("Settings", () -> {
                     client.setScreen(new SettingsMenu());
-                }).setX((width - buttonWidth) / 2).setY((height - buttonHeight) / 2).setWidth(buttonWidth)
+                }).setX((width - buttonWidth) / 2).setY((height - buttonHeight) /
+                        2).setWidth(buttonWidth)
                         .setHeight(buttonHeight)
-                        .setAnimation(SaturnAnimation.FADE_SLIDE.offset(15).speed(0.1f)));
+                        .setAnimations(new FadeIn(3)));
 
         draw(
                 new SaturnImageButton(Textures.EMOTE, 14, 14,
@@ -35,7 +37,7 @@ public class MainMenu extends SaturnUi {
                         .setY((height - buttonHeight) / 2)
                         .setWidth(buttonHeight)
                         .setHeight(buttonHeight)
-                        .setAnimation(SaturnAnimation.FADE_SLIDE.offset(15).speed(0.1f)));
+                        .setAnimations(new FadeIn(3)));
 
         draw(
                 new SaturnImageButton(Textures.COSMETICS, 14, 14,
@@ -46,16 +48,24 @@ public class MainMenu extends SaturnUi {
                         .setY((height - buttonHeight) / 2)
                         .setWidth(buttonHeight)
                         .setHeight(buttonHeight)
-                        .setAnimation(SaturnAnimation.FADE_SLIDE.offset(15).speed(0.1f)));
+                        .setAnimations(new FadeIn(3)));
 
-        int logoSize = 40;
+        int logoSize = 49;
 
         draw(
-                new SaturnTexture(Textures.LOGO)
+                new SaturnSprite(Textures.LOGO_TEXT)
                         .setX((width - logoSize) / 2)
-                        .setY((height - logoSize) / 2 - logoSize - 10)
+                        .setY((height - 8) / 2 - 23)
+                        .setWidth(logoSize)
+                        .setHeight(8)
+                        .setAnimations(new FadeIn(3)));
+
+        draw(
+                new SaturnSprite(Textures.LOGO)
+                        .setX((width - logoSize) / 2)
+                        .setY(height / 2 - logoSize - 24)
                         .setWidth(logoSize)
                         .setHeight(logoSize)
-                        .setAnimation(SaturnAnimation.FADE_SLIDE));
+                        .setAnimations(new Slide(2, 14)));
     }
 }

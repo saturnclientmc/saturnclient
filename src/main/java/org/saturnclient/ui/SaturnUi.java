@@ -11,6 +11,7 @@ import net.minecraft.text.Text;
 
 public class SaturnUi extends Screen {
     public List<SaturnWidget> widgets = new ArrayList<>();
+    private int tick = 0;
 
     public SaturnUi(Text title) {
         super(title);
@@ -31,14 +32,24 @@ public class SaturnUi extends Screen {
                 continue;
             }
 
-            if (widget.animation != null) {
-                widget.animation.apply(widget);
+            if (widget.animations != null) {
+                for (SaturnAnimation animation : widget.animations) {
+                    if (animation != null && tick - animation.lastTick == animation.delay) {
+                        if (animation.run(widget, tick)) {
+                            animation = null;
+                        } else {
+                            animation.lastTick = tick;
+                        }
+                    }
+                }
             }
 
             boolean isMouseInside = widget.x < mouseX && widget.x + widget.width > mouseX
                     && widget.y < mouseY && widget.y + widget.height > mouseY;
             widget.render(context, isMouseInside, mouseX, mouseY);
         }
+
+        tick++;
     }
 
     @Override

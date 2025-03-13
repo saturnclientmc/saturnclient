@@ -8,7 +8,7 @@ public class SaturnWidget {
     public int width = 0;
     public int height = 0;
     public float alpha = 1.0f;
-    public SaturnAnimation animation = null;
+    public SaturnAnimation[] animations = null;
     public boolean visible = true;
 
     public void render(DrawContext context, boolean hovering, int mouseX, int mouseY) {
@@ -48,10 +48,10 @@ public class SaturnWidget {
         return this;
     }
 
-    public SaturnWidget setAnimation(SaturnAnimation animation) {
-        this.animation = animation;
-        if (this.animation == SaturnAnimation.FADE || this.animation == SaturnAnimation.FADE_SLIDE) {
-            this.alpha = 0.0f;
+    public SaturnWidget setAnimations(SaturnAnimation... animations) {
+        this.animations = animations;
+        for (SaturnAnimation anim : this.animations) {
+            anim.init(this);
         }
         return this;
     }

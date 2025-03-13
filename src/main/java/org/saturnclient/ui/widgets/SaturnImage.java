@@ -7,10 +7,10 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
 
-public class SaturnTexture extends SaturnWidget {
+public class SaturnImage extends SaturnWidget {
     private final Identifier sprite;
 
-    public SaturnTexture(Identifier sprite) {
+    public SaturnImage(Identifier sprite) {
         this.sprite = sprite;
     }
 

@@ -33,6 +33,8 @@ public class SaturnButton extends SaturnWidget {
     public void render(DrawContext context, boolean hovering, int mouseX, int mouseY) {
         MinecraftClient minecraftClient = MinecraftClient.getInstance();
 
+        int hoverColor = ((int) (alpha * 255) << 24) | (SaturnClient.COLOR & 0x00FFFFFF);
+
         if (background) {
             RenderSystem.setShaderTexture(0, Textures.BUTTON);
             RenderSystem.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);
@@ -42,7 +44,7 @@ public class SaturnButton extends SaturnWidget {
 
             if (hovering) {
                 context.drawGuiTexture(RenderLayer::getGuiTextured, Textures.BUTTON_BORDER, this.x,
-                        this.y, this.width, this.height, SaturnClient.COLOR);
+                        this.y, this.width, this.height, hoverColor);
             }
         }
 
@@ -50,7 +52,7 @@ public class SaturnButton extends SaturnWidget {
         context.drawText(minecraftClient.textRenderer, this.text,
                 this.x + ((this.width - minecraftClient.textRenderer.getWidth(this.text)) / 2),
                 this.y + ((this.height - minecraftClient.textRenderer.fontHeight + 1) / 2),
-                hovering ? SaturnClient.COLOR : i | MathHelper.ceil(this.alpha * 255.0F) << 24, false);
+                hovering ? hoverColor : i | MathHelper.ceil(this.alpha * 255.0F) << 24, false);
     }
 
     @Override
