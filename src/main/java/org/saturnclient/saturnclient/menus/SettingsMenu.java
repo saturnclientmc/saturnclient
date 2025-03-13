@@ -2,37 +2,52 @@ package org.saturnclient.saturnclient.menus;
 
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.Textures;
-import org.saturnclient.ui.widgets.SaturnImageButton;
-import org.saturnclient.ui.widgets.SaturnInputBox;
+import org.saturnclient.ui.widgets.SaturnClickableImage;
+import org.saturnclient.ui.widgets.SaturnTexture;
+import org.saturnclient.ui.SaturnAnimation;
 
 import net.minecraft.text.Text;
 
 public class SettingsMenu extends SaturnUi {
-    public SaturnImageButton searchButton;
-    public SaturnInputBox searchInputBox;
-
     public SettingsMenu() {
         super(Text.literal("Settings"));
     }
 
     @Override
     protected void init() {
-        searchInputBox = new SaturnInputBox("Search", 10, 10, 100, 20);
-        searchInputBox.visible = false;
-        draw(searchInputBox);
+        int rectWidth = 330;
+        int rectHeight = 228;
+        int modsX = (width - rectWidth) / 2;
+        int modsY = (height - rectHeight) / 2;
 
-        searchButton = (SaturnImageButton) new SaturnImageButton(Textures.SEARCH, 10,
-                10,
-                () -> {
-                    searchInputBox.visible = !searchInputBox.visible;
-                    if (searchInputBox.visible) {
-                        searchButton.sprite = Textures.CLOSE;
-                    } else {
-                        searchInputBox.clearText();
-                        searchButton.sprite = Textures.SEARCH;
-                    }
-                }).setWidth(30).setHeight(30).setX(30).setY(30);
+        draw(new SaturnTexture(Textures.SETTINGS_BG)
+                .setX(modsX)
+                .setY(modsY)
+                .setWidth(rectWidth)
+                .setHeight(rectHeight)
+                .setAnimation(SaturnAnimation.FADE_SLIDE));
 
-        draw(searchButton);
+        draw(new SaturnTexture(Textures.TABS)
+                .setX((width - 43) / 2)
+                .setY(modsY - 16)
+                .setWidth(43)
+                .setHeight(15)
+                .setAnimation(SaturnAnimation.FADE_SLIDE));
+
+        int modX = modsX + 15;
+
+        for (int i = 0; i < 3; i++) {
+            draw(new SaturnClickableImage(Textures.MOD, () -> {
+                System.out.println("Pressed");
+            })
+                    .setBackground(false)
+                    .setX(modX)
+                    .setY(modsY + 10)
+                    .setWidth(86)
+                    .setHeight(20)
+                    .setAnimation(SaturnAnimation.FADE_SLIDE.offset(40)));
+
+            modX += 86 + 15;
+        }
     }
 }

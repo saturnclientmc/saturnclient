@@ -10,7 +10,7 @@ public class SaturnWidget {
     public float alpha = 1.0f;
     public SaturnAnimation animation = null;
     public boolean visible = true;
- 
+
     public void render(DrawContext context, boolean hovering) {
     }
 
@@ -50,19 +50,8 @@ public class SaturnWidget {
 
     public SaturnWidget setAnimation(SaturnAnimation animation) {
         this.animation = animation;
-        switch (animation) {
-            case FADE:
-                this.alpha = 0.0f;
-                break;
-            case SLIDE:
-                this.animation.widgetY = y;
-                y += animation.distance;
-                break;
-            case FADE_SLIDE:
-                this.animation.widgetY = y;
-                y += animation.distance;
-                this.alpha = 0.0f;
-                break;
+        if (this.animation == SaturnAnimation.FADE || this.animation == SaturnAnimation.FADE_SLIDE) {
+            this.alpha = 0.0f;
         }
         return this;
     }

@@ -1,6 +1,7 @@
 package org.saturnclient.saturnclient;
 
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.util.math.ColorHelper;
 
 import org.saturnclient.saturnclient.cloaks.Cloaks;
 import org.saturnclient.saturnclient.event.KeyInputHandler;
@@ -15,6 +16,7 @@ import org.slf4j.LoggerFactory;
 public class SaturnClient implements ModInitializer {
     public static final String MOD_ID = "saturnclient";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+    public static int COLOR = ColorHelper.getArgb(255, 251, 60, 79);
 
     @Override
     public void onInitialize() {

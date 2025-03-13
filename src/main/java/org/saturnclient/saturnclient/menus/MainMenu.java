@@ -23,7 +23,7 @@ public class MainMenu extends SaturnUi {
                     client.setScreen(new SettingsMenu());
                 }).setX((width - buttonWidth) / 2).setY((height - buttonHeight) / 2).setWidth(buttonWidth)
                         .setHeight(buttonHeight)
-                        .setAnimation(SaturnAnimation.FADE_SLIDE.distance(15)));
+                        .setAnimation(SaturnAnimation.FADE_SLIDE.offset(15).speed(0.1f)));
 
         draw(
                 new SaturnImageButton(Textures.EMOTE, 14, 14,
@@ -34,7 +34,7 @@ public class MainMenu extends SaturnUi {
                         .setY((height - buttonHeight) / 2)
                         .setWidth(buttonHeight)
                         .setHeight(buttonHeight)
-                        .setAnimation(SaturnAnimation.FADE_SLIDE.distance(15)));
+                        .setAnimation(SaturnAnimation.FADE_SLIDE.offset(15).speed(0.1f)));
 
         draw(
                 new SaturnImageButton(Textures.COSMETICS, 14, 14,
@@ -45,6 +45,6 @@ public class MainMenu extends SaturnUi {
                         .setY((height - buttonHeight) / 2)
                         .setWidth(buttonHeight)
                         .setHeight(buttonHeight)
-                        .setAnimation(SaturnAnimation.FADE_SLIDE.distance(15)));
+                        .setAnimation(SaturnAnimation.FADE_SLIDE.offset(15).speed(0.1f)));
     }
 }

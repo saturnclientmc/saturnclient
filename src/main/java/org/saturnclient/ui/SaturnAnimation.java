@@ -5,30 +5,37 @@ public enum SaturnAnimation {
     SLIDE,
     FADE_SLIDE;
 
-    public int distance = 0;
-    public int widgetY = 0;
+    public int offset = 10;
+    public float speed = 0.05f;
 
     public void apply(SaturnWidget widget) {
         switch (this) {
             case FADE:
-                widget.alpha = Math.min(widget.alpha + 0.05f, 1.0f);
+                widget.alpha = Math.min(widget.alpha + speed, 1.0f);
                 break;
             case SLIDE:
-                if (widgetY < widget.y) {
-                    widget.y -= 1;
+                if (offset > 0) {
+                    widget.y--;
+                    offset--;
                 }
                 break;
             case FADE_SLIDE:
-                widget.alpha = Math.min(widget.alpha + 0.05f, 1.0f);
-                if (widgetY < widget.y) {
-                    widget.y -= 1;
+                widget.alpha = Math.min(widget.alpha + speed, 1.0f);
+                if (offset > 0) {
+                    widget.y--;
+                    offset--;
                 }
                 break;
         }
     }
 
-    public SaturnAnimation distance(int distance) {
-        this.distance = distance;
+    public SaturnAnimation offset(int offset) {
+        this.offset = offset;
+        return this;
+    }
+
+    public SaturnAnimation speed(float speed) {
+        this.speed = speed;
         return this;
     }
 }

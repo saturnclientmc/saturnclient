@@ -1,5 +1,6 @@
 package org.saturnclient.ui.widgets;
 
+import org.saturnclient.saturnclient.SaturnClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
@@ -20,14 +21,18 @@ public class SaturnImageButton extends SaturnButton {
     @Override
     public void render(DrawContext context, boolean hovering) {
         super.render(context, hovering);
-
         context.drawTexture(RenderLayer::getGuiTextured, sprite, x + (width - imageWidth) / 2,
                 y + (height - imageHeight) / 2, 0, 0, imageWidth, imageHeight, imageWidth,
-                imageHeight, ColorHelper.getWhite(alpha));
+                imageHeight, hovering ? SaturnClient.COLOR : ColorHelper.getWhite(alpha));
     }
 
     @Override
     public void click() {
         this.onPress.run();
+    }
+
+    public SaturnImageButton setBackground(boolean background) {
+        this.background = background;
+        return this;
     }
 }
