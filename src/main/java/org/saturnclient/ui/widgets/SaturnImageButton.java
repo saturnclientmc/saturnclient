@@ -1,5 +1,6 @@
 package org.saturnclient.ui.widgets;
 
+import java.util.function.Consumer;
 import org.saturnclient.saturnclient.SaturnClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
@@ -10,17 +11,26 @@ public class SaturnImageButton extends SaturnButton {
     public Identifier sprite;
     public int imageWidth;
     public int imageHeight;
+    public Consumer<SaturnImageButton> onPress;
 
-    public SaturnImageButton(Identifier sprite, int imageWidth, int imageHeight, Runnable onPress) {
-        super("", onPress);
+    public SaturnImageButton(Identifier sprite, int imageWidth, int imageHeight, Consumer<SaturnImageButton> onPress) {
+        super("", (b) -> {
+        });
         this.sprite = sprite;
         this.imageWidth = imageWidth;
         this.imageHeight = imageHeight;
+        this.onPress = onPress;
+    }
+
+    public SaturnImageButton(Identifier sprite, int imageWidth, int imageHeight, Runnable onPress) {
+        this(sprite, imageWidth, imageHeight, (b) -> {
+            onPress.run();
+        });
     }
 
     @Override
-    public void render(DrawContext context, boolean hovering) {
-        super.render(context, hovering);
+    public void render(DrawContext context, boolean hovering, int mouseX, int mouseY) {
+        super.render(context, hovering, mouseX, mouseY);
         context.drawTexture(RenderLayer::getGuiTextured, sprite, x + (width - imageWidth) / 2,
                 y + (height - imageHeight) / 2, 0, 0, imageWidth, imageHeight, imageWidth,
                 imageHeight, hovering ? SaturnClient.COLOR : ColorHelper.getWhite(alpha));
@@ -28,7 +38,7 @@ public class SaturnImageButton extends SaturnButton {
 
     @Override
     public void click() {
-        this.onPress.run();
+        this.onPress.accept(this);
     }
 
     public SaturnImageButton setBackground(boolean background) {

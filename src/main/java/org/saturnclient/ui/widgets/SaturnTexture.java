@@ -15,7 +15,7 @@ public class SaturnTexture extends SaturnWidget {
     }
 
     @Override
-    public void render(DrawContext context, boolean hovering) {
+    public void render(DrawContext context, boolean hovering, int mouseX, int mouseY) {
         context.drawGuiTexture(RenderLayer::getGuiTextured, sprite, this.x,
                 this.y, this.width, this.height, ColorHelper.getWhite(this.alpha));
     }

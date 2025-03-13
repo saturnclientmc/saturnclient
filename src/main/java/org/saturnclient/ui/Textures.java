@@ -8,6 +8,9 @@ public class Textures {
     public static final Identifier EMOTE = Identifier.of("saturnclient", "textures/gui/components/emote.png");
     public static final Identifier SEARCH = Identifier.of("saturnclient", "textures/gui/components/search.png");
     public static final Identifier CLOSE = Identifier.of("saturnclient", "textures/gui/components/close.png");
+    public static final Identifier MODS_TAB = Identifier.of("saturnclient", "textures/gui/components/mods_tab.png");
+    public static final Identifier SETTINGS_TAB = Identifier.of("saturnclient",
+            "textures/gui/components/settings_tab.png");
 
     // Widgets
     public static final Identifier BUTTON_BORDER = Identifier.ofVanilla("saturn/button_border");

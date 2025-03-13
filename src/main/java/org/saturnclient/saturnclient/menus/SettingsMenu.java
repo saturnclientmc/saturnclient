@@ -27,27 +27,66 @@ public class SettingsMenu extends SaturnUi {
                 .setHeight(rectHeight)
                 .setAnimation(SaturnAnimation.FADE_SLIDE));
 
+        int tabsX = (width - 43) / 2;
+        int tabsY = modsY - 17;
+
         draw(new SaturnTexture(Textures.TABS)
-                .setX((width - 43) / 2)
-                .setY(modsY - 16)
+                .setX(tabsX)
+                .setY(tabsY)
                 .setWidth(43)
                 .setHeight(15)
                 .setAnimation(SaturnAnimation.FADE_SLIDE));
 
+        int tabSize = 9;
+        tabsX = (width - tabSize) / 2;
+        draw(new SaturnClickableImage(Textures.SETTINGS_TAB, () -> {
+            System.out.println("Pressed");
+        })
+                .setX(tabsX)
+                .setY(tabsY + 3)
+                .setWidth(tabSize)
+                .setHeight(tabSize)
+                .setAnimation(SaturnAnimation.FADE_SLIDE));
+
+        draw(new SaturnClickableImage(Textures.MODS_TAB, () -> {
+            System.out.println("Pressed");
+        })
+                .setX(tabsX - 12)
+                .setY(tabsY + 3)
+                .setWidth(tabSize)
+                .setHeight(tabSize)
+                .setAnimation(SaturnAnimation.FADE_SLIDE));
+
+        draw(new SaturnClickableImage(Textures.SEARCH, () -> {
+            System.out.println("Pressed");
+        })
+                .setX(tabsX + 12)
+                .setY(tabsY + 3)
+                .setWidth(tabSize)
+                .setHeight(tabSize)
+                .setAnimation(SaturnAnimation.FADE_SLIDE));
+
         int modX = modsX + 15;
+        int modY = modsY + 10;
+        int col = 0;
 
-        for (int i = 0; i < 3; i++) {
-            draw(new SaturnClickableImage(Textures.MOD, () -> {
-                System.out.println("Pressed");
+        for (int i = 0; i < 10; i++) {
+            draw(new SaturnClickableImage(Textures.MOD, (m) -> {
             })
-                    .setBackground(false)
                     .setX(modX)
-                    .setY(modsY + 10)
+                    .setY(modY)
                     .setWidth(86)
-                    .setHeight(20)
-                    .setAnimation(SaturnAnimation.FADE_SLIDE.offset(40)));
+                    .setHeight(20));
 
-            modX += 86 + 15;
+            col++;
+
+            if (col < 3) {
+                modX += 86 + 15;
+            } else {
+                modX = modsX + 15;
+                modY += 20 + 20;
+                col = 0;
+            }
         }
     }
 }

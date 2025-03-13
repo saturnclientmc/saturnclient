@@ -11,7 +11,7 @@ public class SaturnWidget {
     public SaturnAnimation animation = null;
     public boolean visible = true;
 
-    public void render(DrawContext context, boolean hovering) {
+    public void render(DrawContext context, boolean hovering, int mouseX, int mouseY) {
     }
 
     public void click() {

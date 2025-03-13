@@ -13,7 +13,7 @@ public class SaturnText extends SaturnWidget {
     }
 
     @Override
-    public void render(DrawContext context, boolean hovering) {
+    public void render(DrawContext context, boolean hovering, int mouseX, int mouseY) {
         context.drawText(MinecraftClient.getInstance().textRenderer, text, x, y, ColorHelper.getWhite(alpha), false);
     }
 }

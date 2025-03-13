@@ -37,7 +37,7 @@ public class SaturnUi extends Screen {
 
             boolean isMouseInside = widget.x < mouseX && widget.x + widget.width > mouseX
                     && widget.y < mouseY && widget.y + widget.height > mouseY;
-            widget.render(context, isMouseInside);
+            widget.render(context, isMouseInside, mouseX, mouseY);
         }
     }
 
