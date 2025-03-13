@@ -5,6 +5,7 @@ import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.Textures;
 import org.saturnclient.ui.widgets.SaturnButton;
 import org.saturnclient.ui.widgets.SaturnImageButton;
+import org.saturnclient.ui.widgets.SaturnTexture;
 
 import net.minecraft.text.Text;
 
@@ -46,5 +47,15 @@ public class MainMenu extends SaturnUi {
                         .setWidth(buttonHeight)
                         .setHeight(buttonHeight)
                         .setAnimation(SaturnAnimation.FADE_SLIDE.offset(15).speed(0.1f)));
+
+        int logoSize = 40;
+
+        draw(
+                new SaturnTexture(Textures.LOGO)
+                        .setX((width - logoSize) / 2)
+                        .setY((height - logoSize) / 2 - logoSize - 10)
+                        .setWidth(logoSize)
+                        .setHeight(logoSize)
+                        .setAnimation(SaturnAnimation.FADE_SLIDE));
     }
 }
