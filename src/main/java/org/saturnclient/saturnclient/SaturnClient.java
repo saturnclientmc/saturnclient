@@ -22,7 +22,6 @@ public class SaturnClient implements ModInitializer {
     public void onInitialize() {
         LOGGER.info("Initializing " + MOD_ID);
 
-        // Attempt authentication before initializing other features
         KeyInputHandler.register();
         if (SaturnApi.authenticate()) {
             Cloaks.initialize();
