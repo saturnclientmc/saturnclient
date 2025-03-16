@@ -1,5 +1,6 @@
 package org.saturnclient.saturnclient.auth;
 
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.minecraft.client.MinecraftClient;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.cloaks.Cloaks;
@@ -17,9 +18,14 @@ public class SaturnApi {
 
     public static Map<String, SaturnPlayer> players = new HashMap<>();
     public static Map<String, String> playerNames = new HashMap<>();
-    public static Socket socket;
+    private static Socket socket;
+    private static BufferedReader reader;
+    private static PrintWriter writer;
 
     public static boolean authenticate() {
+        // Register shutdown hook ONCE
+        ClientLifecycleEvents.CLIENT_STOPPING.register(c -> close());
+
         try {
             MinecraftClient client = MinecraftClient.getInstance();
             if (client.getSession() == null) {
@@ -28,16 +34,19 @@ public class SaturnApi {
             }
 
             String accessToken = client.getSession().getAccessToken();
+            SaturnClient.LOGGER.info("Authenticating");
 
-            SaturnClient.LOGGER.error(accessToken);
+            // Use try-with-resources to ensure proper cleanup
+            try (Socket tempSocket = new Socket(server, port);
+                    BufferedReader tempReader = new BufferedReader(new InputStreamReader(tempSocket.getInputStream()));
+                    PrintWriter tempWriter = new PrintWriter(tempSocket.getOutputStream(), true)) {
 
-            try {
-                socket = new Socket(server, port);
-                BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
+                // Assign to class fields
+                socket = tempSocket;
+                reader = tempReader;
+                writer = tempWriter;
+
                 writer.println(accessToken);
-                writer.flush();
-
                 String response = reader.readLine();
                 SaturnParser parser = new SaturnParser(response);
 
@@ -49,29 +58,40 @@ public class SaturnApi {
                     MinecraftClient.getInstance().execute(() -> Cloaks.setCloak(uuid, cloak));
                 }
 
-            } catch (IOException e) {
-                System.err.println("Error: " + e.getMessage());
-                return false;
+                return true;
             }
 
-            return true;
-        } catch (Exception e) {
+        } catch (IOException e) {
             SaturnClient.LOGGER.error("Authentication failed", e);
             return false;
         }
     }
 
-    public static void setCloak(String cloak) {
+    public static void close() {
         try {
-            // if (success) {
-            // SaturnClient.LOGGER.info("Successfully set cloak");
-            // } else {
-            // SaturnClient.LOGGER.error("Failed to set cloak");
-            // SaturnClient.LOGGER.error(jsonResponse.get("error").getAsString());
-            // }
+            if (writer != null) {
+                writer.close();
+            }
+            if (reader != null) {
+                reader.close();
+            }
+            if (socket != null) {
+                socket.close();
+            }
+            SaturnClient.LOGGER.info("SaturnApi connection closed.");
+        } catch (IOException e) {
+            SaturnClient.LOGGER.error("Failed to close resources", e);
+        }
+    }
 
-        } catch (Exception e) {
-            SaturnClient.LOGGER.error("Failed to set cloak", e);
+    public static void setCloak(String cloakName) {
+        try {
+
+            writer.println("set_cloak@cloak=" + cloakName);
+            String response = reader.readLine();
+            new SaturnParser(response);
+        } catch (IOException e) {
+            SaturnClient.LOGGER.error("Request failed", e);
         }
     }
 }

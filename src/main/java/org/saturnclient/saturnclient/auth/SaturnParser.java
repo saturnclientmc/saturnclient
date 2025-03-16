@@ -14,6 +14,10 @@ public class SaturnParser {
             throw new IOException("Invalid input string");
         }
 
+        if (parts[0].startsWith("!")) {
+            throw new IOException(parts[0]);
+        }
+
         for (int i = 1; i < parts.length; i++) {
             String[] keyValue = parts[i].split("=");
             if (keyValue.length == 2) {
