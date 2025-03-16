@@ -48,11 +48,13 @@ public class SaturnButton extends SaturnWidget {
             }
         }
 
-        int i = this.active ? 16777215 : 10526880;
-        context.drawText(minecraftClient.textRenderer, this.text,
-                this.x + ((this.width - minecraftClient.textRenderer.getWidth(this.text)) / 2),
-                this.y + ((this.height - minecraftClient.textRenderer.fontHeight + 1) / 2),
-                hovering ? hoverColor : i | MathHelper.ceil(this.alpha * 255.0F) << 24, false);
+        if (alpha != 0.0f) {
+            int i = this.active ? 16777215 : 10526880;
+            context.drawText(minecraftClient.textRenderer, this.text,
+                    this.x + ((this.width - minecraftClient.textRenderer.getWidth(this.text)) / 2),
+                    this.y + ((this.height - minecraftClient.textRenderer.fontHeight + 1) / 2),
+                    hovering ? hoverColor : i | MathHelper.ceil(this.alpha * 255.0F) << 24, false);
+        }
     }
 
     @Override

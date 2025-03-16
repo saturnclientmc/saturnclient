@@ -6,7 +6,7 @@ import org.saturnclient.ui.animations.FadeIn;
 import org.saturnclient.ui.animations.Slide;
 import org.saturnclient.ui.widgets.SaturnButton;
 import org.saturnclient.ui.widgets.SaturnImageButton;
-import org.saturnclient.ui.widgets.SaturnSprite;
+import org.saturnclient.ui.widgets.SaturnImage;
 
 import net.minecraft.text.Text;
 
@@ -42,7 +42,7 @@ public class MainMenu extends SaturnUi {
         draw(
                 new SaturnImageButton(Textures.COSMETICS, 14, 14,
                         () -> {
-                            client.setScreen(new SettingsMenu());
+                            client.setScreen(new CloaksMenu());
                         })
                         .setX((width / 2) + (buttonWidth / 2) + 3)
                         .setY((height - buttonHeight) / 2)
@@ -53,7 +53,7 @@ public class MainMenu extends SaturnUi {
         int logoSize = 49;
 
         draw(
-                new SaturnSprite(Textures.LOGO_TEXT)
+                new SaturnImage(Textures.LOGO_TEXT)
                         .setX((width - logoSize) / 2)
                         .setY((height - 8) / 2 - 23)
                         .setWidth(logoSize)
@@ -61,7 +61,7 @@ public class MainMenu extends SaturnUi {
                         .setAnimations(new FadeIn(3)));
 
         draw(
-                new SaturnSprite(Textures.LOGO)
+                new SaturnImage(Textures.LOGO)
                         .setX((width - logoSize) / 2)
                         .setY(height / 2 - logoSize - 24)
                         .setWidth(logoSize)

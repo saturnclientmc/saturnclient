@@ -11,19 +11,19 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.MathHelper;
 
-public class SaturnClickableImage extends SaturnWidget {
+public class SaturnClickableSprite extends SaturnWidget {
     public Identifier sprite;
     public boolean selected = false;
-    public Consumer<SaturnClickableImage> onPress;
+    public Consumer<SaturnClickableSprite> onPress;
     public int color = ColorHelper.getWhite(1.0f);
     public int hoverColor = SaturnClient.COLOR;
 
-    public SaturnClickableImage(Identifier sprite, Consumer<SaturnClickableImage> onPress) {
+    public SaturnClickableSprite(Identifier sprite, Consumer<SaturnClickableSprite> onPress) {
         this.sprite = sprite;
         this.onPress = onPress;
     }
 
-    public SaturnClickableImage(Identifier sprite, Runnable onPress) {
+    public SaturnClickableSprite(Identifier sprite, Runnable onPress) {
         this(sprite, (m) -> {
             onPress.run();
         });
@@ -31,8 +31,9 @@ public class SaturnClickableImage extends SaturnWidget {
 
     @Override
     public void render(DrawContext context, boolean hovering, int mouseX, int mouseY) {
-        context.drawTexture(RenderLayer::getGuiTextured, sprite, x, y, 0, 0, width, height, width,
-                height, (hovering || selected ? hoverColor : color) | MathHelper.ceil(this.alpha * 255.0F) << 24);
+        context.drawGuiTexture(RenderLayer::getGuiTextured, sprite, this.x,
+                this.y, this.width, this.height,
+                (hovering || selected ? hoverColor : color) | MathHelper.ceil(this.alpha * 255.0F) << 24);
     }
 
     @Override
@@ -40,9 +41,18 @@ public class SaturnClickableImage extends SaturnWidget {
         this.onPress.accept(this);
     }
 
-    public SaturnClickableImage setSelected(boolean selected) {
+    public SaturnClickableSprite setSelected(boolean selected) {
         this.selected = selected;
         return this;
     }
 
+    public SaturnClickableSprite setColor(int color) {
+        this.color = color;
+        return this;
+    }
+
+    public SaturnClickableSprite setHoverColor(int color) {
+        this.hoverColor = color;
+        return this;
+    }
 }

@@ -20,4 +20,8 @@ public class Textures {
     public static final Identifier SETTINGS_BG = Identifier.ofVanilla("saturn/settings_bg");
     public static final Identifier TABS = Identifier.ofVanilla("saturn/tabs");
     public static final Identifier MOD = Identifier.of("saturnclient", "textures/gui/components/mod.png");
+
+    public static Identifier getCloakPreview(String cloak) {
+        return Identifier.of("saturnclient", "textures/gui/cloak/" + cloak + ".png");
+    }
 }

@@ -4,7 +4,7 @@ import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.Textures;
 import org.saturnclient.ui.animations.FadeIn;
 import org.saturnclient.ui.widgets.SaturnClickableImage;
-import org.saturnclient.ui.widgets.SaturnImage;
+import org.saturnclient.ui.widgets.SaturnSprite;
 
 import net.minecraft.text.Text;
 
@@ -18,9 +18,9 @@ public class SettingsMenu extends SaturnUi {
         int rectWidth = 330;
         int rectHeight = 228;
         int modsX = (width - rectWidth) / 2;
-        int modsY = (height - rectHeight) / 2;
+        int modsY = (height - rectHeight + 15) / 2;
 
-        draw(new SaturnImage(Textures.SETTINGS_BG)
+        draw(new SaturnSprite(Textures.SETTINGS_BG)
                 .setX(modsX)
                 .setY(modsY)
                 .setWidth(rectWidth)
@@ -30,7 +30,7 @@ public class SettingsMenu extends SaturnUi {
         int tabsX = (width - 43) / 2;
         int tabsY = modsY - 17;
 
-        draw(new SaturnImage(Textures.TABS)
+        draw(new SaturnSprite(Textures.TABS)
                 .setX(tabsX)
                 .setY(tabsY)
                 .setWidth(43)
@@ -70,7 +70,7 @@ public class SettingsMenu extends SaturnUi {
         int modY = modsY + 10;
         int col = 0;
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             draw(new SaturnClickableImage(Textures.MOD, (m) -> {
             })
                     .setX(modX)
