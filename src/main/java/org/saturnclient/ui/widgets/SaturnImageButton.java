@@ -40,7 +40,7 @@ public class SaturnImageButton extends SaturnButton {
     }
 
     @Override
-    public void click() {
+    public void click(int mouseX, int mouseY) {
         this.onPress.accept(this);
     }
 

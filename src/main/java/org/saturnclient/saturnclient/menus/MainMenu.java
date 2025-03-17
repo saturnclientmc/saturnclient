@@ -1,5 +1,6 @@
 package org.saturnclient.saturnclient.menus;
 
+import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.Textures;
 import org.saturnclient.ui.animations.FadeIn;
@@ -8,6 +9,7 @@ import org.saturnclient.ui.widgets.SaturnButton;
 import org.saturnclient.ui.widgets.SaturnImageButton;
 import org.saturnclient.ui.widgets.SaturnImage;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
 
 public class MainMenu extends SaturnUi {
@@ -17,6 +19,8 @@ public class MainMenu extends SaturnUi {
 
     @Override
     protected void init() {
+        SaturnClient.textRenderer = MinecraftClient.getInstance().textRenderer;
+
         int buttonWidth = 96;
         int buttonHeight = 25;
 

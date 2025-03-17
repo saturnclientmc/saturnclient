@@ -26,7 +26,7 @@ public class SaturnInputBox extends SaturnWidget {
     }
 
     @Override
-    public void click() {
+    public void click(int mouseX, int mouseY) {
         focused = true;
     }
 

@@ -1,5 +1,6 @@
 package org.saturnclient.ui.widgets;
 
+import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.ui.SaturnWidget;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -10,6 +11,8 @@ public class SaturnText extends SaturnWidget {
 
     public SaturnText(String text) {
         this.text = text;
+        this.width = SaturnClient.textRenderer.getWidth(text);
+        this.height = SaturnClient.textRenderer.fontHeight;
     }
 
     @Override

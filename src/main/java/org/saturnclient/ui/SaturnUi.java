@@ -19,6 +19,7 @@ public class SaturnUi extends Screen {
 
     public void draw(SaturnWidget widget) {
         synchronized (widgets) {
+            widget.init();
             widgets.add(widget);
         }
     }
@@ -63,7 +64,7 @@ public class SaturnUi extends Screen {
                 boolean isMouseInside = widget.x < mouseX && widget.x + widget.width > mouseX
                         && widget.y < mouseY && widget.y + widget.height > mouseY;
                 if (isMouseInside) {
-                    widget.click();
+                    widget.click((int) mouseX, (int) mouseY);
                 }
             }
         }
@@ -86,6 +87,20 @@ public class SaturnUi extends Screen {
             }
         }
         return super.keyPressed(keyCode, scanCode, modifiers);
+    }
+
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
+        for (SaturnWidget widget : new ArrayList<>(widgets)) {
+            boolean isMouseInside = widget.x < mouseX && widget.x + widget.width > mouseX
+                    && widget.y < mouseY && widget.y + widget.height > mouseY;
+
+            if (isMouseInside) {
+                widget.mouseScrolled((int) mouseX, (int) mouseY, horizontalAmount, verticalAmount);
+            }
+        }
+
+        return super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount);
     }
 
     private char getCharFromKey(int keyCode, int modifiers) {

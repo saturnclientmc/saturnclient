@@ -4,6 +4,7 @@ import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.Textures;
 import org.saturnclient.ui.animations.FadeIn;
 import org.saturnclient.ui.widgets.SaturnClickableImage;
+import org.saturnclient.ui.widgets.SaturnScroll;
 import org.saturnclient.ui.widgets.SaturnSprite;
 
 import net.minecraft.text.Text;
@@ -66,12 +67,14 @@ public class SettingsMenu extends SaturnUi {
                 .setHeight(tabSize)
                 .setAnimations(new FadeIn(1)));
 
-        int modX = modsX + 15;
-        int modY = modsY + 10;
+        int modX = 0;
+        int modY = 0;
         int col = 0;
 
-        for (int i = 0; i < 20; i++) {
-            draw(new SaturnClickableImage(Textures.MOD, (m) -> {
+        SaturnScroll modsScroll = new SaturnScroll();
+
+        for (int i = 0; i < 30; i++) {
+            modsScroll.draw(new SaturnClickableImage(Textures.MOD, (m) -> {
             })
                     .setX(modX)
                     .setY(modY)
@@ -81,12 +84,14 @@ public class SettingsMenu extends SaturnUi {
             col++;
 
             if (col < 3) {
-                modX += 86 + 15;
+                modX += 86 + 18;
             } else {
-                modX = modsX + 15;
+                modX = 0;
                 modY += 20 + 20;
                 col = 0;
             }
         }
+
+        draw(modsScroll.setX(modsX + 17).setY(modsY + 10).setWidth(rectWidth - 17).setHeight(rectHeight - 10));
     }
 }
