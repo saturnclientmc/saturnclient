@@ -8,6 +8,9 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.text.Style;
+import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
 
 public class SaturnInputBox extends SaturnWidget {
@@ -69,7 +72,7 @@ public class SaturnInputBox extends SaturnWidget {
         String visibleText = text.substring(scrollOffset);
 
         int textColor = focused ? 0xFFFFFF : 0xAAAAAA;
-        context.drawText(textRenderer, visibleText, x + 5, y + 5, textColor, false);
+        context.drawText(textRenderer, Text.literal(visibleText).setStyle(Style.EMPTY.withFont(Identifier.of("saturnclient:panton"))), x + 5, y + 5, textColor, false);
 
         if (focused) {
             int cursorX = x + 5 + textRenderer.getWidth(visibleText.substring(0, cursorPosition - scrollOffset));

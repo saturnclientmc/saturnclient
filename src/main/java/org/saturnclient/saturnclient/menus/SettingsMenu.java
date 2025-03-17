@@ -1,11 +1,16 @@
 package org.saturnclient.saturnclient.menus;
 
+import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.saturnmods.ModManager;
+import org.saturnclient.saturnmods.SaturnMod;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.Textures;
 import org.saturnclient.ui.animations.FadeIn;
+import org.saturnclient.ui.animations.Slide;
 import org.saturnclient.ui.widgets.SaturnClickableImage;
 import org.saturnclient.ui.widgets.SaturnScroll;
 import org.saturnclient.ui.widgets.SaturnSprite;
+import org.saturnclient.ui.widgets.SaturnText;
 
 import net.minecraft.text.Text;
 
@@ -26,7 +31,7 @@ public class SettingsMenu extends SaturnUi {
                 .setY(modsY)
                 .setWidth(rectWidth)
                 .setHeight(rectHeight)
-                .setAnimations(new FadeIn(1)));
+                .setAnimations(new Slide(1, 10)));
 
         int tabsX = (width - 43) / 2;
         int tabsY = modsY - 17;
@@ -36,7 +41,7 @@ public class SettingsMenu extends SaturnUi {
                 .setY(tabsY)
                 .setWidth(43)
                 .setHeight(15)
-                .setAnimations(new FadeIn(1)));
+                .setAnimations(new Slide(1, 10)));
 
         int tabSize = 9;
         tabsX = (width - tabSize) / 2;
@@ -73,13 +78,18 @@ public class SettingsMenu extends SaturnUi {
 
         SaturnScroll modsScroll = new SaturnScroll();
 
-        for (int i = 0; i < 30; i++) {
+        for (SaturnMod mod : ModManager.MODS) {
             modsScroll.draw(new SaturnClickableImage(Textures.MOD, (m) -> {
+
             })
+                    .setSelected(mod.isEnabled())
                     .setX(modX)
                     .setY(modY)
                     .setWidth(86)
                     .setHeight(20));
+
+            modsScroll.draw(new SaturnText(mod.getName()).setX(modX + 27)
+                    .setY(modY + (21 - SaturnClient.textRenderer.fontHeight) / 2));
 
             col++;
 
@@ -92,6 +102,7 @@ public class SettingsMenu extends SaturnUi {
             }
         }
 
-        draw(modsScroll.setX(modsX + 17).setY(modsY + 10).setWidth(rectWidth - 17).setHeight(rectHeight - 10));
+        draw(modsScroll.setX(modsX + 17).setY(modsY + 10).setWidth(rectWidth - 17).setHeight(rectHeight - 10)
+                .setAnimations(new Slide(1, 10)));
     }
 }

@@ -51,6 +51,8 @@ public class SaturnScroll extends SaturnWidget {
 
     @Override
     public void click(int mouseX, int mouseY) {
+        mouseX = mouseX - x;
+        mouseY = mouseY - y;
         for (SaturnWidget child : children) {
             boolean isMouseInside = child.x < mouseX && child.x + child.width > mouseX
                     && child.y < mouseY && child.y + child.height > mouseY;

@@ -9,6 +9,9 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.text.Style;
+import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.MathHelper;
 
@@ -50,7 +53,8 @@ public class SaturnButton extends SaturnWidget {
 
         if (alpha != 0.0f) {
             int i = this.active ? 16777215 : 10526880;
-            context.drawText(minecraftClient.textRenderer, this.text,
+            context.drawText(minecraftClient.textRenderer,
+                    Text.literal(text).setStyle(Style.EMPTY.withFont(Identifier.of("saturnclient:panton"))),
                     this.x + ((this.width - minecraftClient.textRenderer.getWidth(this.text)) / 2),
                     this.y + ((this.height - minecraftClient.textRenderer.fontHeight + 1) / 2),
                     hovering ? hoverColor : i | MathHelper.ceil(this.alpha * 255.0F) << 24, false);
