@@ -5,7 +5,7 @@ import net.minecraft.util.math.ColorHelper;
 
 import org.saturnclient.saturnclient.cloaks.Cloaks;
 import org.saturnclient.saturnclient.event.KeyInputHandler;
-import org.saturnclient.saturnclient.auth.SaturnApi;
+import org.saturnclient.saturnclient.auth.SaturnSocket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +23,7 @@ public class SaturnClient implements ModInitializer {
         LOGGER.info("Initializing " + MOD_ID);
 
         KeyInputHandler.register();
-        if (SaturnApi.authenticate()) {
+        if (SaturnSocket.authenticate()) {
             Cloaks.initialize();
             LOGGER.info(MOD_ID + " initialization complete");
         } else {

@@ -22,6 +22,8 @@ public class SaturnParser {
             String[] keyValue = parts[i].split("=");
             if (keyValue.length == 2) {
                 params.put(keyValue[0].trim(), keyValue[1].trim());
+            } else if (keyValue.length == 1) {
+                params.put(keyValue[0].trim(), "");
             } else {
                 throw new IOException("Invalid parameter format: " + parts[i]);
             }
@@ -32,6 +34,18 @@ public class SaturnParser {
         String val = params.get(i);
         if (val != null) {
             return val;
+        } else {
+            throw new IOException("Parameter not found " + i);
+        }
+    }
+
+    public String[] getArray(String i) throws IOException {
+        String val = params.get(i);
+        if (val != null) {
+            if (val.isEmpty()) {
+                return new String[] {};
+            }
+            return val.split("$");
         } else {
             throw new IOException("Parameter not found " + i);
         }

@@ -13,7 +13,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.client.render.LightmapTextureManager;
 
-import org.saturnclient.saturnclient.auth.SaturnApi;
+import org.saturnclient.saturnclient.auth.SaturnSocket;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -60,7 +60,7 @@ public abstract class NameTagMixin<S extends EntityRenderState> {
     private boolean isSaturn(S state) {
         if (state instanceof PlayerEntityRenderState) {
             String name = ((PlayerEntityRenderState) state).name;
-            return SaturnApi.playerNames.containsKey(name);
+            return SaturnSocket.playerNames.containsKey(name);
         }
         return false;
     }

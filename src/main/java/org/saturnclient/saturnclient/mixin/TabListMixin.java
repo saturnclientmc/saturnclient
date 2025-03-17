@@ -1,6 +1,6 @@
 package org.saturnclient.saturnclient.mixin;
 
-import org.saturnclient.saturnclient.auth.SaturnApi;
+import org.saturnclient.saturnclient.auth.SaturnSocket;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -22,6 +22,6 @@ public abstract class TabListMixin {
     @Nullable
     public Text getDisplayName() {
         String name = displayName.getString();
-        return Text.literal(SaturnApi.playerNames.containsKey(name) ? "" + name : name);
+        return Text.literal(SaturnSocket.playerNames.containsKey(name) ? "" + name : name);
     }
 }

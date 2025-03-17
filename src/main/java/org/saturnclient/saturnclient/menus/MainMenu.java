@@ -26,7 +26,7 @@ public class MainMenu extends SaturnUi {
                 }).setX((width - buttonWidth) / 2).setY((height - buttonHeight) /
                         2).setWidth(buttonWidth)
                         .setHeight(buttonHeight)
-                        .setAnimations(new FadeIn(3)));
+                        .setAnimations(new FadeIn(1)));
 
         draw(
                 new SaturnImageButton(Textures.EMOTE, 14, 14,
@@ -37,7 +37,7 @@ public class MainMenu extends SaturnUi {
                         .setY((height - buttonHeight) / 2)
                         .setWidth(buttonHeight)
                         .setHeight(buttonHeight)
-                        .setAnimations(new FadeIn(3)));
+                        .setAnimations(new FadeIn(1)));
 
         draw(
                 new SaturnImageButton(Textures.COSMETICS, 14, 14,
@@ -48,7 +48,7 @@ public class MainMenu extends SaturnUi {
                         .setY((height - buttonHeight) / 2)
                         .setWidth(buttonHeight)
                         .setHeight(buttonHeight)
-                        .setAnimations(new FadeIn(3)));
+                        .setAnimations(new FadeIn(1)));
 
         int logoSize = 49;
 
@@ -58,7 +58,7 @@ public class MainMenu extends SaturnUi {
                         .setY((height - 8) / 2 - 23)
                         .setWidth(logoSize)
                         .setHeight(8)
-                        .setAnimations(new FadeIn(3)));
+                        .setAnimations(new FadeIn(1)));
 
         draw(
                 new SaturnImage(Textures.LOGO)
@@ -66,6 +66,6 @@ public class MainMenu extends SaturnUi {
                         .setY(height / 2 - logoSize - 24)
                         .setWidth(logoSize)
                         .setHeight(logoSize)
-                        .setAnimations(new Slide(2, 14)));
+                        .setAnimations(new Slide(1, 14)));
     }
 }

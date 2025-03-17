@@ -1,6 +1,6 @@
 package org.saturnclient.saturnclient.menus;
 
-import org.saturnclient.saturnclient.auth.SaturnApi;
+import org.saturnclient.saturnclient.auth.SaturnSocket;
 import org.saturnclient.saturnclient.cloaks.Cloaks;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.Textures;
@@ -55,7 +55,7 @@ public class CloaksMenu extends SaturnUi {
                     .setHeight(cloakHeight));
 
             draw(new SaturnClickableSprite(Textures.BUTTON_BORDER, () -> {
-                SaturnApi.setCloak(cloak);
+                Cloaks.setCloak(SaturnSocket.uuid, cloak);
             })
                     .setColor(10526880)
                     .setX(modX - 3)

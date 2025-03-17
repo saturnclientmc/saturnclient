@@ -12,26 +12,26 @@ import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.MathHelper;
 
 public class SaturnClickableImage extends SaturnWidget {
-    public Identifier sprite;
+    public Identifier texture;
     public boolean selected = false;
     public Consumer<SaturnClickableImage> onPress;
     public int color = ColorHelper.getWhite(1.0f);
     public int hoverColor = SaturnClient.COLOR;
 
-    public SaturnClickableImage(Identifier sprite, Consumer<SaturnClickableImage> onPress) {
-        this.sprite = sprite;
+    public SaturnClickableImage(Identifier texture, Consumer<SaturnClickableImage> onPress) {
+        this.texture = texture;
         this.onPress = onPress;
     }
 
-    public SaturnClickableImage(Identifier sprite, Runnable onPress) {
-        this(sprite, (m) -> {
+    public SaturnClickableImage(Identifier texture, Runnable onPress) {
+        this(texture, (m) -> {
             onPress.run();
         });
     }
 
     @Override
     public void render(DrawContext context, boolean hovering, int mouseX, int mouseY) {
-        context.drawTexture(RenderLayer::getGuiTextured, sprite, x, y, 0, 0, width, height, width,
+        context.drawTexture(RenderLayer::getGuiTextured, texture, x, y, 0, 0, width, height, width,
                 height, (hovering || selected ? hoverColor : color) | MathHelper.ceil(this.alpha * 255.0F) << 24);
     }
 

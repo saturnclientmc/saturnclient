@@ -2,7 +2,7 @@ package org.saturnclient.saturnclient.cloaks;
 
 import net.minecraft.util.Identifier;
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.auth.SaturnApi;
+import org.saturnclient.saturnclient.auth.SaturnSocket;
 import org.saturnclient.saturnclient.auth.SaturnPlayer;
 import org.saturnclient.saturnclient.cloaks.utils.AnimatedCloakData;
 import org.saturnclient.saturnclient.cloaks.utils.IdentifierUtils;
@@ -41,13 +41,20 @@ public class Cloaks {
      * @param cloakName Name of the cloak file to load
      */
     public static void setCloak(String uuid, String cloakName) {
-        SaturnApi.setCloak(cloakName);
+        SaturnSocket.setCloak(cloakName);
+        setCloakSilent(uuid, cloakName);
+    }
 
-        SaturnPlayer player = SaturnApi.players.get(uuid);
+    /**
+     * Handles loading and caching of a new cloak texture, without connecting to the
+     * server.
+     * 
+     * @param cloakName Name of the cloak file to load
+     */
+    public static void setCloakSilent(String uuid, String cloakName) {
+        SaturnPlayer player = SaturnSocket.players.get(uuid);
         if (player == null) {
-            SaturnPlayer newPlayer = new SaturnPlayer();
-            newPlayer.cloak = cloakName;
-            SaturnApi.players.put(uuid, newPlayer);
+            SaturnSocket.players.put(uuid, new SaturnPlayer(cloakName));
         } else {
             player.cloak = cloakName;
         }
@@ -59,7 +66,6 @@ public class Cloaks {
                 loadStaticCloak(cloakName + ".png");
             }
         }
-
     }
 
     /**
@@ -128,11 +134,11 @@ public class Cloaks {
     }
 
     public static Identifier getCurrentCloakTexture(String uuid) {
-        if (!SaturnApi.players.containsKey(uuid)) {
+        if (!SaturnSocket.players.containsKey(uuid)) {
             return null;
         }
 
-        String cloakName = SaturnApi.players.get(uuid).cloak;
+        String cloakName = SaturnSocket.players.get(uuid).cloak;
 
         if (cloakName.isEmpty()) {
             return null;
