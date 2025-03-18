@@ -1,11 +1,9 @@
 package org.saturnclient.saturnmods;
 
 public interface SaturnMod {
-    public static boolean enabled = false;
+    public boolean isEnabled();
 
-    default public boolean isEnabled() {
-        return enabled;
-    }
+    public void setEnabled(boolean e);
 
     public String getName();
 }

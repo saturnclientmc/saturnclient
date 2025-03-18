@@ -34,7 +34,7 @@ public class MainMenu extends SaturnUi {
         draw(
                 new SaturnImageButton(Textures.EMOTE, 14, 14,
                         () -> {
-                            client.setScreen(new SettingsMenu());
+                            client.setScreen(new HudEditor());
                         })
                         .setX((width - buttonWidth - (buttonHeight * 2) - 6) / 2)
                         .setY((height - buttonHeight) / 2)
