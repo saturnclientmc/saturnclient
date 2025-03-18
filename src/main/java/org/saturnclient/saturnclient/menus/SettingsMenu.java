@@ -50,7 +50,7 @@ public class SettingsMenu extends SaturnUi {
                 .setY(tabsY + 3)
                 .setWidth(tabSize)
                 .setHeight(tabSize)
-                .setAnimations(new FadeIn(1))
+                .setAnimations(new FadeIn(2))
                 .setAnimations(new Slide(1, 10)));
 
         draw(new SaturnClickableImage(Textures.MODS_TAB, () -> {
@@ -60,7 +60,7 @@ public class SettingsMenu extends SaturnUi {
                 .setY(tabsY + 3)
                 .setWidth(tabSize)
                 .setHeight(tabSize)
-                .setAnimations(new FadeIn(1))
+                .setAnimations(new FadeIn(2))
                 .setAnimations(new Slide(1, 10)));
 
         draw(new SaturnClickableImage(Textures.SEARCH, () -> {
@@ -70,7 +70,7 @@ public class SettingsMenu extends SaturnUi {
                 .setY(tabsY + 3)
                 .setWidth(tabSize)
                 .setHeight(tabSize)
-                .setAnimations(new FadeIn(1))
+                .setAnimations(new FadeIn(2))
                 .setAnimations(new Slide(1, 10)));
 
         int modX = 0;
@@ -99,5 +99,7 @@ public class SettingsMenu extends SaturnUi {
 
         draw(modsScroll.setX(modsX + 17).setY(modsY + 10).setWidth(rectWidth - 17).setHeight(rectHeight - 10)
                 .setAnimations(new Slide(1, 10)));
+
+        super.init();
     }
 }

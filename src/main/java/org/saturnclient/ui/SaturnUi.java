@@ -2,7 +2,12 @@ package org.saturnclient.ui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import org.lwjgl.glfw.GLFW;
+
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.MutableText;
@@ -11,6 +16,8 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public class SaturnUi extends Screen {
+    private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+
     public static MutableText text(String text) {
         return Text.literal(text).setStyle(Style.EMPTY.withFont(Identifier.of("saturnclient:panton")));
     }
@@ -20,6 +27,12 @@ public class SaturnUi extends Screen {
 
     public SaturnUi(Text title) {
         super(title);
+    }
+
+    @Override
+    protected void init() {
+        scheduler.scheduleAtFixedRate(this::saturnTick, 0, 7, TimeUnit.MILLISECONDS);
+        super.init();
     }
 
     public void draw(SaturnWidget widget) {
@@ -38,24 +51,10 @@ public class SaturnUi extends Screen {
                 continue;
             }
 
-            if (widget.animations != null) {
-                for (SaturnAnimation animation : widget.animations) {
-                    if (animation != null && tick - animation.lastTick == animation.delay) {
-                        if (animation.run(widget, tick)) {
-                            animation = null;
-                        } else {
-                            animation.lastTick = tick;
-                        }
-                    }
-                }
-            }
-
             boolean isMouseInside = widget.x < mouseX && widget.x + widget.width > mouseX
                     && widget.y < mouseY && widget.y + widget.height > mouseY;
             widget.render(context, isMouseInside, mouseX, mouseY);
         }
-
-        tick++;
     }
 
     @Override
@@ -137,5 +136,24 @@ public class SaturnUi extends Screen {
             case GLFW.GLFW_KEY_GRAVE_ACCENT -> shift ? '~' : '`';
             default -> '\0';
         };
+    }
+
+    public void saturnTick() {
+        synchronized (widgets) {
+            for (SaturnWidget widget : widgets) {
+                if (widget.visible && widget.animations != null) {
+                    for (SaturnAnimation animation : widget.animations) {
+                        if (animation != null && tick - animation.lastTick == animation.delay) {
+                            if (animation.run(widget, tick)) {
+                                animation = null;
+                            } else {
+                                animation.lastTick = tick;
+                            }
+                        }
+                    }
+                }
+            }
+            tick++;
+        }
     }
 }

@@ -77,5 +77,7 @@ public class CloaksMenu extends SaturnUi {
         }
 
         draw(modsScroll.setX(rectX + 17).setY(rectY + 10).setWidth(rectWidth - 17).setHeight(rectHeight - 10));
+
+        super.init();
     }
 }
