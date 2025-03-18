@@ -4,10 +4,12 @@ import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnmods.HudMod;
 import org.saturnclient.saturnmods.ModDimensions;
 import org.saturnclient.saturnmods.SaturnMod;
+import org.saturnclient.ui.Textures;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.Identifier;
 
 public class Coordinates implements SaturnMod, HudMod {
     private static ModDimensions dimensions = new ModDimensions();
@@ -40,6 +42,11 @@ public class Coordinates implements SaturnMod, HudMod {
 
     public String getName() {
         return "Coords";
+    }
+
+    @Override
+    public Identifier getIconTexture() {
+        return Textures.getModIcon("coords");
     }
 
     public void setDimensions(ModDimensions d) {

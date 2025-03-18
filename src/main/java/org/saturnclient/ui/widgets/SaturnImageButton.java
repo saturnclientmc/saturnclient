@@ -34,8 +34,8 @@ public class SaturnImageButton extends SaturnButton {
 
         int hoverColor = ((int) (alpha * 255) << 24) | (SaturnClient.COLOR & 0x00FFFFFF);
 
-        context.drawTexture(RenderLayer::getGuiTextured, sprite, x + (width - imageWidth) / 2,
-                y + (height - imageHeight) / 2, 0, 0, imageWidth, imageHeight, imageWidth,
+        context.drawTexture(RenderLayer::getGuiTextured, sprite, (x + (width - imageWidth) / 2),
+                (y + (height - imageHeight) / 2), 0, 0, imageWidth, imageHeight, imageWidth,
                 imageHeight, hovering ? hoverColor : ColorHelper.getWhite(alpha));
     }
 

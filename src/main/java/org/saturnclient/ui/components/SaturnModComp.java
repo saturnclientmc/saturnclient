@@ -2,6 +2,7 @@ package org.saturnclient.ui.components;
 
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnmods.SaturnMod;
+import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.SaturnWidget;
 import org.saturnclient.ui.Textures;
 
@@ -18,14 +19,27 @@ public class SaturnModComp extends SaturnWidget {
 
     @Override
     public void render(DrawContext context, boolean hovering, int mouseX, int mouseY) {
-        int color = mod.isEnabled() || hovering ? SaturnClient.COLOR : ColorHelper.getWhite(alpha);
+        boolean enabled = mod.isEnabled();
 
-        context.drawText(SaturnClient.textRenderer, mod.getName(), x + 27,
+        int color = enabled || hovering ? SaturnClient.COLOR : ColorHelper.getWhite(alpha);
+
+        int size = 12;
+
+        if (enabled) {
+            context.drawTexture(RenderLayer::getGuiTextured, Textures.MOD_BG, x, y, 0, 0, 86, 20, 86,
+                    20, SaturnClient.COLOR);
+        }
+
+        context.drawTexture(RenderLayer::getGuiTextured, Textures.MOD, x, y, 0, 0, 86, 20, 86,
+                20, color);
+
+        context.drawTexture(RenderLayer::getGuiTextured, mod.getIconTexture(), x + 4, y + 4, 0, 0, size, size,
+                size,
+                size, color);
+
+        context.drawText(SaturnClient.textRenderer, SaturnUi.text(mod.getName()), x + 20,
                 y + (21 - SaturnClient.textRenderer.fontHeight) / 2,
                 color, false);
-
-        context.drawTexture(RenderLayer::getGuiTextured, Textures.MOD, x, y, 0, 0, 86, 20, width,
-                height, color);
     }
 
     @Override

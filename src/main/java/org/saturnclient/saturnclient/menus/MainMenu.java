@@ -32,7 +32,7 @@ public class MainMenu extends SaturnUi {
                         .setAnimations(new FadeIn(1)));
 
         draw(
-                new SaturnImageButton(Textures.EMOTE, 14, 14,
+                new SaturnImageButton(Textures.HUD_ICON, 14, 14,
                         () -> {
                             client.setScreen(new HudEditor());
                         })

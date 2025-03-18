@@ -4,13 +4,16 @@ import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnmods.HudMod;
 import org.saturnclient.saturnmods.ModDimensions;
 import org.saturnclient.saturnmods.SaturnMod;
+import org.saturnclient.ui.Textures;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.util.Identifier;
 
 public class ArmorDisplay implements SaturnMod, HudMod {
     private static ModDimensions dimensions = new ModDimensions(0, 0, 34, 75);
@@ -23,9 +26,20 @@ public class ArmorDisplay implements SaturnMod, HudMod {
 
         context.drawItem(item, 0, y);
 
-        if (item.getMaxDamage() > 0)
+        if (item.getMaxDamage() > 0) {
+            MatrixStack matrices = context.getMatrices();
+
+            matrices.push();
+
+            matrices.translate(17, y + 5, 0);
+
+            matrices.scale(0.8f, 0.8f, 0f);
+
             context.drawText(SaturnClient.textRenderer, "" + (item.getMaxDamage() - item.getDamage()),
-                    16, y + 4, SaturnClient.WHITE, false);
+                    0, 0, SaturnClient.WHITE, false);
+
+            matrices.pop();
+        }
 
         return true;
     }
@@ -71,6 +85,11 @@ public class ArmorDisplay implements SaturnMod, HudMod {
 
     public String getName() {
         return "Armor display";
+    }
+
+    @Override
+    public Identifier getIconTexture() {
+        return Textures.getModIcon("armor");
     }
 
     public void setDimensions(ModDimensions d) {

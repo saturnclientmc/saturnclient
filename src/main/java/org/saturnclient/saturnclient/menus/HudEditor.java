@@ -116,7 +116,7 @@ public class HudEditor extends Screen {
     private boolean isCorner(double mouseX, double mouseY, ModDimensions dim) {
         float rightX = dim.x + dim.width * dim.scale;
         float bottomY = dim.y + dim.height * dim.scale;
-
+ 
         return Math.abs(mouseX - rightX) < RESIZE_MARGIN && Math.abs(mouseY - bottomY) < RESIZE_MARGIN;
     }
 }
