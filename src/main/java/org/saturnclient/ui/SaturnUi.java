@@ -2,9 +2,7 @@ package org.saturnclient.ui;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.lwjgl.glfw.GLFW;
-
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.MutableText;

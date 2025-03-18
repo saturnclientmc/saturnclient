@@ -9,7 +9,6 @@ import org.saturnclient.ui.widgets.SaturnClickableSprite;
 import org.saturnclient.ui.widgets.SaturnSprite;
 import org.saturnclient.ui.widgets.SaturnImage;
 import org.saturnclient.ui.widgets.SaturnScroll;
-
 import net.minecraft.text.Text;
 
 public class CloaksMenu extends SaturnUi {

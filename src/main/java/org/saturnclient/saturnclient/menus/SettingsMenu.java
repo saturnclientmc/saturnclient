@@ -11,7 +11,6 @@ import org.saturnclient.ui.widgets.SaturnClickableImage;
 import org.saturnclient.ui.widgets.SaturnScroll;
 import org.saturnclient.ui.widgets.SaturnSprite;
 import org.saturnclient.ui.widgets.SaturnText;
-
 import net.minecraft.text.Text;
 
 public class SettingsMenu extends SaturnUi {

@@ -8,7 +8,6 @@ import org.saturnclient.ui.animations.Slide;
 import org.saturnclient.ui.widgets.SaturnButton;
 import org.saturnclient.ui.widgets.SaturnImageButton;
 import org.saturnclient.ui.widgets.SaturnImage;
-
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
 
