@@ -1,6 +1,7 @@
 package org.saturnclient.ui.widgets;
 
 import org.lwjgl.glfw.GLFW;
+import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.SaturnWidget;
 import org.saturnclient.ui.Textures;
 
@@ -8,9 +9,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
 
 public class SaturnInputBox extends SaturnWidget {
@@ -72,10 +70,13 @@ public class SaturnInputBox extends SaturnWidget {
         String visibleText = text.substring(scrollOffset);
 
         int textColor = focused ? 0xFFFFFF : 0xAAAAAA;
-        context.drawText(textRenderer, Text.literal(visibleText).setStyle(Style.EMPTY.withFont(Identifier.of("saturnclient:panton"))), x + 5, y + 5, textColor, false);
+        context.drawText(textRenderer,
+                SaturnUi.text(visibleText), x + 5,
+                y + 5, textColor, false);
 
         if (focused) {
-            int cursorX = x + 5 + textRenderer.getWidth(visibleText.substring(0, cursorPosition - scrollOffset));
+            int cursorX = x + 5
+                    + textRenderer.getWidth(SaturnUi.text(visibleText.substring(0, cursorPosition - scrollOffset)));
             context.fill(cursorX, y + 3, cursorX + 1, y + height - 3, 0xFFFFFFFF);
         }
     }
@@ -93,11 +94,11 @@ public class SaturnInputBox extends SaturnWidget {
         int offset = 0;
 
         if (cursorPosition == text.length()) {
-            while (textRenderer.getWidth(text.substring(offset)) > width) {
+            while (textRenderer.getWidth(SaturnUi.text(text.substring(offset))) > width) {
                 offset++;
             }
         } else {
-            while (textRenderer.getWidth(text.substring(offset, cursorPosition)) > width) {
+            while (textRenderer.getWidth(SaturnUi.text(text.substring(offset, cursorPosition))) > width) {
                 offset++;
             }
         }

@@ -7,9 +7,16 @@ import org.lwjgl.glfw.GLFW;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 
 public class SaturnUi extends Screen {
+    public static MutableText text(String text) {
+        return Text.literal(text).setStyle(Style.EMPTY.withFont(Identifier.of("saturnclient:panton")));
+    }
+
     public List<SaturnWidget> widgets = new ArrayList<>();
     private int tick = 0;
 

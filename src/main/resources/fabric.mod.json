@@ -3,8 +3,8 @@
   "id": "saturnclient",
   "version": "${version}",
   "name": "saturnclient",
-  "description": "A Minecraft client mod",
-  "authors": ["IIpho3nix", "kleo-dev"],
+  "description": "The ultimate open source client",
+  "authors": ["Saturn Mc", "ORUS"],
   "contact": {
     "website": "https://kleo-dev.netlify.app",
     "sources": "https://github.com/kleo-dev/saturnclient"

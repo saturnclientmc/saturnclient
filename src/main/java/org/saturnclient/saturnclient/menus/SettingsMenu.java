@@ -52,7 +52,8 @@ public class SettingsMenu extends SaturnUi {
                 .setY(tabsY + 3)
                 .setWidth(tabSize)
                 .setHeight(tabSize)
-                .setAnimations(new FadeIn(1)));
+                .setAnimations(new FadeIn(1))
+                .setAnimations(new Slide(1, 10)));
 
         draw(new SaturnClickableImage(Textures.MODS_TAB, () -> {
             System.out.println("Pressed");
@@ -61,7 +62,8 @@ public class SettingsMenu extends SaturnUi {
                 .setY(tabsY + 3)
                 .setWidth(tabSize)
                 .setHeight(tabSize)
-                .setAnimations(new FadeIn(1)));
+                .setAnimations(new FadeIn(1))
+                .setAnimations(new Slide(1, 10)));
 
         draw(new SaturnClickableImage(Textures.SEARCH, () -> {
             System.out.println("Pressed");
@@ -70,7 +72,8 @@ public class SettingsMenu extends SaturnUi {
                 .setY(tabsY + 3)
                 .setWidth(tabSize)
                 .setHeight(tabSize)
-                .setAnimations(new FadeIn(1)));
+                .setAnimations(new FadeIn(1))
+                .setAnimations(new Slide(1, 10)));
 
         int modX = 0;
         int modY = 0;

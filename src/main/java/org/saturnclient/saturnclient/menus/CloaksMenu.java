@@ -4,7 +4,7 @@ import org.saturnclient.saturnclient.auth.SaturnSocket;
 import org.saturnclient.saturnclient.cloaks.Cloaks;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.Textures;
-import org.saturnclient.ui.animations.FadeIn;
+import org.saturnclient.ui.animations.Slide;
 import org.saturnclient.ui.widgets.SaturnClickableSprite;
 import org.saturnclient.ui.widgets.SaturnSprite;
 import org.saturnclient.ui.widgets.SaturnImage;
@@ -29,7 +29,7 @@ public class CloaksMenu extends SaturnUi {
                 .setY(rectY)
                 .setWidth(rectWidth)
                 .setHeight(rectHeight)
-                .setAnimations(new FadeIn(1)));
+                .setAnimations(new Slide(1, 10)));
 
         int tabsX = (width - 43) / 2;
         int tabsY = rectY - 17;
@@ -39,7 +39,7 @@ public class CloaksMenu extends SaturnUi {
                 .setY(tabsY)
                 .setWidth(43)
                 .setHeight(15)
-                .setAnimations(new FadeIn(1)));
+                .setAnimations(new Slide(1, 10)));
 
         int cloakWidth = 32;
         int cloakHeight = 70;
