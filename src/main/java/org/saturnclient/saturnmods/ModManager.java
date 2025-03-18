@@ -1,6 +1,7 @@
 package org.saturnclient.saturnmods;
 
 import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.saturnclient.menus.HudEditor;
 import org.saturnclient.saturnmods.mods.ArmorDisplay;
 import org.saturnclient.saturnmods.mods.Coordinates;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
@@ -16,9 +17,10 @@ public class ModManager {
 
     public static void init() {
         HudRenderCallback.EVENT.register((context, tickDelta) -> {
-            TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+            MinecraftClient client = MinecraftClient.getInstance();
+            TextRenderer textRenderer = client.textRenderer;
 
-            if (textRenderer != null) {
+            if (textRenderer != null && !(client.currentScreen instanceof HudEditor)) {
                 SaturnClient.textRenderer = textRenderer;
 
                 for (SaturnMod m : MODS) {

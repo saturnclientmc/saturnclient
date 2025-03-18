@@ -16,9 +16,24 @@ public class ModDimensions {
         this.y = y;
     }
 
+    public ModDimensions(int x, int y, int width, int height) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+    }
+
     public ModDimensions(int x, int y, float scale) {
         this.x = x;
         this.y = y;
+        this.scale = scale;
+    }
+
+    public ModDimensions(int x, int y, int width, int height, float scale) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
         this.scale = scale;
     }
 }

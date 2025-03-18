@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 
 public class ArmorDisplay implements SaturnMod, HudMod {
-    private static ModDimensions dimensions = new ModDimensions(120, 40);
+    private static ModDimensions dimensions = new ModDimensions(0, 0, 34, 75);
     public static boolean enabled = false;
 
     private boolean renderItem(DrawContext context, ItemStack item, int y) {
@@ -23,8 +23,9 @@ public class ArmorDisplay implements SaturnMod, HudMod {
 
         context.drawItem(item, 0, y);
 
-        context.drawText(SaturnClient.textRenderer, "" + (item.getMaxDamage() - item.getDamage()),
-                16, y + 4, SaturnClient.WHITE, false);
+        if (item.getMaxDamage() > 0)
+            context.drawText(SaturnClient.textRenderer, "" + (item.getMaxDamage() - item.getDamage()),
+                    16, y + 4, SaturnClient.WHITE, false);
 
         return true;
     }
@@ -40,7 +41,7 @@ public class ArmorDisplay implements SaturnMod, HudMod {
                 player.getEquippedStack(EquipmentSlot.MAINHAND),
         };
 
-        int y = 75;
+        int y = 60;
 
         for (ItemStack item : items) {
             if (renderItem(context, item, y)) {
@@ -59,16 +60,13 @@ public class ArmorDisplay implements SaturnMod, HudMod {
                 new ItemStack(Items.DIAMOND_SWORD),
         };
 
-        int y = 75;
+        int y = 60;
 
         for (ItemStack item : items) {
             if (renderItem(context, item, y)) {
                 y -= 15;
             }
         }
-
-        dimensions.width = 28;
-        dimensions.height = 100;
     }
 
     public String getName() {
