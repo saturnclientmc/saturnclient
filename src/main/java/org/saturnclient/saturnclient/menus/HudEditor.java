@@ -4,6 +4,8 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
+
+import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.saturnmods.HudMod;
 import org.saturnclient.saturnmods.ModDimensions;
 import org.saturnclient.saturnmods.ModManager;
@@ -38,8 +40,8 @@ public class HudEditor extends Screen {
                 if (isCorner(mouseX, mouseY, dim)) {
                     draggingMod = mod;
                     resizing = true;
-                    offsetX = (int) (mouseX - (dim.x + dim.width * dim.scale));
-                    offsetY = (int) (mouseY - (dim.y + dim.height * dim.scale));
+                    offsetX = (int) (mouseX - (dim.x.value + dim.width * dim.scale.value));
+                    offsetY = (int) (mouseY - (dim.y.value + dim.height * dim.scale.value));
                     return true;
                 }
 
@@ -47,8 +49,8 @@ public class HudEditor extends Screen {
                 if (isInside(mouseX, mouseY, dim)) {
                     draggingMod = mod;
                     resizing = false;
-                    offsetX = (int) (mouseX - dim.x);
-                    offsetY = (int) (mouseY - dim.y);
+                    offsetX = (int) (mouseX - dim.x.value);
+                    offsetY = (int) (mouseY - dim.y.value);
                     return true;
                 }
             }
@@ -72,12 +74,12 @@ public class HudEditor extends Screen {
 
             if (resizing) {
                 // Scale based on cursor movement
-                float newScale = Math.max(0.5f, ((float) (mouseX - dim.x) / dim.width));
-                dim.scale = newScale;
+                float newScale = Math.max(0.5f, ((float) (mouseX - dim.x.value) / dim.width));
+                dim.scale.value = newScale;
             } else {
                 // Move the mod
-                dim.x = (int) mouseX - offsetX;
-                dim.y = (int) mouseY - offsetY;
+                dim.x.value = (int) mouseX - offsetX;
+                dim.y.value = (int) mouseY - offsetY;
             }
         }
         return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
@@ -90,8 +92,8 @@ public class HudEditor extends Screen {
             MatrixStack matrices = context.getMatrices();
             matrices.push();
 
-            matrices.translate(dim.x, dim.y, 0);
-            matrices.scale(dim.scale, dim.scale, 1.0f);
+            matrices.translate(dim.x.value, dim.y.value, 0);
+            matrices.scale(dim.scale.value, dim.scale.value, 1.0f);
 
             // Render the mod
             mod.renderDummy(context);
@@ -99,24 +101,30 @@ public class HudEditor extends Screen {
             matrices.pop();
 
             // Draw border around mod
-            int borderX = dim.x;
-            int borderY = dim.y;
-            int borderW = (int) (dim.width * dim.scale);
-            int borderH = (int) (dim.height * dim.scale);
+            int borderX = dim.x.value;
+            int borderY = dim.y.value;
+            int borderW = (int) (dim.width * dim.scale.value);
+            int borderH = (int) (dim.height * dim.scale.value);
 
             context.drawBorder(borderX, borderY, borderW, borderH, 0xFFFFFFFF); // White border
         }
     }
 
     private boolean isInside(double mouseX, double mouseY, ModDimensions dim) {
-        return mouseX >= dim.x && mouseX <= dim.x + (dim.width * dim.scale) &&
-                mouseY >= dim.y && mouseY <= dim.y + (dim.height * dim.scale);
+        return mouseX >= dim.x.value && mouseX <= dim.x.value + (dim.width * dim.scale.value) &&
+                mouseY >= dim.y.value && mouseY <= dim.y.value + (dim.height * dim.scale.value);
     }
 
     private boolean isCorner(double mouseX, double mouseY, ModDimensions dim) {
-        float rightX = dim.x + dim.width * dim.scale;
-        float bottomY = dim.y + dim.height * dim.scale;
+        float rightX = dim.x.value + dim.width * dim.scale.value;
+        float bottomY = dim.y.value + dim.height * dim.scale.value;
  
         return Math.abs(mouseX - rightX) < RESIZE_MARGIN && Math.abs(mouseY - bottomY) < RESIZE_MARGIN;
+    }
+
+    @Override
+    public void close() {
+        ConfigManager.save();
+        super.close();
     }
 }

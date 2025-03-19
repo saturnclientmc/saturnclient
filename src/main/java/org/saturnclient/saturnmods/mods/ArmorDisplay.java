@@ -1,6 +1,8 @@
 package org.saturnclient.saturnmods.mods;
 
 import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.saturnclient.config.ConfigManager;
+import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.saturnmods.HudMod;
 import org.saturnclient.saturnmods.ModDimensions;
 import org.saturnclient.saturnmods.SaturnMod;
@@ -16,8 +18,9 @@ import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 
 public class ArmorDisplay implements SaturnMod, HudMod {
-    private static ModDimensions dimensions = new ModDimensions(0, 0, 34, 75);
-    public static boolean enabled = false;
+    private static ConfigManager config = new ConfigManager("armor");
+    private static ModDimensions dimensions = new ModDimensions(config, 0, 0, 34, 75);
+    public static Property<Boolean> enabled = config.property("enabled", new Property<>(false));
 
     private boolean renderItem(DrawContext context, ItemStack item, int y) {
         if (item.isEmpty()) {
@@ -101,10 +104,10 @@ public class ArmorDisplay implements SaturnMod, HudMod {
     }
 
     public boolean isEnabled() {
-        return enabled;
+        return enabled.value;
     }
 
     public void setEnabled(boolean e) {
-        enabled = e;
+        enabled.value = e;
     }
 }

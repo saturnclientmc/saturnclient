@@ -1,6 +1,8 @@
 package org.saturnclient.saturnmods.mods;
 
 import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.saturnclient.config.ConfigManager;
+import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.saturnmods.HudMod;
 import org.saturnclient.saturnmods.ModDimensions;
 import org.saturnclient.saturnmods.SaturnMod;
@@ -12,8 +14,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 
 public class Coordinates implements SaturnMod, HudMod {
-    private static ModDimensions dimensions = new ModDimensions();
-    public static boolean enabled = false;
+    private static ConfigManager config = new ConfigManager("coords");
+    private static ModDimensions dimensions = new ModDimensions(config);
+    public static Property<Boolean> enabled = config.property("enabled", new Property<>(false));
 
     public Coordinates() {
     }
@@ -58,10 +61,10 @@ public class Coordinates implements SaturnMod, HudMod {
     }
 
     public boolean isEnabled() {
-        return enabled;
+        return enabled.value;
     }
 
     public void setEnabled(boolean e) {
-        enabled = e;
+        enabled.value = e;
     }
 }

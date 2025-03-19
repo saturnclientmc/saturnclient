@@ -30,9 +30,9 @@ public class ModManager {
                         MatrixStack matrices = context.getMatrices();
                         matrices.push();
 
-                        matrices.translate(dim.x, dim.y, 0);
+                        matrices.translate(dim.x.value, (float) dim.y.value, 0);
 
-                        matrices.scale(dim.scale, dim.scale, 1.0f);
+                        matrices.scale(dim.scale.value, dim.scale.value, 1.0f);
 
                         ((HudMod) m).render(context);
 

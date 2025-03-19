@@ -1,10 +1,12 @@
 package org.saturnclient.saturnclient;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.util.math.ColorHelper;
 
 import org.saturnclient.saturnclient.cloaks.Cloaks;
+import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.saturnclient.event.KeyInputHandler;
 import org.saturnclient.saturnmods.ModManager;
 import org.saturnclient.saturnclient.auth.SaturnSocket;
@@ -26,6 +28,9 @@ public class SaturnClient implements ModInitializer {
     public void onInitialize() {
         LOGGER.info("Initializing " + MOD_ID);
         ModManager.init();
+        ConfigManager.load();
+
+        ClientLifecycleEvents.CLIENT_STOPPING.register(c -> ConfigManager.save());
 
         KeyInputHandler.register();
         if (SaturnSocket.authenticate()) {
