@@ -24,8 +24,8 @@ public class MainMenu extends SaturnUi {
         int buttonHeight = 25;
 
         draw(
-                new SaturnButton("Settings", () -> {
-                    client.setScreen(new SettingsMenu());
+                new SaturnButton("Mods", () -> {
+                    client.setScreen(new ModMenu());
                 }).setX((width - buttonWidth) / 2).setY((height - buttonHeight) /
                         2).setWidth(buttonWidth)
                         .setHeight(buttonHeight)

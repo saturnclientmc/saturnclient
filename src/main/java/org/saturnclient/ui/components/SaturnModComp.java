@@ -21,7 +21,9 @@ public class SaturnModComp extends SaturnWidget {
     public void render(DrawContext context, boolean hovering, int mouseX, int mouseY) {
         boolean enabled = mod.isEnabled();
 
-        int color = enabled || hovering ? SaturnClient.COLOR : ColorHelper.getWhite(alpha);
+        boolean hovering_settings = settingsHovering(mouseX, mouseY);
+
+        int color = !hovering_settings && (enabled || hovering) ? SaturnClient.COLOR : ColorHelper.getWhite(alpha);
 
         int size = 12;
 
@@ -40,10 +42,26 @@ public class SaturnModComp extends SaturnWidget {
         context.drawText(SaturnClient.textRenderer, SaturnUi.text(mod.getName()), x + 20,
                 y + (21 - SaturnClient.textRenderer.fontHeight) / 2,
                 color, false);
+
+        context.drawTexture(RenderLayer::getGuiTextured, Textures.SETTINGS, x + 77,
+                y + 11, 0, 0, 7, 7, 7, 7, hovering_settings ? SaturnClient.COLOR : ColorHelper.getWhite(alpha));
     }
 
     @Override
     public void click(int mouseX, int mouseY) {
-        mod.setEnabled(!mod.isEnabled());
+        if (settingsHovering(mouseX, mouseY)) {
+            // TODO: make a config thingy, and implement it on the mods
+        } else {
+            mod.setEnabled(!mod.isEnabled());
+        }
+    }
+
+    public boolean settingsHovering(int mouseX, int mouseY) {
+        int sX = x + 77;
+        int sY = y + 11;
+        int size = 7;
+
+        return sX < mouseX && sX + size > mouseX
+                && sY < mouseY && sY + size > mouseY;
     }
 }
