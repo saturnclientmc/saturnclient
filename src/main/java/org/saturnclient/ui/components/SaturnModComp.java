@@ -1,11 +1,13 @@
 package org.saturnclient.ui.components;
 
 import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.saturnclient.menus.ConfigEditor;
 import org.saturnclient.saturnmods.SaturnMod;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.SaturnWidget;
 import org.saturnclient.ui.Textures;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.math.ColorHelper;
@@ -50,7 +52,7 @@ public class SaturnModComp extends SaturnWidget {
     @Override
     public void click(int mouseX, int mouseY) {
         if (settingsHovering(mouseX, mouseY)) {
-            // TODO: make a config thingy, and implement it on the mods
+            MinecraftClient.getInstance().setScreen(new ConfigEditor(mod.getConfig()));
         } else {
             mod.setEnabled(!mod.isEnabled());
         }

@@ -110,4 +110,9 @@ public class ArmorDisplay implements SaturnMod, HudMod {
     public void setEnabled(boolean e) {
         enabled.value = e;
     }
+
+    @Override
+    public ConfigManager getConfig() {
+        return config;
+    }
 }

@@ -149,4 +149,8 @@ public class ConfigManager {
             SaturnClient.LOGGER.error("Error saving the config file", e);
         }
     }
+
+    public Map<String, Property<?>> getProperties() {
+        return properties.get(namespace);
+    }
 }
