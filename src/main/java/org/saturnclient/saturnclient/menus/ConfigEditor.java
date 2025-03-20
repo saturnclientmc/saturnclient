@@ -10,6 +10,7 @@ import org.saturnclient.ui.animations.Slide;
 import org.saturnclient.ui.components.SaturnToggle;
 import org.saturnclient.ui.widgets.SaturnScroll;
 import org.saturnclient.ui.widgets.SaturnSprite;
+import org.saturnclient.ui.widgets.SaturnText;
 
 import net.minecraft.text.Text;
 
@@ -52,25 +53,29 @@ public class ConfigEditor extends SaturnUi {
 
         int propWidth = (rectWidth - 15) / 2;
 
-        SaturnScroll modsScroll = new SaturnScroll();
+        SaturnScroll configScroll = new SaturnScroll();
 
         for (Map.Entry<String, Property<?>> propEntry : config.getProperties().entrySet()) {
             Property<?> prop = propEntry.getValue();
+            String propName = propEntry.getKey();
             if (prop.value instanceof Boolean) {
-                draw(new SaturnToggle((Property<Boolean>) prop).setX(modX).setY(modY));
+                configScroll.draw(new SaturnToggle((Property<Boolean>) prop).setX(modX).setY(modY));
+                configScroll.draw(
+                        new SaturnText(propName.substring(0, 1).toUpperCase() + propName.substring(1))
+                                .setX(modX + 18).setY(modY));
+                col++;
+                if (col < 2) {
+                    modX += propWidth + 21;
+                } else {
+                    modX = 0;
+                    modY += 20 + 20;
+                    col = 0;
+                }
             }
 
-            col++;
-            if (col < 2) {
-                modX += propWidth + 21;
-            } else {
-                modX = 0;
-                modY += 20 + 20;
-                col = 0;
-            }
         }
 
-        draw(modsScroll.setX(rectX + 17).setY(rectY + 10).setWidth(rectWidth - 17).setHeight(rectHeight - 10));
+        draw(configScroll.setX(rectX + 17).setY(rectY + 10).setWidth(rectWidth - 17).setHeight(rectHeight - 10));
 
         super.init();
     }

@@ -51,11 +51,11 @@ public class ArmorDisplay implements SaturnMod, HudMod {
     public void render(DrawContext context) {
         PlayerEntity player = MinecraftClient.getInstance().player;
         ItemStack[] items = {
+                player.getEquippedStack(EquipmentSlot.MAINHAND),
                 player.getEquippedStack(EquipmentSlot.FEET),
                 player.getEquippedStack(EquipmentSlot.LEGS),
                 player.getEquippedStack(EquipmentSlot.CHEST),
                 player.getEquippedStack(EquipmentSlot.HEAD),
-                player.getEquippedStack(EquipmentSlot.MAINHAND),
         };
 
         int y = 60;
@@ -70,11 +70,11 @@ public class ArmorDisplay implements SaturnMod, HudMod {
     @Override
     public void renderDummy(DrawContext context) {
         ItemStack[] items = {
+                new ItemStack(Items.DIAMOND_SWORD),
                 new ItemStack(Items.DIAMOND_BOOTS),
                 new ItemStack(Items.DIAMOND_LEGGINGS),
                 new ItemStack(Items.DIAMOND_CHESTPLATE),
                 new ItemStack(Items.DIAMOND_HELMET),
-                new ItemStack(Items.DIAMOND_SWORD),
         };
 
         int y = 60;
