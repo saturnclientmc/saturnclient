@@ -8,8 +8,10 @@ public class Textures {
     public static final Identifier SEARCH = Identifier.of("saturnclient", "textures/gui/components/search.png");
     public static final Identifier CLOSE = Identifier.of("saturnclient", "textures/gui/components/close.png");
     public static final Identifier MODS_TAB = Identifier.of("saturnclient", "textures/gui/components/mods_tab.png");
-    public static final Identifier SETTINGS = Identifier.of("saturnclient",
-            "textures/gui/components/settings.png");
+    public static final Identifier SETTINGS = Identifier.of("saturnclient", "textures/gui/components/settings.png");
+    public static final Identifier TOGGLE_INDICATOR = Identifier.of("saturnclient", "textures/gui/components/toggle_indicator.png");
+    public static final Identifier TOGGLE_BG = Identifier.of("saturnclient", "textures/gui/components/toggle_bg.png");
+
     public static final Identifier LOGO = Identifier.of("saturnclient", "textures/logo/logo.png");
     public static final Identifier LOGO_TEXT = Identifier.of("saturnclient", "textures/logo/text.png");
 
