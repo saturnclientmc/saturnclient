@@ -1,38 +1,57 @@
 package org.saturnclient.ui.widgets;
 
 import java.util.function.Consumer;
-
-import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.ui.SaturnWidget;
-
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.MathHelper;
+import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.ui.SaturnWidget;
 
 public class SaturnClickableImage extends SaturnWidget {
+
     public Identifier texture;
     public boolean selected = false;
     public Consumer<SaturnClickableImage> onPress;
-    public int color = ColorHelper.getWhite(1.0f);
+    public int color = SaturnClient.getWhite(1.0f);
     public int hoverColor = SaturnClient.COLOR;
 
-    public SaturnClickableImage(Identifier texture, Consumer<SaturnClickableImage> onPress) {
+    public SaturnClickableImage(
+        Identifier texture,
+        Consumer<SaturnClickableImage> onPress
+    ) {
         this.texture = texture;
         this.onPress = onPress;
     }
 
     public SaturnClickableImage(Identifier texture, Runnable onPress) {
-        this(texture, (m) -> {
+        this(texture, m -> {
             onPress.run();
         });
     }
 
     @Override
-    public void render(DrawContext context, boolean hovering, int mouseX, int mouseY) {
-        context.drawTexture(RenderLayer::getGuiTextured, texture, x, y, 0, 0, width, height, width,
-                height, (hovering || selected ? hoverColor : color) | MathHelper.ceil(this.alpha * 255.0F) << 24);
+    public void render(
+        DrawContext context,
+        boolean hovering,
+        int mouseX,
+        int mouseY
+    ) {
+        context.drawTexture(
+            RenderLayer::getGuiTextured,
+            texture,
+            x,
+            y,
+            0,
+            0,
+            width,
+            height,
+            width,
+            height,
+            (hovering || selected ? hoverColor : color) |
+            (MathHelper.ceil(this.alpha * 255.0F) << 24)
+        );
     }
 
     @Override
@@ -44,5 +63,4 @@ public class SaturnClickableImage extends SaturnWidget {
         this.selected = selected;
         return this;
     }
-
 }

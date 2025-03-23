@@ -1,5 +1,9 @@
 package org.saturnclient.ui.components;
 
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.util.math.ColorHelper;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.menus.ConfigEditor;
 import org.saturnclient.saturnmods.SaturnMod;
@@ -7,12 +11,8 @@ import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.SaturnWidget;
 import org.saturnclient.ui.Textures;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.util.math.ColorHelper;
-
 public class SaturnModComp extends SaturnWidget {
+
     SaturnMod mod;
 
     public SaturnModComp(SaturnMod mod) {
@@ -20,39 +20,97 @@ public class SaturnModComp extends SaturnWidget {
     }
 
     @Override
-    public void render(DrawContext context, boolean hovering, int mouseX, int mouseY) {
+    public void render(
+        DrawContext context,
+        boolean hovering,
+        int mouseX,
+        int mouseY
+    ) {
         boolean enabled = mod.isEnabled();
 
         boolean hovering_settings = settingsHovering(mouseX, mouseY);
 
-        int color = !hovering_settings && (enabled || hovering) ? SaturnClient.COLOR : ColorHelper.getWhite(alpha);
+        int color = !hovering_settings && (enabled || hovering)
+            ? SaturnClient.COLOR
+            : SaturnClient.getWhite(alpha);
 
         int size = 12;
 
         if (enabled) {
-            context.drawTexture(RenderLayer::getGuiTextured, Textures.MOD_BG, x, y, 0, 0, 86, 20, 86,
-                    20, SaturnClient.COLOR);
+            context.drawTexture(
+                RenderLayer::getGuiTextured,
+                Textures.MOD_BG,
+                x,
+                y,
+                0,
+                0,
+                86,
+                20,
+                86,
+                20,
+                SaturnClient.COLOR
+            );
         }
 
-        context.drawTexture(RenderLayer::getGuiTextured, Textures.MOD, x, y, 0, 0, 86, 20, 86,
-                20, color);
+        context.drawTexture(
+            RenderLayer::getGuiTextured,
+            Textures.MOD,
+            x,
+            y,
+            0,
+            0,
+            86,
+            20,
+            86,
+            20,
+            color
+        );
 
-        context.drawTexture(RenderLayer::getGuiTextured, mod.getIconTexture(), x + 4, y + 4, 0, 0, size, size,
-                size,
-                size, color);
+        context.drawTexture(
+            RenderLayer::getGuiTextured,
+            mod.getIconTexture(),
+            x + 4,
+            y + 4,
+            0,
+            0,
+            size,
+            size,
+            size,
+            size,
+            color
+        );
 
-        context.drawText(SaturnClient.textRenderer, SaturnUi.text(mod.getName()), x + 20,
-                y + (21 - SaturnClient.textRenderer.fontHeight) / 2,
-                color, false);
+        context.drawText(
+            SaturnClient.textRenderer,
+            SaturnUi.text(mod.getName()),
+            x + 20,
+            y + (21 - SaturnClient.textRenderer.fontHeight) / 2,
+            color,
+            false
+        );
 
-        context.drawTexture(RenderLayer::getGuiTextured, Textures.SETTINGS, x + 77,
-                y + 11, 0, 0, 7, 7, 7, 7, hovering_settings ? SaturnClient.COLOR : ColorHelper.getWhite(alpha));
+        context.drawTexture(
+            RenderLayer::getGuiTextured,
+            Textures.SETTINGS,
+            x + 77,
+            y + 11,
+            0,
+            0,
+            7,
+            7,
+            7,
+            7,
+            hovering_settings
+                ? SaturnClient.COLOR
+                : SaturnClient.getWhite(alpha)
+        );
     }
 
     @Override
     public void click(int mouseX, int mouseY) {
         if (settingsHovering(mouseX, mouseY)) {
-            MinecraftClient.getInstance().setScreen(new ConfigEditor(mod.getConfig()));
+            MinecraftClient.getInstance()
+                .setScreen(new ConfigEditor(mod.getConfig()));
         } else {
             mod.setEnabled(!mod.isEnabled());
         }
@@ -63,7 +121,11 @@ public class SaturnModComp extends SaturnWidget {
         int sY = y + 11;
         int size = 7;
 
-        return sX < mouseX && sX + size > mouseX
-                && sY < mouseY && sY + size > mouseY;
+        return (
+            sX < mouseX &&
+            sX + size > mouseX &&
+            sY < mouseY &&
+            sY + size > mouseY
+        );
     }
 }

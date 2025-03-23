@@ -1,15 +1,15 @@
 package org.saturnclient.ui.components;
 
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.util.math.ColorHelper;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.ui.SaturnWidget;
 import org.saturnclient.ui.Textures;
 
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.util.math.ColorHelper;
-
 public class SaturnToggle extends SaturnWidget {
+
     Property<Boolean> prop;
 
     public SaturnToggle(Property<Boolean> prop) {
@@ -19,17 +19,46 @@ public class SaturnToggle extends SaturnWidget {
     }
 
     @Override
-    public void render(DrawContext context, boolean hovering, int mouseX, int mouseY) {
-        int color = prop.value ? SaturnClient.COLOR : ColorHelper.getWhite(alpha);
+    public void render(
+        DrawContext context,
+        boolean hovering,
+        int mouseX,
+        int mouseY
+    ) {
+        int color = prop.value
+            ? SaturnClient.COLOR
+            : SaturnClient.getWhite(alpha);
         int w = 16;
         int h = 6;
         int s = 8;
 
-        context.drawTexture(RenderLayer::getGuiTextured, Textures.TOGGLE_BG, x,
-                y + 1, 0, 0, w, h, w, h, color);
+        context.drawTexture(
+            RenderLayer::getGuiTextured,
+            Textures.TOGGLE_BG,
+            x,
+            y + 1,
+            0,
+            0,
+            w,
+            h,
+            w,
+            h,
+            color
+        );
 
-        context.drawTexture(RenderLayer::getGuiTextured, Textures.TOGGLE_INDICATOR, prop.value ? x + 8 : x,
-                y, 0, 0, s, s, s, s, color);
+        context.drawTexture(
+            RenderLayer::getGuiTextured,
+            Textures.TOGGLE_INDICATOR,
+            prop.value ? x + 8 : x,
+            y,
+            0,
+            0,
+            s,
+            s,
+            s,
+            s,
+            color
+        );
     }
 
     @Override

@@ -1,12 +1,13 @@
 package org.saturnclient.ui.widgets;
 
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.util.math.ColorHelper;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.SaturnWidget;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.util.math.ColorHelper;
 
 public class SaturnText extends SaturnWidget {
+
     private String text;
 
     public SaturnText(String text) {
@@ -20,9 +21,19 @@ public class SaturnText extends SaturnWidget {
     }
 
     @Override
-    public void render(DrawContext context, boolean hovering, int mouseX, int mouseY) {
-        context.drawText(SaturnClient.textRenderer,
-                SaturnUi.text(text), x, y,
-                ColorHelper.getWhite(alpha), false);
+    public void render(
+        DrawContext context,
+        boolean hovering,
+        int mouseX,
+        int mouseY
+    ) {
+        context.drawText(
+            SaturnClient.textRenderer,
+            SaturnUi.text(text),
+            x,
+            y,
+            SaturnClient.getWhite(alpha),
+            false
+        );
     }
 }

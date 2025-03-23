@@ -4,12 +4,11 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.util.math.ColorHelper;
-
+import org.saturnclient.saturnclient.auth.SaturnSocket;
 import org.saturnclient.saturnclient.cloaks.Cloaks;
 import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.saturnclient.event.KeyInputHandler;
 import org.saturnclient.saturnmods.ModManager;
-import org.saturnclient.saturnclient.auth.SaturnSocket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,11 +17,17 @@ import org.slf4j.LoggerFactory;
  * Originally created by IIpho3nix and modified for Saturn Client by leo.
  */
 public class SaturnClient implements ModInitializer {
+
     public static final String MOD_ID = "saturnclient";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     public static int COLOR = ColorHelper.getArgb(255, 251, 60, 79);
     public static int WHITE = ColorHelper.getArgb(255, 255, 255, 255);
+    public static int NORMAL = ColorHelper.getArgb(255, 182, 182, 182);
     public static TextRenderer textRenderer = null;
+
+    public static int getWhite(float alpha) {
+        return ((int) (alpha * 255) << 24) | (NORMAL & 0x00FFFFFF);
+    }
 
     @Override
     public void onInitialize() {
@@ -30,7 +35,8 @@ public class SaturnClient implements ModInitializer {
         ModManager.init();
         ConfigManager.load();
 
-        ClientLifecycleEvents.CLIENT_STOPPING.register(c -> ConfigManager.save());
+        ClientLifecycleEvents.CLIENT_STOPPING.register(c -> ConfigManager.save()
+        );
 
         KeyInputHandler.register();
         if (SaturnSocket.authenticate()) {
