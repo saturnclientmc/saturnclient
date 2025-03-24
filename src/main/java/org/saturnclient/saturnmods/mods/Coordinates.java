@@ -1,5 +1,9 @@
 package org.saturnclient.saturnmods.mods;
 
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.Identifier;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.saturnclient.config.Property;
@@ -8,28 +12,34 @@ import org.saturnclient.saturnmods.ModDimensions;
 import org.saturnclient.saturnmods.SaturnMod;
 import org.saturnclient.ui.Textures;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Identifier;
-
 public class Coordinates implements SaturnMod, HudMod {
-    private static ConfigManager config = new ConfigManager("coords");
-    private static ModDimensions dimensions = new ModDimensions(config);
-    public static Property<Boolean> enabled = config.property("enabled", new Property<>(false));
 
-    public Coordinates() {
-    }
+    private static ConfigManager config = new ConfigManager("coords");
+    public static Property<Boolean> enabled = config.property(
+        "Enabled",
+        new Property<>(false)
+    );
+    private static ModDimensions dimensions = new ModDimensions(config);
+
+    public Coordinates() {}
 
     public void renderDummy(DrawContext context) {
         int playerX = 124;
         int playerY = 69;
         int playerZ = 83;
 
-        context.drawText(SaturnClient.textRenderer, playerX + " " + playerY + " " + playerZ,
-                0, 0, SaturnClient.WHITE, false);
+        context.drawText(
+            SaturnClient.textRenderer,
+            playerX + " " + playerY + " " + playerZ,
+            0,
+            0,
+            SaturnClient.WHITE,
+            false
+        );
 
-        dimensions.width = SaturnClient.textRenderer.getWidth(playerX + " " + playerY + " " + playerZ);
+        dimensions.width = SaturnClient.textRenderer.getWidth(
+            playerX + " " + playerY + " " + playerZ
+        );
         dimensions.height = SaturnClient.textRenderer.fontHeight;
     }
 
@@ -39,8 +49,14 @@ public class Coordinates implements SaturnMod, HudMod {
         int playerY = (int) player.getY();
         int playerZ = (int) player.getZ();
 
-        context.drawText(SaturnClient.textRenderer, playerX + " " + playerY + " " + playerZ,
-                0, 0, SaturnClient.WHITE, false);
+        context.drawText(
+            SaturnClient.textRenderer,
+            playerX + " " + playerY + " " + playerZ,
+            0,
+            0,
+            SaturnClient.WHITE,
+            false
+        );
     }
 
     public String getName() {
