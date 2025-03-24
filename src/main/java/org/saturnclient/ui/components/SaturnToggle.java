@@ -28,7 +28,7 @@ public class SaturnToggle extends SaturnWidget {
         int color = prop.value
             ? SaturnClient.COLOR
             : SaturnClient.getWhite(alpha);
-        int w = 16;
+        int w = 13;
         int h = 6;
         int s = 8;
 
@@ -49,7 +49,7 @@ public class SaturnToggle extends SaturnWidget {
         context.drawTexture(
             RenderLayer::getGuiTextured,
             Textures.TOGGLE_INDICATOR,
-            prop.value ? x + 8 : x,
+            prop.value ? x + 5 : x,
             y,
             0,
             0,
