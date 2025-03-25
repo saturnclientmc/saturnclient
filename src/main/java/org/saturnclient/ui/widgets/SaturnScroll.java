@@ -166,7 +166,6 @@ public class SaturnScroll extends SaturnWidget {
                 System.out.println("[SaturnScroll] Child clicked: " + widget);
                 widget.focused = true;
                 widget.click(mouseX, mouseY);
-                break;
             }
         }
     }
