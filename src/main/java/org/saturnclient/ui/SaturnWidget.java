@@ -11,6 +11,7 @@ public class SaturnWidget {
     public float alpha = 1.0f;
     public SaturnAnimation[] animations = null;
     public boolean visible = true;
+    public boolean focused = false;
 
     public void init() {}
 

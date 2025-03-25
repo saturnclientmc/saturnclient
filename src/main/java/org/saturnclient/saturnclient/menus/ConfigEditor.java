@@ -7,6 +7,7 @@ import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.Textures;
 import org.saturnclient.ui.animations.Slide;
+import org.saturnclient.ui.components.SaturnInteger;
 import org.saturnclient.ui.components.SaturnToggle;
 import org.saturnclient.ui.widgets.SaturnScroll;
 import org.saturnclient.ui.widgets.SaturnSprite;
@@ -29,14 +30,14 @@ public class ConfigEditor extends SaturnUi {
         int rectX = (width - rectWidth) / 2;
         int rectY = (height - rectHeight + 15) / 2;
 
-        draw(
-            new SaturnSprite(Textures.SETTINGS_BG)
-                .setX(rectX)
-                .setY(rectY)
-                .setWidth(rectWidth)
-                .setHeight(rectHeight)
-                .setAnimations(new Slide(1, 10))
-        );
+        // draw(
+        //     new SaturnSprite(Textures.SETTINGS_BG)
+        //         .setX(rectX)
+        //         .setY(rectY)
+        //         .setWidth(rectWidth)
+        //         .setHeight(rectHeight)
+        //         .setAnimations(new Slide(1, 10))
+        // );
 
         int tabsX = (width - 43) / 2;
         int tabsY = rectY - 17;
@@ -100,9 +101,12 @@ public class ConfigEditor extends SaturnUi {
                     );
 
                     configScroll.draw(
-                        new SaturnText("" + prop.value)
-                            .setX((rectWidth / 2) - 17)
-                            .setY(modY)
+                        new SaturnInteger(
+                            (Property<Integer>) prop,
+                            (rectWidth / 2) - 17,
+                            modY,
+                            40
+                        )
                     );
                     break;
             }
