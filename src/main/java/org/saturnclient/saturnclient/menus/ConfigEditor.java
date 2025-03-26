@@ -7,6 +7,7 @@ import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.Textures;
 import org.saturnclient.ui.animations.Slide;
+import org.saturnclient.ui.components.SaturnFloat;
 import org.saturnclient.ui.components.SaturnInteger;
 import org.saturnclient.ui.components.SaturnToggle;
 import org.saturnclient.ui.widgets.SaturnScroll;
@@ -30,14 +31,14 @@ public class ConfigEditor extends SaturnUi {
         int rectX = (width - rectWidth) / 2;
         int rectY = (height - rectHeight + 15) / 2;
 
-        // draw(
-        //     new SaturnSprite(Textures.SETTINGS_BG)
-        //         .setX(rectX)
-        //         .setY(rectY)
-        //         .setWidth(rectWidth)
-        //         .setHeight(rectHeight)
-        //         .setAnimations(new Slide(1, 10))
-        // );
+        draw(
+            new SaturnSprite(Textures.SETTINGS_BG)
+                .setX(rectX)
+                .setY(rectY)
+                .setWidth(rectWidth)
+                .setHeight(rectHeight)
+                .setAnimations(new Slide(1, 10))
+        );
 
         int tabsX = (width - 43) / 2;
         int tabsY = rectY - 17;
@@ -72,7 +73,7 @@ public class ConfigEditor extends SaturnUi {
             }
 
             int modX = ((rectWidth / 2) - 17) * col;
-            int modY = 12 * row;
+            int modY = 14 * row;
 
             switch (prop.getType()) {
                 case BOOLEAN:
@@ -88,6 +89,7 @@ public class ConfigEditor extends SaturnUi {
                         )
                             .setX(modX + 18)
                             .setY(modY)
+                            .setScale(0.8f)
                     );
                     break;
                 case INTEGER:
@@ -98,6 +100,7 @@ public class ConfigEditor extends SaturnUi {
                         )
                             .setX(modX)
                             .setY(modY)
+                            .setScale(0.8f)
                     );
 
                     configScroll.draw(
@@ -105,7 +108,27 @@ public class ConfigEditor extends SaturnUi {
                             (Property<Integer>) prop,
                             (rectWidth / 2) - 17,
                             modY,
-                            40
+                            70
+                        )
+                    );
+                    break;
+                case FLOAT:
+                    configScroll.draw(
+                        new SaturnText(
+                            propName.substring(0, 1).toUpperCase() +
+                            propName.substring(1)
+                        )
+                            .setX(modX)
+                            .setY(modY)
+                            .setScale(0.8f)
+                    );
+
+                    configScroll.draw(
+                        new SaturnFloat(
+                            (Property<Float>) prop,
+                            (rectWidth / 2) - 17,
+                            modY,
+                            70
                         )
                     );
                     break;

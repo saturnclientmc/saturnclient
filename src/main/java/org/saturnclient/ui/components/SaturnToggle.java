@@ -35,8 +35,8 @@ public class SaturnToggle extends SaturnWidget {
         context.drawTexture(
             RenderLayer::getGuiTextured,
             Textures.TOGGLE_BG,
-            x,
-            y + 1,
+            0,
+            1,
             0,
             0,
             w,
@@ -49,8 +49,8 @@ public class SaturnToggle extends SaturnWidget {
         context.drawTexture(
             RenderLayer::getGuiTextured,
             Textures.TOGGLE_INDICATOR,
-            prop.value ? x + 5 : x,
-            y,
+            prop.value ? 5 : 0,
+            0,
             0,
             0,
             s,

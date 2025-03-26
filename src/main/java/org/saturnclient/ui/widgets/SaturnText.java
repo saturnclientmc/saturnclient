@@ -30,8 +30,8 @@ public class SaturnText extends SaturnWidget {
         context.drawText(
             SaturnClient.textRenderer,
             SaturnUi.text(text),
-            x,
-            y,
+            0,
+            0,
             SaturnClient.getWhite(alpha),
             false
         );

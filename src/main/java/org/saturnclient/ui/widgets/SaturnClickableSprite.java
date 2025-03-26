@@ -41,8 +41,8 @@ public class SaturnClickableSprite extends SaturnWidget {
         context.drawGuiTexture(
             RenderLayer::getGuiTextured,
             sprite,
-            this.x,
-            this.y,
+            0,
+            0,
             this.width,
             this.height,
             (hovering || selected ? hoverColor : color) |

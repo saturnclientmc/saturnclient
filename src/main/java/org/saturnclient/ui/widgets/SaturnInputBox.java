@@ -22,8 +22,8 @@ public class SaturnInputBox extends SaturnWidget {
 
     public SaturnInputBox(
         String placeholder,
-        int x,
         int y,
+        int x,
         int width,
         int height
     ) {
@@ -83,8 +83,8 @@ public class SaturnInputBox extends SaturnWidget {
         context.drawGuiTexture(
             RenderLayer::getGuiTextured,
             Textures.BUTTON,
-            this.x,
-            this.y,
+            0,
+            0,
             this.width,
             this.height,
             SaturnClient.getWhite(this.alpha)
@@ -97,28 +97,21 @@ public class SaturnInputBox extends SaturnWidget {
         context.drawText(
             textRenderer,
             SaturnUi.text(visibleText),
-            x + 5,
-            y + 5,
+            5,
+            5,
             textColor,
             false
         );
 
         if (focused) {
             int cursorX =
-                x +
                 5 +
                 textRenderer.getWidth(
                     SaturnUi.text(
                         visibleText.substring(0, cursorPosition - scrollOffset)
                     )
                 );
-            context.fill(
-                cursorX,
-                y + 3,
-                cursorX + 1,
-                y + height - 3,
-                0xFFFFFFFF
-            );
+            context.fill(cursorX, 3, cursorX + 1, height - 3, 0xFFFFFFFF);
         }
     }
 

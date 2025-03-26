@@ -41,8 +41,8 @@ public class SaturnClickableImage extends SaturnWidget {
         context.drawTexture(
             RenderLayer::getGuiTextured,
             texture,
-            x,
-            y,
+            0,
+            0,
             0,
             0,
             width,

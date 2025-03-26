@@ -53,8 +53,8 @@ public class SaturnImageButton extends SaturnButton {
         context.drawTexture(
             RenderLayer::getGuiTextured,
             sprite,
-            (x + (width - imageWidth) / 2),
-            (y + (height - imageHeight) / 2),
+            ((width - imageWidth) / 2),
+            ((height - imageHeight) / 2),
             0,
             0,
             imageWidth,

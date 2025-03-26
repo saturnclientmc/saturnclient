@@ -26,6 +26,7 @@ public class SaturnInteger extends SaturnWidget {
         this.prop = prop;
         this.text = String.valueOf(prop.value);
         this.height = textRenderer.fontHeight + 4;
+        this.scale = 0.8f;
     }
 
     @Override
@@ -39,7 +40,7 @@ public class SaturnInteger extends SaturnWidget {
         for (int i = 0; i < visibleText.length(); i++) {
             textWidth = textRenderer.getWidth(visibleText.substring(0, i + 1));
 
-            if (textWidth > (mouseX - x)) {
+            if (textWidth > mouseX) {
                 break;
             }
 
@@ -102,12 +103,12 @@ public class SaturnInteger extends SaturnWidget {
     ) {
         context.drawGuiTexture(
             RenderLayer::getGuiTextured,
-            Textures.BUTTON,
-            this.x,
-            this.y,
+            Textures.BUTTON_BORDER,
+            0,
+            0,
             this.width,
             this.height,
-            SaturnClient.getWhite(this.alpha)
+            focused ? SaturnClient.COLOR : SaturnClient.getWhite(this.alpha)
         );
 
         int scrollOffset = getScrollOffset();
@@ -117,15 +118,14 @@ public class SaturnInteger extends SaturnWidget {
         context.drawText(
             textRenderer,
             SaturnUi.text(visibleText),
-            x + 2,
-            y + 2,
+            2,
+            2,
             textColor,
             false
         );
 
         if (focused) {
             int cursorX =
-                x +
                 2 +
                 textRenderer.getWidth(
                     SaturnUi.text(
@@ -134,9 +134,9 @@ public class SaturnInteger extends SaturnWidget {
                 );
             context.fill(
                 cursorX,
-                y + 2,
+                2,
                 cursorX + 1,
-                y + textRenderer.fontHeight + 4,
+                textRenderer.fontHeight + 4,
                 0xFFFFFFFF
             );
         }

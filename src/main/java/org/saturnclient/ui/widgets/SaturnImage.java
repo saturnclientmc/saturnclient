@@ -25,8 +25,8 @@ public class SaturnImage extends SaturnWidget {
         context.drawTexture(
             RenderLayer::getGuiTextured,
             sprite,
-            x,
-            y,
+            0,
+            0,
             0,
             0,
             width,

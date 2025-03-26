@@ -7,11 +7,13 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
+import org.saturnclient.saturnclient.SaturnClient;
 
 public class SaturnUi extends Screen {
 
@@ -66,7 +68,25 @@ public class SaturnUi extends Screen {
                 widget.x + widget.width > mouseX &&
                 widget.y < mouseY &&
                 widget.y + widget.height > mouseY;
-            widget.render(context, isMouseInside, mouseX, mouseY);
+
+            SaturnClient.LOGGER.info(
+                "Render mouse X: " +
+                (mouseX - widget.x) +
+                ", mouse Y: " +
+                (mouseY - widget.y)
+            );
+
+            MatrixStack matrices = context.getMatrices();
+            matrices.push();
+            matrices.translate(widget.x, widget.y, 0);
+            matrices.scale(widget.scale, widget.scale, 1.0f);
+            widget.render(
+                context,
+                isMouseInside,
+                mouseX - widget.x,
+                mouseY - widget.y
+            );
+            matrices.pop();
         }
     }
 
@@ -77,14 +97,27 @@ public class SaturnUi extends Screen {
                 widget.focused = false;
                 if (!widget.visible) continue;
 
+                double adjustedMouseX = (mouseX - widget.x) / widget.scale;
+                double adjustedMouseY = (mouseY - widget.y) / widget.scale;
                 boolean isMouseInside =
-                    widget.x < mouseX &&
-                    widget.x + widget.width > mouseX &&
-                    widget.y < mouseY &&
-                    widget.y + widget.height > mouseY;
+                    adjustedMouseX >= 0 &&
+                    adjustedMouseX <= widget.width &&
+                    adjustedMouseY >= 0 &&
+                    adjustedMouseY <= widget.height;
+
+                SaturnClient.LOGGER.info(
+                    "CLick mouse X: " +
+                    adjustedMouseX +
+                    ", mouse Y: " +
+                    adjustedMouseY
+                );
+
                 if (isMouseInside) {
                     widget.focused = true;
-                    widget.click((int) mouseX, (int) mouseY);
+                    widget.click(
+                        ((int) mouseX) - widget.x,
+                        ((int) mouseY) - widget.y
+                    );
                 }
             }
         }
@@ -115,16 +148,18 @@ public class SaturnUi extends Screen {
         double verticalAmount
     ) {
         for (SaturnWidget widget : new ArrayList<>(widgets)) {
+            double adjustedMouseX = (mouseX - widget.x) / widget.scale;
+            double adjustedMouseY = (mouseY - widget.y) / widget.scale;
             boolean isMouseInside =
-                widget.x < mouseX &&
-                widget.x + widget.width > mouseX &&
-                widget.y < mouseY &&
-                widget.y + widget.height > mouseY;
+                adjustedMouseX >= 0 &&
+                adjustedMouseX <= widget.width &&
+                adjustedMouseY >= 0 &&
+                adjustedMouseY <= widget.height;
 
             if (isMouseInside) {
                 widget.mouseScrolled(
-                    (int) mouseX,
-                    (int) mouseY,
+                    ((int) mouseX) - widget.x,
+                    ((int) mouseY) - widget.y,
                     horizontalAmount,
                     verticalAmount
                 );

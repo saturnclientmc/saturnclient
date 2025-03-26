@@ -54,8 +54,8 @@ public class SaturnButton extends SaturnWidget {
             context.drawGuiTexture(
                 RenderLayer::getGuiTextured,
                 Textures.BUTTON,
-                this.x,
-                this.y,
+                0,
+                0,
                 this.width,
                 this.height,
                 SaturnClient.getWhite(this.alpha)
@@ -65,8 +65,8 @@ public class SaturnButton extends SaturnWidget {
                 context.drawGuiTexture(
                     RenderLayer::getGuiTextured,
                     Textures.BUTTON_BORDER,
-                    this.x,
-                    this.y,
+                    0,
+                    0,
                     this.width,
                     this.height,
                     hoverColor
@@ -79,13 +79,11 @@ public class SaturnButton extends SaturnWidget {
             context.drawText(
                 minecraftClient.textRenderer,
                 SaturnUi.text(text),
-                this.x +
                 ((this.width -
                         minecraftClient.textRenderer.getWidth(
                             SaturnUi.text(text)
                         )) /
                     2),
-                this.y +
                 ((this.height - minecraftClient.textRenderer.fontHeight + 1) /
                     2),
                 hovering

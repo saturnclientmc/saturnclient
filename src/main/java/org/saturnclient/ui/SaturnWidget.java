@@ -9,6 +9,7 @@ public class SaturnWidget {
     public int width = 0;
     public int height = 0;
     public float alpha = 1.0f;
+    public float scale = 1.0f;
     public SaturnAnimation[] animations = null;
     public boolean visible = true;
     public boolean focused = false;
@@ -70,6 +71,11 @@ public class SaturnWidget {
 
     public SaturnWidget setVisible(boolean visible) {
         this.visible = visible;
+        return this;
+    }
+
+    public SaturnWidget setScale(float scale) {
+        this.scale = scale;
         return this;
     }
 }

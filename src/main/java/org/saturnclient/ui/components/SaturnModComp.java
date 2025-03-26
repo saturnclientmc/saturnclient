@@ -40,8 +40,8 @@ public class SaturnModComp extends SaturnWidget {
             context.drawTexture(
                 RenderLayer::getGuiTextured,
                 Textures.MOD_BG,
-                x,
-                y,
+                0,
+                0,
                 0,
                 0,
                 86,
@@ -55,8 +55,8 @@ public class SaturnModComp extends SaturnWidget {
         context.drawTexture(
             RenderLayer::getGuiTextured,
             Textures.MOD,
-            x,
-            y,
+            0,
+            0,
             0,
             0,
             86,
@@ -69,8 +69,8 @@ public class SaturnModComp extends SaturnWidget {
         context.drawTexture(
             RenderLayer::getGuiTextured,
             mod.getIconTexture(),
-            x + 4,
-            y + 4,
+            4,
+            4,
             0,
             0,
             size,
@@ -83,8 +83,8 @@ public class SaturnModComp extends SaturnWidget {
         context.drawText(
             SaturnClient.textRenderer,
             SaturnUi.text(mod.getName()),
-            x + 20,
-            y + (21 - SaturnClient.textRenderer.fontHeight) / 2,
+            20,
+            (21 - SaturnClient.textRenderer.fontHeight) / 2,
             color,
             false
         );
@@ -92,8 +92,8 @@ public class SaturnModComp extends SaturnWidget {
         context.drawTexture(
             RenderLayer::getGuiTextured,
             Textures.SETTINGS,
-            x + 77,
-            y + 11,
+            77,
+            11,
             0,
             0,
             7,
@@ -117,8 +117,8 @@ public class SaturnModComp extends SaturnWidget {
     }
 
     public boolean settingsHovering(int mouseX, int mouseY) {
-        int sX = x + 77;
-        int sY = y + 11;
+        int sX = 77;
+        int sY = 11;
         int size = 7;
 
         return (
