@@ -1,11 +1,11 @@
 package org.saturnclient.saturnclient.menus;
 
 import net.minecraft.text.Text;
+import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.auth.SaturnSocket;
 import org.saturnclient.saturnclient.cloaks.Cloaks;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.Textures;
-import org.saturnclient.ui.animations.Slide;
 import org.saturnclient.ui.widgets.SaturnClickableSprite;
 import org.saturnclient.ui.widgets.SaturnImage;
 import org.saturnclient.ui.widgets.SaturnScroll;
@@ -30,7 +30,7 @@ public class CloaksMenu extends SaturnUi {
                 .setY(rectY)
                 .setWidth(rectWidth)
                 .setHeight(rectHeight)
-                .setAnimations(new Slide(1, 10))
+                .setAnimations(SaturnClient.getAnimations())
         );
 
         int tabsX = (width - 43) / 2;
@@ -42,7 +42,7 @@ public class CloaksMenu extends SaturnUi {
                 .setY(tabsY)
                 .setWidth(43)
                 .setHeight(15)
-                .setAnimations(new Slide(1, 10))
+                .setAnimations(SaturnClient.getAnimations())
         );
 
         int cloakWidth = 32;
@@ -91,7 +91,7 @@ public class CloaksMenu extends SaturnUi {
                 .setY(rectY + 10)
                 .setWidth(rectWidth - 17)
                 .setHeight(rectHeight - 10)
-                .setAnimations(new Slide(1, 10))
+                .setAnimations(SaturnClient.getAnimations())
         );
 
         super.init();

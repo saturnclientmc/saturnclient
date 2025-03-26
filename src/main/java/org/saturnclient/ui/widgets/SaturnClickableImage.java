@@ -25,7 +25,7 @@ public class SaturnClickableImage extends SaturnWidget {
     }
 
     public SaturnClickableImage(Identifier texture, Runnable onPress) {
-        this(texture, _ -> {
+        this(texture, _o -> {
             onPress.run();
         });
     }

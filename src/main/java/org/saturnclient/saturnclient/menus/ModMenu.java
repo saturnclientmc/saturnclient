@@ -7,8 +7,6 @@ import org.saturnclient.saturnmods.ModManager;
 import org.saturnclient.saturnmods.SaturnMod;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.Textures;
-import org.saturnclient.ui.animations.FadeIn;
-import org.saturnclient.ui.animations.Slide;
 import org.saturnclient.ui.components.SaturnModComp;
 import org.saturnclient.ui.widgets.SaturnClickableImage;
 import org.saturnclient.ui.widgets.SaturnScroll;
@@ -33,7 +31,7 @@ public class ModMenu extends SaturnUi {
                 .setY(modsY)
                 .setWidth(rectWidth)
                 .setHeight(rectHeight)
-                .setAnimations(new Slide(1, 10))
+                .setAnimations(SaturnClient.getAnimations())
         );
 
         int tabsX = (width - 43) / 2;
@@ -45,7 +43,7 @@ public class ModMenu extends SaturnUi {
                 .setY(tabsY)
                 .setWidth(43)
                 .setHeight(15)
-                .setAnimations(new Slide(1, 10))
+                .setAnimations(SaturnClient.getAnimations())
         );
 
         int tabSize = 9;
@@ -58,8 +56,7 @@ public class ModMenu extends SaturnUi {
                 .setY(tabsY + 3)
                 .setWidth(tabSize)
                 .setHeight(tabSize)
-                .setAnimations(new FadeIn(2))
-                .setAnimations(new Slide(1, 10))
+                .setAnimations(SaturnClient.getAnimations())
         );
 
         draw(
@@ -70,8 +67,7 @@ public class ModMenu extends SaturnUi {
                 .setY(tabsY + 3)
                 .setWidth(tabSize)
                 .setHeight(tabSize)
-                .setAnimations(new FadeIn(2))
-                .setAnimations(new Slide(1, 10))
+                .setAnimations(SaturnClient.getAnimations())
         );
 
         draw(
@@ -82,8 +78,7 @@ public class ModMenu extends SaturnUi {
                 .setY(tabsY + 3)
                 .setWidth(tabSize)
                 .setHeight(tabSize)
-                .setAnimations(new FadeIn(2))
-                .setAnimations(new Slide(1, 10))
+                .setAnimations(SaturnClient.getAnimations())
         );
 
         int modX = 0;
@@ -119,7 +114,7 @@ public class ModMenu extends SaturnUi {
                 .setY(modsY + 10)
                 .setWidth(rectWidth - 17)
                 .setHeight(rectHeight - 20)
-                .setAnimations(new Slide(1, 10))
+                .setAnimations(SaturnClient.getAnimations())
         );
 
         super.init();

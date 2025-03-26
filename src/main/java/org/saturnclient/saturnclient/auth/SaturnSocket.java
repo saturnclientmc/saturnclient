@@ -27,7 +27,7 @@ public class SaturnSocket {
     @SuppressWarnings("resource")
     public static boolean authenticate() {
         // Register shutdown hook ONCE
-        ClientLifecycleEvents.CLIENT_STOPPING.register(_ -> close());
+        ClientLifecycleEvents.CLIENT_STOPPING.register(_o -> close());
 
         try {
             MinecraftClient client = MinecraftClient.getInstance();

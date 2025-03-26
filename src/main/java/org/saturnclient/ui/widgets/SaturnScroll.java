@@ -42,13 +42,13 @@ public class SaturnScroll extends SaturnWidget {
         for (SaturnWidget widget : children) {
             if (!widget.visible) continue;
 
-            double adjustedMouseX = (mouseX - widget.x) * scale;
-            double adjustedMouseY = (mouseY - widget.y + scroll) * scale;
+            double adjustedMouseX = (mouseX - widget.x);
+            double adjustedMouseY = (mouseY - widget.y + scroll);
             boolean isMouseInside =
                 adjustedMouseX >= 0 &&
-                adjustedMouseX <= widget.width &&
+                adjustedMouseX <= (widget.width * widget.scale) &&
                 adjustedMouseY >= 0 &&
-                adjustedMouseY <= widget.height;
+                adjustedMouseY <= (widget.height * widget.scale);
 
             if (
                 widget.y - scroll < height && widget.y + widget.height > scroll
@@ -61,8 +61,8 @@ public class SaturnScroll extends SaturnWidget {
                 widget.render(
                     context,
                     isMouseInside,
-                    (int) adjustedMouseX,
-                    (int) adjustedMouseY
+                    (int) (adjustedMouseX / widget.scale),
+                    (int) (adjustedMouseY / widget.scale)
                 );
                 matrices.pop();
             }
@@ -126,18 +126,20 @@ public class SaturnScroll extends SaturnWidget {
                 continue;
             }
 
-            double adjustedMouseX = (mouseX - widget.x) * scale;
-            double adjustedMouseY =
-                (mouseY - (widget.y - scroll)) * widget.scale;
+            double adjustedMouseX = (mouseX - widget.x);
+            double adjustedMouseY = (mouseY - (widget.y - scroll));
             boolean isMouseInside =
                 adjustedMouseX >= 0 &&
-                adjustedMouseX <= widget.width &&
+                adjustedMouseX <= (widget.width * widget.scale) &&
                 adjustedMouseY >= 0 &&
-                adjustedMouseY <= widget.height;
+                adjustedMouseY <= (widget.height * widget.scale);
 
             if (isMouseInside) {
                 widget.focused = true;
-                widget.click((int) adjustedMouseX, (int) adjustedMouseY);
+                widget.click(
+                    (int) (adjustedMouseX / widget.scale),
+                    (int) (adjustedMouseY / widget.scale)
+                );
             }
         }
     }

@@ -11,20 +11,18 @@ import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.SaturnWidget;
 import org.saturnclient.ui.Textures;
 
-public class SaturnFloat extends SaturnWidget {
+public class SaturnString extends SaturnWidget {
 
-    String text = "";
-    public Property<Float> prop;
+    public Property<String> prop;
     public int cursorPosition = 0;
     private TextRenderer textRenderer = MinecraftClient.getInstance()
         .textRenderer;
 
-    public SaturnFloat(Property<Float> prop, int x, int y, int width) {
+    public SaturnString(Property<String> prop, int x, int y, int width) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.prop = prop;
-        this.text = String.valueOf(prop.value);
         this.height = textRenderer.fontHeight + 4;
         this.scale = 0.8f;
     }
@@ -32,7 +30,7 @@ public class SaturnFloat extends SaturnWidget {
     @Override
     public void click(int mouseX, int mouseY) {
         int scrollOffset = getScrollOffset();
-        String visibleText = text.substring(scrollOffset);
+        String visibleText = prop.value.substring(scrollOffset);
 
         int newCursorPos = scrollOffset;
         int textWidth = 0;
@@ -52,43 +50,29 @@ public class SaturnFloat extends SaturnWidget {
 
     @Override
     public void charTyped(char chr) {
-        SaturnClient.LOGGER.info("current digit: " + chr);
-        if ((Character.isDigit(chr) || chr == '.') && text.length() < 10) {
-            if (text.equals("0") && cursorPosition == 1) {
-                text = "" + chr;
-            } else {
-                text =
-                    text.substring(0, cursorPosition) +
-                    chr +
-                    text.substring(cursorPosition);
+        prop.value =
+            prop.value.substring(0, cursorPosition) +
+            chr +
+            prop.value.substring(cursorPosition);
 
-                prop.value = text.isEmpty() ? 0 : Float.parseFloat(text);
-
-                cursorPosition++;
-            }
-        }
+        cursorPosition++;
     }
 
     @Override
     public void keyPressed(int keyCode, int scanCode, int modifiers) {
         if (keyCode == GLFW.GLFW_KEY_BACKSPACE) {
             if (cursorPosition > 0) {
-                text =
-                    text.substring(0, cursorPosition - 1) +
-                    text.substring(cursorPosition);
+                prop.value =
+                    prop.value.substring(0, cursorPosition - 1) +
+                    prop.value.substring(cursorPosition);
                 cursorPosition--;
-                if (text.length() == 0) {
-                    text = "0";
-                    cursorPosition = 1;
-                }
-                prop.value = Float.parseFloat(text);
             }
         } else if (keyCode == GLFW.GLFW_KEY_LEFT) {
             if (cursorPosition > 0) {
                 cursorPosition--;
             }
         } else if (keyCode == GLFW.GLFW_KEY_RIGHT) {
-            if (cursorPosition < text.length()) {
+            if (cursorPosition < prop.value.length()) {
                 cursorPosition++;
             }
         }
@@ -136,27 +120,26 @@ public class SaturnFloat extends SaturnWidget {
                 cursorX,
                 2,
                 cursorX + 1,
-                textRenderer.fontHeight + 4,
+                textRenderer.fontHeight + 3,
                 0xFFFFFFFF
             );
         }
     }
 
     public void clearText() {
-        text = "0";
+        prop.value = "";
         cursorPosition = 1;
-        prop.value = 0.0f;
     }
 
     private int getScrollOffset() {
-        if (text.isEmpty()) {
+        if (prop.value.isEmpty()) {
             return 0;
         }
 
         int offset = 0;
-        int maxWidth = width - 4; // Available width for text
+        int maxWidth = width - 4; // Available width for prop.value
         while (offset < cursorPosition) { // Ensure cursor remains visible
-            String visibleText = text.substring(offset, cursorPosition);
+            String visibleText = prop.value.substring(offset, cursorPosition);
             if (textRenderer.getWidth(SaturnUi.text(visibleText)) > maxWidth) {
                 offset++;
             } else {
@@ -167,9 +150,9 @@ public class SaturnFloat extends SaturnWidget {
     }
 
     private String getVisibleText(int scrollOffset) {
-        String visibleText = text.substring(scrollOffset);
+        String visibleText = prop.value.substring(scrollOffset);
 
-        // Ensure text does not overflow past the available width
+        // Ensure prop.value does not overflow past the available width
         for (int i = 1; i <= visibleText.length(); i++) {
             if (
                 textRenderer.getWidth(

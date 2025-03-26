@@ -4,8 +4,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 
 public class Property<T> {
+
     public enum PropertyType {
-        BOOLEAN, INTEGER, FLOAT, STRING, UNKNOWN
+        BOOLEAN,
+        INTEGER,
+        FLOAT,
+        STRING,
     }
 
     public T value;
@@ -55,20 +59,16 @@ public class Property<T> {
         if (value instanceof String) {
             return PropertyType.STRING;
         }
-        return PropertyType.UNKNOWN;
+        return null;
     }
 
     public boolean matchesJson(JsonElement element) {
         if (element.isJsonPrimitive()) {
             JsonPrimitive primitive = element.getAsJsonPrimitive();
-            if (value instanceof Boolean && primitive.isBoolean())
-                return true;
-            if (value instanceof Integer && primitive.isNumber())
-                return true;
-            if (value instanceof Float && primitive.isNumber())
-                return true;
-            if (value instanceof String && primitive.isString())
-                return true;
+            if (value instanceof Boolean && primitive.isBoolean()) return true;
+            if (value instanceof Integer && primitive.isNumber()) return true;
+            if (value instanceof Float && primitive.isNumber()) return true;
+            if (value instanceof String && primitive.isString()) return true;
         }
         return false;
     }

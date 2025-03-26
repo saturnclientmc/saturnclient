@@ -11,49 +11,10 @@ import org.saturnclient.saturnmods.mods.Coordinates;
 
 public class ModManager {
 
-    public static SaturnMod[] MODS = {
-        new Coordinates(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new ArmorDisplay(),
-        new Coordinates(),
-    };
+    public static SaturnMod[] MODS = { new Coordinates(), new ArmorDisplay() };
 
     public static void init() {
-        HudRenderCallback.EVENT.register((context, _) -> {
+        HudRenderCallback.EVENT.register((context, _o) -> {
             MinecraftClient client = MinecraftClient.getInstance();
             TextRenderer textRenderer = client.textRenderer;
 

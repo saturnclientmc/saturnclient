@@ -2,11 +2,11 @@ package org.saturnclient.saturnclient.menus;
 
 import java.util.Map;
 import net.minecraft.text.Text;
+import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.Textures;
-import org.saturnclient.ui.animations.Slide;
 import org.saturnclient.ui.components.SaturnFloat;
 import org.saturnclient.ui.components.SaturnInteger;
 import org.saturnclient.ui.components.SaturnString;
@@ -38,7 +38,7 @@ public class ConfigEditor extends SaturnUi {
                 .setY(rectY)
                 .setWidth(rectWidth)
                 .setHeight(rectHeight)
-                .setAnimations(new Slide(1, 10))
+                .setAnimations(SaturnClient.getAnimations())
         );
 
         int tabsX = (width - 43) / 2;
@@ -50,7 +50,7 @@ public class ConfigEditor extends SaturnUi {
                 .setY(tabsY)
                 .setWidth(43)
                 .setHeight(15)
-                .setAnimations(new Slide(1, 10))
+                .setAnimations(SaturnClient.getAnimations())
         );
 
         SaturnScroll configScroll = new SaturnScroll();
@@ -170,6 +170,7 @@ public class ConfigEditor extends SaturnUi {
                 .setY(rectY + 10)
                 .setWidth(rectWidth - 17)
                 .setHeight(rectHeight - 10)
+                .setAnimations(SaturnClient.getAnimations())
         );
 
         super.init();

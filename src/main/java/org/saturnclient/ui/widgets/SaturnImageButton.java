@@ -19,7 +19,7 @@ public class SaturnImageButton extends SaturnButton {
         int imageHeight,
         Consumer<SaturnImageButton> onPress
     ) {
-        super("", _ -> {});
+        super("", _o -> {});
         this.sprite = sprite;
         this.imageWidth = imageWidth;
         this.imageHeight = imageHeight;
@@ -32,7 +32,7 @@ public class SaturnImageButton extends SaturnButton {
         int imageHeight,
         Runnable onPress
     ) {
-        this(sprite, imageWidth, imageHeight, _ -> {
+        this(sprite, imageWidth, imageHeight, _o -> {
             onPress.run();
         });
     }

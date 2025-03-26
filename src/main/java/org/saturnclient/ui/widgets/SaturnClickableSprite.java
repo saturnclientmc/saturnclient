@@ -25,7 +25,7 @@ public class SaturnClickableSprite extends SaturnWidget {
     }
 
     public SaturnClickableSprite(Identifier sprite, Runnable onPress) {
-        this(sprite, _ -> {
+        this(sprite, _o -> {
             onPress.run();
         });
     }

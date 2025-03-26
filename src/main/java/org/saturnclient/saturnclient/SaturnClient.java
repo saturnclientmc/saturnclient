@@ -9,6 +9,9 @@ import org.saturnclient.saturnclient.cloaks.Cloaks;
 import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.saturnclient.event.KeyInputHandler;
 import org.saturnclient.saturnmods.ModManager;
+import org.saturnclient.ui.SaturnAnimation;
+import org.saturnclient.ui.animations.FadeIn;
+import org.saturnclient.ui.animations.Slide;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,13 +32,18 @@ public class SaturnClient implements ModInitializer {
         return ((int) (alpha * 255) << 24) | (NORMAL & 0x00FFFFFF);
     }
 
+    public static SaturnAnimation[] getAnimations() {
+        return new SaturnAnimation[] { new FadeIn(1), new Slide(3, 15) };
+    }
+
     @Override
     public void onInitialize() {
         LOGGER.info("Initializing " + MOD_ID);
         ModManager.init();
         ConfigManager.load();
 
-        ClientLifecycleEvents.CLIENT_STOPPING.register(_ -> ConfigManager.save()
+        ClientLifecycleEvents.CLIENT_STOPPING.register(_o ->
+            ConfigManager.save()
         );
 
         KeyInputHandler.register();
