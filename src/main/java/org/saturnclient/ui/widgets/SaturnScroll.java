@@ -122,23 +122,27 @@ public class SaturnScroll extends SaturnWidget {
             "[SaturnScroll] Click at: x=" + mouseX + ", y=" + mouseY
         );
 
-        mouseX -= x;
-        mouseY -= (y - scroll);
-
         for (SaturnWidget widget : children) {
             widget.focused = false;
             if (!widget.visible) {
                 continue;
             }
 
-            double adjustedMouseX = (mouseX - widget.x) / widget.scale;
-            double adjustedMouseY = (mouseY - widget.y) / widget.scale;
+            double adjustedMouseX = (mouseX - widget.x);
+            double adjustedMouseY = (mouseY - widget.y);
             boolean isMouseInside =
                 adjustedMouseX >= 0 &&
                 adjustedMouseX <= widget.width &&
                 adjustedMouseY >= 0 &&
                 adjustedMouseY <= widget.height;
 
+            System.out.println(
+                widget.getClass().getName() +
+                " Adjusted at: x=" +
+                adjustedMouseX +
+                ", y=" +
+                adjustedMouseY
+            );
             if (isMouseInside) {
                 widget.focused = true;
                 widget.click((int) adjustedMouseX, (int) adjustedMouseY);

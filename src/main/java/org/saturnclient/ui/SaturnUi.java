@@ -69,13 +69,6 @@ public class SaturnUi extends Screen {
                 widget.y < mouseY &&
                 widget.y + widget.height > mouseY;
 
-            SaturnClient.LOGGER.info(
-                "Render mouse X: " +
-                (mouseX - widget.x) +
-                ", mouse Y: " +
-                (mouseY - widget.y)
-            );
-
             MatrixStack matrices = context.getMatrices();
             matrices.push();
             matrices.translate(widget.x, widget.y, 0);

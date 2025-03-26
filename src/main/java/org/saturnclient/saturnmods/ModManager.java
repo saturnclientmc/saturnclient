@@ -49,7 +49,7 @@ public class ModManager {
         new ArmorDisplay(),
         new ArmorDisplay(),
         new ArmorDisplay(),
-        new ArmorDisplay(),
+        new Coordinates(),
     };
 
     public static void init() {
