@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.MatrixStack;
-import org.saturnclient.saturnclient.SaturnClient;
+import net.minecraft.network.packet.s2c.custom.DebugRedstoneUpdateOrderCustomPayload.Wire;
 import org.saturnclient.ui.SaturnWidget;
 
 public class SaturnScroll extends SaturnWidget {
@@ -40,26 +40,30 @@ public class SaturnScroll extends SaturnWidget {
     ) {
         context.enableScissor(0, 0, width, height);
 
-        for (SaturnWidget child : children) {
-            if (!child.visible) continue;
+        for (SaturnWidget widget : children) {
+            if (!widget.visible) continue;
 
+            double adjustedMouseX = (mouseX - widget.x) * scale;
+            double adjustedMouseY = (mouseY - widget.y + scroll) * scale;
             boolean isMouseInside =
-                child.x < mouseX &&
-                child.x + child.width > mouseX &&
-                child.y < mouseY &&
-                child.y + child.height > mouseY;
+                adjustedMouseX >= 0 &&
+                adjustedMouseX <= widget.width &&
+                adjustedMouseY >= 0 &&
+                adjustedMouseY <= widget.height;
 
-            if (child.y - scroll < height && child.y + child.height > scroll) {
+            if (
+                widget.y - scroll < height && widget.y + widget.height > scroll
+            ) {
                 MatrixStack matrices = context.getMatrices();
                 matrices.push();
-                matrices.translate(child.x, child.y - scroll, 0);
-                matrices.scale(child.scale, child.scale, 1.0f);
+                matrices.translate(widget.x, widget.y - scroll, 0);
+                matrices.scale(widget.scale, widget.scale, 1.0f);
 
-                child.render(
+                widget.render(
                     context,
                     isMouseInside,
-                    mouseX - child.x,
-                    mouseY - (child.y - scroll)
+                    (int) adjustedMouseX,
+                    (int) adjustedMouseY
                 );
                 matrices.pop();
             }
@@ -69,10 +73,9 @@ public class SaturnScroll extends SaturnWidget {
 
     @Override
     public void init() {
-        if (isScrollable()) {
-            for (SaturnWidget child : children) {
-                maxScroll = Math.max(maxScroll, child.y - height);
-            }
+        maxScroll = 0;
+        for (SaturnWidget child : children) {
+            maxScroll = Math.max(maxScroll, child.y + child.height - height);
         }
     }
 
@@ -84,8 +87,8 @@ public class SaturnScroll extends SaturnWidget {
     }
 
     public boolean isScrollable() {
-        for (SaturnWidget child : children) {
-            if (child.y + child.height > height) {
+        for (SaturnWidget widget : children) {
+            if (widget.y + widget.height > height) {
                 return true;
             }
         }
@@ -94,55 +97,45 @@ public class SaturnScroll extends SaturnWidget {
 
     @Override
     public void keyPressed(int keyCode, int scanCode, int modifiers) {
-        for (SaturnWidget child : children) {
-            if (!child.visible || !child.focused) {
+        for (SaturnWidget widget : children) {
+            if (!widget.visible || !widget.focused) {
                 continue;
             }
 
-            child.keyPressed(keyCode, scanCode, modifiers);
+            widget.keyPressed(keyCode, scanCode, modifiers);
             break;
         }
     }
 
     @Override
     public void charTyped(char typedChar) {
-        for (SaturnWidget child : children) {
-            if (!child.visible || !child.focused) {
+        for (SaturnWidget widget : children) {
+            if (!widget.visible || !widget.focused) {
                 continue;
             }
 
-            child.charTyped(typedChar);
+            widget.charTyped(typedChar);
             break;
         }
     }
 
     @Override
     public void click(int mouseX, int mouseY) {
-        System.out.println(
-            "[SaturnScroll] Click at: x=" + mouseX + ", y=" + mouseY
-        );
-
         for (SaturnWidget widget : children) {
             widget.focused = false;
             if (!widget.visible) {
                 continue;
             }
 
-            double adjustedMouseX = (mouseX - widget.x);
-            double adjustedMouseY = (mouseY - widget.y);
+            double adjustedMouseX = (mouseX - widget.x) * scale;
+            double adjustedMouseY =
+                (mouseY - (widget.y - scroll)) * widget.scale;
             boolean isMouseInside =
                 adjustedMouseX >= 0 &&
                 adjustedMouseX <= widget.width &&
                 adjustedMouseY >= 0 &&
                 adjustedMouseY <= widget.height;
 
-            System.out.println(
-                widget.getClass().getName() +
-                " Adjusted at: x=" +
-                adjustedMouseX +
-                ", y=" +
-                adjustedMouseY
-            );
             if (isMouseInside) {
                 widget.focused = true;
                 widget.click((int) adjustedMouseX, (int) adjustedMouseY);
