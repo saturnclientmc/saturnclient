@@ -4,7 +4,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.util.math.ColorHelper;
 import org.lwjgl.glfw.GLFW;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.ui.SaturnUi;

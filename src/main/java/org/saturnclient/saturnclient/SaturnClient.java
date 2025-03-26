@@ -35,7 +35,7 @@ public class SaturnClient implements ModInitializer {
         ModManager.init();
         ConfigManager.load();
 
-        ClientLifecycleEvents.CLIENT_STOPPING.register(c -> ConfigManager.save()
+        ClientLifecycleEvents.CLIENT_STOPPING.register(_ -> ConfigManager.save()
         );
 
         KeyInputHandler.register();

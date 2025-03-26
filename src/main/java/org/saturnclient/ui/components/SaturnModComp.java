@@ -3,7 +3,6 @@ package org.saturnclient.ui.components;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.util.math.ColorHelper;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.menus.ConfigEditor;
 import org.saturnclient.saturnmods.SaturnMod;

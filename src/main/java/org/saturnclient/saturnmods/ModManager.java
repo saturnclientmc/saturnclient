@@ -53,7 +53,7 @@ public class ModManager {
     };
 
     public static void init() {
-        HudRenderCallback.EVENT.register((context, tickDelta) -> {
+        HudRenderCallback.EVENT.register((context, _) -> {
             MinecraftClient client = MinecraftClient.getInstance();
             TextRenderer textRenderer = client.textRenderer;
 

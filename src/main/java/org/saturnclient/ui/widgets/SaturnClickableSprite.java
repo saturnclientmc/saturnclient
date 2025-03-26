@@ -4,7 +4,6 @@ import java.util.function.Consumer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.MathHelper;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.ui.SaturnWidget;
@@ -26,7 +25,7 @@ public class SaturnClickableSprite extends SaturnWidget {
     }
 
     public SaturnClickableSprite(Identifier sprite, Runnable onPress) {
-        this(sprite, m -> {
+        this(sprite, _ -> {
             onPress.run();
         });
     }

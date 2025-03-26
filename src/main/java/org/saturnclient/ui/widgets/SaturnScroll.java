@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.network.packet.s2c.custom.DebugRedstoneUpdateOrderCustomPayload.Wire;
 import org.saturnclient.ui.SaturnWidget;
 
 public class SaturnScroll extends SaturnWidget {

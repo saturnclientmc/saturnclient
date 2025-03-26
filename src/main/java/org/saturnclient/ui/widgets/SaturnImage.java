@@ -4,7 +4,6 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
-import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.ui.SaturnWidget;
 
 public class SaturnImage extends SaturnWidget {

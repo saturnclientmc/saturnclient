@@ -4,7 +4,6 @@ import java.util.function.Consumer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.ColorHelper;
 import org.saturnclient.saturnclient.SaturnClient;
 
 public class SaturnImageButton extends SaturnButton {
@@ -20,7 +19,7 @@ public class SaturnImageButton extends SaturnButton {
         int imageHeight,
         Consumer<SaturnImageButton> onPress
     ) {
-        super("", b -> {});
+        super("", _ -> {});
         this.sprite = sprite;
         this.imageWidth = imageWidth;
         this.imageHeight = imageHeight;
@@ -33,7 +32,7 @@ public class SaturnImageButton extends SaturnButton {
         int imageHeight,
         Runnable onPress
     ) {
-        this(sprite, imageWidth, imageHeight, b -> {
+        this(sprite, imageWidth, imageHeight, _ -> {
             onPress.run();
         });
     }

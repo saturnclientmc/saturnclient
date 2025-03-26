@@ -1,15 +1,16 @@
 package org.saturnclient.saturnclient.auth;
 
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
-import net.minecraft.client.MinecraftClient;
-import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.cloaks.Cloaks;
 import java.io.*;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import net.minecraft.client.MinecraftClient;
+import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.saturnclient.cloaks.Cloaks;
 
 public class SaturnSocket {
+
     private static final String server = "127.0.0.1";
     private static final int port = 8080;
 
@@ -26,7 +27,7 @@ public class SaturnSocket {
     @SuppressWarnings("resource")
     public static boolean authenticate() {
         // Register shutdown hook ONCE
-        ClientLifecycleEvents.CLIENT_STOPPING.register(c -> close());
+        ClientLifecycleEvents.CLIENT_STOPPING.register(_ -> close());
 
         try {
             MinecraftClient client = MinecraftClient.getInstance();
@@ -40,7 +41,9 @@ public class SaturnSocket {
 
             // Establish a persistent connection
             socket = new Socket(server, port);
-            reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            reader = new BufferedReader(
+                new InputStreamReader(socket.getInputStream())
+            );
             writer = new PrintWriter(socket.getOutputStream(), true);
 
             // Send authentication request
@@ -62,8 +65,11 @@ public class SaturnSocket {
             players.put(uuid, new SaturnPlayer(cloak));
 
             if (cloak != null) {
-                SaturnClient.LOGGER.info("Setting cloak to " + cloak + " for " + uuid);
-                MinecraftClient.getInstance().execute(() -> Cloaks.setCloak(uuid, cloak));
+                SaturnClient.LOGGER.info(
+                    "Setting cloak to " + cloak + " for " + uuid
+                );
+                MinecraftClient.getInstance()
+                    .execute(() -> Cloaks.setCloak(uuid, cloak));
             }
 
             playerNames.put(client.getSession().getUsername(), uuid);
@@ -72,7 +78,6 @@ public class SaturnSocket {
             startListenerThread();
 
             return true;
-
         } catch (IOException e) {
             SaturnClient.LOGGER.error("Authentication failed", e);
             return false;
@@ -91,9 +96,6 @@ public class SaturnSocket {
                     }
 
                     SaturnClient.LOGGER.info("Received: " + message);
-
-                    // TODO: make a server response/request handler
-
                 }
             } catch (IOException e) {
                 SaturnClient.LOGGER.error("Error reading from server", e);

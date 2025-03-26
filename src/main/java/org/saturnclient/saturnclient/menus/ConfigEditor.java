@@ -52,8 +52,6 @@ public class ConfigEditor extends SaturnUi {
                 .setAnimations(new Slide(1, 10))
         );
 
-        int propWidth = (rectWidth - 15) / 2;
-
         SaturnScroll configScroll = new SaturnScroll();
 
         int row = 0;
