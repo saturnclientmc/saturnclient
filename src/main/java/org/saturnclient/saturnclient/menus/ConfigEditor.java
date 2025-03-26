@@ -9,6 +9,7 @@ import org.saturnclient.ui.Textures;
 import org.saturnclient.ui.animations.Slide;
 import org.saturnclient.ui.components.SaturnFloat;
 import org.saturnclient.ui.components.SaturnInteger;
+import org.saturnclient.ui.components.SaturnString;
 import org.saturnclient.ui.components.SaturnToggle;
 import org.saturnclient.ui.widgets.SaturnScroll;
 import org.saturnclient.ui.widgets.SaturnSprite;
@@ -124,6 +125,26 @@ public class ConfigEditor extends SaturnUi {
                     configScroll.draw(
                         new SaturnFloat(
                             (Property<Float>) prop,
+                            (rectWidth / 2) - 17,
+                            modY,
+                            70
+                        )
+                    );
+                    break;
+                case STRING:
+                    configScroll.draw(
+                        new SaturnText(
+                            propName.substring(0, 1).toUpperCase() +
+                            propName.substring(1)
+                        )
+                            .setX(modX)
+                            .setY(modY)
+                            .setScale(0.8f)
+                    );
+
+                    configScroll.draw(
+                        new SaturnString(
+                            (Property<String>) prop,
                             (rectWidth / 2) - 17,
                             modY,
                             70
