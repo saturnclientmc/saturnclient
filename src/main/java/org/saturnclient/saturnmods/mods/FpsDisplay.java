@@ -2,7 +2,6 @@ package org.saturnclient.saturnmods.mods;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.config.ConfigManager;
@@ -12,77 +11,79 @@ import org.saturnclient.saturnmods.ModDimensions;
 import org.saturnclient.saturnmods.SaturnMod;
 import org.saturnclient.ui.Textures;
 
-public class Coordinates implements SaturnMod, HudMod {
+public class FpsDisplay implements SaturnMod, HudMod {
 
-    private static ConfigManager config = new ConfigManager("coords");
+    public static ConfigManager config = new ConfigManager("Fps Display");
+
     public static Property<Boolean> enabled = config.property(
         "Enabled",
         new Property<>(false)
     );
-    private static ModDimensions dimensions = new ModDimensions(config);
+
+    public static ModDimensions dimensions = new ModDimensions(
+        config,
+        0,
+        0,
+        40,
+        8
+    );
 
     public static Property<Integer> fgColor = config.property(
         "Foreground color",
         new Property<>(SaturnClient.WHITE, Property.PropertyType.HEX)
     );
 
-    public Coordinates() {}
-
-    public void renderDummy(DrawContext context) {
-        int playerX = 124;
-        int playerY = 69;
-        int playerZ = 83;
-
-        context.drawText(
-            SaturnClient.textRenderer,
-            playerX + " " + playerY + " " + playerZ,
-            0,
-            0,
-            fgColor.value,
-            false
-        );
-
-        dimensions.width = SaturnClient.textRenderer.getWidth(
-            playerX + " " + playerY + " " + playerZ
-        );
-        dimensions.height = SaturnClient.textRenderer.fontHeight;
-    }
-
-    public void render(DrawContext context) {
-        PlayerEntity player = MinecraftClient.getInstance().player;
-        int playerX = (int) player.getX();
-        int playerY = (int) player.getY();
-        int playerZ = (int) player.getZ();
-
-        context.drawText(
-            SaturnClient.textRenderer,
-            playerX + " " + playerY + " " + playerZ,
-            0,
-            0,
-            fgColor.value,
-            false
-        );
-    }
-
-    public String getName() {
-        return "Coords";
-    }
-
     @Override
-    public Identifier getIconTexture() {
-        return Textures.getModIcon("coords");
-    }
-
     public ModDimensions getDimensions() {
         return dimensions;
     }
 
+    @Override
+    public void renderDummy(DrawContext context) {
+        int fps = 128;
+
+        context.drawText(
+            SaturnClient.textRenderer,
+            String.valueOf(fps) + " FPS",
+            0,
+            0,
+            fgColor.value,
+            false
+        );
+    }
+
+    @Override
+    public void render(DrawContext context) {
+        int fps = MinecraftClient.getInstance().getCurrentFps();
+
+        context.drawText(
+            SaturnClient.textRenderer,
+            String.valueOf(fps) + " FPS",
+            0,
+            0,
+            fgColor.value,
+            false
+        );
+    }
+
+    @Override
     public boolean isEnabled() {
         return enabled.value;
     }
 
+    @Override
     public void setEnabled(boolean e) {
         enabled.value = e;
+    }
+
+    @Override
+    public String getName() {
+        return "Fps Display";
+    }
+
+    @Override
+    public Identifier getIconTexture() {
+        return Textures.getModIcon("fps");
     }
 
     @Override

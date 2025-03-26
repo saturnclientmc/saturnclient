@@ -36,14 +36,13 @@ public class SaturnClient implements ModInitializer {
     );
 
     public static Property<Integer> NORMAL = config.property(
-        "Normal color",
+        "Default color",
         new Property<Integer>(
             ColorHelper.getArgb(255, 182, 182, 182),
             Property.PropertyType.HEX
         )
     );
 
-    // public static int NORMAL = ColorHelper.getArgb(255, 182, 182, 182);
     public static int WHITE = ColorHelper.getArgb(255, 255, 255, 255);
     public static TextRenderer textRenderer = null;
 

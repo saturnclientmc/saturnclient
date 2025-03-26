@@ -115,10 +115,6 @@ public class ArmorDisplay implements SaturnMod, HudMod {
         return Textures.getModIcon("armor");
     }
 
-    public void setDimensions(ModDimensions d) {
-        dimensions = d;
-    }
-
     public ModDimensions getDimensions() {
         return dimensions;
     }

@@ -6,12 +6,15 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.menus.HudEditor;
-import org.saturnclient.saturnmods.mods.ArmorDisplay;
-import org.saturnclient.saturnmods.mods.Coordinates;
+import org.saturnclient.saturnmods.mods.*;
 
 public class ModManager {
 
-    public static SaturnMod[] MODS = { new Coordinates(), new ArmorDisplay() };
+    public static SaturnMod[] MODS = {
+        new Coordinates(),
+        new ArmorDisplay(),
+        new FpsDisplay(),
+    };
 
     public static void init() {
         HudRenderCallback.EVENT.register((context, _o) -> {
