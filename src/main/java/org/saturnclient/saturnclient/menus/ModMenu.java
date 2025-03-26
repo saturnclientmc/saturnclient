@@ -50,7 +50,7 @@ public class ModMenu extends SaturnUi {
         tabsX = (width - tabSize) / 2;
         draw(
             new SaturnClickableImage(Textures.SETTINGS, () -> {
-                System.out.println("Pressed");
+                client.setScreen(new SaturnConfigEditor());
             })
                 .setX(tabsX)
                 .setY(tabsY + 3)

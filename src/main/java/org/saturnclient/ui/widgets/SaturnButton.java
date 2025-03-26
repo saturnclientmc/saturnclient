@@ -40,7 +40,8 @@ public class SaturnButton extends SaturnWidget {
         MinecraftClient minecraftClient = MinecraftClient.getInstance();
 
         int hoverColor =
-            ((int) (alpha * 255) << 24) | (SaturnClient.COLOR & 0x00FFFFFF);
+            ((int) (alpha * 255) << 24) |
+            (SaturnClient.COLOR.value & 0x00FFFFFF);
 
         if (background) {
             RenderSystem.setShaderTexture(0, Textures.BUTTON);

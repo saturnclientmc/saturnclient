@@ -7,6 +7,7 @@ import net.minecraft.util.math.ColorHelper;
 import org.saturnclient.saturnclient.auth.SaturnSocket;
 import org.saturnclient.saturnclient.cloaks.Cloaks;
 import org.saturnclient.saturnclient.config.ConfigManager;
+import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.saturnclient.event.KeyInputHandler;
 import org.saturnclient.saturnmods.ModManager;
 import org.saturnclient.ui.SaturnAnimation;
@@ -23,13 +24,31 @@ public class SaturnClient implements ModInitializer {
 
     public static final String MOD_ID = "saturnclient";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-    public static int COLOR = ColorHelper.getArgb(255, 251, 60, 79);
+
+    public static ConfigManager config = new ConfigManager("Saturn Client");
+
+    public static Property<Integer> COLOR = config.property(
+        "Primary color",
+        new Property<Integer>(
+            ColorHelper.getArgb(255, 251, 60, 79),
+            Property.PropertyType.HEX
+        )
+    );
+
+    public static Property<Integer> NORMAL = config.property(
+        "Normal color",
+        new Property<Integer>(
+            ColorHelper.getArgb(255, 182, 182, 182),
+            Property.PropertyType.HEX
+        )
+    );
+
+    // public static int NORMAL = ColorHelper.getArgb(255, 182, 182, 182);
     public static int WHITE = ColorHelper.getArgb(255, 255, 255, 255);
-    public static int NORMAL = ColorHelper.getArgb(255, 182, 182, 182);
     public static TextRenderer textRenderer = null;
 
     public static int getWhite(float alpha) {
-        return ((int) (alpha * 255) << 24) | (NORMAL & 0x00FFFFFF);
+        return ((int) (alpha * 255) << 24) | (NORMAL.value & 0x00FFFFFF);
     }
 
     public static SaturnAnimation[] getAnimations() {

@@ -31,6 +31,11 @@ public class ArmorDisplay implements SaturnMod, HudMod {
         75
     );
 
+    public static Property<Integer> fgColor = config.property(
+        "Foreground color",
+        new Property<>(SaturnClient.WHITE, Property.PropertyType.HEX)
+    );
+
     private boolean renderItem(DrawContext context, ItemStack item, int y) {
         if (item.isEmpty()) {
             return false;
@@ -52,7 +57,7 @@ public class ArmorDisplay implements SaturnMod, HudMod {
                 "" + (item.getMaxDamage() - item.getDamage()),
                 0,
                 0,
-                SaturnClient.WHITE,
+                fgColor.value,
                 false
             );
 

@@ -21,6 +21,11 @@ public class Coordinates implements SaturnMod, HudMod {
     );
     private static ModDimensions dimensions = new ModDimensions(config);
 
+    public static Property<Integer> fgColor = config.property(
+        "Foreground color",
+        new Property<>(SaturnClient.WHITE, Property.PropertyType.HEX)
+    );
+
     public Coordinates() {}
 
     public void renderDummy(DrawContext context) {
@@ -33,7 +38,7 @@ public class Coordinates implements SaturnMod, HudMod {
             playerX + " " + playerY + " " + playerZ,
             0,
             0,
-            SaturnClient.WHITE,
+            fgColor.value,
             false
         );
 
@@ -54,7 +59,7 @@ public class Coordinates implements SaturnMod, HudMod {
             playerX + " " + playerY + " " + playerZ,
             0,
             0,
-            SaturnClient.WHITE,
+            fgColor.value,
             false
         );
     }

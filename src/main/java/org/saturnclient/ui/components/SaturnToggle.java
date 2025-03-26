@@ -25,7 +25,7 @@ public class SaturnToggle extends SaturnWidget {
         int mouseY
     ) {
         int color = prop.value
-            ? SaturnClient.COLOR
+            ? SaturnClient.COLOR.value
             : SaturnClient.getWhite(alpha);
         int w = 13;
         int h = 6;

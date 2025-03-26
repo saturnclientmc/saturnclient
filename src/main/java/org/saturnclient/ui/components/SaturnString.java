@@ -92,7 +92,9 @@ public class SaturnString extends SaturnWidget {
             0,
             this.width,
             this.height,
-            focused ? SaturnClient.COLOR : SaturnClient.getWhite(this.alpha)
+            focused
+                ? SaturnClient.COLOR.value
+                : SaturnClient.getWhite(this.alpha)
         );
 
         int scrollOffset = getScrollOffset();

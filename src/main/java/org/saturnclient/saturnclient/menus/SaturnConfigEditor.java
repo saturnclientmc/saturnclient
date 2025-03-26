@@ -3,7 +3,6 @@ package org.saturnclient.saturnclient.menus;
 import java.util.Map;
 import net.minecraft.text.Text;
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.Textures;
@@ -16,13 +15,10 @@ import org.saturnclient.ui.widgets.SaturnScroll;
 import org.saturnclient.ui.widgets.SaturnSprite;
 import org.saturnclient.ui.widgets.SaturnText;
 
-public class ConfigEditor extends SaturnUi {
+public class SaturnConfigEditor extends SaturnUi {
 
-    private ConfigManager config;
-
-    public ConfigEditor(ConfigManager config) {
+    public SaturnConfigEditor() {
         super(Text.of("Config editor"));
-        this.config = config;
     }
 
     @SuppressWarnings("unchecked")
@@ -59,7 +55,7 @@ public class ConfigEditor extends SaturnUi {
         int row = 0;
         int col = 0;
 
-        for (Map.Entry<String, Property<?>> propEntry : config
+        for (Map.Entry<String, Property<?>> propEntry : SaturnClient.config
             .getProperties()
             .entrySet()) {
             Property<?> prop = propEntry.getValue();

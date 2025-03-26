@@ -14,7 +14,7 @@ public class SaturnClickableSprite extends SaturnWidget {
     public boolean selected = false;
     public Consumer<SaturnClickableSprite> onPress;
     public int color = SaturnClient.getWhite(1.0f);
-    public int hoverColor = SaturnClient.COLOR;
+    public int hoverColor = SaturnClient.COLOR.value;
 
     public SaturnClickableSprite(
         Identifier sprite,

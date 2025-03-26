@@ -30,7 +30,7 @@ public class SaturnModComp extends SaturnWidget {
         boolean hovering_settings = settingsHovering(mouseX, mouseY);
 
         int color = !hovering_settings && (enabled || hovering)
-            ? SaturnClient.COLOR
+            ? SaturnClient.COLOR.value
             : SaturnClient.getWhite(alpha);
 
         int size = 12;
@@ -47,7 +47,7 @@ public class SaturnModComp extends SaturnWidget {
                 20,
                 86,
                 20,
-                SaturnClient.COLOR
+                SaturnClient.COLOR.value
             );
         }
 
@@ -100,7 +100,7 @@ public class SaturnModComp extends SaturnWidget {
             7,
             7,
             hovering_settings
-                ? SaturnClient.COLOR
+                ? SaturnClient.COLOR.value
                 : SaturnClient.getWhite(alpha)
         );
     }

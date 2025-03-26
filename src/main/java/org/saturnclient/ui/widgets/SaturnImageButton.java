@@ -47,7 +47,8 @@ public class SaturnImageButton extends SaturnButton {
         super.render(context, hovering, mouseX, mouseY);
 
         int hoverColor =
-            ((int) (alpha * 255) << 24) | (SaturnClient.COLOR & 0x00FFFFFF);
+            ((int) (alpha * 255) << 24) |
+            (SaturnClient.COLOR.value & 0x00FFFFFF);
 
         context.drawTexture(
             RenderLayer::getGuiTextured,

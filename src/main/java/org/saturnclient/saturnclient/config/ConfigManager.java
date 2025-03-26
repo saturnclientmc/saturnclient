@@ -41,6 +41,7 @@ public class ConfigManager {
             SaturnClient.LOGGER.info("Starting to load config...");
             if (!configFile.exists()) {
                 configFile.createNewFile();
+                Files.write(configFile.toPath(), "{}".getBytes());
             }
 
             JsonObject jsonObject = JsonParser.parseString(
@@ -97,6 +98,9 @@ public class ConfigManager {
                             case STRING:
                                 ((Property<String>) p).value = c.getAsString();
                                 break;
+                            case HEX:
+                                ((Property<Integer>) p).value = c.getAsInt();
+                                break;
                             default:
                                 break;
                         }
@@ -150,6 +154,11 @@ public class ConfigManager {
                         case STRING:
                             propertyValue = new JsonPrimitive(
                                 (String) property.value
+                            );
+                            break;
+                        case HEX:
+                            propertyValue = new JsonPrimitive(
+                                (Integer) property.value
                             );
                             break;
                         default:
