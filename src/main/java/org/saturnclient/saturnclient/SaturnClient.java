@@ -28,20 +28,16 @@ public class SaturnClient implements ModInitializer {
     public static ConfigManager config = new ConfigManager("Saturn Client");
 
     public static Property<Integer> COLOR = config.property(
-        "Primary color",
-        new Property<Integer>(
-            ColorHelper.getArgb(255, 251, 60, 79),
-            Property.PropertyType.HEX
-        )
-    );
+            "Primary color",
+            new Property<Integer>(
+                    ColorHelper.getArgb(255, 251, 60, 79),
+                    Property.PropertyType.HEX));
 
     public static Property<Integer> NORMAL = config.property(
-        "Default color",
-        new Property<Integer>(
-            ColorHelper.getArgb(255, 182, 182, 182),
-            Property.PropertyType.HEX
-        )
-    );
+            "Default color",
+            new Property<Integer>(
+                    ColorHelper.getArgb(255, 182, 182, 182),
+                    Property.PropertyType.HEX));
 
     public static int WHITE = ColorHelper.getArgb(255, 255, 255, 255);
     public static TextRenderer textRenderer = null;
@@ -60,9 +56,7 @@ public class SaturnClient implements ModInitializer {
         ModManager.init();
         ConfigManager.load();
 
-        ClientLifecycleEvents.CLIENT_STOPPING.register(_o ->
-            ConfigManager.save()
-        );
+        ClientLifecycleEvents.CLIENT_STOPPING.register(_o -> ConfigManager.save());
 
         KeyInputHandler.register();
         if (SaturnSocket.authenticate()) {

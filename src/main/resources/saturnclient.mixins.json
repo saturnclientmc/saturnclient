@@ -3,7 +3,12 @@
   "minVersion": "0.8",
   "package": "org.saturnclient.saturnclient.mixin",
   "compatibilityLevel": "JAVA_17",
-  "client": ["CapeRenderer", "TabListMixin", "NameTagMixin"],
+  "client": [
+    "CapeRenderer",
+    "TabListMixin",
+    "NameTagMixin",
+    "ArmorFeatureRendererMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }
