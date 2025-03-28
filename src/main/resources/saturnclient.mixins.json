@@ -7,7 +7,7 @@
     "CapeRenderer",
     "TabListMixin",
     "NameTagMixin",
-    "ArmorFeatureRendererMixin"
+    "PlayerEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
