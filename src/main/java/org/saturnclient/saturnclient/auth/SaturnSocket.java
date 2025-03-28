@@ -7,7 +7,7 @@ import java.util.Map;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.minecraft.client.MinecraftClient;
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.cloaks.Cloaks;
+import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 
 public class SaturnSocket {
 
@@ -42,8 +42,7 @@ public class SaturnSocket {
             // Establish a persistent connection
             socket = new Socket(server, port);
             reader = new BufferedReader(
-                new InputStreamReader(socket.getInputStream())
-            );
+                    new InputStreamReader(socket.getInputStream()));
             writer = new PrintWriter(socket.getOutputStream(), true);
 
             // Send authentication request
@@ -56,21 +55,14 @@ public class SaturnSocket {
 
             uuid = parser.getString("uuid");
             String cloak = parser.getString("cloak");
+            String hat = parser.getString("hat");
 
             for (String availableCloak : parser.getArray("cloaks")) {
                 SaturnClient.LOGGER.info("Available cloak: " + availableCloak);
                 Cloaks.availableCloaks.add(availableCloak);
             }
 
-            players.put(uuid, new SaturnPlayer(cloak));
-
-            if (cloak != null) {
-                SaturnClient.LOGGER.info(
-                    "Setting cloak to " + cloak + " for " + uuid
-                );
-                MinecraftClient.getInstance()
-                    .execute(() -> Cloaks.setCloak(uuid, cloak));
-            }
+            players.put(uuid, new SaturnPlayer(cloak, hat));
 
             playerNames.put(client.getSession().getUsername(), uuid);
 

@@ -1,11 +1,11 @@
-package org.saturnclient.saturnclient.cloaks;
+package org.saturnclient.saturnclient.cosmetics.cloaks;
 
 import net.minecraft.util.Identifier;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.auth.SaturnSocket;
+import org.saturnclient.saturnclient.cosmetics.cloaks.utils.AnimatedCloakData;
+import org.saturnclient.saturnclient.cosmetics.cloaks.utils.IdentifierUtils;
 import org.saturnclient.saturnclient.auth.SaturnPlayer;
-import org.saturnclient.saturnclient.cloaks.utils.AnimatedCloakData;
-import org.saturnclient.saturnclient.cloaks.utils.IdentifierUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -55,7 +55,7 @@ public class Cloaks {
     public static void setCloakSilent(String uuid, String cloakName) {
         SaturnPlayer player = SaturnSocket.players.get(uuid);
         if (player == null) {
-            SaturnSocket.players.put(uuid, new SaturnPlayer(cloakName));
+            SaturnSocket.players.put(uuid, new SaturnPlayer(cloakName, null));
         } else {
             player.cloak = cloakName;
         }

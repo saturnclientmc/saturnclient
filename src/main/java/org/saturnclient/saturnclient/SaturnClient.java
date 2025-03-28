@@ -5,9 +5,10 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.util.math.ColorHelper;
 import org.saturnclient.saturnclient.auth.SaturnSocket;
-import org.saturnclient.saturnclient.cloaks.Cloaks;
 import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.saturnclient.config.Property;
+import org.saturnclient.saturnclient.cosmetics.Hats;
+import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 import org.saturnclient.saturnclient.event.KeyInputHandler;
 import org.saturnclient.saturnmods.ModManager;
 import org.saturnclient.ui.SaturnAnimation;
@@ -61,6 +62,7 @@ public class SaturnClient implements ModInitializer {
         KeyInputHandler.register();
         if (SaturnSocket.authenticate()) {
             Cloaks.initialize();
+            Hats.initialize();
             LOGGER.info(MOD_ID + " initialization complete");
         } else {
             LOGGER.error("Failed to authenticate with the server");

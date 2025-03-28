@@ -3,7 +3,7 @@ package org.saturnclient.saturnclient.menus;
 import net.minecraft.text.Text;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.auth.SaturnSocket;
-import org.saturnclient.saturnclient.cloaks.Cloaks;
+import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.Textures;
 import org.saturnclient.ui.widgets.SaturnClickableSprite;
