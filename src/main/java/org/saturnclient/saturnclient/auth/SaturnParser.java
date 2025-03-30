@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SaturnParser {
+    public String method = "";
     private Map<String, String> params = new HashMap<>();
 
     public SaturnParser(String input) throws IOException {
@@ -17,6 +18,8 @@ public class SaturnParser {
         if (parts[0].startsWith("!")) {
             throw new IOException(parts[0]);
         }
+
+        method = parts[0];
 
         for (int i = 1; i < parts.length; i++) {
             String[] keyValue = parts[i].split("=");
@@ -34,6 +37,15 @@ public class SaturnParser {
         String val = params.get(i);
         if (val != null) {
             return val;
+        } else {
+            throw new IOException("Parameter not found " + i);
+        }
+    }
+
+    public boolean getBool(String i) throws IOException {
+        String val = params.get(i);
+        if (val != null) {
+            return val.equals("true");
         } else {
             throw new IOException("Parameter not found " + i);
         }

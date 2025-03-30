@@ -88,7 +88,6 @@ public class ModMenu extends SaturnUi {
         SaturnScroll modsScroll = new SaturnScroll();
 
         for (SaturnMod mod : ModManager.MODS) {
-            SaturnClient.LOGGER.info(mod.getName());
             modsScroll.draw(
                 new SaturnModComp(mod)
                     .setX(modX)

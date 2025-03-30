@@ -1,5 +1,6 @@
 package org.saturnclient.saturnclient.cosmetics;
 
+import org.saturnclient.saturnclient.auth.SaturnPlayer;
 import org.saturnclient.saturnclient.auth.SaturnSocket;
 
 import net.minecraft.client.MinecraftClient;
@@ -30,8 +31,8 @@ public class HatFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState,
         ItemStack headItem = state.equippedHeadStack;
         String uuid = SaturnSocket.playerNames.get(state.name);
         if (headItem.isEmpty() && uuid != null) {
-            String hat = SaturnSocket.players.get(uuid).hat;
-            if (hat.isEmpty()) {
+            SaturnPlayer player = SaturnSocket.players.get(uuid);
+            if (player == null || player.hat == null || player.hat.isEmpty()) {
                 return;
             }
 
@@ -45,7 +46,7 @@ public class HatFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState,
 
             ItemStack customHat = new ItemStack(Items.STICK);
             customHat.set(DataComponentTypes.ITEM_MODEL,
-                    Identifier.of("saturnclient:hat_" + hat));
+                    Identifier.of("saturnclient:hat_" + player.hat));
             customHat.set(DataComponentTypes.EQUIPPABLE,
                     EquippableComponent.builder(EquipmentSlot.HEAD).build());
 

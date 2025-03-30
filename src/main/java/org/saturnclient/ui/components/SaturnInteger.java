@@ -52,7 +52,6 @@ public class SaturnInteger extends SaturnWidget {
 
     @Override
     public void charTyped(char chr) {
-        SaturnClient.LOGGER.info("current digit: " + chr);
         if (Character.isDigit(chr) && text.length() < 10) {
             if (text.equals("0") && cursorPosition == 1) {
                 text = "" + chr;

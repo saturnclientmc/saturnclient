@@ -4,14 +4,16 @@ import java.io.*;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
+
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.minecraft.client.MinecraftClient;
+
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 
 public class SaturnSocket {
 
-    private static final String server = "127.0.0.1";
+    private static final String server = "77.247.92.168";
     private static final int port = 8080;
 
     public static Map<String, SaturnPlayer> players = new HashMap<>();
@@ -49,8 +51,6 @@ public class SaturnSocket {
             writer.println(accessToken);
             String response = reader.readLine();
 
-            SaturnClient.LOGGER.info(response);
-
             SaturnParser parser = new SaturnParser(response);
 
             uuid = parser.getString("uuid");
@@ -58,7 +58,6 @@ public class SaturnSocket {
             String hat = parser.getString("hat");
 
             for (String availableCloak : parser.getArray("cloaks")) {
-                SaturnClient.LOGGER.info("Available cloak: " + availableCloak);
                 Cloaks.availableCloaks.add(availableCloak);
             }
 
@@ -66,7 +65,8 @@ public class SaturnSocket {
 
             playerNames.put(client.getSession().getUsername(), uuid);
 
-            // Start listening for server messages
+            afterAuth();
+
             startListenerThread();
 
             return true;
@@ -83,11 +83,26 @@ public class SaturnSocket {
                 while (running) {
                     String message = reader.readLine();
                     if (message == null) {
+                        SaturnClient.LOGGER.error("Connection closed");
                         running = false;
                         break;
                     }
 
-                    SaturnClient.LOGGER.info("Received: " + message);
+                    SaturnParser parser = new SaturnParser(message);
+
+                    switch (parser.method) {
+                        case "player":
+                            String uuid = parser.getString("uuid");
+                            if (parser.getBool("saturn")) {
+                                String cloak = parser.getString("cloak");
+                                String hat = parser.getString("hat");
+                                players.put(uuid, new SaturnPlayer(cloak, hat));
+                                Cloaks.setCloakSilent(uuid, cloak);
+                            } else {
+                                playerNames.entrySet().removeIf(entry -> entry.getValue().equals(uuid));
+                            }
+                            break;
+                    }
                 }
             } catch (IOException e) {
                 SaturnClient.LOGGER.error("Error reading from server", e);
@@ -118,9 +133,30 @@ public class SaturnSocket {
         }
     }
 
+    public static void afterAuth() {
+        PlayerTracker.initialize();
+    }
+
     public static void setCloak(String cloakName) {
         try {
             writer.println("set_cloak@cloak=" + cloakName);
+        } catch (Exception e) {
+            SaturnClient.LOGGER.error("Request failed", e);
+        }
+    }
+
+    public static void player(String name, String uuid) {
+        try {
+            playerNames.put(name, uuid.replaceAll("-", ""));
+            writer.println("player@uuid=" + uuid.replaceAll("-", ""));
+        } catch (Exception e) {
+            SaturnClient.LOGGER.error("Request failed", e);
+        }
+    }
+
+    public static void joinServer(String ip) {
+        try {
+            writer.println("join_server@ip=" + ip);
         } catch (Exception e) {
             SaturnClient.LOGGER.error("Request failed", e);
         }

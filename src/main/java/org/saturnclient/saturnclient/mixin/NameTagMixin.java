@@ -32,7 +32,7 @@ public abstract class NameTagMixin<S extends EntityRenderState> {
     @Overwrite
     public void renderLabelIfPresent(S state, Text text_o, MatrixStack matrices,
             VertexConsumerProvider vertexConsumers, int light) {
-        Text text = isSaturn(state) ? Text.literal("" + "HexLeo") : text_o;
+        Text text = isSaturn(state) ? Text.literal("" + text_o.getString()) : text_o;
 
         Vec3d vec3d = state.nameLabelPos;
         if (vec3d != null) {
@@ -60,7 +60,8 @@ public abstract class NameTagMixin<S extends EntityRenderState> {
     private boolean isSaturn(S state) {
         if (state instanceof PlayerEntityRenderState) {
             String name = ((PlayerEntityRenderState) state).name;
-            return SaturnSocket.playerNames.containsKey(name);
+            String uuid = SaturnSocket.playerNames.get(name);
+            return uuid != null && SaturnSocket.players.containsKey(uuid);
         }
         return false;
     }
