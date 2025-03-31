@@ -88,6 +88,8 @@ public class SaturnSocket {
                         break;
                     }
 
+                    SaturnClient.LOGGER.info("Received: " + message);
+
                     SaturnParser parser = new SaturnParser(message);
 
                     switch (parser.method) {

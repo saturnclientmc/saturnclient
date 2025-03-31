@@ -57,7 +57,7 @@ public class SaturnParser {
             if (val.isEmpty()) {
                 return new String[] {};
             }
-            return val.split("$");
+            return val.split("\\$");
         } else {
             throw new IOException("Parameter not found " + i);
         }
