@@ -27,9 +27,10 @@ public class SaturnUi extends Screen {
     public static void drawHighResTexture(DrawContext context, Identifier t, int x, int y, int w, int h) {
         MatrixStack matricies = context.getMatrices();
         matricies.push();
+        matricies.translate(x, y, 0);
         matricies.scale(.25f, .25f, 1.0f);
 
-        context.drawTexture(RenderLayer::getGuiTextured, t, x, y, 0, 0,
+        context.drawTexture(RenderLayer::getGuiTextured, t, 0, 0, 0, 0,
                 w * 4, h * 4, w * 4, h * 4);
 
         matricies.pop();
@@ -38,9 +39,10 @@ public class SaturnUi extends Screen {
     public static void drawHighResTexture(DrawContext context, Identifier t, int x, int y, int w, int h, int c) {
         MatrixStack matricies = context.getMatrices();
         matricies.push();
+        matricies.translate(x, y, 0);
         matricies.scale(.25f, .25f, 1.0f);
 
-        context.drawTexture(RenderLayer::getGuiTextured, t, x, y, 0, 0,
+        context.drawTexture(RenderLayer::getGuiTextured, t, 0, 0, 0, 0,
                 w * 4, h * 4, w * 4, h * 4, c);
 
         matricies.pop();
@@ -49,13 +51,14 @@ public class SaturnUi extends Screen {
     public static void drawHighResGuiTexture(DrawContext context, Identifier t, int x, int y, int w, int h, int c) {
         MatrixStack matricies = context.getMatrices();
         matricies.push();
+        matricies.translate(x, y, 0);
         matricies.scale(.25f, .25f, 1.0f);
 
         context.drawGuiTexture(
                 RenderLayer::getGuiTextured,
                 t,
-                x,
-                y,
+                0,
+                0,
                 w * 4,
                 h * 4,
                 c);
