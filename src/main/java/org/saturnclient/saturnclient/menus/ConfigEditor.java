@@ -12,6 +12,7 @@ import org.saturnclient.ui.components.SaturnHex;
 import org.saturnclient.ui.components.SaturnInteger;
 import org.saturnclient.ui.components.SaturnString;
 import org.saturnclient.ui.components.SaturnToggle;
+import org.saturnclient.ui.widgets.SaturnImageButton;
 import org.saturnclient.ui.widgets.SaturnScroll;
 import org.saturnclient.ui.widgets.SaturnSprite;
 import org.saturnclient.ui.widgets.SaturnText;
@@ -34,25 +35,22 @@ public class ConfigEditor extends SaturnUi {
         int rectY = (height - rectHeight + 15) / 2;
 
         draw(
-            new SaturnSprite(Textures.SETTINGS_BG)
-                .setX(rectX)
-                .setY(rectY)
-                .setWidth(rectWidth)
-                .setHeight(rectHeight)
-                .setAnimations(SaturnClient.getAnimations())
-        );
-
-        int tabsX = (width - 43) / 2;
-        int tabsY = rectY - 17;
+                new SaturnSprite(Textures.SETTINGS_BG)
+                        .setX(rectX)
+                        .setY(rectY)
+                        .setWidth(rectWidth)
+                        .setHeight(rectHeight)
+                        .setAnimations(SaturnClient.getAnimations()));
 
         draw(
-            new SaturnSprite(Textures.TABS)
-                .setX(tabsX)
-                .setY(tabsY)
-                .setWidth(43)
-                .setHeight(15)
-                .setAnimations(SaturnClient.getAnimations())
-        );
+                new SaturnImageButton(Textures.CLOSE, 9, 9, () -> {
+                    this.close();
+                })
+                        .setX(rectX)
+                        .setY(rectY - 15)
+                        .setWidth(13)
+                        .setHeight(13)
+                        .setAnimations(SaturnClient.getAnimations()));
 
         SaturnScroll configScroll = new SaturnScroll();
 
@@ -60,8 +58,8 @@ public class ConfigEditor extends SaturnUi {
         int col = 0;
 
         for (Map.Entry<String, Property<?>> propEntry : config
-            .getProperties()
-            .entrySet()) {
+                .getProperties()
+                .entrySet()) {
             Property<?> prop = propEntry.getValue();
             String propName = propEntry.getKey();
 
@@ -78,99 +76,80 @@ public class ConfigEditor extends SaturnUi {
             switch (prop.getType()) {
                 case BOOLEAN:
                     configScroll.draw(
-                        new SaturnToggle((Property<Boolean>) prop)
-                            .setX(modX)
-                            .setY(modY)
-                    );
+                            new SaturnToggle((Property<Boolean>) prop)
+                                    .setX(modX)
+                                    .setY(modY));
                     configScroll.draw(
-                        new SaturnText(
-                            propName.substring(0, 1).toUpperCase() +
-                            propName.substring(1)
-                        )
-                            .setX(modX + 18)
-                            .setY(modY)
-                            .setScale(0.8f)
-                    );
+                            new SaturnText(
+                                    propName.substring(0, 1).toUpperCase() +
+                                            propName.substring(1))
+                                    .setX(modX + 18)
+                                    .setY(modY)
+                                    .setScale(0.8f));
                     break;
                 case INTEGER:
                     configScroll.draw(
-                        new SaturnText(
-                            propName.substring(0, 1).toUpperCase() +
-                            propName.substring(1)
-                        )
-                            .setX(modX)
-                            .setY(modY)
-                            .setScale(0.8f)
-                    );
+                            new SaturnText(
+                                    propName.substring(0, 1).toUpperCase() +
+                                            propName.substring(1))
+                                    .setX(modX)
+                                    .setY(modY)
+                                    .setScale(0.8f));
 
                     configScroll.draw(
-                        new SaturnInteger(
-                            (Property<Integer>) prop,
-                            (rectWidth / 2) - 17,
-                            modY,
-                            70
-                        )
-                    );
+                            new SaturnInteger(
+                                    (Property<Integer>) prop,
+                                    (rectWidth / 2) - 17,
+                                    modY,
+                                    70));
                     break;
                 case FLOAT:
                     configScroll.draw(
-                        new SaturnText(
-                            propName.substring(0, 1).toUpperCase() +
-                            propName.substring(1)
-                        )
-                            .setX(modX)
-                            .setY(modY)
-                            .setScale(0.8f)
-                    );
+                            new SaturnText(
+                                    propName.substring(0, 1).toUpperCase() +
+                                            propName.substring(1))
+                                    .setX(modX)
+                                    .setY(modY)
+                                    .setScale(0.8f));
 
                     configScroll.draw(
-                        new SaturnFloat(
-                            (Property<Float>) prop,
-                            (rectWidth / 2) - 17,
-                            modY,
-                            70
-                        )
-                    );
+                            new SaturnFloat(
+                                    (Property<Float>) prop,
+                                    (rectWidth / 2) - 17,
+                                    modY,
+                                    70));
                     break;
                 case STRING:
                     configScroll.draw(
-                        new SaturnText(
-                            propName.substring(0, 1).toUpperCase() +
-                            propName.substring(1)
-                        )
-                            .setX(modX)
-                            .setY(modY)
-                            .setScale(0.8f)
-                    );
+                            new SaturnText(
+                                    propName.substring(0, 1).toUpperCase() +
+                                            propName.substring(1))
+                                    .setX(modX)
+                                    .setY(modY)
+                                    .setScale(0.8f));
 
                     configScroll.draw(
-                        new SaturnString(
-                            (Property<String>) prop,
-                            (rectWidth / 2) - 17,
-                            modY,
-                            70
-                        )
-                    );
+                            new SaturnString(
+                                    (Property<String>) prop,
+                                    (rectWidth / 2) - 17,
+                                    modY,
+                                    70));
                     break;
                 case HEX:
                     configScroll.draw(
-                        new SaturnText(
-                            propName.substring(0, 1).toUpperCase() +
-                            propName.substring(1)
-                        )
-                            .setX(modX)
-                            .setY(modY)
-                            .setScale(0.8f)
-                    );
+                            new SaturnText(
+                                    propName.substring(0, 1).toUpperCase() +
+                                            propName.substring(1))
+                                    .setX(modX)
+                                    .setY(modY)
+                                    .setScale(0.8f));
 
                     configScroll.draw(
-                        new SaturnHex(
-                            (Property<Integer>) prop,
-                            (rectWidth / 2) - 17,
-                            modY,
-                            70
-                        )
-                    );
+                            new SaturnHex(
+                                    (Property<Integer>) prop,
+                                    (rectWidth / 2) - 17,
+                                    modY,
+                                    70));
                     break;
             }
 
@@ -186,13 +165,12 @@ public class ConfigEditor extends SaturnUi {
         }
 
         draw(
-            configScroll
-                .setX(rectX + 17)
-                .setY(rectY + 10)
-                .setWidth(rectWidth - 17)
-                .setHeight(rectHeight - 10)
-                .setAnimations(SaturnClient.getAnimations())
-        );
+                configScroll
+                        .setX(rectX + 17)
+                        .setY(rectY + 10)
+                        .setWidth(rectWidth - 17)
+                        .setHeight(rectHeight - 10)
+                        .setAnimations(SaturnClient.getAnimations()));
 
         super.init();
     }

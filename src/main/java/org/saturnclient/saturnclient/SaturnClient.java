@@ -13,7 +13,6 @@ import org.saturnclient.saturnclient.event.KeyInputHandler;
 import org.saturnclient.saturnmods.ModManager;
 import org.saturnclient.ui.SaturnAnimation;
 import org.saturnclient.ui.animations.FadeIn;
-import org.saturnclient.ui.animations.Slide;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,7 +46,7 @@ public class SaturnClient implements ModInitializer {
     }
 
     public static SaturnAnimation[] getAnimations() {
-        return new SaturnAnimation[] { new FadeIn(1), new Slide(3, 15) };
+        return new SaturnAnimation[] { new FadeIn(1) };
     }
 
     @Override

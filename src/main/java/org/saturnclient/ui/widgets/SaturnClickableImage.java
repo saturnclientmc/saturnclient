@@ -55,4 +55,9 @@ public class SaturnClickableImage extends SaturnWidget {
         this.selected = selected;
         return this;
     }
+
+    public SaturnClickableImage setColor(int c) {
+        this.color = c;
+        return this;
+    }
 }
