@@ -25,57 +25,52 @@ public class MainMenu extends SaturnUi {
         int buttonHeight = 25;
 
         draw(
-            new SaturnButton("Mods", () -> {
-                client.setScreen(new ModMenu());
-            })
-                .setX((width - buttonWidth) / 2)
-                .setY((height - buttonHeight) / 2)
-                .setWidth(buttonWidth)
-                .setHeight(buttonHeight)
-                .setAnimations(new FadeIn(2))
-        );
+                new SaturnButton("Mods", () -> {
+                    client.setScreen(new ModMenu());
+                })
+                        .setX((width - buttonWidth) / 2)
+                        .setY((height - buttonHeight) / 2)
+                        .setWidth(buttonWidth)
+                        .setHeight(buttonHeight)
+                        .setAnimations(new FadeIn(2)));
 
         draw(
-            new SaturnImageButton(Textures.HUD_ICON, 14, 14, () -> {
-                client.setScreen(new HudEditor());
-            })
-                .setX((width - buttonWidth - (buttonHeight * 2) - 6) / 2)
-                .setY((height - buttonHeight) / 2)
-                .setWidth(buttonHeight)
-                .setHeight(buttonHeight)
-                .setAnimations(new FadeIn(2))
-        );
+                new SaturnImageButton(Textures.HUD_ICON, 14, 14, () -> {
+                    client.setScreen(new HudEditor());
+                })
+                        .setX((width - buttonWidth - (buttonHeight * 2) - 6) / 2)
+                        .setY((height - buttonHeight) / 2)
+                        .setWidth(buttonHeight)
+                        .setHeight(buttonHeight)
+                        .setAnimations(new FadeIn(2)));
 
         draw(
-            new SaturnImageButton(Textures.COSMETICS, 14, 14, () -> {
-                client.setScreen(new CloaksMenu());
-            })
-                .setX((width / 2) + (buttonWidth / 2) + 3)
-                .setY((height - buttonHeight) / 2)
-                .setWidth(buttonHeight)
-                .setHeight(buttonHeight)
-                .setAnimations(new FadeIn(2))
-        );
+                new SaturnImageButton(Textures.COSMETICS, 14, 14, () -> {
+                    client.setScreen(new CloaksMenu());
+                })
+                        .setX((width / 2) + (buttonWidth / 2) + 3)
+                        .setY((height - buttonHeight) / 2)
+                        .setWidth(buttonHeight)
+                        .setHeight(buttonHeight)
+                        .setAnimations(new FadeIn(2)));
 
         int logoSize = 49;
 
         draw(
-            new SaturnImage(Textures.LOGO_TEXT)
-                .setX((width - logoSize) / 2)
-                .setY((height - 8) / 2 - 23)
-                .setWidth(logoSize)
-                .setHeight(8)
-                .setAnimations(new FadeIn(2))
-        );
+                new SaturnImage(Textures.LOGO_TEXT)
+                        .setX((width - logoSize) / 2)
+                        .setY((height - 8) / 2 - 23)
+                        .setWidth(logoSize)
+                        .setHeight(8)
+                        .setAnimations(new FadeIn(2)));
 
         draw(
-            new SaturnImage(Textures.LOGO)
-                .setX((width - logoSize) / 2)
-                .setY(height / 2 - logoSize - 24)
-                .setWidth(logoSize)
-                .setHeight(logoSize)
-                .setAnimations(new Slide(2, 14))
-        );
+                new SaturnImage(Textures.LOGO)
+                        .setX((width - logoSize) / 2)
+                        .setY(height / 2 - logoSize - 24)
+                        .setWidth(logoSize)
+                        .setHeight(logoSize)
+                        .setAnimations(new Slide(2, 14)));
 
         super.init();
     }

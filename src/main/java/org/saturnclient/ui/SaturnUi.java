@@ -7,6 +7,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
@@ -21,6 +22,45 @@ public class SaturnUi extends Screen {
     public static MutableText text(String text) {
         return Text.literal(text).setStyle(
                 Style.EMPTY.withFont(Identifier.of("saturnclient:panton")));
+    }
+
+    public static void drawHighResTexture(DrawContext context, Identifier t, int x, int y, int w, int h) {
+        MatrixStack matricies = context.getMatrices();
+        matricies.push();
+        matricies.scale(.25f, .25f, 1.0f);
+
+        context.drawTexture(RenderLayer::getGuiTextured, t, x, y, 0, 0,
+                w * 4, h * 4, w * 4, h * 4);
+
+        matricies.pop();
+    }
+
+    public static void drawHighResTexture(DrawContext context, Identifier t, int x, int y, int w, int h, int c) {
+        MatrixStack matricies = context.getMatrices();
+        matricies.push();
+        matricies.scale(.25f, .25f, 1.0f);
+
+        context.drawTexture(RenderLayer::getGuiTextured, t, x, y, 0, 0,
+                w * 4, h * 4, w * 4, h * 4, c);
+
+        matricies.pop();
+    }
+
+    public static void drawHighResGuiTexture(DrawContext context, Identifier t, int x, int y, int w, int h, int c) {
+        MatrixStack matricies = context.getMatrices();
+        matricies.push();
+        matricies.scale(.25f, .25f, 1.0f);
+
+        context.drawGuiTexture(
+                RenderLayer::getGuiTextured,
+                t,
+                x,
+                y,
+                w * 4,
+                h * 4,
+                c);
+
+        matricies.pop();
     }
 
     public List<SaturnWidget> widgets = new ArrayList<>();

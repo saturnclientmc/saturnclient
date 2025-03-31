@@ -3,7 +3,6 @@ package org.saturnclient.ui.components;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderLayer;
 import org.lwjgl.glfw.GLFW;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.config.Property;
@@ -16,8 +15,7 @@ public class SaturnHex extends SaturnWidget {
     private String text = "#"; // Always starts with '#'
     public Property<Integer> prop;
     public int cursorPosition = 1; // After '#'
-    private final TextRenderer textRenderer = MinecraftClient.getInstance()
-        .textRenderer;
+    private final TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
 
     public SaturnHex(Property<Integer> prop, int x, int y, int width) {
         this.x = x;
@@ -37,10 +35,9 @@ public class SaturnHex extends SaturnWidget {
     @Override
     public void charTyped(char chr) {
         if (isHexChar(chr) && text.length() < 7) { // Limit to 6 hex digits + '#'
-            text =
-                text.substring(0, cursorPosition) +
-                chr +
-                text.substring(cursorPosition);
+            text = text.substring(0, cursorPosition) +
+                    chr +
+                    text.substring(cursorPosition);
             cursorPosition++;
 
             if (text.length() == 7) { // Only update value when full hex is entered
@@ -52,15 +49,12 @@ public class SaturnHex extends SaturnWidget {
     @Override
     public void keyPressed(int keyCode, int scanCode, int modifiers) {
         if (keyCode == GLFW.GLFW_KEY_BACKSPACE && cursorPosition > 1) { // Prevent deleting '#'
-            text =
-                text.substring(0, cursorPosition - 1) +
-                text.substring(cursorPosition);
+            text = text.substring(0, cursorPosition - 1) +
+                    text.substring(cursorPosition);
             cursorPosition--;
         } else if (keyCode == GLFW.GLFW_KEY_LEFT && cursorPosition > 1) {
             cursorPosition--;
-        } else if (
-            keyCode == GLFW.GLFW_KEY_RIGHT && cursorPosition < text.length()
-        ) {
+        } else if (keyCode == GLFW.GLFW_KEY_RIGHT && cursorPosition < text.length()) {
             cursorPosition++;
         }
 
@@ -76,46 +70,40 @@ public class SaturnHex extends SaturnWidget {
 
     @Override
     public void render(
-        DrawContext context,
-        boolean hovering,
-        int mouseX,
-        int mouseY
-    ) {
-        context.drawGuiTexture(
-            RenderLayer::getGuiTextured,
-            Textures.BUTTON_BORDER,
-            0,
-            0,
-            this.width,
-            this.height,
-            focused
-                ? SaturnClient.COLOR.value
-                : SaturnClient.getWhite(this.alpha)
-        );
+            DrawContext context,
+            boolean hovering,
+            int mouseX,
+            int mouseY) {
+        SaturnUi.drawHighResGuiTexture(
+                context,
+                Textures.BUTTON_BORDER,
+                0,
+                0,
+                this.width,
+                this.height,
+                focused
+                        ? SaturnClient.COLOR.value
+                        : SaturnClient.getWhite(this.alpha));
 
         int textColor = focused ? 0xFFFFFF : 0xAAAAAA;
         context.drawText(
-            textRenderer,
-            SaturnUi.text(text),
-            2,
-            2,
-            textColor,
-            false
-        );
+                textRenderer,
+                SaturnUi.text(text),
+                2,
+                2,
+                textColor,
+                false);
 
         if (focused) {
-            int cursorX =
-                2 +
-                textRenderer.getWidth(
-                    SaturnUi.text(text.substring(0, cursorPosition))
-                );
+            int cursorX = 2 +
+                    textRenderer.getWidth(
+                            SaturnUi.text(text.substring(0, cursorPosition)));
             context.fill(
-                cursorX,
-                2,
-                cursorX + 1,
-                textRenderer.fontHeight + 4,
-                0xFFFFFFFF
-            );
+                    cursorX,
+                    2,
+                    cursorX + 1,
+                    textRenderer.fontHeight + 4,
+                    0xFFFFFFFF);
         }
     }
 
@@ -126,11 +114,9 @@ public class SaturnHex extends SaturnWidget {
     }
 
     private boolean isHexChar(char chr) {
-        return (
-            (chr >= '0' && chr <= '9') ||
-            (chr >= 'A' && chr <= 'F') ||
-            (chr >= 'a' && chr <= 'f')
-        );
+        return ((chr >= '0' && chr <= '9') ||
+                (chr >= 'A' && chr <= 'F') ||
+                (chr >= 'a' && chr <= 'f'));
     }
 
     public static int hexToInt(String hex) {

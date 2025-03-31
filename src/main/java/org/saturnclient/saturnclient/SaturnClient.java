@@ -19,7 +19,6 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Main class for the Saturn Client mod.
- * Originally created by IIpho3nix and modified for Saturn Client by leo.
  */
 public class SaturnClient implements ModInitializer {
 

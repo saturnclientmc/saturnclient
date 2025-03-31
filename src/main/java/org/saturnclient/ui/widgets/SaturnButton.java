@@ -4,7 +4,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import java.util.function.Consumer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.math.MathHelper;
 import org.lwjgl.opengl.GL11;
 import org.saturnclient.saturnclient.SaturnClient;
@@ -32,65 +31,59 @@ public class SaturnButton extends SaturnWidget {
 
     @Override
     public void render(
-        DrawContext context,
-        boolean hovering,
-        int mouseX,
-        int mouseY
-    ) {
+            DrawContext context,
+            boolean hovering,
+            int mouseX,
+            int mouseY) {
         MinecraftClient minecraftClient = MinecraftClient.getInstance();
 
-        int hoverColor =
-            ((int) (alpha * 255) << 24) |
-            (SaturnClient.COLOR.value & 0x00FFFFFF);
+        int hoverColor = ((int) (alpha * 255) << 24) |
+                (SaturnClient.COLOR.value & 0x00FFFFFF);
 
         if (background) {
             RenderSystem.setShaderTexture(0, Textures.BUTTON);
             RenderSystem.texParameter(
-                GL11.GL_TEXTURE_2D,
-                GL11.GL_TEXTURE_MIN_FILTER,
-                GL11.GL_LINEAR_MIPMAP_LINEAR
-            );
+                    GL11.GL_TEXTURE_2D,
+                    GL11.GL_TEXTURE_MIN_FILTER,
+                    GL11.GL_LINEAR_MIPMAP_LINEAR);
 
-            context.drawGuiTexture(
-                RenderLayer::getGuiTextured,
-                Textures.BUTTON,
-                0,
-                0,
-                this.width,
-                this.height,
-                SaturnClient.getWhite(this.alpha)
-            );
-
-            if (hovering) {
-                context.drawGuiTexture(
-                    RenderLayer::getGuiTextured,
-                    Textures.BUTTON_BORDER,
+            SaturnUi.drawHighResGuiTexture(
+                    context,
+                    Textures.BUTTON,
                     0,
                     0,
                     this.width,
                     this.height,
-                    hoverColor
-                );
+                    SaturnClient.getWhite(this.alpha));
+
+            if (hovering) {
+                SaturnUi.drawHighResGuiTexture(
+                        context,
+                        Textures.BUTTON_BORDER,
+                        0,
+                        0,
+                        this.width,
+                        this.height,
+                        hoverColor);
             }
         }
 
         if (alpha != 0.0f) {
             int i = this.active ? 16777215 : 10526880;
             context.drawText(
-                minecraftClient.textRenderer,
-                SaturnUi.text(text),
-                ((this.width -
-                        minecraftClient.textRenderer.getWidth(
-                            SaturnUi.text(text)
-                        )) /
-                    2),
-                ((this.height - minecraftClient.textRenderer.fontHeight + 1) /
-                    2),
-                hovering
-                    ? hoverColor
-                    : i | (MathHelper.ceil(this.alpha * 255.0F) << 24),
-                false
-            );
+                    minecraftClient.textRenderer,
+                    SaturnUi.text(text),
+                    ((this.width -
+                            minecraftClient.textRenderer.getWidth(
+                                    SaturnUi.text(text)))
+                            /
+                            2),
+                    ((this.height - minecraftClient.textRenderer.fontHeight + 1) /
+                            2),
+                    hovering
+                            ? hoverColor
+                            : i | (MathHelper.ceil(this.alpha * 255.0F) << 24),
+                    false);
         }
     }
 

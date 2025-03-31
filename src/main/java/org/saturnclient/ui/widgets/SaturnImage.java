@@ -1,9 +1,10 @@
 package org.saturnclient.ui.widgets;
 
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
+
+import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.SaturnWidget;
 
 public class SaturnImage extends SaturnWidget {
@@ -16,23 +17,17 @@ public class SaturnImage extends SaturnWidget {
 
     @Override
     public void render(
-        DrawContext context,
-        boolean hovering,
-        int mouseX,
-        int mouseY
-    ) {
-        context.drawTexture(
-            RenderLayer::getGuiTextured,
-            sprite,
-            0,
-            0,
-            0,
-            0,
-            width,
-            height,
-            width,
-            height,
-            ColorHelper.getWhite(alpha)
-        );
+            DrawContext context,
+            boolean hovering,
+            int mouseX,
+            int mouseY) {
+        SaturnUi.drawHighResTexture(
+                context,
+                sprite,
+                0,
+                0,
+                width,
+                height,
+                ColorHelper.getWhite(alpha));
     }
 }

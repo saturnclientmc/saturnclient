@@ -3,7 +3,6 @@ package org.saturnclient.ui.components;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderLayer;
 import org.lwjgl.glfw.GLFW;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.config.Property;
@@ -15,8 +14,7 @@ public class SaturnString extends SaturnWidget {
 
     public Property<String> prop;
     public int cursorPosition = 0;
-    private TextRenderer textRenderer = MinecraftClient.getInstance()
-        .textRenderer;
+    private TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
 
     public SaturnString(Property<String> prop, int x, int y, int width) {
         this.x = x;
@@ -50,10 +48,9 @@ public class SaturnString extends SaturnWidget {
 
     @Override
     public void charTyped(char chr) {
-        prop.value =
-            prop.value.substring(0, cursorPosition) +
-            chr +
-            prop.value.substring(cursorPosition);
+        prop.value = prop.value.substring(0, cursorPosition) +
+                chr +
+                prop.value.substring(cursorPosition);
 
         cursorPosition++;
     }
@@ -62,9 +59,8 @@ public class SaturnString extends SaturnWidget {
     public void keyPressed(int keyCode, int scanCode, int modifiers) {
         if (keyCode == GLFW.GLFW_KEY_BACKSPACE) {
             if (cursorPosition > 0) {
-                prop.value =
-                    prop.value.substring(0, cursorPosition - 1) +
-                    prop.value.substring(cursorPosition);
+                prop.value = prop.value.substring(0, cursorPosition - 1) +
+                        prop.value.substring(cursorPosition);
                 cursorPosition--;
             }
         } else if (keyCode == GLFW.GLFW_KEY_LEFT) {
@@ -80,51 +76,44 @@ public class SaturnString extends SaturnWidget {
 
     @Override
     public void render(
-        DrawContext context,
-        boolean hovering,
-        int mouseX,
-        int mouseY
-    ) {
-        context.drawGuiTexture(
-            RenderLayer::getGuiTextured,
-            Textures.BUTTON_BORDER,
-            0,
-            0,
-            this.width,
-            this.height,
-            focused
-                ? SaturnClient.COLOR.value
-                : SaturnClient.getWhite(this.alpha)
-        );
+            DrawContext context,
+            boolean hovering,
+            int mouseX,
+            int mouseY) {
+        SaturnUi.drawHighResGuiTexture(
+                context,
+                Textures.BUTTON_BORDER,
+                0,
+                0,
+                this.width,
+                this.height,
+                focused
+                        ? SaturnClient.COLOR.value
+                        : SaturnClient.getWhite(this.alpha));
 
         int scrollOffset = getScrollOffset();
         String visibleText = getVisibleText(scrollOffset);
 
         int textColor = focused ? 0xFFFFFF : 0xAAAAAA;
         context.drawText(
-            textRenderer,
-            SaturnUi.text(visibleText),
-            2,
-            2,
-            textColor,
-            false
-        );
+                textRenderer,
+                SaturnUi.text(visibleText),
+                2,
+                2,
+                textColor,
+                false);
 
         if (focused) {
-            int cursorX =
-                2 +
-                textRenderer.getWidth(
-                    SaturnUi.text(
-                        visibleText.substring(0, cursorPosition - scrollOffset)
-                    )
-                );
+            int cursorX = 2 +
+                    textRenderer.getWidth(
+                            SaturnUi.text(
+                                    visibleText.substring(0, cursorPosition - scrollOffset)));
             context.fill(
-                cursorX,
-                2,
-                cursorX + 1,
-                textRenderer.fontHeight + 3,
-                0xFFFFFFFF
-            );
+                    cursorX,
+                    2,
+                    cursorX + 1,
+                    textRenderer.fontHeight + 3,
+                    0xFFFFFFFF);
         }
     }
 
@@ -156,12 +145,8 @@ public class SaturnString extends SaturnWidget {
 
         // Ensure prop.value does not overflow past the available width
         for (int i = 1; i <= visibleText.length(); i++) {
-            if (
-                textRenderer.getWidth(
-                    SaturnUi.text(visibleText.substring(0, i))
-                ) >
-                width - 4
-            ) {
+            if (textRenderer.getWidth(
+                    SaturnUi.text(visibleText.substring(0, i))) > width - 4) {
                 return visibleText.substring(0, i - 1); // Trim overflow
             }
         }

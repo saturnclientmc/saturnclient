@@ -17,6 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Manages the cloak system for Saturn Client.
  * Handles loading and caching of player cloaks.
+ * Originally created by IIpho3nix and modified for Saturn Client by leo.
  */
 public class Cloaks {
     private static final String[] ANIMATED_CLOAKS = { "glitch" };
