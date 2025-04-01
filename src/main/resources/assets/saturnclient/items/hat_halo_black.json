@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "saturnclient:item/halo"
+    "model": "saturnclient:item/halo_black"
   }
 }

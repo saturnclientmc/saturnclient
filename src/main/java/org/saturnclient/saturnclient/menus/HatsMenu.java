@@ -2,6 +2,7 @@ package org.saturnclient.saturnclient.menus;
 
 import net.minecraft.text.Text;
 import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.saturnclient.auth.SaturnSocket;
 import org.saturnclient.saturnclient.cosmetics.Hats;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.Textures;
@@ -87,22 +88,20 @@ public class HatsMenu extends SaturnUi {
         for (String hat : Hats.availableHats) {
             modsScroll.draw(
                     new SaturnClickableSprite(Textures.BUTTON_BORDER, () -> {
-                        // Hats.setHat(SaturnSocket.uuid, hat);
+                        Hats.setHat(SaturnSocket.uuid, hat);
                     })
                             .setColor(10526880)
                             .setX(modX)
                             .setY(modY)
                             .setWidth(hatSize + 6)
-                            .setHeight(hatSize + 6)
-                            .setAnimations(SaturnClient.getAnimations()));
+                            .setHeight(hatSize + 6));
 
             modsScroll.draw(
                     new SaturnImage(Textures.getHatPreview(hat))
                             .setX(modX + 3)
                             .setY(modY + 3)
                             .setWidth(hatSize)
-                            .setHeight(hatSize)
-                            .setAnimations(SaturnClient.getAnimations()));
+                            .setHeight(hatSize));
 
             col++;
 

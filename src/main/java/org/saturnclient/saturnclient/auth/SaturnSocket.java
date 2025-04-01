@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.minecraft.client.MinecraftClient;
 
 import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.saturnclient.cosmetics.Hats;
 import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 
 public class SaturnSocket {
@@ -59,6 +60,10 @@ public class SaturnSocket {
 
             for (String availableCloak : parser.getArray("cloaks")) {
                 Cloaks.availableCloaks.add(availableCloak);
+            }
+
+            for (String availableHat : parser.getArray("hats")) {
+                Hats.availableHats.add(availableHat);
             }
 
             players.put(uuid, new SaturnPlayer(cloak, hat));
@@ -142,6 +147,14 @@ public class SaturnSocket {
     public static void setCloak(String cloakName) {
         try {
             writer.println("set_cloak@cloak=" + cloakName);
+        } catch (Exception e) {
+            SaturnClient.LOGGER.error("Request failed", e);
+        }
+    }
+
+    public static void setHat(String hatName) {
+        try {
+            writer.println("set_hat@hat=" + hatName);
         } catch (Exception e) {
             SaturnClient.LOGGER.error("Request failed", e);
         }
