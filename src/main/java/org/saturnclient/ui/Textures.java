@@ -9,7 +9,10 @@ public class Textures {
     public static final Identifier CLOSE = Identifier.of("saturnclient", "textures/gui/components/close.png");
     public static final Identifier MODS_TAB = Identifier.of("saturnclient", "textures/gui/components/mods_tab.png");
     public static final Identifier SETTINGS = Identifier.of("saturnclient", "textures/gui/components/settings.png");
-    public static final Identifier TOGGLE_INDICATOR = Identifier.of("saturnclient", "textures/gui/components/toggle_indicator.png");
+    public static final Identifier CLOAK = Identifier.of("saturnclient", "textures/gui/components/cloak.png");
+    public static final Identifier HAT = Identifier.of("saturnclient", "textures/gui/components/hat.png");
+    public static final Identifier TOGGLE_INDICATOR = Identifier.of("saturnclient",
+            "textures/gui/components/toggle_indicator.png");
     public static final Identifier TOGGLE_BG = Identifier.of("saturnclient", "textures/gui/components/toggle_bg.png");
 
     public static final Identifier LOGO = Identifier.of("saturnclient", "textures/logo/logo.png");
@@ -25,6 +28,10 @@ public class Textures {
 
     public static Identifier getCloakPreview(String cloak) {
         return Identifier.of("saturnclient", "textures/gui/cloak/" + cloak + ".png");
+    }
+
+    public static Identifier getHatPreview(String hat) {
+        return Identifier.of("saturnclient", "textures/gui/hat/" + hat + ".png");
     }
 
     public static Identifier getModIcon(String modId) {

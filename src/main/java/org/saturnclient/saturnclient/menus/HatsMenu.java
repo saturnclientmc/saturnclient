@@ -2,8 +2,7 @@ package org.saturnclient.saturnclient.menus;
 
 import net.minecraft.text.Text;
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.auth.SaturnSocket;
-import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
+import org.saturnclient.saturnclient.cosmetics.Hats;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.Textures;
 import org.saturnclient.ui.widgets.SaturnClickableImage;
@@ -12,10 +11,10 @@ import org.saturnclient.ui.widgets.SaturnImage;
 import org.saturnclient.ui.widgets.SaturnScroll;
 import org.saturnclient.ui.widgets.SaturnSprite;
 
-public class CloaksMenu extends SaturnUi {
+public class HatsMenu extends SaturnUi {
 
-    public CloaksMenu() {
-        super(Text.of("Cloaks Menu"));
+    public HatsMenu() {
+        super(Text.of("Hats Menu"));
     }
 
     @Override
@@ -50,6 +49,7 @@ public class CloaksMenu extends SaturnUi {
                 new SaturnClickableImage(Textures.HAT, () -> {
                     client.setScreen(new HatsMenu());
                 })
+                        .setColor(SaturnClient.COLOR.value)
                         .setX(tabsX)
                         .setY(tabsY + 4)
                         .setWidth(tabSize)
@@ -60,7 +60,6 @@ public class CloaksMenu extends SaturnUi {
                 new SaturnClickableImage(Textures.CLOAK, () -> {
                     client.setScreen(new CloaksMenu());
                 })
-                        .setColor(SaturnClient.COLOR.value)
                         .setX(tabsX - 12)
                         .setY(tabsY + 3)
                         .setWidth(tabSize)
@@ -77,8 +76,7 @@ public class CloaksMenu extends SaturnUi {
                         .setHeight(tabSize)
                         .setAnimations(SaturnClient.getAnimations()));
 
-        int cloakWidth = 32;
-        int cloakHeight = 70;
+        int hatSize = 32;
 
         int modX = 0;
         int modY = 0;
@@ -86,31 +84,33 @@ public class CloaksMenu extends SaturnUi {
 
         SaturnScroll modsScroll = new SaturnScroll();
 
-        for (String cloak : Cloaks.availableCloaks) {
+        for (String hat : Hats.availableHats) {
             modsScroll.draw(
                     new SaturnClickableSprite(Textures.BUTTON_BORDER, () -> {
-                        Cloaks.setCloak(SaturnSocket.uuid, cloak);
+                        // Hats.setHat(SaturnSocket.uuid, hat);
                     })
                             .setColor(10526880)
                             .setX(modX)
                             .setY(modY)
-                            .setWidth(cloakWidth + 6)
-                            .setHeight(cloakHeight + 6));
+                            .setWidth(hatSize + 6)
+                            .setHeight(hatSize + 6)
+                            .setAnimations(SaturnClient.getAnimations()));
 
             modsScroll.draw(
-                    new SaturnImage(Textures.getCloakPreview(cloak))
+                    new SaturnImage(Textures.getHatPreview(hat))
                             .setX(modX + 3)
                             .setY(modY + 3)
-                            .setWidth(cloakWidth)
-                            .setHeight(cloakHeight));
+                            .setWidth(hatSize)
+                            .setHeight(hatSize)
+                            .setAnimations(SaturnClient.getAnimations()));
 
             col++;
 
             if (col < 6) {
-                modX += cloakWidth + 21;
+                modX += hatSize + 21;
             } else {
                 modX = 0;
-                modY += cloakHeight + 20;
+                modY += hatSize + 20;
                 col = 0;
             }
         }
