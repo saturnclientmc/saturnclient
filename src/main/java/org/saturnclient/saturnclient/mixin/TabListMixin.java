@@ -8,11 +8,13 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
+import com.mojang.authlib.GameProfile;
+
 @Mixin(PlayerListEntry.class)
 public abstract class TabListMixin {
 
     @Shadow
-    private Text displayName;
+    private GameProfile profile;
 
     /**
      * @author HexLeo
@@ -22,11 +24,11 @@ public abstract class TabListMixin {
     @Overwrite
     @Nullable
     public Text getDisplayName() {
-        String name = (displayName != null)
-            ? displayName.getString()
-            : ((PlayerListEntry) (Object) this).getProfile().getName();
+        GameProfile profile = ((PlayerListEntry) (Object) this).getProfile();
+        String name = profile.getName();
+        String uuid = profile.getId().toString().replaceAll("-", "");
+
         return Text.literal(
-            SaturnSocket.playerNames.containsKey(name) ? "" + name : name
-        );
+                SaturnSocket.players.containsKey(uuid) ? "" + name : name);
     }
 }
