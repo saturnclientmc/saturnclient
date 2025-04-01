@@ -1,3 +1,8 @@
 {
-  "saturnclient:panton": "saturnclient:font/panton"
+  "providers": [
+    {
+      "type": "reference",
+      "id": "saturnclient:panton"
+    }
+  ]
 }

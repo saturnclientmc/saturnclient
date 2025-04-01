@@ -16,11 +16,9 @@ import org.saturnclient.saturnclient.SaturnClient;
 public class ConfigManager {
 
     private static File configFile = new File(
-        MinecraftClient.getInstance().runDirectory,
-        "saturn.json"
-    );
-    private static Map<String, Map<String, Property<?>>> properties =
-        new HashMap<>();
+            MinecraftClient.getInstance().runDirectory,
+            "saturn.json");
+    private static Map<String, Map<String, Property<?>>> properties = new HashMap<>();
 
     private String namespace;
 
@@ -45,49 +43,35 @@ public class ConfigManager {
             }
 
             JsonObject jsonObject = JsonParser.parseString(
-                new String(Files.readAllBytes(configFile.toPath()))
-            ).getAsJsonObject();
+                    new String(Files.readAllBytes(configFile.toPath()))).getAsJsonObject();
 
             for (String namespace : properties.keySet()) {
                 JsonElement configElement = jsonObject.get(namespace);
 
-                if (configElement == null) continue;
+                if (configElement == null)
+                    continue;
 
                 JsonObject config = jsonObject.get(namespace).getAsJsonObject();
 
                 if (config == null) {
-                    SaturnClient.LOGGER.warn(
-                        "No config found for namespace: " + namespace
-                    );
                     continue;
                 }
 
                 Map<String, Property<?>> propertyMap = properties.get(
-                    namespace
-                );
+                        namespace);
 
                 for (String propertyName : propertyMap.keySet()) {
                     JsonElement c = config.get(propertyName);
 
                     if (c == null) {
-                        SaturnClient.LOGGER.warn(
-                            "No property found in config for " + propertyName
-                        );
                         continue;
                     }
 
-                    SaturnClient.LOGGER.info("got prop " + c);
                     Property<?> p = propertyMap.get(propertyName);
-                    SaturnClient.LOGGER.info(
-                        "setting prop " + propertyName + " to " + p.value
-                    );
-
-                    SaturnClient.LOGGER.info("Property type: " + p.getType());
                     if (p.matchesJson(c)) {
                         switch (p.getType()) {
                             case BOOLEAN:
-                                ((Property<Boolean>) p).value =
-                                    c.getAsBoolean();
+                                ((Property<Boolean>) p).value = c.getAsBoolean();
                                 break;
                             case INTEGER:
                                 ((Property<Integer>) p).value = c.getAsInt();
@@ -106,8 +90,7 @@ public class ConfigManager {
                         }
                     } else {
                         SaturnClient.LOGGER.warn(
-                            "Property does not match JSON: " + propertyName
-                        );
+                                "Property does not match JSON: " + propertyName);
                     }
                 }
             }
@@ -126,8 +109,7 @@ public class ConfigManager {
             for (String namespace : properties.keySet()) {
                 JsonObject namespaceConfig = new JsonObject();
                 Map<String, Property<?>> propertyMap = properties.get(
-                    namespace
-                );
+                        namespace);
 
                 // Iterate through each property in the namespace
                 for (String propertyName : propertyMap.keySet()) {
@@ -138,33 +120,27 @@ public class ConfigManager {
                     switch (property.getType()) {
                         case BOOLEAN:
                             propertyValue = new JsonPrimitive(
-                                (Boolean) property.value
-                            );
+                                    (Boolean) property.value);
                             break;
                         case INTEGER:
                             propertyValue = new JsonPrimitive(
-                                (Integer) property.value
-                            );
+                                    (Integer) property.value);
                             break;
                         case FLOAT:
                             propertyValue = new JsonPrimitive(
-                                (Float) property.value
-                            );
+                                    (Float) property.value);
                             break;
                         case STRING:
                             propertyValue = new JsonPrimitive(
-                                (String) property.value
-                            );
+                                    (String) property.value);
                             break;
                         case HEX:
                             propertyValue = new JsonPrimitive(
-                                (Integer) property.value
-                            );
+                                    (Integer) property.value);
                             break;
                         default:
                             SaturnClient.LOGGER.warn(
-                                "Unknown property type for: " + propertyName
-                            );
+                                    "Unknown property type for: " + propertyName);
                             break;
                     }
 

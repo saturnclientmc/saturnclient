@@ -6,6 +6,7 @@ import java.util.Map;
 
 public class SaturnParser {
     public String method = "";
+    public String error;
     private Map<String, String> params = new HashMap<>();
 
     public SaturnParser(String input) throws IOException {
@@ -16,7 +17,7 @@ public class SaturnParser {
         }
 
         if (parts[0].startsWith("!")) {
-            throw new IOException(parts[0]);
+            error = input;
         }
 
         method = parts[0];

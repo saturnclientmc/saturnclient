@@ -44,6 +44,7 @@ public class Cloaks {
     public static void setCloak(String uuid, String cloakName) {
         SaturnSocket.setCloak(cloakName);
         setCloakSilent(uuid, cloakName);
+        SaturnSocket.sendReload();
         SaturnClient.LOGGER.info("Cloak set to " + cloakName);
     }
 

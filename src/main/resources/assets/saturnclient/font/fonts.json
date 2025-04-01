@@ -1,8 +1,0 @@
-{
-  "providers": [
-    {
-      "type": "reference",
-      "id": "saturnclient:panton"
-    }
-  ]
-}

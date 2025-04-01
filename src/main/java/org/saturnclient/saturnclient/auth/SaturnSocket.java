@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
 import net.minecraft.client.MinecraftClient;
 
 import org.saturnclient.saturnclient.SaturnClient;
@@ -109,6 +110,12 @@ public class SaturnSocket {
                                 playerNames.entrySet().removeIf(entry -> entry.getValue().equals(uuid));
                             }
                             break;
+
+                        default:
+                            if (parser.error != null) {
+                                SaturnClient.LOGGER.error("Error from the server: " + parser.error);
+                            }
+                            break;
                     }
                 }
             } catch (IOException e) {
@@ -142,6 +149,16 @@ public class SaturnSocket {
 
     public static void afterAuth() {
         PlayerTracker.initialize();
+
+        ClientReceiveMessageEvents.CHAT.register((message, signedMessage, sender, params, receptionTimestamp) -> {
+            String msg = message.getString();
+
+            if (msg.contains("$SATURN_RELOAD")) {
+                String name = sender.getName();
+                SaturnClient.LOGGER.info("Reloading player: " + name);
+                player(name, sender.getId().toString().replace("-", ""));
+            }
+        });
     }
 
     public static void setCloak(String cloakName) {
@@ -169,11 +186,14 @@ public class SaturnSocket {
         }
     }
 
-    public static void joinServer(String ip) {
-        try {
-            writer.println("join_server@ip=" + ip);
-        } catch (Exception e) {
-            SaturnClient.LOGGER.error("Request failed", e);
+    public static void sendReload() {
+        for (Map.Entry<String, String> player : playerNames.entrySet()) {
+            if (players.containsKey(player.getValue()) && !player.getValue().equals(uuid)) {
+                MinecraftClient.getInstance().player.networkHandler
+                        .sendChatCommand("msg " + player.getKey() + " "
+                                + "$SATURN_RELOAD if you are seeing this as a player, please report this to https://github.com/saturnclientmc/saturnclient/issues");
+                ;
+            }
         }
     }
 }
