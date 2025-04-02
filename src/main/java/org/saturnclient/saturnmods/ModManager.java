@@ -11,9 +11,10 @@ import org.saturnclient.saturnmods.mods.*;
 public class ModManager {
 
     public static SaturnMod[] MODS = {
-        new Coordinates(),
-        new ArmorDisplay(),
-        new FpsDisplay(),
+            new Coordinates(),
+            new ArmorDisplay(),
+            new FpsDisplay(),
+            new Particles()
     };
 
     public static void init() {
@@ -21,10 +22,8 @@ public class ModManager {
             MinecraftClient client = MinecraftClient.getInstance();
             TextRenderer textRenderer = client.textRenderer;
 
-            if (
-                textRenderer != null &&
-                !(client.currentScreen instanceof HudEditor)
-            ) {
+            if (textRenderer != null &&
+                    !(client.currentScreen instanceof HudEditor)) {
                 SaturnClient.textRenderer = textRenderer;
 
                 for (SaturnMod m : MODS) {

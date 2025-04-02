@@ -9,7 +9,8 @@
     "NameTagMixin",
     "PlayerEntityRendererMixin",
     "WhoAmI",
-    "SaturnReload"
+    "SaturnReload",
+    "TotemParticleMixin"
   ],
   "injectors": {
     "defaultRequire": 1
