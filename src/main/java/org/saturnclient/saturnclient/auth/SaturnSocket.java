@@ -25,6 +25,7 @@ public class SaturnSocket {
     private static BufferedReader reader;
     private static PrintWriter writer;
     private static Thread listenerThread;
+    private static Thread pingThread;
     private static volatile boolean running = false;
 
     @SuppressWarnings("resource")
@@ -73,6 +74,7 @@ public class SaturnSocket {
             afterAuth();
 
             startListenerThread();
+            startPingThread();
 
             return true;
         } catch (IOException e) {
@@ -128,9 +130,35 @@ public class SaturnSocket {
         listenerThread.start();
     }
 
+    private static void startPingThread() {
+        pingThread = new Thread(() -> {
+            try {
+                while (running) {
+                    Thread.sleep(25000); // 25 seconds
+                    if (running && writer != null) {
+                        writer.println("ping");
+                    }
+                }
+            } catch (InterruptedException e) {
+                SaturnClient.LOGGER.error("Ping thread interrupted", e);
+            } catch (Exception e) {
+                SaturnClient.LOGGER.error("Error in ping thread", e);
+            }
+        });
+
+        pingThread.setDaemon(true);
+        pingThread.start();
+    }
+
     public static void close() {
         running = false;
         try {
+            if (pingThread != null) {
+                pingThread.interrupt();
+            }
+            if (listenerThread != null) {
+                listenerThread.interrupt();
+            }
             if (writer != null) {
                 writer.close();
             }
