@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
-import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
 import net.minecraft.client.MinecraftClient;
 
 import org.saturnclient.saturnclient.SaturnClient;
@@ -149,16 +148,6 @@ public class SaturnSocket {
 
     public static void afterAuth() {
         PlayerTracker.initialize();
-
-        ClientReceiveMessageEvents.CHAT.register((message, signedMessage, sender, params, receptionTimestamp) -> {
-            String msg = message.getString();
-
-            if (msg.contains("$SATURN_RELOAD")) {
-                String name = sender.getName();
-                SaturnClient.LOGGER.info("Reloading player: " + name);
-                player(name, sender.getId().toString().replace("-", ""));
-            }
-        });
     }
 
     public static void setCloak(String cloakName) {
