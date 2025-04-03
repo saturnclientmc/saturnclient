@@ -59,6 +59,7 @@ public class SaturnFloat extends SaturnWidget {
                         text.substring(cursorPosition);
 
                 prop.value = text.isEmpty() ? 0 : Float.parseFloat(text);
+                org.saturnclient.saturnclient.config.ConfigManager.save();
 
                 cursorPosition++;
             }
@@ -77,6 +78,7 @@ public class SaturnFloat extends SaturnWidget {
                     cursorPosition = 1;
                 }
                 prop.value = Float.parseFloat(text);
+                org.saturnclient.saturnclient.config.ConfigManager.save();
             }
         } else if (keyCode == GLFW.GLFW_KEY_LEFT) {
             if (cursorPosition > 0) {

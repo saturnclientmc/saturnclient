@@ -1,5 +1,7 @@
 package org.saturnclient.saturnclient.config;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -87,7 +89,7 @@ public class ConfigManager {
                 if (p.getType() == Property.PropertyType.NAMESPACE) {
                     // Handle nested namespace
                     JsonObject nestedConfig = c.getAsJsonObject();
-                    Map<String, Property<?>> nestedProperties = (Map<String, Property<?>>) p.value;
+                    Map<String, Property<?>> nestedProperties = p.getNamespaceValue();
                     loadProperties(nestedConfig, nestedProperties);
                 } else {
                     // Handle regular properties
@@ -136,8 +138,12 @@ public class ConfigManager {
                 jsonObject.add(namespace, namespaceConfig);
             }
 
+            // Format the json so it can easily be edited
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String formattedJson = gson.toJson(jsonObject);
+
             // Write the JSON object to the config file
-            Files.write(configFile.toPath(), jsonObject.toString().getBytes());
+            Files.write(configFile.toPath(), formattedJson.getBytes());
             SaturnClient.LOGGER.info("Config saved successfully.");
         } catch (IOException e) {
             SaturnClient.LOGGER.error("Error saving the config file", e);

@@ -176,7 +176,8 @@ public class ConfigEditor extends SaturnUi {
 
                     // Recursively draw nested properties and update total rows
                     Map<String, Property<?>> nestedProperties = (Map<String, Property<?>>) prop.value;
-                    totalRows = drawProperties(configScroll, nestedProperties, rectWidth, totalRows + 1, 0);
+                    totalRows = drawProperties(configScroll, nestedProperties, rectWidth,
+                            totalRows + 1, 0);
             }
 
             if (full) {
@@ -199,5 +200,11 @@ public class ConfigEditor extends SaturnUi {
             default:
                 return true;
         }
+    }
+
+    @Override
+    public void close() {
+        ConfigManager.save();
+        super.close();
     }
 }

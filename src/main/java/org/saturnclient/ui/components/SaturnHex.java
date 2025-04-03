@@ -42,6 +42,7 @@ public class SaturnHex extends SaturnWidget {
 
             if (text.length() == 7) { // Only update value when full hex is entered
                 prop.value = hexToInt(text);
+                org.saturnclient.saturnclient.config.ConfigManager.save();
             }
         }
     }
@@ -65,6 +66,7 @@ public class SaturnHex extends SaturnWidget {
 
         if (text.length() == 7) { // Update only when valid hex
             prop.value = hexToInt(text);
+            org.saturnclient.saturnclient.config.ConfigManager.save();
         }
     }
 

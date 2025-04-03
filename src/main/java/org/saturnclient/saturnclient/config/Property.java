@@ -29,7 +29,7 @@ public class Property<T> {
             type = PropertyType.FLOAT;
         } else if (value instanceof String) {
             type = PropertyType.STRING;
-        } else if (isMapOfStringToProperty(value)) {
+        } else if (valueIsNamespace(value)) {
             type = PropertyType.NAMESPACE;
         }
     }
@@ -87,6 +87,14 @@ public class Property<T> {
         return type;
     }
 
+    @SuppressWarnings("unchecked")
+    public Map<String, Property<?>> getNamespaceValue() {
+        if (type == PropertyType.NAMESPACE && value instanceof Map) {
+            return (Map<String, Property<?>>) value;
+        }
+        throw new IllegalStateException("Property is not a namespace");
+    }
+
     public boolean matchesJson(JsonElement element) {
         if (element.isJsonPrimitive()) {
             JsonPrimitive primitive = element.getAsJsonPrimitive();
@@ -98,14 +106,14 @@ public class Property<T> {
                 return true;
             if (value instanceof String && primitive.isString())
                 return true;
-            if (isMapOfStringToProperty(value) && primitive.isJsonObject())
-                return true;
 
             // Check if JSON string represents a valid hex integer
             if (value instanceof String && primitive.isString()) {
                 String str = primitive.getAsString();
                 return str.matches("0x[0-9A-Fa-f]+");
             }
+        } else if (element.isJsonObject()) {
+            return isNamespace(value);
         }
         return false;
     }
@@ -115,19 +123,11 @@ public class Property<T> {
         return String.valueOf(value);
     }
 
-    public static boolean isMapOfStringToProperty(Object obj) {
-        if (!(obj instanceof Map<?, ?> map)) {
-            return false;
-        }
+    public boolean isNamespace(Object obj) {
+        return type == PropertyType.NAMESPACE && value instanceof Map;
+    }
 
-        for (Map.Entry<?, ?> entry : map.entrySet()) {
-            if (!(entry.getKey() instanceof String)) {
-                return false;
-            }
-            if (!(entry.getValue() instanceof Property<?>)) {
-                return false;
-            }
-        }
-        return true;
+    public static boolean valueIsNamespace(Object obj) {
+        return obj instanceof Map;
     }
 }

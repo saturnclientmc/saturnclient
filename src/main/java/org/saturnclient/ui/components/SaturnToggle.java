@@ -19,49 +19,47 @@ public class SaturnToggle extends SaturnWidget {
 
     @Override
     public void render(
-        DrawContext context,
-        boolean hovering,
-        int mouseX,
-        int mouseY
-    ) {
+            DrawContext context,
+            boolean hovering,
+            int mouseX,
+            int mouseY) {
         int color = prop.value
-            ? SaturnClient.COLOR.value
-            : SaturnClient.getWhite(alpha);
+                ? SaturnClient.COLOR.value
+                : SaturnClient.getWhite(alpha);
         int w = 13;
         int h = 6;
         int s = 8;
 
         context.drawTexture(
-            RenderLayer::getGuiTextured,
-            Textures.TOGGLE_BG,
-            0,
-            1,
-            0,
-            0,
-            w,
-            h,
-            w,
-            h,
-            color
-        );
+                RenderLayer::getGuiTextured,
+                Textures.TOGGLE_BG,
+                0,
+                1,
+                0,
+                0,
+                w,
+                h,
+                w,
+                h,
+                color);
 
         context.drawTexture(
-            RenderLayer::getGuiTextured,
-            Textures.TOGGLE_INDICATOR,
-            prop.value ? 5 : 0,
-            0,
-            0,
-            0,
-            s,
-            s,
-            s,
-            s,
-            color
-        );
+                RenderLayer::getGuiTextured,
+                Textures.TOGGLE_INDICATOR,
+                prop.value ? 5 : 0,
+                0,
+                0,
+                0,
+                s,
+                s,
+                s,
+                s,
+                color);
     }
 
     @Override
     public void click(int mouseX, int mouseY) {
         prop.value = !prop.value;
+        org.saturnclient.saturnclient.config.ConfigManager.save();
     }
 }
