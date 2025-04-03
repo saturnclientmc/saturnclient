@@ -14,15 +14,17 @@ public class Particles implements SaturnMod {
             "Enabled",
             new Property<>(false));
 
-    public static Property<Boolean> totem_enabled = config.property(
+    public static ConfigManager totem = new ConfigManager(config, "Totem particles");
+
+    public static Property<Boolean> totem_enabled = totem.property(
             "Change totem color",
             new Property<>(false));
 
-    public static Property<Integer> totem_1 = config.property(
+    public static Property<Integer> totem_1 = totem.property(
             "Totem particle color 1",
             new Property<>(SaturnClient.COLOR.value, Property.PropertyType.HEX));
 
-    public static Property<Integer> totem_2 = config.property(
+    public static Property<Integer> totem_2 = totem.property(
             "Totem particle color 2",
             new Property<>(SaturnClient.COLOR.value, Property.PropertyType.HEX));
 

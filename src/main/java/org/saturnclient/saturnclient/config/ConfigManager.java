@@ -20,20 +20,28 @@ public class ConfigManager {
             "saturn.json");
     private static Map<String, Map<String, Property<?>>> properties = new HashMap<>();
 
-    private String namespace;
+    private Map<String, Property<?>> currentMap;
 
     public ConfigManager(String namespace) {
-        this.namespace = namespace;
-        properties.put(namespace, new LinkedHashMap<>());
+        currentMap = new LinkedHashMap<>();
+        properties.put(namespace, currentMap);
+    }
+
+    public ConfigManager(ConfigManager config, String namespace) {
+        currentMap = new LinkedHashMap<>();
+        Property<Map<String, Property<?>>> namespaceProperty = new Property<>(currentMap,
+                Property.PropertyType.NAMESPACE);
+        config.property(namespace, namespaceProperty);
+        // Update the parent's state
+        config.currentMap.put(namespace, namespaceProperty);
     }
 
     // Generic method to store any type of property
     public <T> Property<T> property(String name, Property<T> value) {
-        properties.get(namespace).put(name, value);
+        currentMap.put(name, value);
         return value;
     }
 
-    @SuppressWarnings("unchecked")
     public static void load() {
         try {
             SaturnClient.LOGGER.info("Starting to load config...");
@@ -57,45 +65,56 @@ public class ConfigManager {
                     continue;
                 }
 
-                Map<String, Property<?>> propertyMap = properties.get(
-                        namespace);
-
-                for (String propertyName : propertyMap.keySet()) {
-                    JsonElement c = config.get(propertyName);
-
-                    if (c == null) {
-                        continue;
-                    }
-
-                    Property<?> p = propertyMap.get(propertyName);
-                    if (p.matchesJson(c)) {
-                        switch (p.getType()) {
-                            case BOOLEAN:
-                                ((Property<Boolean>) p).value = c.getAsBoolean();
-                                break;
-                            case INTEGER:
-                                ((Property<Integer>) p).value = c.getAsInt();
-                                break;
-                            case FLOAT:
-                                ((Property<Float>) p).value = c.getAsFloat();
-                                break;
-                            case STRING:
-                                ((Property<String>) p).value = c.getAsString();
-                                break;
-                            case HEX:
-                                ((Property<Integer>) p).value = c.getAsInt();
-                                break;
-                            default:
-                                break;
-                        }
-                    } else {
-                        SaturnClient.LOGGER.warn(
-                                "Property does not match JSON: " + propertyName);
-                    }
-                }
+                Map<String, Property<?>> propertyMap = properties.get(namespace);
+                loadProperties(config, propertyMap);
             }
         } catch (IOException e) {
             SaturnClient.LOGGER.error("Error reading the config file", e);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private static void loadProperties(JsonObject config, Map<String, Property<?>> propertyMap) {
+        for (String propertyName : propertyMap.keySet()) {
+            JsonElement c = config.get(propertyName);
+
+            if (c == null) {
+                continue;
+            }
+
+            Property<?> p = propertyMap.get(propertyName);
+            if (p.matchesJson(c)) {
+                if (p.getType() == Property.PropertyType.NAMESPACE) {
+                    // Handle nested namespace
+                    JsonObject nestedConfig = c.getAsJsonObject();
+                    Map<String, Property<?>> nestedProperties = (Map<String, Property<?>>) p.value;
+                    loadProperties(nestedConfig, nestedProperties);
+                } else {
+                    // Handle regular properties
+                    switch (p.getType()) {
+                        case BOOLEAN:
+                            ((Property<Boolean>) p).value = c.getAsBoolean();
+                            break;
+                        case INTEGER:
+                            ((Property<Integer>) p).value = c.getAsInt();
+                            break;
+                        case FLOAT:
+                            ((Property<Float>) p).value = c.getAsFloat();
+                            break;
+                        case STRING:
+                            ((Property<String>) p).value = c.getAsString();
+                            break;
+                        case HEX:
+                            ((Property<Integer>) p).value = c.getAsInt();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            } else {
+                SaturnClient.LOGGER.warn(
+                        "Property does not match JSON: " + propertyName);
+            }
         }
     }
 
@@ -108,46 +127,10 @@ public class ConfigManager {
             // Iterate through all namespaces and their properties
             for (String namespace : properties.keySet()) {
                 JsonObject namespaceConfig = new JsonObject();
-                Map<String, Property<?>> propertyMap = properties.get(
-                        namespace);
+                Map<String, Property<?>> propertyMap = properties.get(namespace);
 
-                // Iterate through each property in the namespace
-                for (String propertyName : propertyMap.keySet()) {
-                    Property<?> property = propertyMap.get(propertyName);
-                    JsonElement propertyValue = null;
-
-                    // Convert the property value based on its type
-                    switch (property.getType()) {
-                        case BOOLEAN:
-                            propertyValue = new JsonPrimitive(
-                                    (Boolean) property.value);
-                            break;
-                        case INTEGER:
-                            propertyValue = new JsonPrimitive(
-                                    (Integer) property.value);
-                            break;
-                        case FLOAT:
-                            propertyValue = new JsonPrimitive(
-                                    (Float) property.value);
-                            break;
-                        case STRING:
-                            propertyValue = new JsonPrimitive(
-                                    (String) property.value);
-                            break;
-                        case HEX:
-                            propertyValue = new JsonPrimitive(
-                                    (Integer) property.value);
-                            break;
-                        default:
-                            SaturnClient.LOGGER.warn(
-                                    "Unknown property type for: " + propertyName);
-                            break;
-                    }
-
-                    if (propertyValue != null) {
-                        namespaceConfig.add(propertyName, propertyValue);
-                    }
-                }
+                // Save properties for this namespace
+                saveProperties(namespaceConfig, propertyMap);
 
                 // Add the namespace config to the main JSON object
                 jsonObject.add(namespace, namespaceConfig);
@@ -161,7 +144,51 @@ public class ConfigManager {
         }
     }
 
+    @SuppressWarnings("unchecked")
+    private static void saveProperties(JsonObject config, Map<String, Property<?>> propertyMap) {
+        // Iterate through each property in the namespace
+        for (String propertyName : propertyMap.keySet()) {
+            Property<?> property = propertyMap.get(propertyName);
+            JsonElement propertyValue = null;
+
+            if (property.getType() == Property.PropertyType.NAMESPACE) {
+                // Handle nested namespace
+                JsonObject nestedConfig = new JsonObject();
+                Map<String, Property<?>> nestedProperties = (Map<String, Property<?>>) property.value;
+                saveProperties(nestedConfig, nestedProperties);
+                propertyValue = nestedConfig;
+            } else {
+                // Convert the property value based on its type
+                switch (property.getType()) {
+                    case BOOLEAN:
+                        propertyValue = new JsonPrimitive((Boolean) property.value);
+                        break;
+                    case INTEGER:
+                        propertyValue = new JsonPrimitive((Integer) property.value);
+                        break;
+                    case FLOAT:
+                        propertyValue = new JsonPrimitive((Float) property.value);
+                        break;
+                    case STRING:
+                        propertyValue = new JsonPrimitive((String) property.value);
+                        break;
+                    case HEX:
+                        propertyValue = new JsonPrimitive((Integer) property.value);
+                        break;
+                    default:
+                        SaturnClient.LOGGER.warn(
+                                "Unknown property type for: " + propertyName);
+                        break;
+                }
+            }
+
+            if (propertyValue != null) {
+                config.add(propertyName, propertyValue);
+            }
+        }
+    }
+
     public Map<String, Property<?>> getProperties() {
-        return properties.get(namespace);
+        return currentMap;
     }
 }

@@ -22,7 +22,6 @@ public class SaturnConfigEditor extends SaturnUi {
         super(Text.of("Config editor"));
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     protected void init() {
         int rectWidth = 330;
@@ -38,48 +37,14 @@ public class SaturnConfigEditor extends SaturnUi {
                         .setHeight(rectHeight)
                         .setAnimations(SaturnClient.getAnimations()));
 
-        int tabsX = (width - 43) / 2;
-        int tabsY = rectY - 17;
-
         draw(
-                new SaturnSprite(Textures.TABS)
-                        .setX(tabsX)
-                        .setY(tabsY)
-                        .setWidth(43)
-                        .setHeight(15)
-                        .setAnimations(SaturnClient.getAnimations()));
-
-        int tabSize = 9;
-        tabsX = (width - tabSize) / 2;
-        draw(
-                new SaturnClickableImage(Textures.SETTINGS, () -> {
-                    client.setScreen(new SaturnConfigEditor());
+                new SaturnClickableImage(Textures.CLOSE, () -> {
+                    this.close();
                 })
-                        .setColor(SaturnClient.COLOR.value)
-                        .setX(tabsX)
-                        .setY(tabsY + 3)
-                        .setWidth(tabSize)
-                        .setHeight(tabSize)
-                        .setAnimations(SaturnClient.getAnimations()));
-
-        draw(
-                new SaturnClickableImage(Textures.MODS_TAB, () -> {
-                    client.setScreen(new ModMenu());
-                })
-                        .setX(tabsX - 12)
-                        .setY(tabsY + 3)
-                        .setWidth(tabSize)
-                        .setHeight(tabSize)
-                        .setAnimations(SaturnClient.getAnimations()));
-
-        draw(
-                new SaturnClickableImage(Textures.SEARCH, () -> {
-                    System.out.println("Pressed");
-                })
-                        .setX(tabsX + 12)
-                        .setY(tabsY + 3)
-                        .setWidth(tabSize)
-                        .setHeight(tabSize)
+                        .setX(rectX)
+                        .setY(rectY - 15)
+                        .setWidth(13)
+                        .setHeight(13)
                         .setAnimations(SaturnClient.getAnimations()));
 
         SaturnScroll configScroll = new SaturnScroll();
@@ -87,9 +52,24 @@ public class SaturnConfigEditor extends SaturnUi {
         int row = 0;
         int col = 0;
 
-        for (Map.Entry<String, Property<?>> propEntry : SaturnClient.config
-                .getProperties()
-                .entrySet()) {
+        drawProperties(configScroll, SaturnClient.config.getProperties(), rectWidth, row, col);
+
+        draw(
+                configScroll
+                        .setX(rectX + 17)
+                        .setY(rectY + 10)
+                        .setWidth(rectWidth - 17)
+                        .setHeight(rectHeight - 10)
+                        .setAnimations(SaturnClient.getAnimations()));
+
+        super.init();
+    }
+
+    @SuppressWarnings("unchecked")
+    private int drawProperties(SaturnScroll configScroll, Map<String, Property<?>> properties, int rectWidth,
+            int row, int col) {
+        int totalRows = row;
+        for (Map.Entry<String, Property<?>> propEntry : properties.entrySet()) {
             Property<?> prop = propEntry.getValue();
             String propName = propEntry.getKey();
 
@@ -97,11 +77,11 @@ public class SaturnConfigEditor extends SaturnUi {
 
             if (full && col > 0) {
                 col = 0;
-                row++;
+                totalRows++;
             }
 
             int modX = ((rectWidth / 2) - 17) * col;
-            int modY = 14 * row;
+            int modY = 14 * totalRows;
 
             switch (prop.getType()) {
                 case BOOLEAN:
@@ -181,28 +161,31 @@ public class SaturnConfigEditor extends SaturnUi {
                                     modY,
                                     70));
                     break;
+                case NAMESPACE:
+                    configScroll.draw(
+                            new SaturnText(
+                                    propName.substring(0, 1).toUpperCase() +
+                                            propName.substring(1))
+                                    .setX(modX)
+                                    .setY(modY)
+                                    .setScale(0.8f));
+
+                    // Recursively draw nested properties and update total rows
+                    Map<String, Property<?>> nestedProperties = (Map<String, Property<?>>) prop.value;
+                    totalRows = drawProperties(configScroll, nestedProperties, rectWidth, totalRows + 1, 0);
             }
 
             if (full) {
-                row++;
+                totalRows++;
             } else {
                 col++;
                 if (col > 1) {
                     col = 0;
-                    row++;
+                    totalRows++;
                 }
             }
         }
-
-        draw(
-                configScroll
-                        .setX(rectX + 17)
-                        .setY(rectY + 10)
-                        .setWidth(rectWidth - 17)
-                        .setHeight(rectHeight - 10)
-                        .setAnimations(SaturnClient.getAnimations()));
-
-        super.init();
+        return totalRows;
     }
 
     public static boolean isFull(Property<?> prop) {

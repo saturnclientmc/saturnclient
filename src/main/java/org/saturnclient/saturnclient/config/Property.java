@@ -1,5 +1,7 @@
 package org.saturnclient.saturnclient.config;
 
+import java.util.Map;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 
@@ -11,6 +13,7 @@ public class Property<T> {
         FLOAT,
         STRING,
         HEX,
+        NAMESPACE
     }
 
     public T value;
@@ -26,6 +29,8 @@ public class Property<T> {
             type = PropertyType.FLOAT;
         } else if (value instanceof String) {
             type = PropertyType.STRING;
+        } else if (isMapOfStringToProperty(value)) {
+            type = PropertyType.NAMESPACE;
         }
     }
 
@@ -70,14 +75,12 @@ public class Property<T> {
                     return Integer.parseInt(str.substring(2), 16);
                 } catch (NumberFormatException e) {
                     throw new IllegalStateException(
-                        "Invalid hexadecimal integer format"
-                    );
+                            "Invalid hexadecimal integer format");
                 }
             }
         }
         throw new IllegalStateException(
-            "Property does not contain a valid hex integer"
-        );
+                "Property does not contain a valid hex integer");
     }
 
     public PropertyType getType() {
@@ -87,10 +90,16 @@ public class Property<T> {
     public boolean matchesJson(JsonElement element) {
         if (element.isJsonPrimitive()) {
             JsonPrimitive primitive = element.getAsJsonPrimitive();
-            if (value instanceof Boolean && primitive.isBoolean()) return true;
-            if (value instanceof Integer && primitive.isNumber()) return true;
-            if (value instanceof Float && primitive.isNumber()) return true;
-            if (value instanceof String && primitive.isString()) return true;
+            if (value instanceof Boolean && primitive.isBoolean())
+                return true;
+            if (value instanceof Integer && primitive.isNumber())
+                return true;
+            if (value instanceof Float && primitive.isNumber())
+                return true;
+            if (value instanceof String && primitive.isString())
+                return true;
+            if (isMapOfStringToProperty(value) && primitive.isJsonObject())
+                return true;
 
             // Check if JSON string represents a valid hex integer
             if (value instanceof String && primitive.isString()) {
@@ -104,5 +113,21 @@ public class Property<T> {
     @Override
     public String toString() {
         return String.valueOf(value);
+    }
+
+    public static boolean isMapOfStringToProperty(Object obj) {
+        if (!(obj instanceof Map<?, ?> map)) {
+            return false;
+        }
+
+        for (Map.Entry<?, ?> entry : map.entrySet()) {
+            if (!(entry.getKey() instanceof String)) {
+                return false;
+            }
+            if (!(entry.getValue() instanceof Property<?>)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

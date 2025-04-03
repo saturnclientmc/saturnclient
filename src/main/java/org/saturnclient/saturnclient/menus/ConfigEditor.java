@@ -26,7 +26,6 @@ public class ConfigEditor extends SaturnUi {
         this.config = config;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     protected void init() {
         int rectWidth = 330;
@@ -57,9 +56,24 @@ public class ConfigEditor extends SaturnUi {
         int row = 0;
         int col = 0;
 
-        for (Map.Entry<String, Property<?>> propEntry : config
-                .getProperties()
-                .entrySet()) {
+        drawProperties(configScroll, config.getProperties(), rectWidth, row, col);
+
+        draw(
+                configScroll
+                        .setX(rectX + 17)
+                        .setY(rectY + 10)
+                        .setWidth(rectWidth - 17)
+                        .setHeight(rectHeight - 10)
+                        .setAnimations(SaturnClient.getAnimations()));
+
+        super.init();
+    }
+
+    @SuppressWarnings("unchecked")
+    private int drawProperties(SaturnScroll configScroll, Map<String, Property<?>> properties, int rectWidth,
+            int row, int col) {
+        int totalRows = row;
+        for (Map.Entry<String, Property<?>> propEntry : properties.entrySet()) {
             Property<?> prop = propEntry.getValue();
             String propName = propEntry.getKey();
 
@@ -67,11 +81,11 @@ public class ConfigEditor extends SaturnUi {
 
             if (full && col > 0) {
                 col = 0;
-                row++;
+                totalRows++;
             }
 
             int modX = ((rectWidth / 2) - 17) * col;
-            int modY = 14 * row;
+            int modY = 14 * totalRows;
 
             switch (prop.getType()) {
                 case BOOLEAN:
@@ -151,28 +165,31 @@ public class ConfigEditor extends SaturnUi {
                                     modY,
                                     70));
                     break;
+                case NAMESPACE:
+                    configScroll.draw(
+                            new SaturnText(
+                                    propName.substring(0, 1).toUpperCase() +
+                                            propName.substring(1))
+                                    .setX(modX)
+                                    .setY(modY)
+                                    .setScale(0.8f));
+
+                    // Recursively draw nested properties and update total rows
+                    Map<String, Property<?>> nestedProperties = (Map<String, Property<?>>) prop.value;
+                    totalRows = drawProperties(configScroll, nestedProperties, rectWidth, totalRows + 1, 0);
             }
 
             if (full) {
-                row++;
+                totalRows++;
             } else {
                 col++;
                 if (col > 1) {
                     col = 0;
-                    row++;
+                    totalRows++;
                 }
             }
         }
-
-        draw(
-                configScroll
-                        .setX(rectX + 17)
-                        .setY(rectY + 10)
-                        .setWidth(rectWidth - 17)
-                        .setHeight(rectHeight - 10)
-                        .setAnimations(SaturnClient.getAnimations()));
-
-        super.init();
+        return totalRows;
     }
 
     public static boolean isFull(Property<?> prop) {
