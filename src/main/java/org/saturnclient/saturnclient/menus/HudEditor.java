@@ -18,7 +18,7 @@ public class HudEditor extends Screen {
     private HudMod draggingMod = null;
     private boolean resizing = false;
     private int offsetX, offsetY;
-    private static final int RESIZE_MARGIN = 6;
+    private static final int RESIZE_MARGIN = 3;
 
     public HudEditor() {
         super(Text.literal("HUD Editor"));

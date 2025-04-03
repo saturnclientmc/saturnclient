@@ -17,10 +17,13 @@ public class Property<T> {
     }
 
     public T value;
+    public boolean isReset = false;
+    private T defaultValue;
     private PropertyType type;
 
     public Property(T value) {
         this.value = value;
+        this.defaultValue = value;
         if (value instanceof Boolean) {
             type = PropertyType.BOOLEAN;
         } else if (value instanceof Integer) {
@@ -36,6 +39,7 @@ public class Property<T> {
 
     public Property(T value, PropertyType type) {
         this.value = value;
+        this.defaultValue = value;
         this.type = type;
     }
 
@@ -65,6 +69,11 @@ public class Property<T> {
             return (String) value;
         }
         throw new IllegalStateException("Property does not contain a string");
+    }
+
+    public void reset() {
+        value = defaultValue;
+        isReset = true;
     }
 
     public int getHexString() {

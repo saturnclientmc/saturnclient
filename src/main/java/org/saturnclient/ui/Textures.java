@@ -11,6 +11,7 @@ public class Textures {
     public static final Identifier SETTINGS = Identifier.of("saturnclient", "textures/gui/components/settings.png");
     public static final Identifier CLOAK = Identifier.of("saturnclient", "textures/gui/components/cloak.png");
     public static final Identifier HAT = Identifier.of("saturnclient", "textures/gui/components/hat.png");
+    public static final Identifier RESET = Identifier.of("saturnclient", "textures/gui/components/reset.png");
     public static final Identifier TOGGLE_INDICATOR = Identifier.of("saturnclient",
             "textures/gui/components/toggle_indicator.png");
     public static final Identifier TOGGLE_BG = Identifier.of("saturnclient", "textures/gui/components/toggle_bg.png");

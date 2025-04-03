@@ -97,6 +97,11 @@ public class SaturnFloat extends SaturnWidget {
             boolean hovering,
             int mouseX,
             int mouseY) {
+        if (prop.isReset) {
+            this.text = String.valueOf(prop.value);
+            this.cursorPosition = 0;
+            prop.isReset = false;
+        }
         SaturnUi.drawHighResGuiTexture(
                 context,
                 Textures.BUTTON_BORDER,

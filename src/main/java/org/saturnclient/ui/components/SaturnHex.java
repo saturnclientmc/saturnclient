@@ -22,7 +22,7 @@ public class SaturnHex extends SaturnWidget {
         this.y = y;
         this.width = width;
         this.prop = prop;
-        this.text = intToHex(prop.value); // Convert stored int to hex
+        this.text = intToHex(prop.value);
         this.height = textRenderer.fontHeight + 4;
         this.scale = 0.8f;
     }
@@ -76,6 +76,11 @@ public class SaturnHex extends SaturnWidget {
             boolean hovering,
             int mouseX,
             int mouseY) {
+        if (prop.isReset) {
+            this.text = intToHex(prop.value);
+            this.cursorPosition = 0;
+            prop.isReset = false;
+        }
         SaturnUi.drawHighResGuiTexture(
                 context,
                 Textures.BUTTON_BORDER,

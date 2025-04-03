@@ -6,6 +6,7 @@ import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.ui.SaturnUi;
+import org.saturnclient.ui.SaturnWidget;
 import org.saturnclient.ui.Textures;
 import org.saturnclient.ui.components.SaturnFloat;
 import org.saturnclient.ui.components.SaturnHex;
@@ -116,6 +117,8 @@ public class ConfigEditor extends SaturnUi {
                                     (rectWidth / 2) - 17,
                                     modY,
                                     70));
+
+                    configScroll.draw(resetButton(prop, modX, modY));
                     break;
                 case FLOAT:
                     configScroll.draw(
@@ -132,6 +135,8 @@ public class ConfigEditor extends SaturnUi {
                                     (rectWidth / 2) - 17,
                                     modY,
                                     70));
+
+                    configScroll.draw(resetButton(prop, modX, modY));
                     break;
                 case STRING:
                     configScroll.draw(
@@ -148,6 +153,8 @@ public class ConfigEditor extends SaturnUi {
                                     (rectWidth / 2) - 17,
                                     modY,
                                     70));
+
+                    configScroll.draw(resetButton(prop, modX, modY));
                     break;
                 case HEX:
                     configScroll.draw(
@@ -164,6 +171,8 @@ public class ConfigEditor extends SaturnUi {
                                     (rectWidth / 2) - 17,
                                     modY,
                                     70));
+
+                    configScroll.draw(resetButton(prop, modX, modY));
                     break;
                 case NAMESPACE:
                     configScroll.draw(
@@ -206,5 +215,20 @@ public class ConfigEditor extends SaturnUi {
     public void close() {
         ConfigManager.save();
         super.close();
+    }
+
+    public SaturnWidget resetButton(Property<?> prop, int modX, int modY) {
+        int size = textRenderer.fontHeight - 1;
+        return new SaturnImageButton(
+                Textures.RESET,
+                size,
+                size,
+                () -> {
+                    prop.reset();
+                })
+                .setX(modX + 209)
+                .setY(modY)
+                .setWidth(size + 3)
+                .setHeight(size + 3);
     }
 }

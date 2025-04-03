@@ -16,17 +16,20 @@ public class Coordinates implements SaturnMod, HudMod {
 
     private static ConfigManager config = new ConfigManager("coords");
     public static Property<Boolean> enabled = config.property(
-        "Enabled",
-        new Property<>(false)
-    );
+            "Enabled",
+            new Property<>(false));
     private static ModDimensions dimensions = new ModDimensions(config);
 
     public static Property<Integer> fgColor = config.property(
-        "Foreground color",
-        new Property<>(SaturnClient.WHITE, Property.PropertyType.HEX)
-    );
+            "Foreground color",
+            new Property<>(SaturnClient.WHITE, Property.PropertyType.HEX));
 
-    public Coordinates() {}
+    public Coordinates() {
+        // Ensure fgColor has a value
+        if (fgColor.value == null) {
+            fgColor.value = SaturnClient.WHITE;
+        }
+    }
 
     public void renderDummy(DrawContext context) {
         int playerX = 124;
@@ -34,17 +37,15 @@ public class Coordinates implements SaturnMod, HudMod {
         int playerZ = 83;
 
         context.drawText(
-            SaturnClient.textRenderer,
-            playerX + " " + playerY + " " + playerZ,
-            0,
-            0,
-            fgColor.value,
-            false
-        );
+                SaturnClient.textRenderer,
+                playerX + " " + playerY + " " + playerZ,
+                0,
+                0,
+                fgColor.value,
+                false);
 
         dimensions.width = SaturnClient.textRenderer.getWidth(
-            playerX + " " + playerY + " " + playerZ
-        );
+                playerX + " " + playerY + " " + playerZ);
         dimensions.height = SaturnClient.textRenderer.fontHeight;
     }
 
@@ -55,13 +56,12 @@ public class Coordinates implements SaturnMod, HudMod {
         int playerZ = (int) player.getZ();
 
         context.drawText(
-            SaturnClient.textRenderer,
-            playerX + " " + playerY + " " + playerZ,
-            0,
-            0,
-            fgColor.value,
-            false
-        );
+                SaturnClient.textRenderer,
+                playerX + " " + playerY + " " + playerZ,
+                0,
+                0,
+                fgColor.value,
+                false);
     }
 
     public String getName() {
