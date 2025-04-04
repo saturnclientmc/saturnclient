@@ -39,7 +39,7 @@ public class SaturnButton extends SaturnWidget {
             int mouseY) {
         MinecraftClient minecraftClient = MinecraftClient.getInstance();
 
-        int hoverColor = ((int) (hoverAlpha * 255) << 24) |
+        int hoverColor = ((int) (alpha * 255) << 24) |
                 (SaturnClient.COLOR.value & 0x00FFFFFF);
 
         if (background) {
@@ -65,7 +65,7 @@ public class SaturnButton extends SaturnWidget {
                         0,
                         this.width,
                         this.height,
-                        ((int) (hoverAlpha * 255) << 24) | (SaturnClient.COLOR.value & 0x00FFFFFF));
+                        ((int) (hoverAlpha * 255) << 24) | (hoverColor));
             } else {
                 hoverAlpha = 0.0f;
             }
