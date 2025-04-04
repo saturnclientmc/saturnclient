@@ -3,7 +3,6 @@ package org.saturnclient.ui.widgets;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
-
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.SaturnWidget;
 

@@ -59,7 +59,7 @@ public class ModMenu extends SaturnUi {
         draw(
                 new SaturnClickableImage(Textures.MODS_TAB, () -> {
                 })
-                        .setColor(SaturnClient.COLOR.value)
+                        .setSelected(true)
                         .setX(tabsX - 12)
                         .setY(tabsY + 3)
                         .setWidth(tabSize)

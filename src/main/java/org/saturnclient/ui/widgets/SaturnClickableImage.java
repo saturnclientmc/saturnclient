@@ -3,7 +3,6 @@ package org.saturnclient.ui.widgets;
 import java.util.function.Consumer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.SaturnWidget;
@@ -13,8 +12,7 @@ public class SaturnClickableImage extends SaturnWidget {
     public Identifier texture;
     public boolean selected = false;
     public Consumer<SaturnClickableImage> onPress;
-    public int color = SaturnClient.getWhite(1.0f);
-    public int hoverColor = SaturnClient.COLOR.value;
+    private float hoverAlpha = 0.0f;
 
     public SaturnClickableImage(
             Identifier texture,
@@ -35,6 +33,11 @@ public class SaturnClickableImage extends SaturnWidget {
             boolean hovering,
             int mouseX,
             int mouseY) {
+        if (hovering) {
+            if (hoverAlpha == 0.0f)
+                hoverAlpha = 0.1f;
+        }
+
         SaturnUi.drawHighResTexture(
                 context,
                 texture,
@@ -42,8 +45,7 @@ public class SaturnClickableImage extends SaturnWidget {
                 0,
                 width,
                 height,
-                (hovering || selected ? hoverColor : color) |
-                        (MathHelper.ceil(this.alpha * 255.0F) << 24));
+                SaturnClient.getColor(hovering || selected, alpha));
     }
 
     @Override
@@ -56,8 +58,11 @@ public class SaturnClickableImage extends SaturnWidget {
         return this;
     }
 
-    public SaturnClickableImage setColor(int c) {
-        this.color = c;
-        return this;
+    @Override
+    public void tick() {
+        if (hoverAlpha > 0.0f && hoverAlpha < 0.9f)
+            hoverAlpha += 0.03f;
+        else if (hoverAlpha > 0.9f && hoverAlpha < 1.0f)
+            hoverAlpha = 1.0f;
     }
 }

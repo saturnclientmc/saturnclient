@@ -66,6 +66,11 @@ public class SaturnUi extends Screen {
         matricies.pop();
     }
 
+    public static int getAlpha(int color, float alpha) {
+        return ((int) (alpha * 255) << 24) |
+                (color & 0x00FFFFFF);
+    }
+
     public List<SaturnWidget> widgets = new ArrayList<>();
     private int tick = 0;
 

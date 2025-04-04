@@ -17,6 +17,7 @@ public class SaturnImageButton extends SaturnWidget {
     public int imageWidth;
     public int imageHeight;
     public Consumer<SaturnImageButton> onPress;
+    private float hoverAlpha = 0.0f;
 
     public SaturnImageButton(
             Identifier sprite,
@@ -45,8 +46,10 @@ public class SaturnImageButton extends SaturnWidget {
             boolean hovering,
             int mouseX,
             int mouseY) {
-        int hoverColor = ((int) (alpha * 255) << 24) |
-                (SaturnClient.COLOR.value & 0x00FFFFFF);
+        if (hovering) {
+            if (hoverAlpha == 0.0f)
+                hoverAlpha = 0.1f;
+        }
         RenderSystem.setShaderTexture(0, Textures.BUTTON);
 
         SaturnUi.drawHighResGuiTexture(
@@ -56,7 +59,7 @@ public class SaturnImageButton extends SaturnWidget {
                 0,
                 this.width,
                 this.height,
-                SaturnClient.getWhite(this.alpha));
+                SaturnClient.getColor(hovering, alpha));
 
         if (hovering) {
             SaturnUi.drawHighResGuiTexture(
@@ -66,7 +69,7 @@ public class SaturnImageButton extends SaturnWidget {
                     0,
                     this.width,
                     this.height,
-                    hoverColor);
+                    SaturnClient.getColor(hovering, alpha));
         }
 
         context.drawTexture(
@@ -80,11 +83,19 @@ public class SaturnImageButton extends SaturnWidget {
                 imageHeight,
                 imageWidth,
                 imageHeight,
-                hovering ? hoverColor : SaturnClient.getWhite(alpha));
+                SaturnClient.getColor(hovering, alpha));
     }
 
     @Override
     public void click(int mouseX, int mouseY) {
         this.onPress.accept(this);
+    }
+
+    @Override
+    public void tick() {
+        if (hoverAlpha > 0.0f && hoverAlpha < 0.9f)
+            hoverAlpha += 0.03f;
+        else if (hoverAlpha > 0.9f && hoverAlpha < 1.0f)
+            hoverAlpha = 1.0f;
     }
 }

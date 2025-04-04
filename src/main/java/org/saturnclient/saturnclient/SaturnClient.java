@@ -12,6 +12,7 @@ import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 import org.saturnclient.saturnclient.event.KeyInputHandler;
 import org.saturnclient.saturnmods.ModManager;
 import org.saturnclient.ui.SaturnAnimation;
+import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.animations.FadeIn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +46,10 @@ public class SaturnClient implements ModInitializer {
         return ((int) (alpha * 255) << 24) | (NORMAL.value & 0x00FFFFFF);
     }
 
+    public static int getColor(boolean hovering, float alpha) {
+        return SaturnUi.getAlpha(hovering ? SaturnClient.COLOR.value : NORMAL.value, alpha);
+    }
+
     public static SaturnAnimation[] getAnimations() {
         return new SaturnAnimation[] { new FadeIn(1) };
     }
@@ -65,5 +70,5 @@ public class SaturnClient implements ModInitializer {
         } else {
             LOGGER.error("Failed to authenticate with the server");
         }
-    }   
+    }
 }

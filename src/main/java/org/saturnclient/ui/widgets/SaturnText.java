@@ -21,18 +21,16 @@ public class SaturnText extends SaturnWidget {
 
     @Override
     public void render(
-        DrawContext context,
-        boolean hovering,
-        int mouseX,
-        int mouseY
-    ) {
+            DrawContext context,
+            boolean hovering,
+            int mouseX,
+            int mouseY) {
         context.drawText(
-            SaturnClient.textRenderer,
-            SaturnUi.text(text),
-            0,
-            0,
-            SaturnClient.getWhite(alpha),
-            false
-        );
+                SaturnClient.textRenderer,
+                SaturnUi.text(text),
+                0,
+                0,
+                SaturnClient.getColor(hovering, alpha),
+                false);
     }
 }

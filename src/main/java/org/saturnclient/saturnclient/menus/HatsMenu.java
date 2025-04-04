@@ -50,7 +50,7 @@ public class HatsMenu extends SaturnUi {
                 new SaturnClickableImage(Textures.HAT, () -> {
                     client.setScreen(new HatsMenu());
                 })
-                        .setColor(SaturnClient.COLOR.value)
+                        .setSelected(true)
                         .setX(tabsX)
                         .setY(tabsY + 4)
                         .setWidth(tabSize)
@@ -90,7 +90,6 @@ public class HatsMenu extends SaturnUi {
                     new SaturnClickableSprite(Textures.BUTTON_BORDER, () -> {
                         Hats.setHat(SaturnSocket.uuid, hat);
                     })
-                            .setColor(10526880)
                             .setX(modX)
                             .setY(modY)
                             .setWidth(hatSize + 6)

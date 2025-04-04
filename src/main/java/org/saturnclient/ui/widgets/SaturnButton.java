@@ -4,7 +4,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import java.util.function.Consumer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.util.math.MathHelper;
 
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.ui.SaturnUi;
@@ -17,8 +16,7 @@ public class SaturnButton extends SaturnWidget {
     public String text;
     public Consumer<SaturnButton> onPress;
     public boolean background = true;
-
-    private float hoverAlpha;
+    private float hoverAlpha = 0.0f;
 
     public SaturnButton(String text, Consumer<SaturnButton> onPress) {
         this.text = text;
@@ -39,9 +37,6 @@ public class SaturnButton extends SaturnWidget {
             int mouseY) {
         MinecraftClient minecraftClient = MinecraftClient.getInstance();
 
-        int hoverColor = ((int) (alpha * 255) << 24) |
-                (SaturnClient.COLOR.value & 0x00FFFFFF);
-
         if (background) {
             RenderSystem.setShaderTexture(0, Textures.BUTTON);
 
@@ -52,7 +47,7 @@ public class SaturnButton extends SaturnWidget {
                     0,
                     this.width,
                     this.height,
-                    SaturnClient.getWhite(this.alpha));
+                    SaturnClient.getColor(hovering, alpha));
 
             if (hovering) {
                 if (hoverAlpha == 0.0f)
@@ -65,14 +60,13 @@ public class SaturnButton extends SaturnWidget {
                         0,
                         this.width,
                         this.height,
-                        ((int) (hoverAlpha * 255) << 24) | (hoverColor));
+                        SaturnClient.getColor(hovering, alpha));
             } else {
                 hoverAlpha = 0.0f;
             }
         }
 
         if (alpha != 0.0f) {
-            int i = this.active ? 16777215 : 10526880;
             context.drawText(
                     minecraftClient.textRenderer,
                     SaturnUi.text(text),
@@ -83,9 +77,7 @@ public class SaturnButton extends SaturnWidget {
                             2),
                     ((this.height - minecraftClient.textRenderer.fontHeight + 1) /
                             2),
-                    hovering
-                            ? hoverColor
-                            : i | (MathHelper.ceil(this.alpha * 255.0F) << 24),
+                    SaturnClient.getColor(hovering, alpha),
                     false);
         }
     }
@@ -98,7 +90,7 @@ public class SaturnButton extends SaturnWidget {
     @Override
     public void tick() {
         if (hoverAlpha > 0.0f && hoverAlpha < 0.9f)
-            hoverAlpha += 0.06f;
+            hoverAlpha += 0.03f;
         else if (hoverAlpha > 0.9f && hoverAlpha < 1.0f)
             hoverAlpha = 1.0f;
     }

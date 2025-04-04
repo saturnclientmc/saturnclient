@@ -60,7 +60,7 @@ public class CloaksMenu extends SaturnUi {
                 new SaturnClickableImage(Textures.CLOAK, () -> {
                     client.setScreen(new CloaksMenu());
                 })
-                        .setColor(SaturnClient.COLOR.value)
+                        .setSelected(true)
                         .setX(tabsX - 12)
                         .setY(tabsY + 3)
                         .setWidth(tabSize)
@@ -91,7 +91,6 @@ public class CloaksMenu extends SaturnUi {
                     new SaturnClickableSprite(Textures.BUTTON_BORDER, () -> {
                         Cloaks.setCloak(SaturnSocket.uuid, cloak);
                     })
-                            .setColor(10526880)
                             .setX(modX)
                             .setY(modY)
                             .setWidth(cloakWidth + 6)
