@@ -5,8 +5,13 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
 import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.ui.SaturnUi;
+import org.saturnclient.ui.SaturnWidget;
+import org.saturnclient.ui.Textures;
 
-public class SaturnImageButton extends SaturnButton {
+import com.mojang.blaze3d.systems.RenderSystem;
+
+public class SaturnImageButton extends SaturnWidget {
 
     public Identifier sprite;
     public int imageWidth;
@@ -14,12 +19,10 @@ public class SaturnImageButton extends SaturnButton {
     public Consumer<SaturnImageButton> onPress;
 
     public SaturnImageButton(
-        Identifier sprite,
-        int imageWidth,
-        int imageHeight,
-        Consumer<SaturnImageButton> onPress
-    ) {
-        super("", _o -> {});
+            Identifier sprite,
+            int imageWidth,
+            int imageHeight,
+            Consumer<SaturnImageButton> onPress) {
         this.sprite = sprite;
         this.imageWidth = imageWidth;
         this.imageHeight = imageHeight;
@@ -27,11 +30,10 @@ public class SaturnImageButton extends SaturnButton {
     }
 
     public SaturnImageButton(
-        Identifier sprite,
-        int imageWidth,
-        int imageHeight,
-        Runnable onPress
-    ) {
+            Identifier sprite,
+            int imageWidth,
+            int imageHeight,
+            Runnable onPress) {
         this(sprite, imageWidth, imageHeight, _o -> {
             onPress.run();
         });
@@ -39,39 +41,50 @@ public class SaturnImageButton extends SaturnButton {
 
     @Override
     public void render(
-        DrawContext context,
-        boolean hovering,
-        int mouseX,
-        int mouseY
-    ) {
-        super.render(context, hovering, mouseX, mouseY);
+            DrawContext context,
+            boolean hovering,
+            int mouseX,
+            int mouseY) {
+        int hoverColor = ((int) (alpha * 255) << 24) |
+                (SaturnClient.COLOR.value & 0x00FFFFFF);
+        RenderSystem.setShaderTexture(0, Textures.BUTTON);
 
-        int hoverColor =
-            ((int) (alpha * 255) << 24) |
-            (SaturnClient.COLOR.value & 0x00FFFFFF);
+        SaturnUi.drawHighResGuiTexture(
+                context,
+                Textures.BUTTON,
+                0,
+                0,
+                this.width,
+                this.height,
+                SaturnClient.getWhite(this.alpha));
+
+        if (hovering) {
+            SaturnUi.drawHighResGuiTexture(
+                    context,
+                    Textures.BUTTON_BORDER,
+                    0,
+                    0,
+                    this.width,
+                    this.height,
+                    hoverColor);
+        }
 
         context.drawTexture(
-            RenderLayer::getGuiTextured,
-            sprite,
-            ((width - imageWidth) / 2),
-            ((height - imageHeight) / 2),
-            0,
-            0,
-            imageWidth,
-            imageHeight,
-            imageWidth,
-            imageHeight,
-            hovering ? hoverColor : SaturnClient.getWhite(alpha)
-        );
+                RenderLayer::getGuiTextured,
+                sprite,
+                ((width - imageWidth) / 2),
+                ((height - imageHeight) / 2),
+                0,
+                0,
+                imageWidth,
+                imageHeight,
+                imageWidth,
+                imageHeight,
+                hovering ? hoverColor : SaturnClient.getWhite(alpha));
     }
 
     @Override
     public void click(int mouseX, int mouseY) {
         this.onPress.accept(this);
-    }
-
-    public SaturnImageButton setBackground(boolean background) {
-        this.background = background;
-        return this;
     }
 }

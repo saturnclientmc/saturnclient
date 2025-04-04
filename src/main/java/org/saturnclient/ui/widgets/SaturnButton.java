@@ -5,7 +5,6 @@ import java.util.function.Consumer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.math.MathHelper;
-import org.lwjgl.opengl.GL11;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.SaturnWidget;
@@ -42,10 +41,6 @@ public class SaturnButton extends SaturnWidget {
 
         if (background) {
             RenderSystem.setShaderTexture(0, Textures.BUTTON);
-            RenderSystem.texParameter(
-                    GL11.GL_TEXTURE_2D,
-                    GL11.GL_TEXTURE_MIN_FILTER,
-                    GL11.GL_LINEAR_MIPMAP_LINEAR);
 
             SaturnUi.drawHighResGuiTexture(
                     context,
