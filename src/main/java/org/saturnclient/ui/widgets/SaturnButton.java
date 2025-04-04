@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.math.MathHelper;
+
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.SaturnWidget;
@@ -16,6 +17,8 @@ public class SaturnButton extends SaturnWidget {
     public String text;
     public Consumer<SaturnButton> onPress;
     public boolean background = true;
+
+    private float hoverAlpha;
 
     public SaturnButton(String text, Consumer<SaturnButton> onPress) {
         this.text = text;
@@ -36,7 +39,7 @@ public class SaturnButton extends SaturnWidget {
             int mouseY) {
         MinecraftClient minecraftClient = MinecraftClient.getInstance();
 
-        int hoverColor = ((int) (alpha * 255) << 24) |
+        int hoverColor = ((int) (hoverAlpha * 255) << 24) |
                 (SaturnClient.COLOR.value & 0x00FFFFFF);
 
         if (background) {
@@ -52,6 +55,9 @@ public class SaturnButton extends SaturnWidget {
                     SaturnClient.getWhite(this.alpha));
 
             if (hovering) {
+                if (hoverAlpha == 0.0f)
+                    hoverAlpha = 0.1f;
+
                 SaturnUi.drawHighResGuiTexture(
                         context,
                         Textures.BUTTON_BORDER,
@@ -59,7 +65,9 @@ public class SaturnButton extends SaturnWidget {
                         0,
                         this.width,
                         this.height,
-                        hoverColor);
+                        ((int) (hoverAlpha * 255) << 24) | (SaturnClient.COLOR.value & 0x00FFFFFF));
+            } else {
+                hoverAlpha = 0.0f;
             }
         }
 
@@ -85,5 +93,13 @@ public class SaturnButton extends SaturnWidget {
     @Override
     public void click(int mouseX, int mouseY) {
         this.onPress.accept(this);
+    }
+
+    @Override
+    public void tick() {
+        if (hoverAlpha > 0.0f && hoverAlpha < 0.9f)
+            hoverAlpha += 0.06f;
+        else if (hoverAlpha > 0.9f && hoverAlpha < 1.0f)
+            hoverAlpha = 1.0f;
     }
 }

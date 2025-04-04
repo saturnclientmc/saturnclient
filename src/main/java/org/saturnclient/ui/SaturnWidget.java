@@ -14,27 +14,34 @@ public class SaturnWidget {
     public boolean visible = true;
     public boolean focused = false;
 
-    public void init() {}
+    public void init() {
+    }
 
     public void render(
-        DrawContext context,
-        boolean hovering,
-        int mouseX,
-        int mouseY
-    ) {}
+            DrawContext context,
+            boolean hovering,
+            int mouseX,
+            int mouseY) {
+    }
 
-    public void click(int mouseX, int mouseY) {}
+    public void click(int mouseX, int mouseY) {
+    }
 
-    public void keyPressed(int keyCode, int scanCode, int modifiers) {}
+    public void keyPressed(int keyCode, int scanCode, int modifiers) {
+    }
 
-    public void charTyped(char typedChar) {}
+    public void charTyped(char typedChar) {
+    }
+
+    public void tick() {
+    }
 
     public void mouseScrolled(
-        int mouseX,
-        int mouseY,
-        double horizontalAmount,
-        double verticalAmount
-    ) {}
+            int mouseX,
+            int mouseY,
+            double horizontalAmount,
+            double verticalAmount) {
+    }
 
     public SaturnWidget setX(int x) {
         this.x = x;

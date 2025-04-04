@@ -65,5 +65,5 @@ public class SaturnClient implements ModInitializer {
         } else {
             LOGGER.error("Failed to authenticate with the server");
         }
-    }
+    }   
 }

@@ -28,11 +28,11 @@ public class Textures {
     public static final Identifier MOD_BG = Identifier.of("saturnclient", "textures/gui/components/mod_bg.png");
 
     public static Identifier getCloakPreview(String cloak) {
-        return Identifier.of("saturnclient", "textures/gui/cloak/" + cloak + ".png");
+        return Identifier.of("saturnclient", "textures/gui/cloak/" + (cloak.isEmpty() ? "none" : cloak) + ".png");
     }
 
     public static Identifier getHatPreview(String hat) {
-        return Identifier.of("saturnclient", "textures/gui/hat/" + hat + ".png");
+        return Identifier.of("saturnclient", "textures/gui/hat/" + (hat.isEmpty() ? "none" : hat) + ".png");
     }
 
     public static Identifier getModIcon(String modId) {

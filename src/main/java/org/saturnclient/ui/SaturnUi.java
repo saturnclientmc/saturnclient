@@ -245,6 +245,8 @@ public class SaturnUi extends Screen {
                         }
                     }
                 }
+
+                widget.tick();
             }
             tick++;
         }
