@@ -3,16 +3,21 @@ package org.saturnclient.saturnclient.menus;
 import net.minecraft.text.Text;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.config.ConfigManager;
+import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.saturnmods.ModManager;
 import org.saturnclient.saturnmods.SaturnMod;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.Textures;
 import org.saturnclient.ui.components.SaturnModComp;
 import org.saturnclient.ui.widgets.SaturnClickableImage;
+import org.saturnclient.ui.widgets.SaturnInputBox;
 import org.saturnclient.ui.widgets.SaturnScroll;
 import org.saturnclient.ui.widgets.SaturnSprite;
 
 public class ModMenu extends SaturnUi {
+
+    private SaturnScroll scroll;
+    private Property<String> search = new Property<>("");
 
     public ModMenu() {
         super(Text.literal("Mods"));
@@ -22,19 +27,19 @@ public class ModMenu extends SaturnUi {
     protected void init() {
         int rectWidth = 330;
         int rectHeight = 228;
-        int modsX = (width - rectWidth) / 2;
-        int modsY = (height - rectHeight + 15) / 2;
+        int rectX = (width - rectWidth) / 2;
+        int rectY = (height - rectHeight + 15) / 2;
 
         draw(
                 new SaturnSprite(Textures.SETTINGS_BG)
-                        .setX(modsX)
-                        .setY(modsY)
+                        .setX(rectX)
+                        .setY(rectY)
                         .setWidth(rectWidth)
                         .setHeight(rectHeight)
                         .setAnimations(SaturnClient.getAnimations()));
 
         int tabsX = (width - 43) / 2;
-        int tabsY = modsY - 17;
+        int tabsY = rectY - 17;
 
         draw(
                 new SaturnSprite(Textures.RECT)
@@ -42,6 +47,15 @@ public class ModMenu extends SaturnUi {
                         .setY(tabsY)
                         .setWidth(43)
                         .setHeight(15)
+                        .setAnimations(SaturnClient.getAnimations()));
+
+        draw(
+                new SaturnInputBox(search, rectX + rectWidth - 72, tabsY, 70).onUpdate(() -> {
+                    scroll.clear();
+                    drawItems(rectX, rectY, rectWidth, rectHeight);
+                })
+                        .setHeight(15)
+                        .setWidth(72)
                         .setAnimations(SaturnClient.getAnimations()));
 
         int tabSize = 9;
@@ -76,6 +90,27 @@ public class ModMenu extends SaturnUi {
                         .setHeight(tabSize)
                         .setAnimations(SaturnClient.getAnimations()));
 
+        scroll = new SaturnScroll();
+
+        drawItems(rectX, rectY, rectWidth, rectHeight);
+
+        draw(scroll
+                .setX(rectX + 17)
+                .setY(rectY + 10)
+                .setWidth(rectWidth - 17)
+                .setHeight(rectHeight - 20)
+                .setAnimations(SaturnClient.getAnimations()));
+
+        super.init();
+    }
+
+    @Override
+    public void close() {
+        ConfigManager.save();
+        super.close();
+    }
+
+    private void drawItems(int rectX, int rectY, int rectWidth, int rectHeight) {
         int modX = 0;
         int modY = 0;
         int col = 0;
@@ -100,21 +135,5 @@ public class ModMenu extends SaturnUi {
                 col = 0;
             }
         }
-
-        draw(
-                modsScroll
-                        .setX(modsX + 17)
-                        .setY(modsY + 10)
-                        .setWidth(rectWidth - 17)
-                        .setHeight(rectHeight - 20)
-                        .setAnimations(SaturnClient.getAnimations()));
-
-        super.init();
-    }
-
-    @Override
-    public void close() {
-        ConfigManager.save();
-        super.close();
     }
 }
