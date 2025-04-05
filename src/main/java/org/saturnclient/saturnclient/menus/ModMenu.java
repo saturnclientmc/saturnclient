@@ -115,10 +115,17 @@ public class ModMenu extends SaturnUi {
         int modY = 0;
         int col = 0;
 
-        SaturnScroll modsScroll = new SaturnScroll();
+        String[] searchTokens = search.value.toLowerCase().split("\\ ");
 
-        for (SaturnMod mod : ModManager.MODS) {
-            modsScroll.draw(
+        outer: for (SaturnMod mod : ModManager.MODS) {
+            String modName = mod.getName().toLowerCase();
+            for (String searchToken : searchTokens) {
+                if (!modName.contains(searchToken)) {
+                    continue outer;
+                }
+            }
+
+            scroll.draw(
                     new SaturnModComp(mod)
                             .setX(modX)
                             .setY(modY)

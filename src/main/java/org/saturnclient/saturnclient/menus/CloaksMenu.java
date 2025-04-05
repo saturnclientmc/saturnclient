@@ -113,7 +113,7 @@ public class CloaksMenu extends SaturnUi {
         int modY = 0;
         int col = 0;
 
-        String[] searchTokens = search.value.split("\\ ");
+        String[] searchTokens = search.value.toLowerCase().split("\\ ");
 
         outer: for (String cloak : Cloaks.availableCloaks) {
             for (String searchToken : searchTokens) {

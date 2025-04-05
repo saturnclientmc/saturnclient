@@ -99,24 +99,57 @@ public class SaturnInputBox extends SaturnWidget {
                 focused
                         ? SaturnClient.COLOR.value
                         : SaturnClient.getWhite(this.alpha));
-        SaturnUi.drawHighResGuiTexture(
-                context,
-                Textures.BUTTON_BORDER,
-                0,
-                0,
-                this.width,
-                this.height,
-                focused
-                        ? SaturnClient.COLOR.value
-                        : SaturnClient.getWhite(this.alpha));
 
-        int scrollOffset = getScrollOffset();
-        String visibleText = getVisibleText(scrollOffset);
+        if (hovering || focused) {
+            SaturnUi.drawHighResGuiTexture(
+                    context,
+                    Textures.BUTTON_BORDER,
+                    0,
+                    0,
+                    this.width,
+                    this.height,
+                    hovering
+                            ? SaturnClient.COLOR.value
+                            : SaturnClient.getWhite(this.alpha));
+        }
 
         MatrixStack matrices = context.getMatrices();
         matrices.push();
-        int textColor = focused ? 0xFFFFFF : 0xAAAAAA;
+
+        if (prop.value.isEmpty() && !focused) {
+            SaturnUi.drawHighResTexture(
+                    context,
+                    Textures.SEARCH,
+                    3,
+                    3,
+                    9,
+                    9,
+                    hovering
+                            ? SaturnClient.COLOR.value
+                            : SaturnClient.getWhite(this.alpha));
+
+            matrices.scale(0.9f, 0.9f, 1.0f);
+
+            context.drawText(
+                    textRenderer,
+                    SaturnUi.text("Search"),
+                    14,
+                    textRenderer.fontHeight / 2 + 1,
+                    hovering
+                            ? SaturnClient.COLOR.value
+                            : SaturnClient.getWhite(this.alpha),
+                    false);
+        }
+
+        matrices.pop();
+
+        matrices.push();
+
         matrices.scale(0.9f, 0.9f, 1.0f);
+
+        int scrollOffset = getScrollOffset();
+        String visibleText = getVisibleText(scrollOffset);
+        int textColor = focused ? 0xFFFFFF : 0xAAAAAA;
         context.drawText(
                 textRenderer,
                 SaturnUi.text(visibleText),
