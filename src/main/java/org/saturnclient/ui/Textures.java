@@ -22,8 +22,10 @@ public class Textures {
     // Widgets
     public static final Identifier BUTTON_BORDER = Identifier.of("saturnclient", "button_border");
     public static final Identifier BUTTON = Identifier.of("saturnclient", "button");
+    public static final Identifier BUTTON_OP = Identifier.of("saturnclient", "button_op");
     public static final Identifier SETTINGS_BG = Identifier.of("saturnclient", "settings_bg");
     public static final Identifier RECT = Identifier.of("saturnclient", "rect");
+    public static final Identifier RECT_BORDER = Identifier.of("saturnclient", "rect_border");
     public static final Identifier MOD = Identifier.of("saturnclient", "textures/gui/components/mod.png");
     public static final Identifier MOD_BG = Identifier.of("saturnclient", "textures/gui/components/mod_bg.png");
 

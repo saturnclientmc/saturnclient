@@ -143,4 +143,8 @@ public class SaturnScroll extends SaturnWidget {
             }
         }
     }
+
+    public void clear() {
+        children.clear();
+    }
 }
