@@ -9,7 +9,7 @@
     "website": "https://kleo-dev.netlify.app",
     "sources": "https://github.com/saturnclientmc/saturnclient"
   },
-  "license": "GPL-3.0",
+  "license": "Apache-2.0",
   "icon": "assets/saturnclient/icon.png",
   "environment": "client",
   "entrypoints": {

@@ -10,7 +10,8 @@
     "PlayerEntityRendererMixin",
     "WhoAmI",
     "SaturnReload",
-    "TotemParticleMixin"
+    "TotemParticleMixin",
+    "Crosshair"
   ],
   "injectors": {
     "defaultRequire": 1

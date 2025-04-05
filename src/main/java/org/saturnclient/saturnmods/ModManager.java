@@ -14,7 +14,8 @@ public class ModManager {
             new Coordinates(),
             new ArmorDisplay(),
             new FpsDisplay(),
-            new Particles()
+            new Particles(),
+            new Crosshair()
     };
 
     public static void init() {
