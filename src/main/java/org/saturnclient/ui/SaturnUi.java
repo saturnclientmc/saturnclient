@@ -5,9 +5,13 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import net.minecraft.client.gl.PostEffectProcessor;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.render.DefaultFramebufferSet;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.util.Pool;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
@@ -18,6 +22,9 @@ import org.lwjgl.glfw.GLFW;
 public class SaturnUi extends Screen {
 
     private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+
+    private final Pool pool = new Pool(3);
+    private float f = 0.0f;
 
     public static MutableText text(String text) {
         return Text.literal(text).setStyle(
@@ -101,7 +108,17 @@ public class SaturnUi extends Screen {
             int mouseX,
             int mouseY,
             float delta) {
-        renderBackground(context, mouseX, mouseY, delta);
+        // Blur
+        if (!(f < 1.0F)) {
+            PostEffectProcessor postEffectProcessor = this.client.getShaderLoader().loadPostEffect(
+                    Identifier.ofVanilla("blur"),
+                    DefaultFramebufferSet.MAIN_ONLY);
+            if (postEffectProcessor != null) {
+                postEffectProcessor.setUniforms("Radius", f);
+                postEffectProcessor.render(this.client.getFramebuffer(), this.pool);
+            }
+
+        }
 
         for (SaturnWidget widget : new ArrayList<>(widgets)) {
             if (!widget.visible)
@@ -236,6 +253,11 @@ public class SaturnUi extends Screen {
     }
 
     public void saturnTick() {
+        synchronized (scheduler) {
+            if (f < 20.0f) {
+                f += 1.0f;
+            }
+        }
         synchronized (widgets) {
             for (SaturnWidget widget : widgets) {
                 if (widget.visible && widget.animations != null) {

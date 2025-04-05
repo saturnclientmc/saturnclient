@@ -20,10 +20,10 @@ public class Textures {
     public static final Identifier LOGO_TEXT = Identifier.of("saturnclient", "textures/logo/text.png");
 
     // Widgets
-    public static final Identifier BUTTON_BORDER = Identifier.ofVanilla("saturn/button_border");
-    public static final Identifier BUTTON = Identifier.ofVanilla("saturn/button");
-    public static final Identifier SETTINGS_BG = Identifier.ofVanilla("saturn/settings_bg");
-    public static final Identifier TABS = Identifier.ofVanilla("saturn/tabs");
+    public static final Identifier BUTTON_BORDER = Identifier.of("saturnclient", "button_border");
+    public static final Identifier BUTTON = Identifier.of("saturnclient", "button");
+    public static final Identifier SETTINGS_BG = Identifier.of("saturnclient", "settings_bg");
+    public static final Identifier RECT = Identifier.of("saturnclient", "rect");
     public static final Identifier MOD = Identifier.of("saturnclient", "textures/gui/components/mod.png");
     public static final Identifier MOD_BG = Identifier.of("saturnclient", "textures/gui/components/mod_bg.png");
 

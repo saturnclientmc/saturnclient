@@ -7,7 +7,7 @@
   "authors": ["Saturn Mc", "ORUS"],
   "contact": {
     "website": "https://kleo-dev.netlify.app",
-    "sources": "https://github.com/kleo-dev/saturnclient"
+    "sources": "https://github.com/saturnclientmc/saturnclient"
   },
   "license": "GPL-3.0",
   "icon": "assets/saturnclient/icon.png",

@@ -37,7 +37,7 @@ public class CloaksMenu extends SaturnUi {
         int tabsY = rectY - 17;
 
         draw(
-                new SaturnSprite(Textures.TABS)
+                new SaturnSprite(Textures.RECT)
                         .setX(tabsX)
                         .setY(tabsY)
                         .setWidth(43)

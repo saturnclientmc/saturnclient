@@ -37,7 +37,7 @@ public class ModMenu extends SaturnUi {
         int tabsY = modsY - 17;
 
         draw(
-                new SaturnSprite(Textures.TABS)
+                new SaturnSprite(Textures.RECT)
                         .setX(tabsX)
                         .setY(tabsY)
                         .setWidth(43)
