@@ -4,13 +4,11 @@ import java.io.*;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
-
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.minecraft.client.MinecraftClient;
-
-import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.cosmetics.Hats;
 import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
+import org.saturnclient.saturnclient.SaturnClient;
 
 public class SaturnSocket {
 

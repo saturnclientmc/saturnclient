@@ -1,7 +1,7 @@
 package org.saturnclient.saturnmods.mods;
 
 import net.minecraft.util.Identifier;
-import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.saturnmods.SaturnMod;
@@ -22,11 +22,11 @@ public class Particles implements SaturnMod {
 
     public static Property<Integer> totem_1 = totem.property(
             "Totem particle color 1",
-            new Property<>(SaturnClient.COLOR.value, Property.PropertyType.HEX));
+            new Property<>(SaturnClientConfig.COLOR.value, Property.PropertyType.HEX));
 
     public static Property<Integer> totem_2 = totem.property(
             "Totem particle color 2",
-            new Property<>(SaturnClient.COLOR.value, Property.PropertyType.HEX));
+            new Property<>(SaturnClientConfig.COLOR.value, Property.PropertyType.HEX));
 
     @Override
     public boolean isEnabled() {

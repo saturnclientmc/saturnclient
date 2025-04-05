@@ -2,7 +2,7 @@ package org.saturnclient.saturnclient.menus;
 
 import java.util.Map;
 import net.minecraft.text.Text;
-import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.ui.SaturnUi;
@@ -40,7 +40,7 @@ public class ConfigEditor extends SaturnUi {
                         .setY(rectY)
                         .setWidth(rectWidth)
                         .setHeight(rectHeight)
-                        .setAnimations(SaturnClient.getAnimations()));
+                        .setAnimations(SaturnClientConfig.getAnimations()));
 
         draw(
                 new SaturnImageButton(Textures.CLOSE, 9, 9, () -> {
@@ -50,7 +50,7 @@ public class ConfigEditor extends SaturnUi {
                         .setY(rectY - 15)
                         .setWidth(13)
                         .setHeight(13)
-                        .setAnimations(SaturnClient.getAnimations()));
+                        .setAnimations(SaturnClientConfig.getAnimations()));
 
         SaturnScroll configScroll = new SaturnScroll();
 
@@ -65,7 +65,7 @@ public class ConfigEditor extends SaturnUi {
                         .setY(rectY + 10)
                         .setWidth(rectWidth - 17)
                         .setHeight(rectHeight - 10)
-                        .setAnimations(SaturnClient.getAnimations()));
+                        .setAnimations(SaturnClientConfig.getAnimations()));
 
         super.init();
     }

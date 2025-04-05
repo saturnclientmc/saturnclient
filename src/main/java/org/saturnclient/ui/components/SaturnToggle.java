@@ -2,7 +2,8 @@ package org.saturnclient.ui.components;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
-import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.saturnclient.SaturnClientConfig;
+import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.ui.SaturnWidget;
 import org.saturnclient.ui.Textures;
@@ -24,8 +25,8 @@ public class SaturnToggle extends SaturnWidget {
             int mouseX,
             int mouseY) {
         int color = prop.value
-                ? SaturnClient.COLOR.value
-                : SaturnClient.getWhite(alpha);
+                ? SaturnClientConfig.COLOR.value
+                : SaturnClientConfig.getWhite(alpha);
         int w = 13;
         int h = 6;
         int s = 8;
@@ -60,6 +61,6 @@ public class SaturnToggle extends SaturnWidget {
     @Override
     public void click(int mouseX, int mouseY) {
         prop.value = !prop.value;
-        org.saturnclient.saturnclient.config.ConfigManager.save();
+        ConfigManager.save();
     }
 }

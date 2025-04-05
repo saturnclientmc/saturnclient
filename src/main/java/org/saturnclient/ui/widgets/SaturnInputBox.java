@@ -7,7 +7,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.MatrixStack;
 
 import org.lwjgl.glfw.GLFW;
-import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.Textures;
@@ -97,8 +97,8 @@ public class SaturnInputBox extends SaturnWidget {
                 this.width,
                 this.height,
                 focused
-                        ? SaturnClient.COLOR.value
-                        : SaturnClient.getWhite(this.alpha));
+                        ? SaturnClientConfig.COLOR.value
+                        : SaturnClientConfig.getWhite(this.alpha));
 
         if (hovering || focused) {
             SaturnUi.drawHighResGuiTexture(
@@ -109,8 +109,8 @@ public class SaturnInputBox extends SaturnWidget {
                     this.width,
                     this.height,
                     hovering
-                            ? SaturnClient.COLOR.value
-                            : SaturnClient.getWhite(this.alpha));
+                            ? SaturnClientConfig.COLOR.value
+                            : SaturnClientConfig.getWhite(this.alpha));
         }
 
         MatrixStack matrices = context.getMatrices();
@@ -125,8 +125,8 @@ public class SaturnInputBox extends SaturnWidget {
                     9,
                     9,
                     hovering
-                            ? SaturnClient.COLOR.value
-                            : SaturnClient.getWhite(this.alpha));
+                            ? SaturnClientConfig.COLOR.value
+                            : SaturnClientConfig.getWhite(this.alpha));
 
             matrices.scale(0.9f, 0.9f, 1.0f);
 
@@ -136,8 +136,8 @@ public class SaturnInputBox extends SaturnWidget {
                     14,
                     textRenderer.fontHeight / 2 + 1,
                     hovering
-                            ? SaturnClient.COLOR.value
-                            : SaturnClient.getWhite(this.alpha),
+                            ? SaturnClientConfig.COLOR.value
+                            : SaturnClientConfig.getWhite(this.alpha),
                     false);
         }
 

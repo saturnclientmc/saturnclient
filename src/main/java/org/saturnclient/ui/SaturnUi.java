@@ -254,8 +254,8 @@ public class SaturnUi extends Screen {
 
     public void saturnTick() {
         synchronized (scheduler) {
-            if (f < 20.0f) {
-                f += 1.0f;
+            if (f < 15.0f) {
+                f += 0.25f;
             }
         }
         synchronized (widgets) {

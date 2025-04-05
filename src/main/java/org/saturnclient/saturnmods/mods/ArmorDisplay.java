@@ -8,7 +8,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
-import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.saturnmods.HudMod;
@@ -20,21 +20,18 @@ public class ArmorDisplay implements SaturnMod, HudMod {
 
     private static ConfigManager config = new ConfigManager("armor");
     public static Property<Boolean> enabled = config.property(
-        "Enabled",
-        new Property<>(false)
-    );
+            "Enabled",
+            new Property<>(false));
     private static ModDimensions dimensions = new ModDimensions(
-        config,
-        0,
-        0,
-        34,
-        75
-    );
+            config,
+            0,
+            0,
+            34,
+            75);
 
     public static Property<Integer> fgColor = config.property(
-        "Foreground color",
-        new Property<>(SaturnClient.WHITE, Property.PropertyType.HEX)
-    );
+            "Foreground color",
+            new Property<>(SaturnClientConfig.WHITE, Property.PropertyType.HEX));
 
     private boolean renderItem(DrawContext context, ItemStack item, int y) {
         if (item.isEmpty()) {
@@ -53,13 +50,12 @@ public class ArmorDisplay implements SaturnMod, HudMod {
             matrices.scale(0.8f, 0.8f, 0f);
 
             context.drawText(
-                SaturnClient.textRenderer,
-                "" + (item.getMaxDamage() - item.getDamage()),
-                0,
-                0,
-                fgColor.value,
-                false
-            );
+                    SaturnClientConfig.textRenderer,
+                    "" + (item.getMaxDamage() - item.getDamage()),
+                    0,
+                    0,
+                    fgColor.value,
+                    false);
 
             matrices.pop();
         }
@@ -71,11 +67,11 @@ public class ArmorDisplay implements SaturnMod, HudMod {
     public void render(DrawContext context) {
         PlayerEntity player = MinecraftClient.getInstance().player;
         ItemStack[] items = {
-            player.getEquippedStack(EquipmentSlot.MAINHAND),
-            player.getEquippedStack(EquipmentSlot.FEET),
-            player.getEquippedStack(EquipmentSlot.LEGS),
-            player.getEquippedStack(EquipmentSlot.CHEST),
-            player.getEquippedStack(EquipmentSlot.HEAD),
+                player.getEquippedStack(EquipmentSlot.MAINHAND),
+                player.getEquippedStack(EquipmentSlot.FEET),
+                player.getEquippedStack(EquipmentSlot.LEGS),
+                player.getEquippedStack(EquipmentSlot.CHEST),
+                player.getEquippedStack(EquipmentSlot.HEAD),
         };
 
         int y = 60;
@@ -90,11 +86,11 @@ public class ArmorDisplay implements SaturnMod, HudMod {
     @Override
     public void renderDummy(DrawContext context) {
         ItemStack[] items = {
-            new ItemStack(Items.DIAMOND_SWORD),
-            new ItemStack(Items.DIAMOND_BOOTS),
-            new ItemStack(Items.DIAMOND_LEGGINGS),
-            new ItemStack(Items.DIAMOND_CHESTPLATE),
-            new ItemStack(Items.DIAMOND_HELMET),
+                new ItemStack(Items.DIAMOND_SWORD),
+                new ItemStack(Items.DIAMOND_BOOTS),
+                new ItemStack(Items.DIAMOND_LEGGINGS),
+                new ItemStack(Items.DIAMOND_CHESTPLATE),
+                new ItemStack(Items.DIAMOND_HELMET),
         };
 
         int y = 60;

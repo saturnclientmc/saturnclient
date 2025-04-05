@@ -1,7 +1,6 @@
 package org.saturnclient.saturnclient.cosmetics.cloaks;
 
 import net.minecraft.util.Identifier;
-import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.auth.SaturnSocket;
 import org.saturnclient.saturnclient.cosmetics.cloaks.utils.AnimatedCloakData;
 import org.saturnclient.saturnclient.cosmetics.cloaks.utils.IdentifierUtils;
@@ -13,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import org.saturnclient.saturnclient.SaturnClient;
 
 /**
  * Manages the cloak system for Saturn Client.

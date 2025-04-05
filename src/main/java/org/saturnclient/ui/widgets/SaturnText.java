@@ -1,7 +1,7 @@
 package org.saturnclient.ui.widgets;
 
 import net.minecraft.client.gui.DrawContext;
-import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.SaturnWidget;
 
@@ -11,8 +11,8 @@ public class SaturnText extends SaturnWidget {
 
     public SaturnText(String text) {
         this.text = text;
-        this.width = SaturnClient.textRenderer.getWidth(SaturnUi.text(text));
-        this.height = SaturnClient.textRenderer.fontHeight;
+        this.width = SaturnClientConfig.textRenderer.getWidth(SaturnUi.text(text));
+        this.height = SaturnClientConfig.textRenderer.fontHeight;
     }
 
     public SaturnText(String text, int color) {
@@ -26,11 +26,11 @@ public class SaturnText extends SaturnWidget {
             int mouseX,
             int mouseY) {
         context.drawText(
-                SaturnClient.textRenderer,
+                SaturnClientConfig.textRenderer,
                 SaturnUi.text(text),
                 0,
                 0,
-                SaturnClient.getColor(hovering, alpha),
+                SaturnClientConfig.getColor(hovering, alpha),
                 false);
     }
 }

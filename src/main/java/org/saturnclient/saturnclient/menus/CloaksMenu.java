@@ -1,7 +1,7 @@
 package org.saturnclient.saturnclient.menus;
 
 import net.minecraft.text.Text;
-import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.saturnclient.auth.SaturnSocket;
 import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
@@ -36,7 +36,7 @@ public class CloaksMenu extends SaturnUi {
                         .setY(rectY)
                         .setWidth(rectWidth)
                         .setHeight(rectHeight)
-                        .setAnimations(SaturnClient.getAnimations()));
+                        .setAnimations(SaturnClientConfig.getAnimations()));
 
         int tabsX = (width - 43) / 2;
         int tabsY = rectY - 17;
@@ -47,7 +47,7 @@ public class CloaksMenu extends SaturnUi {
                         .setY(tabsY)
                         .setWidth(43)
                         .setHeight(15)
-                        .setAnimations(SaturnClient.getAnimations()));
+                        .setAnimations(SaturnClientConfig.getAnimations()));
 
         draw(
                 new SaturnInputBox(search, rectX + rectWidth - 72, tabsY, 70).onUpdate(() -> {
@@ -56,7 +56,7 @@ public class CloaksMenu extends SaturnUi {
                 })
                         .setHeight(15)
                         .setWidth(72)
-                        .setAnimations(SaturnClient.getAnimations()));
+                        .setAnimations(SaturnClientConfig.getAnimations()));
 
         int tabSize = 9;
         tabsX = (width - tabSize) / 2;
@@ -68,7 +68,7 @@ public class CloaksMenu extends SaturnUi {
                         .setY(tabsY + 4)
                         .setWidth(tabSize)
                         .setHeight(7)
-                        .setAnimations(SaturnClient.getAnimations()));
+                        .setAnimations(SaturnClientConfig.getAnimations()));
 
         draw(
                 new SaturnClickableImage(Textures.CLOAK, () -> {
@@ -79,7 +79,7 @@ public class CloaksMenu extends SaturnUi {
                         .setY(tabsY + 3)
                         .setWidth(tabSize)
                         .setHeight(tabSize)
-                        .setAnimations(SaturnClient.getAnimations()));
+                        .setAnimations(SaturnClientConfig.getAnimations()));
 
         draw(
                 new SaturnClickableImage(Textures.SEARCH, () -> {
@@ -89,7 +89,7 @@ public class CloaksMenu extends SaturnUi {
                         .setY(tabsY + 3)
                         .setWidth(tabSize)
                         .setHeight(tabSize)
-                        .setAnimations(SaturnClient.getAnimations()));
+                        .setAnimations(SaturnClientConfig.getAnimations()));
 
         scroll = new SaturnScroll();
 
@@ -100,7 +100,7 @@ public class CloaksMenu extends SaturnUi {
                 .setY(rectY + 10)
                 .setWidth(rectWidth - 17)
                 .setHeight(rectHeight - 10)
-                .setAnimations(SaturnClient.getAnimations()));
+                .setAnimations(SaturnClientConfig.getAnimations()));
 
         super.init();
     }

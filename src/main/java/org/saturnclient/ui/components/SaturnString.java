@@ -4,7 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import org.lwjgl.glfw.GLFW;
-import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.SaturnWidget;
@@ -88,8 +88,8 @@ public class SaturnString extends SaturnWidget {
                 this.width,
                 this.height,
                 focused
-                        ? SaturnClient.COLOR.value
-                        : SaturnClient.getWhite(this.alpha));
+                        ? SaturnClientConfig.COLOR.value
+                        : SaturnClientConfig.getWhite(this.alpha));
 
         int scrollOffset = getScrollOffset();
         String visibleText = getVisibleText(scrollOffset);

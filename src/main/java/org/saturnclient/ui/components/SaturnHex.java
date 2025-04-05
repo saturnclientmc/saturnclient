@@ -4,7 +4,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import org.lwjgl.glfw.GLFW;
-import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.saturnclient.SaturnClientConfig;
+import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.SaturnWidget;
@@ -42,7 +43,7 @@ public class SaturnHex extends SaturnWidget {
 
             if (text.length() == 7) { // Only update value when full hex is entered
                 prop.value = hexToInt(text);
-                org.saturnclient.saturnclient.config.ConfigManager.save();
+                ConfigManager.save();
             }
         }
     }
@@ -66,7 +67,7 @@ public class SaturnHex extends SaturnWidget {
 
         if (text.length() == 7) { // Update only when valid hex
             prop.value = hexToInt(text);
-            org.saturnclient.saturnclient.config.ConfigManager.save();
+            ConfigManager.save();
         }
     }
 
@@ -89,8 +90,8 @@ public class SaturnHex extends SaturnWidget {
                 this.width,
                 this.height,
                 focused
-                        ? SaturnClient.COLOR.value
-                        : SaturnClient.getWhite(this.alpha));
+                        ? SaturnClientConfig.COLOR.value
+                        : SaturnClientConfig.getWhite(this.alpha));
 
         int textColor = focused ? 0xFFFFFF : 0xAAAAAA;
         context.drawText(

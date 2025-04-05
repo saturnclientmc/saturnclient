@@ -4,7 +4,7 @@ import java.util.function.Consumer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
-import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.SaturnWidget;
 import org.saturnclient.ui.Textures;
@@ -59,7 +59,7 @@ public class SaturnImageButton extends SaturnWidget {
                 0,
                 this.width,
                 this.height,
-                SaturnClient.getColor(hovering, alpha));
+                SaturnClientConfig.getColor(hovering, alpha));
 
         if (hovering) {
             SaturnUi.drawHighResGuiTexture(
@@ -69,7 +69,7 @@ public class SaturnImageButton extends SaturnWidget {
                     0,
                     this.width,
                     this.height,
-                    SaturnClient.getColor(hovering, alpha));
+                    SaturnClientConfig.getColor(hovering, alpha));
         }
 
         context.drawTexture(
@@ -83,7 +83,7 @@ public class SaturnImageButton extends SaturnWidget {
                 imageHeight,
                 imageWidth,
                 imageHeight,
-                SaturnClient.getColor(hovering, alpha));
+                SaturnClientConfig.getColor(hovering, alpha));
     }
 
     @Override

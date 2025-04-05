@@ -4,7 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
-import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.saturnmods.HudMod;
@@ -22,12 +22,12 @@ public class Coordinates implements SaturnMod, HudMod {
 
     public static Property<Integer> fgColor = config.property(
             "Foreground color",
-            new Property<>(SaturnClient.WHITE, Property.PropertyType.HEX));
+            new Property<>(SaturnClientConfig.WHITE, Property.PropertyType.HEX));
 
     public Coordinates() {
         // Ensure fgColor has a value
         if (fgColor.value == null) {
-            fgColor.value = SaturnClient.WHITE;
+            fgColor.value = SaturnClientConfig.WHITE;
         }
     }
 
@@ -37,16 +37,16 @@ public class Coordinates implements SaturnMod, HudMod {
         int playerZ = 83;
 
         context.drawText(
-                SaturnClient.textRenderer,
+                SaturnClientConfig.textRenderer,
                 playerX + " " + playerY + " " + playerZ,
                 0,
                 0,
                 fgColor.value,
                 false);
 
-        dimensions.width = SaturnClient.textRenderer.getWidth(
+        dimensions.width = SaturnClientConfig.textRenderer.getWidth(
                 playerX + " " + playerY + " " + playerZ);
-        dimensions.height = SaturnClient.textRenderer.fontHeight;
+        dimensions.height = SaturnClientConfig.textRenderer.fontHeight;
     }
 
     public void render(DrawContext context) {
@@ -56,7 +56,7 @@ public class Coordinates implements SaturnMod, HudMod {
         int playerZ = (int) player.getZ();
 
         context.drawText(
-                SaturnClient.textRenderer,
+                SaturnClientConfig.textRenderer,
                 playerX + " " + playerY + " " + playerZ,
                 0,
                 0,

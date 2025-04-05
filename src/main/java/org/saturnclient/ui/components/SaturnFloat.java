@@ -4,7 +4,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import org.lwjgl.glfw.GLFW;
-import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.saturnclient.SaturnClientConfig;
+import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.SaturnWidget;
@@ -59,7 +60,7 @@ public class SaturnFloat extends SaturnWidget {
                         text.substring(cursorPosition);
 
                 prop.value = text.isEmpty() ? 0 : Float.parseFloat(text);
-                org.saturnclient.saturnclient.config.ConfigManager.save();
+                ConfigManager.save();
 
                 cursorPosition++;
             }
@@ -78,7 +79,7 @@ public class SaturnFloat extends SaturnWidget {
                     cursorPosition = 1;
                 }
                 prop.value = Float.parseFloat(text);
-                org.saturnclient.saturnclient.config.ConfigManager.save();
+                ConfigManager.save();
             }
         } else if (keyCode == GLFW.GLFW_KEY_LEFT) {
             if (cursorPosition > 0) {
@@ -110,8 +111,8 @@ public class SaturnFloat extends SaturnWidget {
                 this.width,
                 this.height,
                 focused
-                        ? SaturnClient.COLOR.value
-                        : SaturnClient.getWhite(this.alpha));
+                        ? SaturnClientConfig.COLOR.value
+                        : SaturnClientConfig.getWhite(this.alpha));
 
         int scrollOffset = getScrollOffset();
         String visibleText = getVisibleText(scrollOffset);

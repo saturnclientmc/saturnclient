@@ -3,7 +3,7 @@ package org.saturnclient.ui.widgets;
 import java.util.function.Consumer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.Identifier;
-import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.SaturnWidget;
 
@@ -45,7 +45,7 @@ public class SaturnClickableImage extends SaturnWidget {
                 0,
                 width,
                 height,
-                SaturnClient.getColor(hovering || selected, alpha));
+                SaturnClientConfig.getColor(hovering || selected, alpha));
     }
 
     @Override

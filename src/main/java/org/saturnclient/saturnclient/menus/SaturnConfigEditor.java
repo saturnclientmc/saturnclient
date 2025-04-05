@@ -1,6 +1,6 @@
 package org.saturnclient.saturnclient.menus;
 
-import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.ui.Textures;
 import org.saturnclient.ui.widgets.SaturnClickableImage;
 import org.saturnclient.ui.widgets.SaturnSprite;
@@ -8,7 +8,7 @@ import org.saturnclient.ui.widgets.SaturnSprite;
 public class SaturnConfigEditor extends ConfigEditor {
 
     public SaturnConfigEditor() {
-        super(SaturnClient.config);
+        super(SaturnClientConfig.config);
     }
 
     @Override
@@ -25,7 +25,7 @@ public class SaturnConfigEditor extends ConfigEditor {
                         .setY(tabsY)
                         .setWidth(43)
                         .setHeight(15)
-                        .setAnimations(SaturnClient.getAnimations()));
+                        .setAnimations(SaturnClientConfig.getAnimations()));
 
         int tabSize = 9;
         tabsX = (width - tabSize) / 2;
@@ -37,7 +37,7 @@ public class SaturnConfigEditor extends ConfigEditor {
                         .setY(tabsY + 3)
                         .setWidth(tabSize)
                         .setHeight(tabSize)
-                        .setAnimations(SaturnClient.getAnimations()));
+                        .setAnimations(SaturnClientConfig.getAnimations()));
 
         draw(
                 new SaturnClickableImage(Textures.MODS_TAB, () -> {
@@ -47,7 +47,7 @@ public class SaturnConfigEditor extends ConfigEditor {
                         .setY(tabsY + 3)
                         .setWidth(tabSize)
                         .setHeight(tabSize)
-                        .setAnimations(SaturnClient.getAnimations()));
+                        .setAnimations(SaturnClientConfig.getAnimations()));
 
         draw(
                 new SaturnClickableImage(Textures.SEARCH, () -> {
@@ -57,7 +57,7 @@ public class SaturnConfigEditor extends ConfigEditor {
                         .setY(tabsY + 3)
                         .setWidth(tabSize)
                         .setHeight(tabSize)
-                        .setAnimations(SaturnClient.getAnimations()));
+                        .setAnimations(SaturnClientConfig.getAnimations()));
 
         super.init();
     }
