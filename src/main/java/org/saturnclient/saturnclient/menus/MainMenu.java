@@ -2,6 +2,7 @@ package org.saturnclient.saturnclient.menus;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
+
 import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.Textures;
@@ -65,7 +66,7 @@ public class MainMenu extends SaturnUi {
                         .setAnimations(new FadeIn(2)));
 
         draw(
-                new SaturnImage(Textures.LOGO)
+                new SaturnImage(SaturnClientConfig.getLogo())
                         .setX((width - logoSize) / 2)
                         .setY(height / 2 - logoSize - 24)
                         .setWidth(logoSize)

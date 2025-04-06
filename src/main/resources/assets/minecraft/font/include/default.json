@@ -6,6 +6,13 @@
       "ascent": 7,
       "height": 8,
       "chars": ["\uE002"]
+    },
+    {
+      "type": "bitmap",
+      "file": "minecraft:font/custom/saturn_realistic.png",
+      "ascent": 7,
+      "height": 8,
+      "chars": ["\uE003"]
     }
   ]
 }

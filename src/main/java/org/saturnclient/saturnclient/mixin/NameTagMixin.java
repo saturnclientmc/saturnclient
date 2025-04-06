@@ -13,6 +13,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.client.render.LightmapTextureManager;
 
+import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.saturnclient.auth.SaturnSocket;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
@@ -32,7 +33,7 @@ public abstract class NameTagMixin<S extends EntityRenderState> {
     @Overwrite
     public void renderLabelIfPresent(S state, Text text_o, MatrixStack matrices,
             VertexConsumerProvider vertexConsumers, int light) {
-        Text text = isSaturn(state) ? Text.literal("" + text_o.getString()) : text_o;
+        Text text = isSaturn(state) ? Text.literal(SaturnClientConfig.getSaturnIndicator() + text_o.getString()) : text_o;
 
         Vec3d vec3d = state.nameLabelPos;
         if (vec3d != null) {

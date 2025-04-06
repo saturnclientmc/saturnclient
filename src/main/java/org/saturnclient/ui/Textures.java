@@ -17,6 +17,7 @@ public class Textures {
     public static final Identifier TOGGLE_BG = Identifier.of("saturnclient", "textures/gui/components/toggle_bg.png");
 
     public static final Identifier LOGO = Identifier.of("saturnclient", "textures/logo/logo.png");
+    public static final Identifier REALISTIC_LOGO = Identifier.of("saturnclient", "textures/logo/realistic.png");
     public static final Identifier LOGO_TEXT = Identifier.of("saturnclient", "textures/logo/text.png");
 
     // Widgets
