@@ -4,7 +4,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
-import org.saturnclient.saturnclient.menus.MainMenu;
+import org.saturnclient.saturnclient.menus.SaturnMenu;
 import org.lwjgl.glfw.GLFW;
 
 /**
@@ -33,7 +33,7 @@ public class KeyInputHandler {
         // Register the event handler for the main menu key
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (mainMenuKeyBinding.wasPressed()) {
-                client.setScreen(new MainMenu());
+                client.setScreen(new SaturnMenu());
             }
         });
     }

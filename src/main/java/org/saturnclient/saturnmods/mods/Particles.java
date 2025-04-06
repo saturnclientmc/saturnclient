@@ -22,11 +22,11 @@ public class Particles implements SaturnMod {
 
     public static Property<Integer> totem_1 = totem.property(
             "Totem particle color 1",
-            new Property<>(SaturnClientConfig.COLOR.value, Property.PropertyType.HEX));
+            new Property<>(SaturnClientConfig.color.value, Property.PropertyType.HEX));
 
     public static Property<Integer> totem_2 = totem.property(
             "Totem particle color 2",
-            new Property<>(SaturnClientConfig.COLOR.value, Property.PropertyType.HEX));
+            new Property<>(SaturnClientConfig.color.value, Property.PropertyType.HEX));
 
     @Override
     public boolean isEnabled() {

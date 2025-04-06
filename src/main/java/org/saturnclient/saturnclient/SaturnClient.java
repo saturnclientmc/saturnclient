@@ -2,11 +2,16 @@ package org.saturnclient.saturnclient;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
+import net.minecraft.client.gui.screen.TitleScreen;
+
 import org.saturnclient.saturnclient.auth.SaturnSocket;
 import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.saturnclient.cosmetics.Hats;
 import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 import org.saturnclient.saturnclient.event.KeyInputHandler;
+import org.saturnclient.saturnclient.menus.SaturnMenu;
+import org.saturnclient.saturnclient.menus.SaturnTitleScreen;
 import org.saturnclient.saturnmods.ModManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +31,11 @@ public class SaturnClient implements ModInitializer {
         ConfigManager.load();
 
         ClientLifecycleEvents.CLIENT_STOPPING.register(_o -> ConfigManager.save());
+        ScreenEvents.BEFORE_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
+            if (SaturnClientConfig.saturnTitleScreen.value && screen instanceof TitleScreen && !(screen instanceof SaturnMenu)) {
+                client.setScreen(new SaturnTitleScreen());
+            }
+        });
 
         KeyInputHandler.register();
         if (SaturnSocket.authenticate()) {

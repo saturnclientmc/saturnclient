@@ -12,9 +12,8 @@ import org.saturnclient.ui.widgets.SaturnButton;
 import org.saturnclient.ui.widgets.SaturnImage;
 import org.saturnclient.ui.widgets.SaturnImageButton;
 
-public class MainMenu extends SaturnUi {
-
-    public MainMenu() {
+public class SaturnMenu extends SaturnUi {
+    public SaturnMenu() {
         super(Text.literal("Saturn Client"));
     }
 

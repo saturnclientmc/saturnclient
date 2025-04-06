@@ -14,31 +14,35 @@ import net.minecraft.util.math.ColorHelper;
 public class SaturnClientConfig {
     public static ConfigManager config = new ConfigManager("Saturn Client");
 
-    public static Property<Integer> COLOR = config.property(
+    public static Property<Integer> color = config.property(
             "Primary color",
             new Property<>(
                     ColorHelper.getArgb(255, 251, 60, 79),
                     Property.PropertyType.HEX));
 
-    public static Property<Integer> NORMAL = config.property(
+    public static Property<Integer> normal = config.property(
             "Default color",
             new Property<>(
                     ColorHelper.getArgb(255, 182, 182, 182),
                     Property.PropertyType.HEX));
 
-    public static Property<Boolean> REALISTIC_LOGO = config.property(
+    public static Property<Boolean> realisticLogo = config.property(
             "Realistic logo",
             new Property<>(false));
+
+    public static Property<Boolean> saturnTitleScreen = config.property(
+            "Saturn client title screen",
+            new Property<>(true));
 
     public static int WHITE = ColorHelper.getArgb(255, 255, 255, 255);
     public static TextRenderer textRenderer = null;
 
     public static int getWhite(float alpha) {
-        return ((int) (alpha * 255) << 24) | (NORMAL.value & 0x00FFFFFF);
+        return ((int) (alpha * 255) << 24) | (normal.value & 0x00FFFFFF);
     }
 
     public static int getColor(boolean hovering, float alpha) {
-        return SaturnUi.getAlpha(hovering ? COLOR.value : NORMAL.value, alpha);
+        return SaturnUi.getAlpha(hovering ? color.value : normal.value, alpha);
     }
 
     public static SaturnAnimation[] getAnimations() {
@@ -46,10 +50,10 @@ public class SaturnClientConfig {
     }
 
     public static Identifier getLogo() {
-        return REALISTIC_LOGO.value ? Textures.REALISTIC_LOGO : Textures.LOGO;
+        return realisticLogo.value ? Textures.REALISTIC_LOGO : Textures.LOGO;
     }
 
     public static String getSaturnIndicator() {
-        return REALISTIC_LOGO.value ? "" : "";
+        return realisticLogo.value ? "" : "";
     }
 }

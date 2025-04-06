@@ -3,6 +3,10 @@
     {
       "type": "reference",
       "id": "saturnclient:panton"
+    },
+    {
+      "type": "reference",
+      "id": "saturnclient:panton_bold"
     }
   ]
 }

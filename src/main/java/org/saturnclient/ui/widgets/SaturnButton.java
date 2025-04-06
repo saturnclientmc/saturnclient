@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import java.util.function.Consumer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.text.Text;
 
 import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.ui.SaturnUi;
@@ -16,6 +17,7 @@ public class SaturnButton extends SaturnWidget {
     public String text;
     public Consumer<SaturnButton> onPress;
     public boolean background = true;
+    public boolean bold = false;
     private float hoverAlpha = 0.0f;
 
     public SaturnButton(String text, Consumer<SaturnButton> onPress) {
@@ -67,12 +69,12 @@ public class SaturnButton extends SaturnWidget {
         }
 
         if (alpha != 0.0f) {
+            Text t = bold ? SaturnUi.textBold(text) : SaturnUi.text(text);
             context.drawText(
                     minecraftClient.textRenderer,
-                    SaturnUi.text(text),
+                    t,
                     ((this.width -
-                            minecraftClient.textRenderer.getWidth(
-                                    SaturnUi.text(text)))
+                            minecraftClient.textRenderer.getWidth(t))
                             /
                             2),
                     ((this.height - minecraftClient.textRenderer.fontHeight + 1) /
@@ -93,5 +95,10 @@ public class SaturnButton extends SaturnWidget {
             hoverAlpha += 0.03f;
         else if (hoverAlpha > 0.9f && hoverAlpha < 1.0f)
             hoverAlpha = 1.0f;
+    }
+
+    public SaturnWidget setBold(boolean bold) {
+        this.bold = bold;
+        return this;
     }
 }

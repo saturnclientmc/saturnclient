@@ -10,6 +10,8 @@ import org.saturnclient.saturnmods.HudMod;
 import org.saturnclient.saturnmods.ModDimensions;
 import org.saturnclient.saturnmods.ModManager;
 import org.saturnclient.saturnmods.SaturnMod;
+import org.saturnclient.ui.SaturnUi;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,6 +89,10 @@ public class HudEditor extends Screen {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        if (client.world == null && client.getCurrentServerEntry() == null) {
+            SaturnUi.ROTATING_PANORAMA_RENDERER.render(context, this.width, this.height, 1.0F, delta);
+        }
+
         for (HudMod mod : hudMods) {
             ModDimensions dim = mod.getDimensions();
             MatrixStack matrices = context.getMatrices();

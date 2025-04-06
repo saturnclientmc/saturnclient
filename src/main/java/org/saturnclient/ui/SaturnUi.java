@@ -7,7 +7,9 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import net.minecraft.client.gl.PostEffectProcessor;
+import net.minecraft.client.gui.CubeMapRenderer;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.RotatingCubeMapRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.render.DefaultFramebufferSet;
 import net.minecraft.client.render.RenderLayer;
@@ -25,10 +27,26 @@ public class SaturnUi extends Screen {
 
     private final Pool pool = new Pool(3);
     private float f = 0.0f;
+    public boolean blur = true;
+    public boolean titleBackground = false;
+
+    protected static final CubeMapRenderer PANORAMA_RENDERER = new CubeMapRenderer(
+            Identifier.of("saturnclient", "textures/gui/title/background/panorama"));
+
+    public static final RotatingCubeMapRenderer ROTATING_PANORAMA_RENDERER;
+
+    static {
+        ROTATING_PANORAMA_RENDERER = new RotatingCubeMapRenderer(PANORAMA_RENDERER);
+    }
 
     public static MutableText text(String text) {
         return Text.literal(text).setStyle(
                 Style.EMPTY.withFont(Identifier.of("saturnclient:panton")));
+    }
+
+    public static MutableText textBold(String text) {
+        return Text.literal(text).setStyle(
+                Style.EMPTY.withFont(Identifier.of("saturnclient:panton_bold")));
     }
 
     public static void drawHighResTexture(DrawContext context, Identifier t, int x, int y, int w, int h) {
@@ -108,8 +126,13 @@ public class SaturnUi extends Screen {
             int mouseX,
             int mouseY,
             float delta) {
+
+        if (client.world == null && client.getCurrentServerEntry() == null) {
+            ROTATING_PANORAMA_RENDERER.render(context, this.width, this.height, 1.0F, delta);
+        }
+
         // Blur
-        if (!(f < 1.0F)) {
+        if (!(f < 1.0F) && blur) {
             PostEffectProcessor postEffectProcessor = this.client.getShaderLoader().loadPostEffect(
                     Identifier.ofVanilla("blur"),
                     DefaultFramebufferSet.MAIN_ONLY);

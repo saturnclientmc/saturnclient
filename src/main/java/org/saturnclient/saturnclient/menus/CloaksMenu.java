@@ -72,7 +72,6 @@ public class CloaksMenu extends SaturnUi {
 
         draw(
                 new SaturnClickableImage(Textures.CLOAK, () -> {
-                    client.setScreen(new CloaksMenu());
                 })
                         .setSelected(true)
                         .setX(tabsX - 12)

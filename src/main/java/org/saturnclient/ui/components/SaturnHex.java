@@ -90,7 +90,7 @@ public class SaturnHex extends SaturnWidget {
                 this.width,
                 this.height,
                 focused
-                        ? SaturnClientConfig.COLOR.value
+                        ? SaturnClientConfig.color.value
                         : SaturnClientConfig.getWhite(this.alpha));
 
         int textColor = focused ? 0xFFFFFF : 0xAAAAAA;

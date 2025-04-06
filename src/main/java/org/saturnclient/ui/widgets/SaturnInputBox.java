@@ -97,7 +97,7 @@ public class SaturnInputBox extends SaturnWidget {
                 this.width,
                 this.height,
                 focused
-                        ? SaturnClientConfig.COLOR.value
+                        ? SaturnClientConfig.color.value
                         : SaturnClientConfig.getWhite(this.alpha));
 
         if (hovering || focused) {
@@ -109,7 +109,7 @@ public class SaturnInputBox extends SaturnWidget {
                     this.width,
                     this.height,
                     hovering
-                            ? SaturnClientConfig.COLOR.value
+                            ? SaturnClientConfig.color.value
                             : SaturnClientConfig.getWhite(this.alpha));
         }
 
@@ -125,7 +125,7 @@ public class SaturnInputBox extends SaturnWidget {
                     9,
                     9,
                     hovering
-                            ? SaturnClientConfig.COLOR.value
+                            ? SaturnClientConfig.color.value
                             : SaturnClientConfig.getWhite(this.alpha));
 
             matrices.scale(0.9f, 0.9f, 1.0f);
@@ -136,7 +136,7 @@ public class SaturnInputBox extends SaturnWidget {
                     14,
                     textRenderer.fontHeight / 2 + 1,
                     hovering
-                            ? SaturnClientConfig.COLOR.value
+                            ? SaturnClientConfig.color.value
                             : SaturnClientConfig.getWhite(this.alpha),
                     false);
         }
