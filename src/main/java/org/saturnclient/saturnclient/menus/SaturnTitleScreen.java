@@ -62,7 +62,7 @@ public class SaturnTitleScreen extends SaturnUi {
         }).setBold(true).setWidth(103).setHeight(26).setX(bX).setY(bY).setScale(0.69f));
 
         draw(new SaturnButton("QUIT", () -> {
-            client.close();
+            client.scheduleStop();
         }).setBold(true).setWidth(103).setHeight(26).setX(bX + 74).setY(bY).setScale(0.69f));
 
         bY += 20;
