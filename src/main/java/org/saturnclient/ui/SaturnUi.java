@@ -6,6 +6,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.PostEffectProcessor;
 import net.minecraft.client.gui.CubeMapRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -29,6 +30,8 @@ public class SaturnUi extends Screen {
     private float f = 0.0f;
     public boolean blur = true;
     public boolean titleBackground = false;
+    public List<SaturnWidget> widgets = new ArrayList<>();
+    private int tick = 0;
 
     protected static final CubeMapRenderer PANORAMA_RENDERER = new CubeMapRenderer(
             Identifier.of("saturnclient", "textures/gui/title/background/panorama"));
@@ -96,9 +99,6 @@ public class SaturnUi extends Screen {
                 (color & 0x00FFFFFF);
     }
 
-    public List<SaturnWidget> widgets = new ArrayList<>();
-    private int tick = 0;
-
     public SaturnUi(Text title) {
         super(title);
     }
@@ -120,6 +120,18 @@ public class SaturnUi extends Screen {
         }
     }
 
+    public void refresh() {
+        synchronized (widgets) {
+            widgets.clear();
+
+            f = 0.0f;
+            tick = 0;
+
+            init();
+        }
+    }
+
+    @SuppressWarnings("deprecation")
     @Override
     public void render(
             DrawContext context,
@@ -300,5 +312,11 @@ public class SaturnUi extends Screen {
             }
             tick++;
         }
+    }
+
+    @Override
+    public void resize(MinecraftClient client, int width, int height) {
+        super.resize(client, width, height);
+        refresh();
     }
 }

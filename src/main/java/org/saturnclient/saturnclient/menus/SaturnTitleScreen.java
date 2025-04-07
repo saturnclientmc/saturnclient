@@ -7,6 +7,7 @@ import org.saturnclient.ui.animations.FadeIn;
 import org.saturnclient.ui.animations.Slide;
 import org.saturnclient.ui.widgets.SaturnButton;
 import org.saturnclient.ui.widgets.SaturnImage;
+
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
 import net.minecraft.client.gui.screen.world.SelectWorldScreen;
@@ -23,7 +24,7 @@ public class SaturnTitleScreen extends SaturnUi {
 
         int logoSize = 49;
         int bX = (width - 150) / 2;
-        int bY = height / 2 - logoSize - 24;
+        int bY = height / 2 - logoSize - 27;
 
         draw(
                 new SaturnImage(SaturnClientConfig.getLogo())
@@ -31,9 +32,9 @@ public class SaturnTitleScreen extends SaturnUi {
                         .setY(bY)
                         .setWidth(logoSize)
                         .setHeight(logoSize)
-                        .setAnimations(new Slide(2, 14)));
+                        .setAnimations(new Slide(3, 14)));
 
-        bY += 41;
+        bY += 44;
 
         draw(
                 new SaturnImage(Textures.LOGO_TEXT)
@@ -41,9 +42,9 @@ public class SaturnTitleScreen extends SaturnUi {
                         .setY(bY)
                         .setWidth(logoSize)
                         .setHeight(8)
-                        .setAnimations(new FadeIn(2)));
+                        .setAnimations(new FadeIn(3)));
 
-        bY += 12;
+        bY += 15;
 
         draw(new SaturnButton("SINGLEPLAYER", () -> {
             client.setScreen(new SelectWorldScreen(new SaturnTitleScreen()));
