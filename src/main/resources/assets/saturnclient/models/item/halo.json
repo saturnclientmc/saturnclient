@@ -1,12 +1,12 @@
 {
   "parent": "special-model-loader:builtin/obj",
   "flip_v": true,
-  "model": "saturnclient:models/item/obj_model_item.obj",
+  "model": "saturnclient:models/item/halo.obj",
   "display": {
     "thirdperson_righthand": {
       "rotation": [ 0, 0, 0 ],
-      "translation": [ 0, 9.5, 0],
-      "scale": [ 0.375, 0.375, 0.375 ]
+      "translation": [ 1.5, 12, 1.5],
+      "scale": [ 0.2, 0.2, 0.2 ]
     }
   }
 }
