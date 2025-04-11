@@ -10,9 +10,24 @@ repositories {}
 
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    
+    // Switch back to Yarn
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    modApi "dev.felnull:special-model-loader:1.4.0+pre.1"
+    include "dev.felnull:special-model-loader:1.4.0+pre.1"
+}
+
+
+repositories {
+	maven { url "https://maven.parchmentmc.org" }
+	maven {
+		name = "FelNull Maven"
+		url = "https://maven.felnull.dev"
+	}
 }
 
 processResources {

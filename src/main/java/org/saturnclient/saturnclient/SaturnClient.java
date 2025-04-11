@@ -16,6 +16,8 @@ import org.saturnclient.saturnmods.ModManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import dev.felnull.specialmodelloader.api.event.SpecialModelLoaderEvents;
+
 /**
  * Main class for the Saturn Client mod.
  */
@@ -32,9 +34,14 @@ public class SaturnClient implements ModInitializer {
 
         ClientLifecycleEvents.CLIENT_STOPPING.register(_o -> ConfigManager.save());
         ScreenEvents.BEFORE_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
-            if (SaturnClientConfig.saturnTitleScreen.value && screen instanceof TitleScreen && !(screen instanceof SaturnMenu)) {
+            if (SaturnClientConfig.saturnTitleScreen.value && screen instanceof TitleScreen
+                    && !(screen instanceof SaturnMenu)) {
                 client.setScreen(new SaturnTitleScreen());
             }
+        });
+
+        SpecialModelLoaderEvents.LOAD_SCOPE.register(() -> {
+            return (resourceManager, location) -> MOD_ID.equals(location.getNamespace());
         });
 
         KeyInputHandler.register();

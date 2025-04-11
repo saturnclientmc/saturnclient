@@ -42,8 +42,6 @@ public class HatFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState,
             matrices.multiply(net.minecraft.util.math.RotationAxis.POSITIVE_X.rotationDegrees(180.0f));
             matrices.multiply(net.minecraft.util.math.RotationAxis.POSITIVE_Y.rotationDegrees(180.0f));
 
-            matrices.translate(0.0f, 0.5f, 0.0f);
-
             ItemStack customHat = new ItemStack(Items.STICK);
             customHat.set(DataComponentTypes.ITEM_MODEL,
                     Identifier.of("saturnclient:hat_" + player.hat));
@@ -54,7 +52,7 @@ public class HatFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState,
 
             itemRenderer.renderItem(
                     customHat,
-                    ModelTransformationMode.HEAD,
+                    ModelTransformationMode.THIRD_PERSON_RIGHT_HAND,
                     light,
                     OverlayTexture.DEFAULT_UV,
                     matrices,
