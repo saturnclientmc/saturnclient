@@ -7,6 +7,7 @@ import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
 import net.minecraft.entity.player.PlayerEntity;
 
+import org.saturnclient.saturnclient.cosmetics.CloakFeatureRenderer;
 import org.saturnclient.saturnclient.cosmetics.HatFeatureRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,7 +23,8 @@ public abstract class PlayerEntityRendererMixin
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void addCustomFeatureRenderer(EntityRendererFactory.Context context, boolean slim, CallbackInfo ci) {
+    private void addCustomFeatureRenderer(EntityRendererFactory.Context ctx, boolean slim, CallbackInfo ci) {
         this.addFeature(new HatFeatureRenderer(this));
+        this.addFeature(new CloakFeatureRenderer(this, ctx.getEntityModels(), ctx.getEquipmentModelLoader()));
     }
 }
