@@ -10,7 +10,9 @@
     "WhoAmI",
     "SaturnReload",
     "TotemParticleMixin",
-    "Crosshair"
+    "Crosshair",
+    "EntityMixin",
+    "CameraMixin"
   ],
   "injectors": {
     "defaultRequire": 1

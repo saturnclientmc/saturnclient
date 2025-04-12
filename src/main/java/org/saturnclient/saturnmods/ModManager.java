@@ -15,7 +15,8 @@ public class ModManager {
             new ArmorDisplay(),
             new FpsDisplay(),
             new Particles(),
-            new Crosshair()
+            new Crosshair(),
+            new FreeLook()
     };
 
     public static void init() {
