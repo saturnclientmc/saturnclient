@@ -11,7 +11,7 @@ import java.security.spec.X509EncodedKeySpec;
 
 public class Network {
     static Socket socket;
-    static DataOutputStream out;
+    static PrintWriter out;
     static BufferedReader in;
     static byte[] key = new byte[32];
 
@@ -37,8 +37,9 @@ public class Network {
         // Generate AES key
         new SecureRandom().nextBytes(key);
 
-        socket = new Socket("localhost", 8080);
-        out = new DataOutputStream(socket.getOutputStream());
+        socket = new Socket("77.247.92.168", 8080);
+        // out = new DataOutputStream(socket.getOutputStream());
+        out = new PrintWriter(socket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
         StringBuilder publicKeyBuilder = new StringBuilder();
@@ -62,16 +63,14 @@ public class Network {
         rsaCipher.init(Cipher.ENCRYPT_MODE, publicKey);
         byte[] encryptedKey = rsaCipher.doFinal(key);
 
-        out.write(Base64.getEncoder().encode(encryptedKey));
-        out.write('\n');
+        out.println(Base64.getEncoder().encodeToString(encryptedKey));
     }
 
     public static void write(String message) {
         try {
-            out.write(Base64.getEncoder().encode(AES.encryptAES256(message, key)));
-            out.write('\n');
-            out.flush();
+            out.println(Base64.getEncoder().encodeToString(AES.encryptAES256(message, key)));
         } catch (Exception e) {
+            throw new RuntimeException("Failed to write to server: " + e.getMessage());
         }
     }
 

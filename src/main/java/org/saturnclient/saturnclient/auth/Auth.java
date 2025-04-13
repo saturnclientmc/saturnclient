@@ -53,6 +53,8 @@ public class Auth {
 
             players.put(uuid, new SaturnPlayer(cloak, hat));
 
+            Cloaks.loadCloak(uuid);
+
             playerNames.put(client.getSession().getUsername(), uuid);
 
             afterAuth();
@@ -90,7 +92,7 @@ public class Auth {
                                 String cloak = parser.getString("cloak");
                                 String hat = parser.getString("hat");
                                 players.put(uuid, new SaturnPlayer(cloak, hat));
-                                Cloaks.setCloakSilent(uuid, cloak);
+                                Cloaks.loadCloak(uuid);
                             } else {
                                 playerNames.entrySet().removeIf(entry -> entry.getValue().equals(uuid));
                             }

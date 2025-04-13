@@ -72,6 +72,65 @@ public class Cloaks {
     }
 
     /**
+     * Handles loading and caching of a new cloak texture, without connecting to the
+     * server.
+     * 
+     * @param cloakName Name of the cloak file to load
+     */
+    public static void loadCloak(String uuid) {
+        SaturnPlayer player = Auth.players.get(uuid);
+        if (player != null && player.cloak != null) {
+            if (!player.cloak.isEmpty()) {
+                if (Arrays.asList(ANIMATED_CLOAKS).contains(player.cloak)) {
+                    // Load animated cloak data in background thread
+                    new Thread(() -> {
+                        try {
+                            String fileName = player.cloak + ".gif";
+                            String resourcePath = CLOAKS_RESOURCE_PATH + fileName;
+                            InputStream inputStream = Cloaks.class.getClassLoader().getResourceAsStream(resourcePath);
+
+                            if (inputStream != null) {
+                                byte[] data = inputStream.readAllBytes();
+                                GifDecoder.GifImage gif = GifDecoder.read(data);
+                                List<BufferedImage> frames = new ArrayList<>();
+                                List<Integer> delays = new ArrayList<>();
+                                int frameCount = gif.getFrameCount();
+
+                                for (int i = 0; i < frameCount; i++) {
+                                    frames.add(gif.getFrame(i));
+                                    delays.add(gif.getDelay(i) * 10);
+                                }
+
+                                // Register textures on main thread
+                                net.minecraft.client.MinecraftClient.getInstance().execute(() -> {
+                                    try {
+                                        List<AnimatedCloakData> animatedFrames = new ArrayList<>();
+                                        for (int i = 0; i < frameCount; i++) {
+                                            String frameId = fileName.replace(".gif", "") + "_frame_" + i;
+                                            Identifier frameIdentifier = Identifier.of(SaturnClient.MOD_ID, "cloaks_" + frameId);
+                                            IdentifierUtils.registerBufferedImageTexture(frameIdentifier, frames.get(i));
+                                            animatedFrames.add(new AnimatedCloakData(frameIdentifier, delays.get(i)));
+                                        }
+                                        animatedCloaks.put(uuid, animatedFrames);
+                                        lastFrameTime.put(uuid, System.currentTimeMillis());
+                                        SaturnClient.LOGGER.info("Loaded " + frames.size() + " frames for animated cloak: " + fileName);
+                                    } catch (Exception e) {
+                                        SaturnClient.LOGGER.error("Failed to register animated cloak textures: " + fileName, e);
+                                    }
+                                });
+                            }
+                        } catch (IOException e) {
+                            SaturnClient.LOGGER.error("Failed to load animated cloak from resources: " + player.cloak + ".gif", e);
+                        }
+                    }).start();
+                } else {
+                    net.minecraft.client.MinecraftClient.getInstance().execute(() -> loadStaticCloak(player.cloak + ".png"));
+                }
+            }
+        }
+    }
+
+    /**
      * Loads and processes a static cloak from a PNG file in resources.
      * 
      * @param fileName Name of the PNG file to load
@@ -100,40 +159,8 @@ public class Cloaks {
     }
 
     private static void loadAnimatedCloak(String uuid, String fileName) {
-        try {
-            String resourcePath = CLOAKS_RESOURCE_PATH + fileName;
-            InputStream inputStream = Cloaks.class.getClassLoader().getResourceAsStream(resourcePath);
-
-            if (inputStream != null) {
-                // Read all bytes from input stream
-                byte[] data = inputStream.readAllBytes();
-
-                // Use our custom GifDecoder
-                GifDecoder.GifImage gif = GifDecoder.read(data);
-
-                List<AnimatedCloakData> frames = new ArrayList<>();
-                int frameCount = gif.getFrameCount();
-
-                for (int i = 0; i < frameCount; i++) {
-                    BufferedImage frame = gif.getFrame(i);
-                    // Convert from hundredths of a second to milliseconds (multiply by 10)
-                    int delay = gif.getDelay(i) * 10;
-
-                    String frameId = fileName.replace(".gif", "") + "_frame_" + i;
-                    Identifier frameIdentifier = Identifier.of(SaturnClient.MOD_ID, "cloaks_" + frameId);
-                    IdentifierUtils.registerBufferedImageTexture(frameIdentifier, frame);
-
-                    frames.add(new AnimatedCloakData(frameIdentifier, delay));
-                }
-
-                animatedCloaks.put(uuid, frames);
-                lastFrameTime.put(uuid, System.currentTimeMillis());
-
-                SaturnClient.LOGGER.info("Loaded " + frames.size() + " frames for animated cloak: " + fileName);
-            }
-        } catch (IOException e) {
-            SaturnClient.LOGGER.error("Failed to load animated cloak from resources: " + fileName, e);
-        }
+        // This method is now handled directly in loadCloak
+        throw new UnsupportedOperationException("This method should not be called directly. Use loadCloak instead.");
     }
 
     public static Identifier getCurrentCloakTexture(String uuid) {
