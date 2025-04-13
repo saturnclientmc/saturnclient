@@ -2,7 +2,7 @@ package org.saturnclient.saturnclient.menus;
 
 import net.minecraft.text.Text;
 import org.saturnclient.saturnclient.SaturnClientConfig;
-import org.saturnclient.saturnclient.auth.SaturnSocket;
+import org.saturnclient.saturnclient.auth.Auth;
 import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 import org.saturnclient.ui.SaturnUi;
@@ -123,7 +123,7 @@ public class CloaksMenu extends SaturnUi {
 
             scroll.draw(
                     new SaturnClickableSprite(Textures.BUTTON_BORDER, () -> {
-                        Cloaks.setCloak(SaturnSocket.uuid, cloak);
+                        Cloaks.setCloak(Auth.uuid, cloak);
                     })
                             .setX(modX)
                             .setY(modY)

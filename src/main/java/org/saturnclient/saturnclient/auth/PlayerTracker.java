@@ -45,7 +45,7 @@ public class PlayerTracker {
     private static void onPlayerJoin(MinecraftClient client, PlayerListEntry player) {
         GameProfile profile = player.getProfile();
         String uuid = profile.getId().toString();
-        if (uuid != SaturnSocket.uuid)
-            SaturnSocket.player(profile.getName(), uuid);
+        if (uuid != Auth.uuid)
+            Auth.player(profile.getName(), uuid);
     }
 }

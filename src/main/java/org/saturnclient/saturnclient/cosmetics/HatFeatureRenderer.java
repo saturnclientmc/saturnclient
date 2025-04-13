@@ -1,7 +1,7 @@
 package org.saturnclient.saturnclient.cosmetics;
 
 import org.saturnclient.saturnclient.auth.SaturnPlayer;
-import org.saturnclient.saturnclient.auth.SaturnSocket;
+import org.saturnclient.saturnclient.auth.Auth;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.OverlayTexture;
@@ -29,9 +29,9 @@ public class HatFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState,
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light,
             PlayerEntityRenderState state, float limbAngle, float limbDistance) {
         ItemStack headItem = state.equippedHeadStack;
-        String uuid = SaturnSocket.playerNames.get(state.name);
+        String uuid = Auth.playerNames.get(state.name);
         if (headItem.isEmpty() && uuid != null) {
-            SaturnPlayer player = SaturnSocket.players.get(uuid);
+            SaturnPlayer player = Auth.players.get(uuid);
             if (player == null || player.hat == null || player.hat.isEmpty()) {
                 return;
             }

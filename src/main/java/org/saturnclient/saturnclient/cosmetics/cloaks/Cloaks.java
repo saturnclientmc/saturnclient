@@ -1,7 +1,7 @@
 package org.saturnclient.saturnclient.cosmetics.cloaks;
 
 import net.minecraft.util.Identifier;
-import org.saturnclient.saturnclient.auth.SaturnSocket;
+import org.saturnclient.saturnclient.auth.Auth;
 import org.saturnclient.saturnclient.cosmetics.cloaks.utils.AnimatedCloakData;
 import org.saturnclient.saturnclient.cosmetics.cloaks.utils.IdentifierUtils;
 import org.saturnclient.saturnclient.auth.SaturnPlayer;
@@ -42,9 +42,9 @@ public class Cloaks {
      * @param cloakName Name of the cloak file to load
      */
     public static void setCloak(String uuid, String cloakName) {
-        SaturnSocket.setCloak(cloakName);
+        Auth.setCloak(cloakName);
         setCloakSilent(uuid, cloakName);
-        SaturnSocket.sendReload();
+        Auth.sendReload();
         SaturnClient.LOGGER.info("Cloak set to " + cloakName);
     }
 
@@ -55,9 +55,9 @@ public class Cloaks {
      * @param cloakName Name of the cloak file to load
      */
     public static void setCloakSilent(String uuid, String cloakName) {
-        SaturnPlayer player = SaturnSocket.players.get(uuid);
+        SaturnPlayer player = Auth.players.get(uuid);
         if (player == null) {
-            SaturnSocket.players.put(uuid, new SaturnPlayer(cloakName, null));
+            Auth.players.put(uuid, new SaturnPlayer(cloakName, null));
         } else {
             player.cloak = cloakName;
         }
@@ -137,11 +137,11 @@ public class Cloaks {
     }
 
     public static Identifier getCurrentCloakTexture(String uuid) {
-        if (!SaturnSocket.players.containsKey(uuid)) {
+        if (!Auth.players.containsKey(uuid)) {
             return null;
         }
 
-        String cloakName = SaturnSocket.players.get(uuid).cloak;
+        String cloakName = Auth.players.get(uuid).cloak;
 
         if (cloakName.isEmpty()) {
             return null;

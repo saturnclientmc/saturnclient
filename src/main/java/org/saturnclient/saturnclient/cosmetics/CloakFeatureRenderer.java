@@ -1,6 +1,6 @@
 package org.saturnclient.saturnclient.cosmetics;
 
-import org.saturnclient.saturnclient.auth.SaturnSocket;
+import org.saturnclient.saturnclient.auth.Auth;
 import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 
 import net.minecraft.client.render.OverlayTexture;
@@ -57,14 +57,15 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
 
             if (skinTextures.capeTexture() == null) {
                 String name = playerEntityRenderState.name;
-                String uuid = SaturnSocket.playerNames.get(name);
-                if (uuid == null || !SaturnSocket.players.containsKey(uuid)) {
+                String uuid = Auth.playerNames.get(name);
+                if (uuid == null || !Auth.players.containsKey(uuid)) {
                     return;
                 }
 
                 Identifier customCape = Cloaks.getCurrentCloakTexture(uuid);
 
-                if (customCape != null && !this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack, LayerType.WINGS)) {
+                if (customCape != null
+                        && !this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack, LayerType.WINGS)) {
                     matrixStack.push();
                     if (this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack, LayerType.HUMANOID)) {
                         matrixStack.translate(0.0F, -0.053125F, 0.06875F);

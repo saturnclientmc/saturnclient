@@ -1,7 +1,5 @@
 package org.saturnclient.saturnclient.auth;
 
-import java.io.*;
-import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
@@ -10,18 +8,10 @@ import org.saturnclient.saturnclient.cosmetics.Hats;
 import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 import org.saturnclient.saturnclient.SaturnClient;
 
-public class SaturnSocket {
-
-    private static final String server = "77.247.92.168";
-    private static final int port = 8080;
-
+public class Auth {
     public static Map<String, SaturnPlayer> players = new HashMap<>();
     public static Map<String, String> playerNames = new HashMap<>();
     public static String uuid;
-
-    private static Socket socket;
-    private static BufferedReader reader;
-    private static PrintWriter writer;
     private static Thread listenerThread;
     private static Thread pingThread;
     private static volatile boolean running = false;
@@ -41,15 +31,11 @@ public class SaturnSocket {
             String accessToken = client.getSession().getAccessToken();
             SaturnClient.LOGGER.info("Authenticating");
 
-            // Establish a persistent connection
-            socket = new Socket(server, port);
-            reader = new BufferedReader(
-                    new InputStreamReader(socket.getInputStream()));
-            writer = new PrintWriter(socket.getOutputStream(), true);
+            Network.init();
 
-            // Send authentication request
-            writer.println(accessToken);
-            String response = reader.readLine();
+            Network.write(accessToken);
+
+            String response = Network.read();
 
             SaturnParser parser = new SaturnParser(response);
 
@@ -75,7 +61,7 @@ public class SaturnSocket {
             startPingThread();
 
             return true;
-        } catch (IOException e) {
+        } catch (Exception e) {
             SaturnClient.LOGGER.error("Authentication failed", e);
             return false;
         }
@@ -86,7 +72,7 @@ public class SaturnSocket {
         listenerThread = new Thread(() -> {
             try {
                 while (running) {
-                    String message = reader.readLine();
+                    String message = Network.read();
                     if (message == null) {
                         SaturnClient.LOGGER.error("Connection closed");
                         running = false;
@@ -117,7 +103,7 @@ public class SaturnSocket {
                             break;
                     }
                 }
-            } catch (IOException e) {
+            } catch (Exception e) {
                 SaturnClient.LOGGER.error("Error reading from server", e);
             } finally {
                 close();
@@ -133,12 +119,12 @@ public class SaturnSocket {
             try {
                 while (running) {
                     Thread.sleep(25000); // 25 seconds
-                    if (running && writer != null) {
-                        writer.println("ping");
+                    if (running) {
+                        Network.write("ping");
                     }
                 }
             } catch (InterruptedException e) {
-                SaturnClient.LOGGER.error("Ping thread interrupted", e);
+                SaturnClient.LOGGER.warn("Ping thread interrupted", e);
             } catch (Exception e) {
                 SaturnClient.LOGGER.error("Error in ping thread", e);
             }
@@ -150,24 +136,16 @@ public class SaturnSocket {
 
     public static void close() {
         running = false;
+        if (pingThread != null) {
+            pingThread.interrupt();
+        }
+        if (listenerThread != null) {
+            listenerThread.interrupt();
+        }
         try {
-            if (pingThread != null) {
-                pingThread.interrupt();
-            }
-            if (listenerThread != null) {
-                listenerThread.interrupt();
-            }
-            if (writer != null) {
-                writer.close();
-            }
-            if (reader != null) {
-                reader.close();
-            }
-            if (socket != null) {
-                socket.close();
-            }
+            close();
             SaturnClient.LOGGER.info("SaturnApi connection closed.");
-        } catch (IOException e) {
+        } catch (Exception e) {
             SaturnClient.LOGGER.error("Failed to close resources", e);
         }
     }
@@ -178,7 +156,7 @@ public class SaturnSocket {
 
     public static void setCloak(String cloakName) {
         try {
-            writer.println("set_cloak@cloak=" + cloakName);
+            Network.write("set_cloak@cloak=" + cloakName);
         } catch (Exception e) {
             SaturnClient.LOGGER.error("Request failed", e);
         }
@@ -186,7 +164,7 @@ public class SaturnSocket {
 
     public static void setHat(String hatName) {
         try {
-            writer.println("set_hat@hat=" + hatName);
+            Network.write("set_hat@hat=" + hatName);
         } catch (Exception e) {
             SaturnClient.LOGGER.error("Request failed", e);
         }
@@ -195,7 +173,7 @@ public class SaturnSocket {
     public static void player(String name, String uuid) {
         try {
             playerNames.put(name, uuid.replaceAll("-", ""));
-            writer.println("player@uuid=" + uuid.replaceAll("-", ""));
+            Network.write("player@uuid=" + uuid.replaceAll("-", ""));
         } catch (Exception e) {
             SaturnClient.LOGGER.error("Request failed", e);
         }

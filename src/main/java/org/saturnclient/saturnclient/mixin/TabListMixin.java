@@ -4,7 +4,7 @@ import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 import org.saturnclient.saturnclient.SaturnClientConfig;
-import org.saturnclient.saturnclient.auth.SaturnSocket;
+import org.saturnclient.saturnclient.auth.Auth;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -30,6 +30,6 @@ public abstract class TabListMixin {
         String uuid = profile.getId().toString().replaceAll("-", "");
 
         return Text.literal(
-                SaturnSocket.players.containsKey(uuid) ? SaturnClientConfig.getSaturnIndicator() + name : name);
+                Auth.players.containsKey(uuid) ? SaturnClientConfig.getSaturnIndicator() + name : name);
     }
 }

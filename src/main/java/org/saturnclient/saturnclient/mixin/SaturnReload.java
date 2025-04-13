@@ -3,7 +3,7 @@ package org.saturnclient.saturnclient.mixin;
 import java.util.Map;
 
 import org.jetbrains.annotations.Nullable;
-import org.saturnclient.saturnclient.auth.SaturnSocket;
+import org.saturnclient.saturnclient.auth.Auth;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -21,10 +21,10 @@ public class SaturnReload {
             @Nullable MessageIndicator indicator, CallbackInfo ci) {
         String msg = message.toString();
         if (msg.contains("$SATURN_RELOAD")) {
-            for (Map.Entry<String, String> player : SaturnSocket.playerNames.entrySet()) {
+            for (Map.Entry<String, String> player : Auth.playerNames.entrySet()) {
                 String name = player.getKey();
                 if (msg.contains(name)) {
-                    SaturnSocket.player(name, player.getValue());
+                    Auth.player(name, player.getValue());
                 }
                 ci.cancel();
             }

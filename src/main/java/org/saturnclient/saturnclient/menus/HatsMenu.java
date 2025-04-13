@@ -2,7 +2,7 @@ package org.saturnclient.saturnclient.menus;
 
 import net.minecraft.text.Text;
 import org.saturnclient.saturnclient.SaturnClientConfig;
-import org.saturnclient.saturnclient.auth.SaturnSocket;
+import org.saturnclient.saturnclient.auth.Auth;
 import org.saturnclient.saturnclient.cosmetics.Hats;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.Textures;
@@ -88,7 +88,7 @@ public class HatsMenu extends SaturnUi {
         for (String hat : Hats.availableHats) {
             modsScroll.draw(
                     new SaturnClickableSprite(Textures.BUTTON_BORDER, () -> {
-                        Hats.setHat(SaturnSocket.uuid, hat);
+                        Hats.setHat(Auth.uuid, hat);
                     })
                             .setX(modX)
                             .setY(modY)

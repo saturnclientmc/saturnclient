@@ -5,7 +5,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.minecraft.client.gui.screen.TitleScreen;
 
-import org.saturnclient.saturnclient.auth.SaturnSocket;
+import org.saturnclient.saturnclient.auth.Auth;
 import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.saturnclient.cosmetics.Hats;
 import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
@@ -45,7 +45,7 @@ public class SaturnClient implements ModInitializer {
         });
 
         KeyInputHandler.register();
-        if (SaturnSocket.authenticate()) {
+        if (Auth.authenticate()) {
             Cloaks.initialize();
             Hats.initialize();
             LOGGER.info(MOD_ID + " initialization complete");
