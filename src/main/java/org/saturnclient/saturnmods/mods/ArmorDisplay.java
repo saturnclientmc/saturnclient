@@ -18,7 +18,7 @@ import org.saturnclient.ui.Textures;
 
 public class ArmorDisplay implements SaturnMod, HudMod {
 
-    private static ConfigManager config = new ConfigManager("armor");
+    private static ConfigManager config = new ConfigManager("Armor Display");
     public static Property<Boolean> enabled = config.property(
             "Enabled",
             new Property<>(false));

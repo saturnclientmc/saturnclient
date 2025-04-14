@@ -12,7 +12,7 @@ public class FreeLook implements SaturnMod {
     public static boolean isFreeLooking = false;
     public static Perspective lastPerspective = null;
 
-    private static ConfigManager config = new ConfigManager("armor");
+    private static ConfigManager config = new ConfigManager("Free Look");
     public static Property<Boolean> enabled = config.property(
             "Enabled",
             new Property<>(false));

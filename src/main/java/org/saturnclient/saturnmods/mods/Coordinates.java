@@ -14,7 +14,7 @@ import org.saturnclient.ui.Textures;
 
 public class Coordinates implements SaturnMod, HudMod {
 
-    private static ConfigManager config = new ConfigManager("coords");
+    private static ConfigManager config = new ConfigManager("Coordinates");
     public static Property<Boolean> enabled = config.property(
             "Enabled",
             new Property<>(false));
