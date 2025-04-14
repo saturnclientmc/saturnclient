@@ -7,6 +7,7 @@ import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.Textures;
+import org.saturnclient.ui.components.SkinPreview;
 import org.saturnclient.ui.widgets.SaturnClickableImage;
 import org.saturnclient.ui.widgets.SaturnClickableSprite;
 import org.saturnclient.ui.widgets.SaturnImage;
@@ -101,12 +102,18 @@ public class CloaksMenu extends SaturnUi {
                 .setHeight(rectHeight - 10)
                 .setAnimations(SaturnClientConfig.getAnimations()));
 
+        draw(new SkinPreview()
+                .setScale(3.0f)
+                .setX(rectWidth - 100)
+                .setY(rectY + 8)
+                .setAnimations(SaturnClientConfig.getAnimations()));
+
         super.init();
     }
 
     private void drawItems(int rectX, int rectY, int rectWidth, int rectHeight) {
-        int cloakWidth = 32;
-        int cloakHeight = 70;
+        int cloakWidth = 28;
+        int cloakHeight = 61;
 
         int modX = 0;
         int modY = 0;
@@ -139,7 +146,7 @@ public class CloaksMenu extends SaturnUi {
 
             col++;
 
-            if (col < 6) {
+            if (col < 4) {
                 modX += cloakWidth + 21;
             } else {
                 modX = 0;

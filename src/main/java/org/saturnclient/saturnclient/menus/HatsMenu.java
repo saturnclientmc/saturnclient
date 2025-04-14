@@ -6,6 +6,7 @@ import org.saturnclient.saturnclient.auth.Auth;
 import org.saturnclient.saturnclient.cosmetics.Hats;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.Textures;
+import org.saturnclient.ui.components.SkinPreview;
 import org.saturnclient.ui.widgets.SaturnClickableImage;
 import org.saturnclient.ui.widgets.SaturnClickableSprite;
 import org.saturnclient.ui.widgets.SaturnImage;
@@ -77,7 +78,7 @@ public class HatsMenu extends SaturnUi {
                         .setHeight(tabSize)
                         .setAnimations(SaturnClientConfig.getAnimations()));
 
-        int hatSize = 32;
+        int hatSize = 28;
 
         int modX = 0;
         int modY = 0;
@@ -104,7 +105,7 @@ public class HatsMenu extends SaturnUi {
 
             col++;
 
-            if (col < 6) {
+            if (col < 4) {
                 modX += hatSize + 21;
             } else {
                 modX = 0;
@@ -120,6 +121,12 @@ public class HatsMenu extends SaturnUi {
                         .setWidth(rectWidth - 17)
                         .setHeight(rectHeight - 10)
                         .setAnimations(SaturnClientConfig.getAnimations()));
+
+        draw(new SkinPreview()
+                .setScale(3.0f)
+                .setX(rectWidth - 100)
+                .setY(rectY + 8)
+                .setAnimations(SaturnClientConfig.getAnimations()));
 
         super.init();
     }

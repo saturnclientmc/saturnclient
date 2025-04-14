@@ -62,13 +62,7 @@ public class Cloaks {
             player.cloak = cloakName;
         }
 
-        if (!cloakName.isEmpty()) {
-            if (Arrays.asList(ANIMATED_CLOAKS).contains(cloakName)) {
-                new Thread(() -> loadAnimatedCloak(uuid, cloakName + ".gif")).start();
-            } else {
-                loadStaticCloak(cloakName + ".png");
-            }
-        }
+        loadCloak(uuid);
     }
 
     /**
@@ -156,11 +150,6 @@ public class Cloaks {
         } catch (IOException e) {
             SaturnClient.LOGGER.error("Failed to load static cloak from resources: " + fileName, e);
         }
-    }
-
-    private static void loadAnimatedCloak(String uuid, String fileName) {
-        // This method is now handled directly in loadCloak
-        throw new UnsupportedOperationException("This method should not be called directly. Use loadCloak instead.");
     }
 
     public static Identifier getCurrentCloakTexture(String uuid) {
