@@ -124,7 +124,7 @@ public class HatsMenu extends SaturnUi {
 
         draw(new SkinPreview()
                 .setScale(3.0f)
-                .setX(rectWidth - 100)
+                .setX((rectX + rectWidth) - 180)
                 .setY(rectY + 8)
                 .setAnimations(SaturnClientConfig.getAnimations()));
 
