@@ -11,16 +11,17 @@ import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.client.render.LightmapTextureManager;
 
 import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.saturnclient.auth.Auth;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.Shadow;
 
-@Mixin(value = EntityRenderer.class, priority = 1500)
+@Mixin(value = EntityRenderer.class, priority = 1800)
 public abstract class NameTagMixin<S extends EntityRenderState> {
     @Shadow
     public EntityRenderDispatcher dispatcher;
@@ -30,12 +31,27 @@ public abstract class NameTagMixin<S extends EntityRenderState> {
      * @reason Adds the Saturn Client icon to the player's name if they are online
      *         with Saturn Client
      */
-    @Overwrite
-    public void renderLabelIfPresent(S state, Text text_o, MatrixStack matrices,
-            VertexConsumerProvider vertexConsumers, int light) {
-        Text text = isSaturn(state) ? Text.literal(SaturnClientConfig.getSaturnIndicator() + text_o.getString())
-                : text_o;
+    @Inject(method = "renderLabelIfPresent(Lnet/minecraft/client/render/entity/state/EntityRenderState;Lnet/minecraft/text/Text;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At("HEAD"), cancellable = true)
+    private void onRenderLabelIfPresent(S state, Text text, MatrixStack matrices,
+            VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci) {
+        if (isSaturn(state)) {
+            renderLabel(state, Text.literal(SaturnClientConfig.getSaturnIndicator()).append(text), matrices,
+                    vertexConsumers, light);
+            ci.cancel();
+        }
+    }
 
+    private boolean isSaturn(S state) {
+        if (state instanceof PlayerEntityRenderState) {
+            String name = ((PlayerEntityRenderState) state).name;
+            String uuid = Auth.playerNames.get(name);
+            return uuid != null && Auth.players.containsKey(uuid);
+        }
+        return false;
+    }
+
+    private void renderLabel(S state, Text text, MatrixStack matrices,
+            VertexConsumerProvider vertexConsumers, int light) {
         Vec3d vec3d = state.nameLabelPos;
         if (vec3d != null) {
             boolean bl = !state.sneaking;
@@ -52,19 +68,9 @@ public abstract class NameTagMixin<S extends EntityRenderState> {
                     bl ? TextLayerType.SEE_THROUGH : TextLayerType.NORMAL, j, light);
             if (bl) {
                 textRenderer.draw(text, f, (float) i, -1, false, matrix4f, vertexConsumers, TextLayerType.NORMAL, 0,
-                        LightmapTextureManager.applyEmission(light, 2));
+                        light);
             }
-
             matrices.pop();
         }
-    }
-
-    private boolean isSaturn(S state) {
-        if (state instanceof PlayerEntityRenderState) {
-            String name = ((PlayerEntityRenderState) state).name;
-            String uuid = Auth.playerNames.get(name);
-            return uuid != null && Auth.players.containsKey(uuid);
-        }
-        return false;
     }
 }
