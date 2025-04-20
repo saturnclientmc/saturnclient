@@ -12,7 +12,8 @@
     "TotemParticleMixin",
     "Crosshair",
     "EntityMixin",
-    "CameraMixin"
+    "CameraMixin",
+    "DrawContextAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
