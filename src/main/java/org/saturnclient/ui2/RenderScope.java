@@ -5,12 +5,12 @@ import org.joml.Matrix4f;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.font.TextRenderer.TextLayerType;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.RotationAxis;
 
 public class RenderScope {
     public MatrixStack matrices;
@@ -114,5 +114,90 @@ public class RenderScope {
         TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
         textRenderer.draw(text, (float) x, (float) y, color, false, this.matrices.peek().getPositionMatrix(),
                 this.vertexConsumers, TextLayerType.NORMAL, 0, 15728880);
+    }
+
+    public void drawRoundedCorner(int width, int height, int radius, int color) {
+        int w = width * 10; // Width of the box
+        int h = height * 10; // Height of the box
+        
+        for (int y = 0; y < h; y++) {
+            int startX;
+
+            if (y < radius) {
+                double dy = y - radius;
+                double dx = radius - Math.sqrt(radius * radius - dy * dy);
+                startX = (int) Math.ceil(dx);
+            } else {
+                startX = 0;
+            }
+
+            this.drawRect(startX, y, w - startX, 1, color);
+        }
+    }
+
+    public void drawRoundedRectangle(int x, int y, int width, int height, int radius, int color) {
+        int cornerWidth = width / 2;
+        int cornerHeight = height / 2;
+
+        this.matrices.push();
+
+        this.matrices.translate(x, y, 0);
+
+        this.matrices.push();
+
+        this.matrices.scale(0.1f, 0.1f, 1.0f);
+
+        this.drawRoundedCorner(cornerWidth, cornerHeight, radius, color);
+
+        this.matrices.pop();
+
+
+        this.matrices.push();
+
+        this.matrices.translate(cornerWidth, cornerHeight * 2, 0);
+
+        this.matrices.multiply(RotationAxis.NEGATIVE_Z.rotationDegrees(90));
+
+        this.matrices.translate(0, -cornerWidth, 0);
+
+        this.matrices.scale(0.1f, 0.1f, 1.0f);
+
+        this.drawRoundedCorner(cornerWidth, cornerHeight, radius, color);
+
+        this.matrices.pop();
+
+
+
+        this.matrices.push();
+
+        this.matrices.translate(cornerWidth * 2, cornerHeight, 0);
+
+        this.matrices.multiply(RotationAxis.NEGATIVE_Z.rotationDegrees(180));
+
+        this.matrices.translate(0, -cornerWidth, 0);
+
+        this.matrices.scale(0.1f, 0.1f, 1.0f);
+
+        this.drawRoundedCorner(cornerWidth, cornerHeight, radius, color);
+
+        this.matrices.pop();
+
+
+
+        this.matrices.push();
+
+        this.matrices.translate(cornerWidth, 0, 0);
+
+        this.matrices.multiply(RotationAxis.NEGATIVE_Z.rotationDegrees(270));
+
+        this.matrices.translate(0, -cornerWidth, 0);
+
+        this.matrices.scale(0.1f, 0.1f, 1.0f);
+
+        this.drawRoundedCorner(cornerWidth, cornerHeight, radius, color);
+
+        this.matrices.pop();
+
+        this.matrices.pop();
     }
 }
