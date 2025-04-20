@@ -1,6 +1,5 @@
 package org.saturnclient.ui2.elements;
 
-import org.joml.Quaternionf;
 import org.saturnclient.ui2.Element;
 import org.saturnclient.ui2.RenderScope;
 
@@ -23,12 +22,7 @@ public class Text extends Element {
 
         renderScope.matrices.push();
 
-        renderScope.matrices.multiply(net.minecraft.util.math.RotationAxis.POSITIVE_Z.rotationDegrees(90.0f));
-
-        renderScope.matrices.translate(300, 300, 0);
-
         renderScope.matrices.scale(0.1f, 0.1f, 1.0f);
-
 
         int r = 90; // Radius of the corner
         int h = (rectHeight / 2) * 10; // Height of the box
