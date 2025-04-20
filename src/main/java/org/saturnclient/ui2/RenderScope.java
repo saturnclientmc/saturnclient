@@ -5,6 +5,7 @@ import org.joml.Matrix4f;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.font.TextRenderer.TextLayerType;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -12,9 +13,8 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 public class RenderScope {
-    private MatrixStack matrices;
-    private VertexConsumerProvider.Immediate vertexConsumers;
-    private RenderLayer renderLayer;
+    public MatrixStack matrices;
+    public VertexConsumerProvider.Immediate vertexConsumers;
 
     public RenderScope(MatrixStack matrices, VertexConsumerProvider.Immediate vertexConsumers) {
         this.matrices = matrices;
@@ -42,7 +42,7 @@ public class RenderScope {
             y2 = i;
         }
 
-        VertexConsumer vertexConsumer = this.vertexConsumers.getBuffer(renderLayer);
+        VertexConsumer vertexConsumer = this.vertexConsumers.getBuffer(RenderLayer.getGui());
         vertexConsumer.vertex(matrix4f, (float) x1, (float) y1, 0).color(color);
         vertexConsumer.vertex(matrix4f, (float) x1, (float) y2, 0).color(color);
         vertexConsumer.vertex(matrix4f, (float) x2, (float) y2, 0).color(color);
@@ -70,7 +70,7 @@ public class RenderScope {
             y2 = i;
         }
 
-        VertexConsumer vertexConsumer = this.vertexConsumers.getBuffer(renderLayer);
+        VertexConsumer vertexConsumer = this.vertexConsumers.getBuffer(RenderLayer.getGui());
         vertexConsumer.vertex(matrix4f, (float) x1, (float) y1, 0).color(color);
         vertexConsumer.vertex(matrix4f, (float) x1, (float) y2, 0).color(color);
         vertexConsumer.vertex(matrix4f, (float) x2, (float) y2, 0).color(color);
