@@ -71,8 +71,8 @@ public class RenderScope {
     }
 
     public void drawRoundedCorner(int width, int height, int radius, int color) {
-        int w = width * 10;
-        int h = height * 10;
+        int w = width * 20;
+        int h = height * 20;
         
         for (int y = 0; y < h; y++) {
             int startX;
@@ -89,26 +89,17 @@ public class RenderScope {
         }
     }
 
-    public void drawRoundedRectangle(int x, int y, int width, int height, int radius, int color) {
-        int cornerWidth = width / 2;
-        int cornerHeight = height / 2;
-
+    private void drawRoundedSide(int cornerWidth, int cornerHeight, int radius, int color) {
+        // Top
         this.matrices.push();
 
-        this.matrices.translate(x, y, 0);
+        this.matrices.scale(0.05f, 0.05f, 1.0f);
 
-        // Top left
-
-        this.matrices.push();
-
-        this.matrices.scale(0.1f, 0.1f, 1.0f);
-
-        this.drawRoundedCorner(cornerWidth, cornerHeight, radius, color);
+        this.drawRoundedCorner(cornerWidth, cornerHeight, radius * 3, color);
 
         this.matrices.pop();
 
-        // Bottom left
-
+        // Bottom
         this.matrices.push();
 
         this.matrices.translate(cornerWidth, cornerHeight * 2, 0);
@@ -119,41 +110,28 @@ public class RenderScope {
 
         this.matrices.scale(0.1f, 0.1f, 1.0f);
 
-        this.drawRoundedCorner(cornerHeight, cornerWidth, radius, color);
+        this.drawRoundedCorner(cornerHeight, cornerWidth, radius  * 3, color);
 
         this.matrices.pop();
+    }
 
-        // Bottom right
+    public void drawRoundedRectangle(int x, int y, int width, int height, int radius, int color) {
+        int cornerWidth = width / 2;
+        int cornerHeight = height / 2;
 
         this.matrices.push();
 
-        this.matrices.translate(cornerWidth * 2, cornerWidth > cornerHeight ? 0 : cornerHeight, 0);
+        this.matrices.translate(x, y, 0);
+
+        this.drawRoundedSide(cornerWidth, cornerHeight, radius, color);
+
+        this.matrices.translate(cornerWidth * 2, cornerHeight * 2, 0);
 
         this.matrices.multiply(RotationAxis.NEGATIVE_Z.rotationDegrees(180));
 
-        this.matrices.translate(0, -cornerWidth, 0);
+        this.matrices.translate(0, 0, 0);
 
-        this.matrices.scale(0.1f, 0.1f, 1.0f);
-
-        this.drawRoundedCorner(cornerWidth, cornerHeight, radius, color);
-
-        this.matrices.pop();
-
-
-        // top right
-        this.matrices.push();
-
-        this.matrices.translate(cornerWidth, 0, 0);
-
-        this.matrices.multiply(RotationAxis.NEGATIVE_Z.rotationDegrees(270));
-
-        this.matrices.translate(0, -cornerWidth, 0);
-
-        this.matrices.scale(0.1f, 0.1f, 1.0f);
-
-        this.drawRoundedCorner(cornerHeight, cornerWidth, radius, 0xFFFFFFFF);
-
-        this.matrices.pop();
+        this.drawRoundedSide(cornerWidth, cornerHeight, radius, color);
 
         this.matrices.pop();
     }
