@@ -135,6 +135,7 @@ public class RenderScope {
         this.matrices.pop();
 
 
+        // top right
         this.matrices.push();
 
         this.matrices.translate(cornerWidth, 0, 0);
