@@ -73,21 +73,19 @@ public class RenderScope {
     public void drawRoundedCorner(int width, int height, int radius, int color) {
         int w = width * 20;
         int h = height * 20;
-        
+    
         for (int y = 0; y < h; y++) {
-            int startX;
-
+            int startX = 0;
+    
             if (y < radius) {
-                double dy = y - radius;
-                double dx = radius - Math.sqrt(radius * radius - dy * dy);
-                startX = (int) Math.ceil(dx);
-            } else {
-                startX = 0;
+                double dy = radius - y - 0.5;
+                double dx = Math.sqrt(Math.max(0, radius * radius - dy * dy));
+                startX = radius - (int) dx;
             }
-
+    
             this.drawRect(startX, y, w - startX, 1, color);
         }
-    }
+    }    
 
     private void drawRoundedSide(int cornerWidth, int cornerHeight, int radius, int color) {
         // Top
@@ -95,7 +93,7 @@ public class RenderScope {
 
         this.matrices.scale(0.05f, 0.05f, 1.0f);
 
-        this.drawRoundedCorner(cornerWidth, cornerHeight, radius * 3, color);
+        this.drawRoundedCorner(cornerWidth, cornerHeight, radius * 10, color);
 
         this.matrices.pop();
 
@@ -108,9 +106,9 @@ public class RenderScope {
 
         this.matrices.translate(0, -cornerWidth, 0);
 
-        this.matrices.scale(0.1f, 0.1f, 1.0f);
+        this.matrices.scale(0.05f, 0.05f, 1.0f);
 
-        this.drawRoundedCorner(cornerHeight, cornerWidth, radius  * 3, color);
+        this.drawRoundedCorner(cornerHeight, cornerWidth, radius * 10, color);
 
         this.matrices.pop();
     }
