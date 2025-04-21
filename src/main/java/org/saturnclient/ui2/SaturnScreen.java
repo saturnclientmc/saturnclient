@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
@@ -39,8 +41,13 @@ public class SaturnScreen extends Screen {
         RenderScope renderScope = new RenderScope(context.getMatrices(),
                 ((DrawContextAccessor) context).getVertexConsumers());
 
+        renderScope.matrices.push();
+
         for (Element element : elements) {
+            renderScope.setOpacity(0.5f);
             element.render(renderScope);
         }
+
+        renderScope.matrices.pop();
     }
 }

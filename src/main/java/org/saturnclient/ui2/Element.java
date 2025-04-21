@@ -9,4 +9,14 @@ public class Element {
 
     public void render(RenderScope renderScope) {
     }
+
+    public final void dimensions(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
+
+    public final void position(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
 }
