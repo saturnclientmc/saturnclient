@@ -97,6 +97,8 @@ public class RenderScope {
 
         this.matrices.translate(x, y, 0);
 
+        // Top left
+
         this.matrices.push();
 
         this.matrices.scale(0.1f, 0.1f, 1.0f);
@@ -104,6 +106,8 @@ public class RenderScope {
         this.drawRoundedCorner(cornerWidth, cornerHeight, radius, color);
 
         this.matrices.pop();
+
+        // Bottom left
 
         this.matrices.push();
 
@@ -119,10 +123,11 @@ public class RenderScope {
 
         this.matrices.pop();
 
+        // Bottom right
 
         this.matrices.push();
 
-        this.matrices.translate(cornerWidth * 2, 0, 0);
+        this.matrices.translate(cornerWidth * 2, cornerWidth > cornerHeight ? 0 : cornerHeight, 0);
 
         this.matrices.multiply(RotationAxis.NEGATIVE_Z.rotationDegrees(180));
 
@@ -146,7 +151,7 @@ public class RenderScope {
 
         this.matrices.scale(0.1f, 0.1f, 1.0f);
 
-        this.drawRoundedCorner(cornerHeight, cornerWidth, radius, color);
+        this.drawRoundedCorner(cornerHeight, cornerWidth, radius, 0xFFFFFFFF);
 
         this.matrices.pop();
 

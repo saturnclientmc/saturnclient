@@ -20,7 +20,7 @@ public class Button extends Element {
     @Override
     public void render(RenderScope renderScope) {
         int w = 100;
-        int h = 100;
+        int h = 200;
 
         renderScope.drawRoundedRectangle(0, 0, w, h, 80, 0xFF000000);
         // renderScope.drawRect(0, h, w, h, color);
