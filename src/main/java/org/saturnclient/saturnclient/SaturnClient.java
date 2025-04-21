@@ -36,7 +36,7 @@ public class SaturnClient implements ModInitializer {
         ScreenEvents.BEFORE_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
             if (SaturnClientConfig.saturnTitleScreen.value && screen instanceof TitleScreen
                     && !(screen instanceof SaturnMenu)) {
-                client.setScreen(new SaturnMenu());
+                client.setScreen(new SaturnTitleScreen());
             }
         });
 

@@ -2,7 +2,6 @@ package org.saturnclient.saturnclient.menus;
 
 import org.saturnclient.ui2.SaturnScreen;
 import org.saturnclient.ui2.elements.Button;
-import org.saturnclient.ui2.elements.Text;
 
 public class SaturnMenu extends SaturnScreen {
     public SaturnMenu() {
@@ -11,6 +10,6 @@ public class SaturnMenu extends SaturnScreen {
 
     @Override
     public void ui() {
-        draw(new Button("Hello, World", false));
+        draw(new Button("Settings", false).center(width, height));
     }
 }
