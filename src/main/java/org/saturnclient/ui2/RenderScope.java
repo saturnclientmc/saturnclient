@@ -70,7 +70,7 @@ public class RenderScope {
                 this.vertexConsumers, TextLayerType.NORMAL, 0, 15728880);
     }
 
-    private void drawRoundedCorner(int width, int height, int radius, int color) {
+    public void drawRoundedCorner(int width, int height, int radius, int color) {
         int w = width * 10;
         int h = height * 10;
         
@@ -105,7 +105,6 @@ public class RenderScope {
 
         this.matrices.pop();
 
-
         this.matrices.push();
 
         this.matrices.translate(cornerWidth, cornerHeight * 2, 0);
@@ -116,15 +115,14 @@ public class RenderScope {
 
         this.matrices.scale(0.1f, 0.1f, 1.0f);
 
-        this.drawRoundedCorner(cornerWidth, cornerHeight, radius, color);
+        this.drawRoundedCorner(cornerHeight, cornerWidth, radius, color);
 
         this.matrices.pop();
 
 
-
         this.matrices.push();
 
-        this.matrices.translate(cornerWidth * 2, cornerHeight, 0);
+        this.matrices.translate(cornerWidth * 2, 0, 0);
 
         this.matrices.multiply(RotationAxis.NEGATIVE_Z.rotationDegrees(180));
 
@@ -137,7 +135,6 @@ public class RenderScope {
         this.matrices.pop();
 
 
-
         this.matrices.push();
 
         this.matrices.translate(cornerWidth, 0, 0);
@@ -148,7 +145,7 @@ public class RenderScope {
 
         this.matrices.scale(0.1f, 0.1f, 1.0f);
 
-        this.drawRoundedCorner(cornerWidth, cornerHeight, radius, color);
+        this.drawRoundedCorner(cornerHeight, cornerWidth, radius, color);
 
         this.matrices.pop();
 
