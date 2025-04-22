@@ -3,7 +3,7 @@ package org.saturnclient.saturnclient.menus;
 import net.minecraft.text.Text;
 
 import org.saturnclient.modules.ModManager;
-import org.saturnclient.modules.SaturnMod;
+import org.saturnclient.modules.Module;
 import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.saturnclient.config.Property;
@@ -118,7 +118,7 @@ public class ModMenu extends SaturnUi {
 
         String[] searchTokens = search.value.toLowerCase().split("\\ ");
 
-        outer: for (SaturnMod mod : ModManager.MODS) {
+        outer: for (Module mod : ModManager.MODS) {
             String modName = mod.getName().toLowerCase();
             for (String searchToken : searchTokens) {
                 if (!modName.contains(searchToken)) {

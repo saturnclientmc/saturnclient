@@ -8,7 +8,7 @@ import net.minecraft.text.Text;
 import org.saturnclient.modules.HudMod;
 import org.saturnclient.modules.ModDimensions;
 import org.saturnclient.modules.ModManager;
-import org.saturnclient.modules.SaturnMod;
+import org.saturnclient.modules.Module;
 import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.ui.SaturnUi;
 
@@ -24,7 +24,7 @@ public class HudEditor extends Screen {
 
     public HudEditor() {
         super(Text.literal("HUD Editor"));
-        for (SaturnMod m : ModManager.MODS) {
+        for (Module m : ModManager.MODS) {
             if (m.isEnabled() && m instanceof HudMod) {
                 hudMods.add((HudMod) m);
             }

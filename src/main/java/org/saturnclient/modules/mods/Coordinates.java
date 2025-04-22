@@ -2,23 +2,18 @@ package org.saturnclient.modules.mods;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Identifier;
 
 import org.saturnclient.modules.HudMod;
 import org.saturnclient.modules.ModDimensions;
-import org.saturnclient.modules.SaturnMod;
+import org.saturnclient.modules.Module;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.saturnclient.config.Property;
-import org.saturnclient.ui.Textures;
 
-public class Coordinates implements SaturnMod, HudMod {
+public class Coordinates extends Module implements HudMod {
 
     private static ConfigManager config = new ConfigManager("Coordinates");
-    public static Property<Boolean> enabled = config.property(
-            "Enabled",
-            new Property<>(false));
     private static ModDimensions dimensions = new ModDimensions(config);
 
     public static Property<Integer> fgColor = config.property(
@@ -26,10 +21,7 @@ public class Coordinates implements SaturnMod, HudMod {
             new Property<>(SaturnClientConfig.WHITE, Property.PropertyType.HEX));
 
     public Coordinates() {
-        // Ensure fgColor has a value
-        if (fgColor.value == null) {
-            fgColor.value = SaturnClientConfig.WHITE;
-        }
+        super(config, "Coordinates", "coords");
     }
 
     public void renderDummy(DrawContext context) {
@@ -65,29 +57,7 @@ public class Coordinates implements SaturnMod, HudMod {
                 false);
     }
 
-    public String getName() {
-        return "Coords";
-    }
-
-    @Override
-    public Identifier getIconTexture() {
-        return Textures.getModIcon("coords");
-    }
-
     public ModDimensions getDimensions() {
         return dimensions;
-    }
-
-    public boolean isEnabled() {
-        return enabled.value;
-    }
-
-    public void setEnabled(boolean e) {
-        enabled.value = e;
-    }
-
-    @Override
-    public ConfigManager getConfig() {
-        return config;
     }
 }

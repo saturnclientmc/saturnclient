@@ -7,23 +7,17 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.util.Identifier;
 
 import org.saturnclient.modules.HudMod;
 import org.saturnclient.modules.ModDimensions;
-import org.saturnclient.modules.SaturnMod;
+import org.saturnclient.modules.Module;
 import org.saturnclient.saturnclient.SaturnClientConfig;
-import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.saturnclient.config.Property;
-import org.saturnclient.ui.Textures;
 
-public class ArmorDisplay implements SaturnMod, HudMod {
+public class ArmorDisplay extends Module implements HudMod {
 
     private static ConfigManager config = new ConfigManager("Armor Display");
-    public static Property<Boolean> enabled = config.property(
-            "Enabled",
-            new Property<>(false));
     private static ModDimensions dimensions = new ModDimensions(
             config,
             0,
@@ -34,6 +28,11 @@ public class ArmorDisplay implements SaturnMod, HudMod {
     public static Property<Integer> fgColor = config.property(
             "Foreground color",
             new Property<>(SaturnClientConfig.WHITE, Property.PropertyType.HEX));
+
+
+    public ArmorDisplay() {
+        super(config, "Armor Display", "armor");
+    }
 
     private boolean renderItem(DrawContext context, ItemStack item, int y) {
         if (item.isEmpty()) {
@@ -104,29 +103,7 @@ public class ArmorDisplay implements SaturnMod, HudMod {
         }
     }
 
-    public String getName() {
-        return "Armor display";
-    }
-
-    @Override
-    public Identifier getIconTexture() {
-        return Textures.getModIcon("armor");
-    }
-
     public ModDimensions getDimensions() {
         return dimensions;
-    }
-
-    public boolean isEnabled() {
-        return enabled.value;
-    }
-
-    public void setEnabled(boolean e) {
-        enabled.value = e;
-    }
-
-    @Override
-    public ConfigManager getConfig() {
-        return config;
     }
 }

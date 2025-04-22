@@ -2,7 +2,7 @@ package org.saturnclient.ui.components;
 
 import net.minecraft.client.gui.DrawContext;
 
-import org.saturnclient.modules.SaturnMod;
+import org.saturnclient.modules.Module;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.saturnclient.menus.ConfigEditor;
@@ -12,9 +12,9 @@ import org.saturnclient.ui.Textures;
 
 public class SaturnModComp extends SaturnWidget {
 
-    SaturnMod mod;
+    Module mod;
 
-    public SaturnModComp(SaturnMod mod) {
+    public SaturnModComp(Module mod) {
         this.mod = mod;
     }
 

@@ -5,8 +5,6 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 
-import java.util.Objects;
-
 import org.saturnclient.modules.mods.*;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.SaturnClientConfig;
@@ -14,19 +12,22 @@ import org.saturnclient.saturnclient.menus.HudEditor;
 
 public class ModManager {
 
-    public static SaturnMod[] MODS = {
+    public static Module[] MODS = {
             new Coordinates(),
             new ArmorDisplay(),
             new FpsDisplay(),
             new Particles(),
             new Crosshair(),
-            new FreeLook()
+            new FreeLook(),
+            new AutoSprint()
     };
 
     public static void init() {
         ClientTickEvents.START_CLIENT_TICK.register(client -> {
-            if (SaturnClient.client.options.forwardKey.isPressed() && !SaturnClient.client.options.backKey.isPressed() && !SaturnClient.client.player.horizontalCollision) {
-                Objects.requireNonNull(SaturnClient.client.player).setSprinting(true);
+            for (Module m : MODS) {
+                if (m instanceof TickModule && m.isEnabled()) {
+                    ((TickModule) m).tick();
+                }
             }
         });
 
@@ -37,7 +38,7 @@ public class ModManager {
                     !(SaturnClient.client.currentScreen instanceof HudEditor)) {
                 SaturnClientConfig.textRenderer = textRenderer;
 
-                for (SaturnMod m : MODS) {
+                for (Module m : MODS) {
                     if (m instanceof HudMod && m.isEnabled()) {
                         ModDimensions dim = ((HudMod) m).getDimensions();
 

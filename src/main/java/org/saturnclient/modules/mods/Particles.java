@@ -1,19 +1,12 @@
 package org.saturnclient.modules.mods;
 
-import net.minecraft.util.Identifier;
-
-import org.saturnclient.modules.SaturnMod;
+import org.saturnclient.modules.Module;
 import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.saturnclient.config.Property;
-import org.saturnclient.ui.Textures;
 
-public class Particles implements SaturnMod {
+public class Particles extends Module {
     public static ConfigManager config = new ConfigManager("Particles");
-
-    public static Property<Boolean> enabled = config.property(
-            "Enabled",
-            new Property<>(false));
 
     public static ConfigManager totem = new ConfigManager(config, "Totem particles");
 
@@ -29,28 +22,7 @@ public class Particles implements SaturnMod {
             "Totem particle color 2",
             new Property<>(SaturnClientConfig.color.value, Property.PropertyType.HEX));
 
-    @Override
-    public boolean isEnabled() {
-        return enabled.value;
-    }
-
-    @Override
-    public void setEnabled(boolean e) {
-        enabled.value = e;
-    }
-
-    @Override
-    public String getName() {
-        return "Particles";
-    }
-
-    @Override
-    public Identifier getIconTexture() {
-        return Textures.getModIcon("particles");
-    }
-
-    @Override
-    public ConfigManager getConfig() {
-        return config;
+    public Particles() {
+        super(config, "Particles", "particles");
     }
 }

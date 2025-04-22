@@ -7,6 +7,7 @@ import net.minecraft.client.option.Perspective;
 import net.minecraft.client.util.InputUtil;
 
 import org.saturnclient.modules.mods.FreeLook;
+import org.saturnclient.saturnclient.menus.ModMenu;
 import org.saturnclient.saturnclient.menus.SaturnMenu;
 import org.lwjgl.glfw.GLFW;
 
@@ -45,7 +46,7 @@ public class KeyInputHandler {
         // Register the event handler for the main menu key
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (mainMenuKeyBinding.wasPressed()) {
-                client.setScreen(new SaturnMenu());
+                client.setScreen(new ModMenu());
             } else if (freelookKeyBinding.wasPressed() && FreeLook.enabled.value && FreeLook.toggle.value) {
                 FreeLook.isFreeLooking = !FreeLook.isFreeLooking;
                 if (FreeLook.isFreeLooking) {
