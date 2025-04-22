@@ -1,7 +1,7 @@
 package org.saturnclient.ui.widgets;
 
 import org.saturnclient.ui.SaturnWidget;
-import net.minecraft.client.MinecraftClient;
+import org.saturnclient.saturnclient.SaturnClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.MatrixStack;

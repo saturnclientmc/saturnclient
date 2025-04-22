@@ -1,6 +1,6 @@
 package org.saturnclient.saturnclient.cosmetics.cloaks.utils;
 
-import net.minecraft.client.MinecraftClient;
+import org.saturnclient.saturnclient.SaturnClient;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.util.Identifier;

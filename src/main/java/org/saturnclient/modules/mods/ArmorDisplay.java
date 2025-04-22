@@ -1,6 +1,6 @@
 package org.saturnclient.modules.mods;
 
-import net.minecraft.client.MinecraftClient;
+import org.saturnclient.saturnclient.SaturnClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EquipmentSlot;
@@ -13,6 +13,7 @@ import org.saturnclient.modules.HudMod;
 import org.saturnclient.modules.ModDimensions;
 import org.saturnclient.modules.SaturnMod;
 import org.saturnclient.saturnclient.SaturnClientConfig;
+import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.ui.Textures;

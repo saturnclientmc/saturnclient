@@ -6,7 +6,7 @@
 package org.saturnclient.saturnclient.mixin;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.MinecraftClient;
+import org.saturnclient.saturnclient.SaturnClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.util.Identifier;
@@ -22,9 +22,6 @@ import net.minecraft.client.gui.DrawContext;
 
 @Mixin(InGameHud.class)
 public class Crosshair {
-    @Shadow
-    @Final
-    private MinecraftClient client;
     @Unique
     Identifier textureLocation = Identifier.of("saturnclient", "textures/gui/hud/crosshair_range.png");
 
@@ -32,8 +29,8 @@ public class Crosshair {
     private void drawCrosshair(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         if (org.saturnclient.modules.mods.Crosshair.enabled.value
                 && org.saturnclient.modules.mods.Crosshair.range_indicator.value
-                && this.client.targetedEntity != null
-                && this.client.targetedEntity.isAlive()) {
+                && SaturnClient.client.targetedEntity != null
+                && SaturnClient.client.targetedEntity.isAlive()) {
             RenderSystem.setShaderTexture(0, textureLocation);
             int scaledWidth = 15;
             int scaledHeight = 15;

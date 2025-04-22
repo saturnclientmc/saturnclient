@@ -1,6 +1,6 @@
 package org.saturnclient.modules.mods;
 
-import net.minecraft.client.MinecraftClient;
+import org.saturnclient.saturnclient.SaturnClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.Identifier;
 

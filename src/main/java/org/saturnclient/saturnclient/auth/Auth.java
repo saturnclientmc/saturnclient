@@ -22,13 +22,12 @@ public class Auth {
         ClientLifecycleEvents.CLIENT_STOPPING.register(_o -> close());
 
         try {
-            MinecraftClient client = SaturnClient.client;
-            if (client.getSession() == null) {
+            if (SaturnClient.client.getSession() == null) {
                 SaturnClient.LOGGER.error("No active Minecraft session found");
                 return false;
             }
 
-            String accessToken = client.getSession().getAccessToken();
+            String accessToken = SaturnClient.client.getSession().getAccessToken();
             SaturnClient.LOGGER.info("Authenticating");
 
             Network.init();
@@ -55,7 +54,7 @@ public class Auth {
 
             Cloaks.loadCloak(uuid);
 
-            playerNames.put(client.getSession().getUsername(), uuid);
+            playerNames.put(SaturnClient.client.getSession().getUsername(), uuid);
 
             afterAuth();
 

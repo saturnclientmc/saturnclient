@@ -12,7 +12,7 @@ import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import net.minecraft.client.MinecraftClient;
+import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.SaturnClient;
 
 public class ConfigManager {

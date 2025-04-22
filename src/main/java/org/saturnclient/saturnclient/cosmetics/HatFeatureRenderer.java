@@ -3,7 +3,7 @@ package org.saturnclient.saturnclient.cosmetics;
 import org.saturnclient.saturnclient.auth.SaturnPlayer;
 import org.saturnclient.saturnclient.auth.Auth;
 
-import net.minecraft.client.MinecraftClient;
+import org.saturnclient.saturnclient.SaturnClient;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;

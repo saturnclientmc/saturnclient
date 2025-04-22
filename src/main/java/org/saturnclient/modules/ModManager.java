@@ -5,6 +5,8 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 
+import java.util.Objects;
+
 import org.saturnclient.modules.mods.*;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.SaturnClientConfig;
@@ -23,7 +25,9 @@ public class ModManager {
 
     public static void init() {
         ClientTickEvents.START_CLIENT_TICK.register(client -> {
-
+            if (SaturnClient.client.options.forwardKey.isPressed() && !SaturnClient.client.options.backKey.isPressed() && !SaturnClient.client.player.horizontalCollision) {
+                Objects.requireNonNull(SaturnClient.client.player).setSprinting(true);
+            }
         });
 
         HudRenderCallback.EVENT.register((context, _o) -> {

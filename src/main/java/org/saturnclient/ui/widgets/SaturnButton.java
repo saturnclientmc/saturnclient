@@ -2,7 +2,7 @@ package org.saturnclient.ui.widgets;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import java.util.function.Consumer;
-import net.minecraft.client.MinecraftClient;
+import org.saturnclient.saturnclient.SaturnClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;
 
@@ -10,6 +10,8 @@ import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.SaturnWidget;
 import org.saturnclient.ui.Textures;
+import net.minecraft.client.MinecraftClient;
+
 
 public class SaturnButton extends SaturnWidget {
 
