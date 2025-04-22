@@ -8,11 +8,10 @@ public class Text extends Element {
 
     public Text(String text) {
         this.text = text;
-        this.color = 0xFFFFFFFF;
     }
 
     @Override
-    public void render(RenderScope renderScope) {
-        renderScope.drawText(this.text, this.x, this.y, false, this.color);
+    public void render(RenderScope renderScope, boolean hovering) {
+        renderScope.drawText(this.text, this.x, this.y, false, 0xFFFFFFFF);
     }
 }

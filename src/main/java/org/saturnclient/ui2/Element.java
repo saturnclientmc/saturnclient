@@ -5,9 +5,8 @@ public class Element {
     protected int y;
     protected int width;
     protected int height;
-    protected int color;
 
-    public void render(RenderScope renderScope) {
+    public void render(RenderScope renderScope, boolean hovering) {
     }
 
     public final void dimensions(int width, int height) {

@@ -3,6 +3,7 @@ package org.saturnclient.ui2;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.saturnclient.saturnclient.config.ThemeManager;
 import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
 
 import net.minecraft.client.gui.DrawContext;
@@ -11,9 +12,11 @@ import net.minecraft.text.Text;
 
 public class SaturnScreen extends Screen {
     protected List<Element> elements = new ArrayList<>();
+    private int hoveringIndex;
 
     public SaturnScreen(String title) {
         super(Text.literal(title));
+        ThemeManager.load();
     }
 
     public void draw(Element element) {
@@ -41,14 +44,22 @@ public class SaturnScreen extends Screen {
 
         renderScope.matrices.push();
 
-        for (Element element : elements) {
-            renderScope.setOpacity(0.5f);
+        for (int i = 0; i < elements.size(); i++) {
+            Element element = elements.get(i);
+
             renderScope.matrices.push();
             renderScope.matrices.translate(element.x, element.y, 0);
-            element.render(renderScope);
+            element.render(renderScope, isMouseInside(mouseX, mouseY, element));
             renderScope.matrices.pop();
         }
 
         renderScope.matrices.pop();
     }
+
+    public static boolean isMouseInside(int mouseX, int mouseY, Element element) {
+        return mouseX >= element.x &&
+               mouseX <= (element.x + element.width) &&
+               mouseY >= element.y &&
+               mouseY <= (element.y + element.height);
+    }    
 }

@@ -10,6 +10,6 @@ public class SaturnMenu extends SaturnScreen {
 
     @Override
     public void ui() {
-        draw(new Button("Settings", false).center(width, height));
+        draw(new Button("Settings").center(width, height));
     }
 }
