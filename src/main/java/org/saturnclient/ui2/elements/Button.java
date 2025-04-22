@@ -9,7 +9,7 @@ import org.saturnclient.ui2.resources.Fonts;
 import net.minecraft.util.Identifier;
 
 public class Button extends Element {
-    private static ThemeManager theme = new ThemeManager("Button", "testing");
+    private static ThemeManager theme = new ThemeManager("Button", "hovering");
     private static Property<Integer> bgColor = theme.property("bg-color", new Property<Integer>(0xFF000000));
     private static Property<Integer> fgColor = theme.property("fg-color", new Property<Integer>(0xFFFFFFFF));
     private static Property<Boolean> bold = theme.property("fg-bold", new Property<Boolean>(false));

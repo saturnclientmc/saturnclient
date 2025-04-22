@@ -12,7 +12,6 @@ import net.minecraft.text.Text;
 
 public class SaturnScreen extends Screen {
     protected List<Element> elements = new ArrayList<>();
-    private int hoveringIndex;
 
     public SaturnScreen(String title) {
         super(Text.literal(title));
