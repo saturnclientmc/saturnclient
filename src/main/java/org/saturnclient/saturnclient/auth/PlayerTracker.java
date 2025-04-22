@@ -19,7 +19,7 @@ public class PlayerTracker {
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
             trackedPlayers.clear();
             client.execute(() -> {
-                checkForNewPlayers(MinecraftClient.getInstance());
+                checkForNewPlayers(SaturnClient.client);
             });
         });
 

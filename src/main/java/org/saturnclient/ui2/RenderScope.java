@@ -65,7 +65,7 @@ public class RenderScope {
 
         Identifier font = bold ? Fonts.PANTON_BOLD : Fonts.PANTON;
 
-        TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+        TextRenderer textRenderer = SaturnClient.client.textRenderer;
         textRenderer.draw(Fonts.setFont(text, font), (float) x, (float) y, color, false, this.matrices.peek().getPositionMatrix(),
                 this.vertexConsumers, TextLayerType.NORMAL, 0, 15728880);
     }

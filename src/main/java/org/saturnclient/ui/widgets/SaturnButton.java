@@ -37,7 +37,7 @@ public class SaturnButton extends SaturnWidget {
             boolean hovering,
             int mouseX,
             int mouseY) {
-        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        MinecraftClient minecraftClient = SaturnClient.client;
 
         if (background) {
             RenderSystem.setShaderTexture(0, Textures.BUTTON);

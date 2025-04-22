@@ -22,7 +22,7 @@ public class Auth {
         ClientLifecycleEvents.CLIENT_STOPPING.register(_o -> close());
 
         try {
-            MinecraftClient client = MinecraftClient.getInstance();
+            MinecraftClient client = SaturnClient.client;
             if (client.getSession() == null) {
                 SaturnClient.LOGGER.error("No active Minecraft session found");
                 return false;
@@ -184,7 +184,7 @@ public class Auth {
     public static void sendReload() {
         for (Map.Entry<String, String> player : playerNames.entrySet()) {
             if (players.containsKey(player.getValue()) && !player.getValue().equals(uuid)) {
-                MinecraftClient.getInstance().player.networkHandler
+                SaturnClient.client.player.networkHandler
                         .sendChatCommand("msg " + player.getKey() + " "
                                 + "$SATURN_RELOAD if you are seeing this as a player, please report this to https://github.com/saturnclientmc/saturnclient/issues");
                 ;

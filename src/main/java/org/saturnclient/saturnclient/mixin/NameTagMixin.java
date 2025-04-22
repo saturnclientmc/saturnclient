@@ -61,9 +61,9 @@ public abstract class NameTagMixin<S extends EntityRenderState> {
             matrices.multiply(this.dispatcher.getRotation());
             matrices.scale(0.025F, -0.025F, 0.025F);
             Matrix4f matrix4f = matrices.peek().getPositionMatrix();
-            TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+            TextRenderer textRenderer = SaturnClient.client.textRenderer;
             float f = (float) (-textRenderer.getWidth(text)) / 2.0F;
-            int j = (int) (MinecraftClient.getInstance().options.getTextBackgroundOpacity(0.25F) * 255.0F) << 24;
+            int j = (int) (SaturnClient.client.options.getTextBackgroundOpacity(0.25F) * 255.0F) << 24;
             textRenderer.draw(text, f, (float) i, -2130706433, false, matrix4f, vertexConsumers,
                     bl ? TextLayerType.SEE_THROUGH : TextLayerType.NORMAL, j, light);
             if (bl) {

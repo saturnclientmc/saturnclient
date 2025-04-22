@@ -1,9 +1,8 @@
 package org.saturnclient.ui.components;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import org.lwjgl.glfw.GLFW;
+import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.saturnclient.config.Property;
@@ -16,7 +15,6 @@ public class SaturnInteger extends SaturnWidget {
     String text = "";
     public Property<Integer> prop;
     public int cursorPosition = 0;
-    private TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
 
     public SaturnInteger(Property<Integer> prop, int x, int y, int width) {
         this.x = x;
@@ -24,7 +22,7 @@ public class SaturnInteger extends SaturnWidget {
         this.width = width;
         this.prop = prop;
         this.text = String.valueOf(prop.value);
-        this.height = textRenderer.fontHeight + 4;
+        this.height = SaturnClient.client.textRenderer.fontHeight + 4;
         this.scale = 0.8f;
     }
 
@@ -37,7 +35,7 @@ public class SaturnInteger extends SaturnWidget {
         int textWidth = 0;
 
         for (int i = 0; i < visibleText.length(); i++) {
-            textWidth = textRenderer.getWidth(visibleText.substring(0, i + 1));
+            textWidth = SaturnClient.client.textRenderer.getWidth(visibleText.substring(0, i + 1));
 
             if (textWidth > mouseX) {
                 break;
@@ -119,7 +117,7 @@ public class SaturnInteger extends SaturnWidget {
 
         int textColor = focused ? 0xFFFFFF : 0xAAAAAA;
         context.drawText(
-                textRenderer,
+                SaturnClient.client.textRenderer,
                 SaturnUi.text(visibleText),
                 2,
                 2,
@@ -128,14 +126,14 @@ public class SaturnInteger extends SaturnWidget {
 
         if (focused) {
             int cursorX = 2 +
-                    textRenderer.getWidth(
+                    SaturnClient.client.textRenderer.getWidth(
                             SaturnUi.text(
                                     visibleText.substring(0, cursorPosition - scrollOffset)));
             context.fill(
                     cursorX,
                     2,
                     cursorX + 1,
-                    textRenderer.fontHeight + 4,
+                    SaturnClient.client.textRenderer.fontHeight + 4,
                     0xFFFFFFFF);
         }
     }
@@ -155,7 +153,7 @@ public class SaturnInteger extends SaturnWidget {
         int maxWidth = width - 4; // Available width for text
         while (offset < cursorPosition) { // Ensure cursor remains visible
             String visibleText = text.substring(offset, cursorPosition);
-            if (textRenderer.getWidth(SaturnUi.text(visibleText)) > maxWidth) {
+            if (SaturnClient.client.textRenderer.getWidth(SaturnUi.text(visibleText)) > maxWidth) {
                 offset++;
             } else {
                 break;
@@ -169,7 +167,7 @@ public class SaturnInteger extends SaturnWidget {
 
         // Ensure text does not overflow past the available width
         for (int i = 1; i <= visibleText.length(); i++) {
-            if (textRenderer.getWidth(
+            if (SaturnClient.client.textRenderer.getWidth(
                     SaturnUi.text(visibleText.substring(0, i))) > width - 4) {
                 return visibleText.substring(0, i - 1); // Trim overflow
             }

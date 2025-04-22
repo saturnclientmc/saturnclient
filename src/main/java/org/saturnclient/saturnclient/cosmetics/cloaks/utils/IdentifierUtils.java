@@ -20,7 +20,7 @@ public class IdentifierUtils {
             ByteBuffer bb = BufferUtils.createByteBuffer(bytes.length).put(bytes);
             bb.flip();
             NativeImageBackedTexture nibt = new NativeImageBackedTexture(NativeImage.read(bb));
-            MinecraftClient.getInstance().getTextureManager().registerTexture(i, nibt);
+            SaturnClient.client.getTextureManager().registerTexture(i, nibt);
         } catch (Exception e) {
             e.printStackTrace();
         }

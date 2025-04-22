@@ -14,7 +14,7 @@ public class SaturnString extends SaturnWidget {
 
     public Property<String> prop;
     public int cursorPosition = 0;
-    private TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+    private TextRenderer textRenderer = SaturnClient.client.textRenderer;
 
     public SaturnString(Property<String> prop, int x, int y, int width) {
         this.x = x;

@@ -50,7 +50,7 @@ public class Coordinates implements SaturnMod, HudMod {
     }
 
     public void render(DrawContext context) {
-        PlayerEntity player = MinecraftClient.getInstance().player;
+        PlayerEntity player = SaturnClient.client.player;
         int playerX = (int) player.getX();
         int playerY = (int) player.getY();
         int playerZ = (int) player.getZ();

@@ -48,7 +48,7 @@ public class HatFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState,
             customHat.set(DataComponentTypes.EQUIPPABLE,
                     EquippableComponent.builder(EquipmentSlot.HEAD).build());
 
-            ItemRenderer itemRenderer = MinecraftClient.getInstance().getItemRenderer();
+            ItemRenderer itemRenderer = SaturnClient.client.getItemRenderer();
 
             itemRenderer.renderItem(
                     customHat,

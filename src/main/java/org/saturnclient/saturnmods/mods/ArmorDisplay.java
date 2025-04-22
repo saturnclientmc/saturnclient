@@ -65,7 +65,7 @@ public class ArmorDisplay implements SaturnMod, HudMod {
 
     @Override
     public void render(DrawContext context) {
-        PlayerEntity player = MinecraftClient.getInstance().player;
+        PlayerEntity player = SaturnClient.client.player;
         ItemStack[] items = {
                 player.getEquippedStack(EquipmentSlot.MAINHAND),
                 player.getEquippedStack(EquipmentSlot.FEET),

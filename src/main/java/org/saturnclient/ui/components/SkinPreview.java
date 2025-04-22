@@ -56,7 +56,7 @@ public class SkinPreview extends SaturnWidget {
         context.getMatrices().multiply(quaternionf);
         context.draw();
         DiffuseLighting.method_34742();
-        EntityRenderDispatcher entityRenderDispatcher = MinecraftClient.getInstance().getEntityRenderDispatcher();
+        EntityRenderDispatcher entityRenderDispatcher = SaturnClient.client.getEntityRenderDispatcher();
 
         entityRenderDispatcher.setRenderShadows(false);
         context.draw((vertexConsumers) -> {
@@ -71,7 +71,7 @@ public class SkinPreview extends SaturnWidget {
 
     @Override
     public void render(DrawContext context, boolean hovering, int mouseX, int mouseY) {
-        LivingEntity entity = MinecraftClient.getInstance().player;
+        LivingEntity entity = SaturnClient.client.player;
         if (entity != null) {
             drawEntity(context, 0, 0, 75, 78, 30, 0.0625F, mouseX, mouseY, entity, -30.0f, true);
         }

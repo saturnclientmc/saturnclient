@@ -18,7 +18,7 @@ import org.saturnclient.saturnclient.SaturnClient;
 public class ConfigManager {
 
     private static File configFile = new File(
-            MinecraftClient.getInstance().runDirectory,
+            SaturnClient.client.runDirectory,
             "saturn.json");
     private static Map<String, Map<String, Property<?>>> properties = new HashMap<>();
 

@@ -30,9 +30,9 @@ public abstract class CameraMixin {
         if (FreeLook.isFreeLooking && cameraEntity instanceof ClientPlayerEntity) {
             CameraOverriddenEntity cameraOverriddenEntity = (CameraOverriddenEntity) cameraEntity;
 
-            if (firstTime && MinecraftClient.getInstance().player != null) {
-                cameraOverriddenEntity.freelook$setCameraPitch(MinecraftClient.getInstance().player.getPitch());
-                cameraOverriddenEntity.freelook$setCameraYaw(MinecraftClient.getInstance().player.getYaw());
+            if (firstTime && SaturnClient.client.player != null) {
+                cameraOverriddenEntity.freelook$setCameraPitch(SaturnClient.client.player.getPitch());
+                cameraOverriddenEntity.freelook$setCameraYaw(SaturnClient.client.player.getYaw());
                 firstTime = false;
             }
             this.setRotation(cameraOverriddenEntity.freelook$getCameraYaw(),

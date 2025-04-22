@@ -21,7 +21,7 @@ import net.minecraft.client.MinecraftClient;
 public class ThemeManager {
     
     private static File themeFile = new File(
-            MinecraftClient.getInstance().runDirectory,
+            SaturnClient.client.runDirectory,
             "saturn.theme.json");
     private static Map<String, Map<String, Property<?>>> properties = new HashMap<>();
 

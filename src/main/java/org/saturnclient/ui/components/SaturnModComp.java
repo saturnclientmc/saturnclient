@@ -1,7 +1,8 @@
 package org.saturnclient.ui.components;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+
+import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.saturnclient.menus.ConfigEditor;
 import org.saturnclient.saturnmods.SaturnMod;
@@ -85,7 +86,7 @@ public class SaturnModComp extends SaturnWidget {
     @Override
     public void click(int mouseX, int mouseY) {
         if (settingsHovering(mouseX, mouseY)) {
-            MinecraftClient.getInstance()
+            SaturnClient.client
                     .setScreen(new ConfigEditor(mod.getConfig()));
         } else {
             mod.setEnabled(!mod.isEnabled());

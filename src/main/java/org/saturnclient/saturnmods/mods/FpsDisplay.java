@@ -50,7 +50,7 @@ public class FpsDisplay implements SaturnMod, HudMod {
 
     @Override
     public void render(DrawContext context) {
-        int fps = MinecraftClient.getInstance().getCurrentFps();
+        int fps = SaturnClient.client.getCurrentFps();
 
         context.drawText(
                 SaturnClientConfig.textRenderer,

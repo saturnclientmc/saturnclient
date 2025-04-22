@@ -14,7 +14,7 @@ import org.saturnclient.ui.Textures;
 
 public class SaturnInputBox extends SaturnWidget {
 
-    private TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+    private TextRenderer textRenderer = SaturnClient.client.textRenderer;
     private int tick = 0;
     private boolean cursorVisible = true;
 

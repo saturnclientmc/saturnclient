@@ -3,6 +3,7 @@ package org.saturnclient.saturnclient;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.TitleScreen;
 
 import org.saturnclient.saturnclient.auth.Auth;
@@ -26,10 +27,12 @@ public class SaturnClient implements ModInitializer {
 
     public static final String MOD_ID = "saturnclient";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+    public static MinecraftClient client;
 
     @Override
     public void onInitialize() {
         LOGGER.info("Initializing " + MOD_ID);
+        client = MinecraftClient.getInstance();
         ModManager.init();
         ConfigManager.load();
         ThemeManager.load();

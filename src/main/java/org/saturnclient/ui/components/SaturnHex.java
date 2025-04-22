@@ -16,7 +16,7 @@ public class SaturnHex extends SaturnWidget {
     private String text = "#"; // Always starts with '#'
     public Property<Integer> prop;
     public int cursorPosition = 1; // After '#'
-    private final TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+    private final TextRenderer textRenderer = SaturnClient.client.textRenderer;
 
     public SaturnHex(Property<Integer> prop, int x, int y, int width) {
         this.x = x;

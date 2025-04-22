@@ -16,7 +16,7 @@ public class SaturnFloat extends SaturnWidget {
     String text = "";
     public Property<Float> prop;
     public int cursorPosition = 0;
-    private TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+    private TextRenderer textRenderer = SaturnClient.client.textRenderer;
 
     public SaturnFloat(Property<Float> prop, int x, int y, int width) {
         this.x = x;

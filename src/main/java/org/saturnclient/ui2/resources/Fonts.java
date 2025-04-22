@@ -23,11 +23,11 @@ public class Fonts {
     }
 
     public static int getWidth(String text, Identifier font) {
-        return MinecraftClient.getInstance().textRenderer.getWidth(Text.literal(text).setStyle(
+        return SaturnClient.client.textRenderer.getWidth(Text.literal(text).setStyle(
             Style.EMPTY.withFont(font)));
     }
 
     public static int getHeight() {
-        return MinecraftClient.getInstance().textRenderer.fontHeight;
+        return SaturnClient.client.textRenderer.fontHeight;
     }
 }
