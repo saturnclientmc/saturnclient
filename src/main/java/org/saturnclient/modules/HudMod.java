@@ -1,4 +1,4 @@
-package org.saturnclient.saturnmods;
+package org.saturnclient.modules;
 
 import net.minecraft.client.gui.DrawContext;
 

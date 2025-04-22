@@ -5,11 +5,11 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 
+import org.saturnclient.modules.HudMod;
+import org.saturnclient.modules.ModDimensions;
+import org.saturnclient.modules.ModManager;
+import org.saturnclient.modules.SaturnMod;
 import org.saturnclient.saturnclient.config.ConfigManager;
-import org.saturnclient.saturnmods.HudMod;
-import org.saturnclient.saturnmods.ModDimensions;
-import org.saturnclient.saturnmods.ModManager;
-import org.saturnclient.saturnmods.SaturnMod;
 import org.saturnclient.ui.SaturnUi;
 
 import java.util.ArrayList;

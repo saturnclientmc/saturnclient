@@ -4,8 +4,8 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 
+import org.saturnclient.modules.mods.FreeLook;
 import org.saturnclient.saturnclient.mod_utils.CameraOverriddenEntity;
-import org.saturnclient.saturnmods.mods.FreeLook;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;

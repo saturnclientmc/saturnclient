@@ -5,8 +5,9 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.option.Perspective;
 import net.minecraft.client.util.InputUtil;
+
+import org.saturnclient.modules.mods.FreeLook;
 import org.saturnclient.saturnclient.menus.SaturnMenu;
-import org.saturnclient.saturnmods.mods.FreeLook;
 import org.lwjgl.glfw.GLFW;
 
 /**

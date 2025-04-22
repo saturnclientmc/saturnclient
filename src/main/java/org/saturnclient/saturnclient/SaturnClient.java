@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.TitleScreen;
 
+import org.saturnclient.modules.ModManager;
 import org.saturnclient.saturnclient.auth.Auth;
 import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.saturnclient.config.ThemeManager;
@@ -14,7 +15,6 @@ import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 import org.saturnclient.saturnclient.event.KeyInputHandler;
 import org.saturnclient.saturnclient.menus.SaturnMenu;
 import org.saturnclient.saturnclient.menus.SaturnTitleScreen;
-import org.saturnclient.saturnmods.ModManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

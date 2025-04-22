@@ -1,4 +1,4 @@
-package org.saturnclient.saturnmods.mods;
+package org.saturnclient.modules.mods;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -8,12 +8,13 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
+
+import org.saturnclient.modules.HudMod;
+import org.saturnclient.modules.ModDimensions;
+import org.saturnclient.modules.SaturnMod;
 import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.saturnclient.config.Property;
-import org.saturnclient.saturnmods.HudMod;
-import org.saturnclient.saturnmods.ModDimensions;
-import org.saturnclient.saturnmods.SaturnMod;
 import org.saturnclient.ui.Textures;
 
 public class ArmorDisplay implements SaturnMod, HudMod {

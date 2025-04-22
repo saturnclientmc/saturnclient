@@ -1,11 +1,12 @@
 package org.saturnclient.saturnclient.menus;
 
 import net.minecraft.text.Text;
+
+import org.saturnclient.modules.ModManager;
+import org.saturnclient.modules.SaturnMod;
 import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.saturnclient.config.Property;
-import org.saturnclient.saturnmods.ModManager;
-import org.saturnclient.saturnmods.SaturnMod;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.Textures;
 import org.saturnclient.ui.components.SaturnModComp;

@@ -30,8 +30,8 @@ public class Crosshair {
 
     @Inject(method = "renderCrosshair", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIII)V", ordinal = 0))
     private void drawCrosshair(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
-        if (org.saturnclient.saturnmods.mods.Crosshair.enabled.value
-                && org.saturnclient.saturnmods.mods.Crosshair.range_indicator.value
+        if (org.saturnclient.modules.mods.Crosshair.enabled.value
+                && org.saturnclient.modules.mods.Crosshair.range_indicator.value
                 && this.client.targetedEntity != null
                 && this.client.targetedEntity.isAlive()) {
             RenderSystem.setShaderTexture(0, textureLocation);

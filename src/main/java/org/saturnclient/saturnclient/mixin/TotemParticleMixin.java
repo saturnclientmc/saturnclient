@@ -6,7 +6,7 @@ import net.minecraft.client.particle.TotemParticle;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.math.ColorHelper;
 
-import org.saturnclient.saturnmods.mods.Particles;
+import org.saturnclient.modules.mods.Particles;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

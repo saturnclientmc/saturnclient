@@ -1,15 +1,14 @@
-package org.saturnclient.saturnmods;
+package org.saturnclient.modules;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 
+import org.saturnclient.modules.mods.*;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.saturnclient.menus.HudEditor;
-import org.saturnclient.saturnmods.mods.*;
 
 public class ModManager {
 
@@ -28,11 +27,10 @@ public class ModManager {
         });
 
         HudRenderCallback.EVENT.register((context, _o) -> {
-            MinecraftClient client = SaturnClient.client;
-            TextRenderer textRenderer = client.textRenderer;
+            TextRenderer textRenderer = SaturnClient.client.textRenderer;
 
             if (textRenderer != null &&
-                    !(client.currentScreen instanceof HudEditor)) {
+                    !(SaturnClient.client.currentScreen instanceof HudEditor)) {
                 SaturnClientConfig.textRenderer = textRenderer;
 
                 for (SaturnMod m : MODS) {

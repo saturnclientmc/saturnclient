@@ -2,10 +2,10 @@ package org.saturnclient.ui.components;
 
 import net.minecraft.client.gui.DrawContext;
 
+import org.saturnclient.modules.SaturnMod;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.saturnclient.menus.ConfigEditor;
-import org.saturnclient.saturnmods.SaturnMod;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.SaturnWidget;
 import org.saturnclient.ui.Textures;

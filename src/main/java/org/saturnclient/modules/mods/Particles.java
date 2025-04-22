@@ -1,10 +1,11 @@
-package org.saturnclient.saturnmods.mods;
+package org.saturnclient.modules.mods;
 
 import net.minecraft.util.Identifier;
+
+import org.saturnclient.modules.SaturnMod;
 import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.saturnclient.config.Property;
-import org.saturnclient.saturnmods.SaturnMod;
 import org.saturnclient.ui.Textures;
 
 public class Particles implements SaturnMod {

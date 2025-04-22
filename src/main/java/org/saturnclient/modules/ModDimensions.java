@@ -1,4 +1,4 @@
-package org.saturnclient.saturnmods;
+package org.saturnclient.modules;
 
 import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.saturnclient.config.Property;
