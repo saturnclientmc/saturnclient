@@ -64,10 +64,10 @@ public class SaturnModComp extends SaturnWidget {
                 color);
 
         context.drawText(
-                SaturnClientConfig.textRenderer,
+                SaturnClient.client.textRenderer,
                 SaturnUi.text(mod.getName()),
                 20,
-                (21 - SaturnClientConfig.textRenderer.fontHeight) / 2,
+                (21 - SaturnClient.client.textRenderer.fontHeight) / 2,
                 color,
                 false);
 

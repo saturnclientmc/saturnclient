@@ -9,7 +9,6 @@
     "PlayerEntityRendererMixin",
     "WhoAmI",
     "SaturnReload",
-    "Crosshair",
     "DrawContextAccessor"
   ],
   "injectors": {

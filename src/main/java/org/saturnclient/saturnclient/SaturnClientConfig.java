@@ -7,7 +7,6 @@ import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.Textures;
 import org.saturnclient.ui.animations.FadeIn;
 
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
 
@@ -31,7 +30,6 @@ public class SaturnClientConfig {
             new Property<>(true);
 
     public static int WHITE = ColorHelper.getArgb(255, 255, 255, 255);
-    public static TextRenderer textRenderer = null;
 
     public static int getWhite(float alpha) {
         return ((int) (alpha * 255) << 24) | (normal.value & 0x00FFFFFF);

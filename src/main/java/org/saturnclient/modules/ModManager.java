@@ -7,8 +7,9 @@ import net.minecraft.client.util.math.MatrixStack;
 
 import org.saturnclient.modules.mods.*;
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.saturnclient.menus.HudEditor;
+import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
+import org.saturnclient.ui2.RenderScope;
 
 public class ModManager {
     public static Module[] MODS = {
@@ -29,7 +30,8 @@ public class ModManager {
 
             if (textRenderer != null &&
                     !(SaturnClient.client.currentScreen instanceof HudEditor)) {
-                SaturnClientConfig.textRenderer = textRenderer;
+                RenderScope renderScope = new RenderScope(context.getMatrices(),
+                    ((DrawContextAccessor) context).getVertexConsumers());
 
                 for (Module m : MODS) {
                     if (m instanceof HudMod && m.isEnabled()) {
@@ -45,6 +47,8 @@ public class ModManager {
                         ((HudMod) m).render(context);
 
                         matrices.pop();
+                    } else {
+                        m.render(context);
                     }
                 }
             }

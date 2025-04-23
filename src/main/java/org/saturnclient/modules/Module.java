@@ -4,6 +4,7 @@ import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.saturnclient.config.NamedProperty;
 import org.saturnclient.ui.Textures;
 
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.Identifier;
 
 public abstract class Module {
@@ -29,6 +30,8 @@ public abstract class Module {
         configManager = config;
     }
 
+    public void render(DrawContext scope) {}
+
     public abstract boolean isEnabled();
 
     public abstract void setEnabled(boolean e);
@@ -36,7 +39,7 @@ public abstract class Module {
     public final String getName() {
         return name;
     }
-
+    
     public Identifier getIconTexture() {
         return Textures.getModIcon(namespace);
     }
