@@ -26,6 +26,7 @@ public class ConfigManager {
     public ConfigManager(String namespace) {
         currentMap = new LinkedHashMap<>();
         properties.put(namespace, currentMap);
+        System.out.println("Created namespace: " + namespace);
     }
 
     public ConfigManager(ConfigManager config, String namespace) {
@@ -35,10 +36,12 @@ public class ConfigManager {
         config.property(namespace, namespaceProperty);
         // Update the parent's state
         config.currentMap.put(namespace, namespaceProperty);
+        System.out.println("Created sub-namespace: " + namespace);
     }
 
     // Generic method to store any type of property
     public <T> Property<T> property(String name, Property<T> value) {
+        System.out.println("Adding property: " + name);
         currentMap.put(name, value);
         return value;
     }
@@ -55,6 +58,7 @@ public class ConfigManager {
                     new String(Files.readAllBytes(configFile.toPath()))).getAsJsonObject();
 
             for (String namespace : properties.keySet()) {
+                SaturnClient.LOGGER.info("Loading namespace: " + namespace);
                 JsonElement configElement = jsonObject.get(namespace);
 
                 if (configElement == null)
@@ -76,6 +80,8 @@ public class ConfigManager {
 
     @SuppressWarnings("unchecked")
     private static void loadProperties(JsonObject config, Map<String, Property<?>> propertyMap) {
+        SaturnClient.LOGGER.info("Loading properties: " + propertyMap);
+
         for (String propertyName : propertyMap.keySet()) {
             JsonElement c = config.get(propertyName);
 

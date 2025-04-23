@@ -5,23 +5,15 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.saturnclient.modules.mods.*;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.saturnclient.menus.HudEditor;
 
 public class ModManager {
-    public static List<Module> MODS = new ArrayList<>();
-
-    public static <T extends Module> void impl(Class<T> mod) {
-        try {
-            MODS.add((Module) mod.getDeclaredConstructor().newInstance());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    public static Module[] MODS = {
+        new Crosshair()
+    };
 
     public static void init() {
         ClientTickEvents.START_CLIENT_TICK.register(client -> {

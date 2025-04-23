@@ -1,6 +1,5 @@
 package org.saturnclient.modules.mods;
 
-import org.saturnclient.modules.ModManager;
 import org.saturnclient.modules.Module;
 import org.saturnclient.saturnclient.config.NamedProperty;
 import org.saturnclient.saturnclient.config.Property;
@@ -11,10 +10,6 @@ public class Crosshair extends Module {
 
     public Crosshair() {
         super("Crosshair", "crosshair", enabled, range_indicator);
-    }
-
-    static {
-        ModManager.impl(Crosshair.class);
     }
 
     @Override

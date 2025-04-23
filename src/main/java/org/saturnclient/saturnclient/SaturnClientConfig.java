@@ -12,27 +12,23 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
 
 public class SaturnClientConfig {
-    public static ConfigManager config = new ConfigManager("Saturn Client");
+    public static ConfigManager config;
 
-    public static Property<Integer> color = config.property(
-            "Primary color",
+    public static Property<Integer> color =
             new Property<>(
                     ColorHelper.getArgb(255, 251, 60, 79),
-                    Property.PropertyType.HEX));
+                    Property.PropertyType.HEX);
 
-    public static Property<Integer> normal = config.property(
-            "Default color",
+    public static Property<Integer> normal =
             new Property<>(
                     ColorHelper.getArgb(255, 182, 182, 182),
-                    Property.PropertyType.HEX));
+                    Property.PropertyType.HEX);
 
-    public static Property<Boolean> realisticLogo = config.property(
-            "Realistic logo",
-            new Property<>(false));
+    public static Property<Boolean> realisticLogo =
+            new Property<>(false);
 
-    public static Property<Boolean> saturnTitleScreen = config.property(
-            "Saturn client title screen",
-            new Property<>(true));
+    public static Property<Boolean> saturnTitleScreen = 
+            new Property<>(true);
 
     public static int WHITE = ColorHelper.getArgb(255, 255, 255, 255);
     public static TextRenderer textRenderer = null;
@@ -55,5 +51,14 @@ public class SaturnClientConfig {
 
     public static String getSaturnIndicator() {
         return realisticLogo.value ? "" : "";
+    }
+
+    public static void init() {
+        config = new ConfigManager("Saturn Client");
+
+        config.property("Primary color", color);
+        config.property("Default color", normal);
+        config.property("Realistic logo", realisticLogo);
+        config.property("Saturn client title screen", saturnTitleScreen);
     }
 }

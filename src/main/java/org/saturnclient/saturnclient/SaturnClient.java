@@ -34,21 +34,22 @@ public class SaturnClient implements ModInitializer {
         LOGGER.info("Initializing " + MOD_ID);
         client = MinecraftClient.getInstance();
         ModManager.init();
+        SaturnClientConfig.init();
         ThemeManager.load();
         ConfigManager.load();
-
+        
         ClientLifecycleEvents.CLIENT_STOPPING.register(_o -> {ConfigManager.save(); ThemeManager.save();});
         ScreenEvents.BEFORE_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
             if (SaturnClientConfig.saturnTitleScreen.value && screen instanceof TitleScreen
-                    && !(screen instanceof SaturnMenu)) {
+            && !(screen instanceof SaturnMenu)) {
                 client.setScreen(new SaturnTitleScreen());
             }
         });
-
+        
         SpecialModelLoaderEvents.LOAD_SCOPE.register(() -> {
             return (resourceManager, location) -> MOD_ID.equals(location.getNamespace());
         });
-
+        
         KeyInputHandler.register();
         if (Auth.authenticate()) {
             Cloaks.initialize();
