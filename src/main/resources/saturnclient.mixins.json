@@ -9,10 +9,7 @@
     "PlayerEntityRendererMixin",
     "WhoAmI",
     "SaturnReload",
-    "TotemParticleMixin",
     "Crosshair",
-    "EntityMixin",
-    "CameraMixin",
     "DrawContextAccessor"
   ],
   "injectors": {

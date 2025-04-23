@@ -34,8 +34,8 @@ public class SaturnClient implements ModInitializer {
         LOGGER.info("Initializing " + MOD_ID);
         client = MinecraftClient.getInstance();
         ModManager.init();
-        ConfigManager.load();
         ThemeManager.load();
+        ConfigManager.load();
 
         ClientLifecycleEvents.CLIENT_STOPPING.register(_o -> {ConfigManager.save(); ThemeManager.save();});
         ScreenEvents.BEFORE_INIT.register((client, screen, scaledWidth, scaledHeight) -> {

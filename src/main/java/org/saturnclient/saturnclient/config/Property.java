@@ -150,4 +150,8 @@ public class Property<T> {
         this.value = (T) value;
         this.defaultValue = (T) defaultValue;
     }
+
+    public NamedProperty<T> named(String name) {
+        return new NamedProperty<>(name, this);
+    }
 }

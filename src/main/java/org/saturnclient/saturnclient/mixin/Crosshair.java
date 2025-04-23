@@ -11,8 +11,6 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -27,8 +25,8 @@ public class Crosshair {
 
     @Inject(method = "renderCrosshair", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIII)V", ordinal = 0))
     private void drawCrosshair(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
-        if (org.saturnclient.modules.mods.Crosshair.enabled.value
-                && org.saturnclient.modules.mods.Crosshair.range_indicator.value
+        if (org.saturnclient.modules.mods.Crosshair.enabled.prop.value
+                && org.saturnclient.modules.mods.Crosshair.range_indicator.prop.value
                 && SaturnClient.client.targetedEntity != null
                 && SaturnClient.client.targetedEntity.isAlive()) {
             RenderSystem.setShaderTexture(0, textureLocation);
