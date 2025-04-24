@@ -17,10 +17,10 @@ public class ModManager {
     };
 
     public static void init() {
-        ClientTickEvents.START_CLIENT_TICK.register(client -> {
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
             for (Module m : MODS) {
-                if (m instanceof TickModule && m.isEnabled()) {
-                    ((TickModule) m).tick();
+                if (m.isEnabled()) {
+                    m.tick();
                 }
             }
         });
@@ -48,7 +48,7 @@ public class ModManager {
 
                         matrices.pop();
                     } else {
-                        m.render(context);
+                        m.render(renderScope);
                     }
                 }
             }

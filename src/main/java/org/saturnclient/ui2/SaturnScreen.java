@@ -26,9 +26,7 @@ public class SaturnScreen extends Screen {
 
     @Override
     protected void init() {
-        ui();
-
-        // Do stuff
+        ui(); // abstraction to render the saturn ui and also render extra stuff here
     }
 
     public void ui() {
@@ -43,22 +41,32 @@ public class SaturnScreen extends Screen {
 
         renderScope.matrices.push();
 
-        for (int i = 0; i < elements.size(); i++) {
-            Element element = elements.get(i);
-
+        for (Element element : elements) {
             renderScope.matrices.push();
             renderScope.matrices.translate(element.x, element.y, 0);
-            element.render(renderScope, isMouseInside(mouseX, mouseY, element));
+            element.render(renderScope, new RenderContext(mouseX, mouseY, element));
             renderScope.matrices.pop();
         }
 
         renderScope.matrices.pop();
     }
 
-    public static boolean isMouseInside(int mouseX, int mouseY, Element element) {
-        return mouseX >= element.x &&
-               mouseX <= (element.x + element.width) &&
-               mouseY >= element.y &&
-               mouseY <= (element.y + element.height);
-    }    
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        if (button == 0) {
+            for (Element element : new ArrayList<>(elements)) {
+                element.focused = false;
+
+                int adjustedMouseX = (int) mouseX - element.x;
+                int adjustedMouseY = (int) mouseY - element.y;
+
+                if (Utils.isHovering(adjustedMouseX, adjustedMouseY, element.width, element.height)) {
+                    element.focused = true;
+                    element.click(adjustedMouseX, adjustedMouseY);
+                }
+            }
+        }
+
+        return false;
+    }
 }

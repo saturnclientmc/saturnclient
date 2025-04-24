@@ -5,8 +5,12 @@ public class Element {
     protected int y;
     protected int width;
     protected int height;
+    public boolean focused;
 
-    public void render(RenderScope renderScope, boolean hovering) {
+    public void render(RenderScope renderScope, RenderContext ctx) {
+    }
+
+    public void click(int mouseX, int mouseY) {
     }
 
     public final void dimensions(int width, int height) {

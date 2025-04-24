@@ -1,6 +1,7 @@
 package org.saturnclient.ui2.elements;
 
 import org.saturnclient.ui2.Element;
+import org.saturnclient.ui2.RenderContext;
 import org.saturnclient.ui2.RenderScope;
 
 public class Text extends Element {
@@ -11,7 +12,7 @@ public class Text extends Element {
     }
 
     @Override
-    public void render(RenderScope renderScope, boolean hovering) {
+    public void render(RenderScope renderScope, RenderContext ctx) {
         renderScope.drawText(this.text, this.x, this.y, false, 0xFFFFFFFF);
     }
 }

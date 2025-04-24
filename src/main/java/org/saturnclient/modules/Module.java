@@ -3,8 +3,8 @@ package org.saturnclient.modules;
 import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.saturnclient.config.NamedProperty;
 import org.saturnclient.ui.Textures;
+import org.saturnclient.ui2.RenderScope;
 
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.Identifier;
 
 public abstract class Module {
@@ -30,7 +30,8 @@ public abstract class Module {
         configManager = config;
     }
 
-    public void render(DrawContext scope) {}
+    public void render(RenderScope scope) {}
+    public void tick() {}
 
     public abstract boolean isEnabled();
 

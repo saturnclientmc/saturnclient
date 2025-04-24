@@ -7,6 +7,7 @@ import org.saturnclient.ui.animations.FadeIn;
 import org.saturnclient.ui.animations.Slide;
 import org.saturnclient.ui.widgets.SaturnButton;
 import org.saturnclient.ui.widgets.SaturnImage;
+import org.saturnclient.ui2.screens.ShiftMenu;
 
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
@@ -69,7 +70,7 @@ public class SaturnTitleScreen extends SaturnUi {
         bY += 20;
 
         draw(new SaturnButton("SATURN OPTIONS", () -> {
-            client.setScreen(new SaturnMenu());
+            client.setScreen(new ShiftMenu());
         }).setBold(true).setWidth(210).setHeight(26).setX(bX).setY(bY).setScale(0.69f));
 
         super.init();

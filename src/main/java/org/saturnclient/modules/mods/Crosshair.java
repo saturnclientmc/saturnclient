@@ -2,49 +2,43 @@ package org.saturnclient.modules.mods;
 
 import org.saturnclient.modules.Module;
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.config.NamedProperty;
 import org.saturnclient.saturnclient.config.Property;
+import org.saturnclient.ui2.RenderScope;
+import org.saturnclient.ui2.resources.Textures;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.util.Identifier;
 
 public class Crosshair extends Module {
-    Identifier textureLocation = Identifier.of("saturnclient", "textures/gui/hud/crosshair_range.png");
-
-    public static NamedProperty<Boolean> enabled = new Property<>(false).named("Enabled");
-    public static NamedProperty<Boolean> range_indicator = new Property<>(false).named("Range Indicator");
+    public static Property<Boolean> enabled = new Property<>(false);
+    public static Property<Boolean> range_indicator = new Property<>(false);
 
     public Crosshair() {
-        super("Crosshair", "crosshair", enabled, range_indicator);
+        super("Crosshair", "crosshair", enabled.named("Enabled"), range_indicator.named("Range Indicator"));
     }
 
     @Override
-    public void render(DrawContext context) {
-        if (enabled.prop.value
-                && range_indicator.prop.value
+    public void render(RenderScope scope) {
+        if (enabled.value
+                && range_indicator.value
                 && SaturnClient.client.targetedEntity != null
                 && SaturnClient.client.targetedEntity.isAlive()) {
-            RenderSystem.setShaderTexture(0, textureLocation);
             int scaledWidth = 15;
             int scaledHeight = 15;
 
-            context.drawTexture(RenderLayer::getCrosshair, textureLocation,
-                    (context.getScaledWindowWidth() - scaledWidth) / 2,
-                    (context.getScaledWindowHeight() - scaledHeight) / 2, 0.0F, 0.0F, scaledWidth, scaledHeight,
+            scope.drawTexture(RenderLayer::getCrosshair, Textures.CROSSHAIR_RANGE,
+                    (scope.getScaledWindowWidth() - scaledWidth) / 2,
+                    (scope.getScaledWindowHeight() - scaledHeight) / 2, 0.0F, 0.0F, scaledWidth, scaledHeight,
                     scaledWidth, scaledHeight);
         }
     }
 
     @Override
     public boolean isEnabled() {
-        return enabled.prop.value;
+        return enabled.value;
     }
 
     @Override
     public void setEnabled(boolean e) {
-        enabled.prop.value = e;
+        enabled.value = e;
     }
 }

@@ -3,6 +3,7 @@ package org.saturnclient.ui2.elements;
 import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.saturnclient.config.ThemeManager;
 import org.saturnclient.ui2.Element;
+import org.saturnclient.ui2.RenderContext;
 import org.saturnclient.ui2.RenderScope;
 import org.saturnclient.ui2.resources.Fonts;
 
@@ -20,16 +21,18 @@ public class Button extends Element {
 
     private String text;
     private Identifier font;
+    private Runnable onClick;
 
-    public Button(String text) {
+    public Button(String text, Runnable onClick) {
         this.text = text;
         this.font = Fonts.getFont(bold.value);
+        this.onClick = onClick;
         this.dimensions(Fonts.getWidth(text, font)+ 25 , Fonts.getHeight() + 10);
     }
 
     @Override
-    public void render(RenderScope renderScope, boolean hovering) {
-        if (hovering) {
+    public void render(RenderScope renderScope, RenderContext ctx) {
+        if (ctx.isHovering()) {
             theme.setState("hovering");
         } else {
             theme.setState(null);
@@ -37,5 +40,12 @@ public class Button extends Element {
         renderScope.drawRoundedRectangle(0, 0, width, height, 10, bgColor.value);
 
         renderScope.drawText(text, width / 2 - Fonts.getWidth(text, font) / 2, height / 2 - Fonts.getHeight() / 2, bold.value, fgColor.value);
+    }
+
+    @Override
+    public void click(int mouseX, int mouseY) {
+        if (onClick != null) {
+            onClick.run();
+        }
     }
 }
