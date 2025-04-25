@@ -172,4 +172,25 @@ public class RenderScope {
         vertexConsumer.vertex(matrix4f, (float)x2, (float)y2, 0.0F).texture(u2, v2).color(color);
         vertexConsumer.vertex(matrix4f, (float)x2, (float)y1, 0.0F).texture(u2, v1).color(color);
      }
+
+     public void drawRoundedBorderCorner(int width, int height, int radius, int color) {
+        int h = height;
+        int s = 3;
+    
+        for (int y = 0; y < h; y+=s) {
+            int startX = 0;
+    
+            if (y < radius) {
+                double dy = radius - y - 0.5;
+                double dx = Math.sqrt(Math.max(0, radius * radius - dy * dy));
+                startX = radius - (int) dx;
+            }
+    
+            this.drawRect(startX, y, s, s, color);
+        }
+    }
+
+    public void drawRoundedBorder(int x, int y, int width, int height, int borderSize, int radius, int color) {
+
+    }
 }

@@ -32,14 +32,17 @@ public class Button extends Element {
 
     @Override
     public void render(RenderScope renderScope, RenderContext ctx) {
-        if (ctx.isHovering()) {
-            theme.setState("hovering");
-        } else {
-            theme.setState(null);
-        }
-        renderScope.drawRoundedRectangle(0, 0, width, height, 10, bgColor.value);
+        renderScope.drawRoundedBorderCorner(50, 50, 30, fgColor.value);
+        renderScope.drawRect(30, 0, width, 3, -1);
 
-        renderScope.drawText(text, width / 2 - Fonts.getWidth(text, font) / 2, height / 2 - Fonts.getHeight() / 2, bold.value, fgColor.value);
+        // if (ctx.isHovering()) {
+        //     theme.setState("hovering");
+        // } else {
+        //     theme.setState(null);
+        // }
+        // renderScope.drawRoundedRectangle(0, 0, width, height, 10, bgColor.value);
+
+        // renderScope.drawText(text, width / 2 - Fonts.getWidth(text, font) / 2, height / 2 - Fonts.getHeight() / 2, bold.value, fgColor.value);
     }
 
     @Override
