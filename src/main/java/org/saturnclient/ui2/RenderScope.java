@@ -174,21 +174,20 @@ public class RenderScope {
      }
 
      public void drawRoundedBorderCorner(int width, int height, int radius, int color) {
-        int h = height;
         int s = 3;
     
-        for (int y = 0; y < h; y+=s) {
-            int startX = 0;
+        // Step through the arc by angle
+        for (double angle = Math.PI; angle >= Math.PI / 2; angle -= Math.PI / 180) {
+            int x = (int) Math.round(radius * Math.cos(angle));
+            int y = (int) Math.round(radius * Math.sin(angle));
     
-            if (y < radius) {
-                double dy = radius - y - 0.5;
-                double dx = Math.sqrt(Math.max(0, radius * radius - dy * dy));
-                startX = radius - (int) dx;
-            }
+            // Snap position to s-sized grid to avoid overlapping
+            int snappedX = (radius - x) / s * s;
+            int snappedY = (radius - y) / s * s;
     
-            this.drawRect(startX, y, s, s, color);
+            drawRect(snappedX, snappedY, s, s, color);
         }
-    }
+    }       
 
     public void drawRoundedBorder(int x, int y, int width, int height, int borderSize, int radius, int color) {
 
