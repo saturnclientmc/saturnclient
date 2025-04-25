@@ -10,6 +10,7 @@ import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.Vec3d;
 
 import org.saturnclient.saturnclient.SaturnClientConfig;
@@ -35,7 +36,7 @@ public abstract class NameTagMixin<S extends EntityRenderState> {
     private void onRenderLabelIfPresent(S state, Text text, MatrixStack matrices,
             VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci) {
         if (isSaturn(state)) {
-            renderLabel(state, Text.literal(SaturnClientConfig.getSaturnIndicator()).append(text), matrices,
+            renderLabel(state, Text.literal(SaturnClientConfig.getSaturnIndicator()).formatted(getIconColor(state)).append(text.copy().withColor(-1)), matrices,
                     vertexConsumers, light);
             ci.cancel();
         }
@@ -48,6 +49,29 @@ public abstract class NameTagMixin<S extends EntityRenderState> {
             return uuid != null && Auth.players.containsKey(uuid);
         }
         return false;
+    }
+
+    /*
+     * Gets the icon color of a specific individual, here are the different colors
+     * 
+     * - Owner: Dark Red
+     * - Admin: Red
+     * - Partners: Gold
+     * - Contributor: Aqua
+     * - Other/player: White
+    */
+    private Formatting getIconColor(S state) {
+        if (state instanceof PlayerEntityRenderState) {
+            PlayerEntityRenderState playerState = ((PlayerEntityRenderState) state);
+
+            if (playerState.name == "HexLeo") {
+                return Formatting.DARK_RED; // Owner
+            } else {
+                return Formatting.WHITE;
+            }
+        }
+
+        return Formatting.WHITE;
     }
 
     private void renderLabel(S state, Text text, MatrixStack matrices,
