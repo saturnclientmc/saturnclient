@@ -1,6 +1,7 @@
 package org.saturnclient.saturnclient.mixin;
 
 import net.minecraft.client.network.PlayerListEntry;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
@@ -31,23 +32,11 @@ public abstract class TabListMixin {
         String name = profile.getName();
         String uuid = profile.getId().toString().replaceAll("-", "");
 
-        return Auth.players.containsKey(uuid) ? Text.literal(SaturnClientConfig.getSaturnIndicator()).formatted(getIconColor(name)).append(Text.literal(name).withColor(-1)) : Text.literal(name);
-    }
+        MutableText iconText = Text.literal(SaturnClientConfig.getSaturnIndicator())
+            .styled(style -> style.withColor(SaturnClientConfig.getIconColor(uuid)));
+        
+        Text nameText = Text.literal(name).styled(style -> style.withColor(Formatting.WHITE));
 
-    /*
-     * Gets the icon color of a specific individual, here are the different colors
-     * 
-     * - Owner: Dark Red
-     * - Admin: Red
-     * - Partners: Gold
-     * - Contributor: Aqua
-     * - Other/player: White
-    */
-    private Formatting getIconColor(String name) {
-        if (name == "HexLeo") {
-            return Formatting.DARK_RED; // Owner
-        } else {
-            return Formatting.WHITE;
-        }
+        return Auth.players.containsKey(uuid) ? iconText.append(nameText) : Text.literal(name);
     }
 }

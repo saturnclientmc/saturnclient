@@ -7,6 +7,7 @@ import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.Textures;
 import org.saturnclient.ui.animations.FadeIn;
 
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
 
@@ -49,6 +50,23 @@ public class SaturnClientConfig {
 
     public static String getSaturnIndicator() {
         return realisticLogo.value ? "" : "";
+    }
+
+    /*
+     * Gets the icon color of a specific individual, here are the different colors
+     * 
+     * - Owner: Dark Red
+     * - Admin: Red
+     * - Partners: Gold
+     * - Contributor: Aqua
+     * - Other/player: White
+    */
+    public static Formatting getIconColor(String uuid) {
+        if (uuid.equals("d362a04228bd49e1a807ae74dbe8aba9")) {
+            return Formatting.DARK_RED; // Owner
+        }
+
+        return Formatting.WHITE;
     }
 
     public static void init() {

@@ -9,6 +9,7 @@ import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.Vec3d;
@@ -35,43 +36,32 @@ public abstract class NameTagMixin<S extends EntityRenderState> {
     @Inject(method = "renderLabelIfPresent(Lnet/minecraft/client/render/entity/state/EntityRenderState;Lnet/minecraft/text/Text;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At("HEAD"), cancellable = true)
     private void onRenderLabelIfPresent(S state, Text text, MatrixStack matrices,
             VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci) {
-        if (isSaturn(state)) {
-            renderLabel(state, Text.literal(SaturnClientConfig.getSaturnIndicator()).formatted(getIconColor(state)).append(text.copy().withColor(-1)), matrices,
+
+        String uuid = isSaturn(state);
+
+        if (uuid != null) {
+            MutableText iconText = Text.literal(SaturnClientConfig.getSaturnIndicator())
+            .styled(style -> style.withColor(SaturnClientConfig.getIconColor(uuid)));
+        
+            Text nameText = text.copy().styled(style -> style.withColor(Formatting.WHITE));
+
+            renderLabel(state, iconText.append(nameText), matrices,
                     vertexConsumers, light);
+
             ci.cancel();
         }
     }
 
-    private boolean isSaturn(S state) {
+    private String isSaturn(S state) {
         if (state instanceof PlayerEntityRenderState) {
             String name = ((PlayerEntityRenderState) state).name;
             String uuid = Auth.playerNames.get(name);
-            return uuid != null && Auth.players.containsKey(uuid);
-        }
-        return false;
-    }
-
-    /*
-     * Gets the icon color of a specific individual, here are the different colors
-     * 
-     * - Owner: Dark Red
-     * - Admin: Red
-     * - Partners: Gold
-     * - Contributor: Aqua
-     * - Other/player: White
-    */
-    private Formatting getIconColor(S state) {
-        if (state instanceof PlayerEntityRenderState) {
-            PlayerEntityRenderState playerState = ((PlayerEntityRenderState) state);
-
-            if (playerState.name == "HexLeo") {
-                return Formatting.DARK_RED; // Owner
-            } else {
-                return Formatting.WHITE;
+            if (Auth.players.containsKey(uuid)) {
+                return uuid;
             }
         }
 
-        return Formatting.WHITE;
+        return null;
     }
 
     private void renderLabel(S state, Text text, MatrixStack matrices,
