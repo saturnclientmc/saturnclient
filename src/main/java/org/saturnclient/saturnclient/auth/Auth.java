@@ -117,16 +117,21 @@ public class Auth {
     private static void startPingThread() {
         pingThread = new Thread(() -> {
             try {
-                while (running) {
-                    Thread.sleep(25000); // 25 seconds
-                    if (running) {
-                        Network.write("ping");
+                while (running && !Thread.currentThread().isInterrupted()) {
+                    try {
+                        Thread.sleep(25000); // 25 seconds
+                        if (running) {
+                            Network.write("ping");
+                        }
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt(); // Restore interrupt status
+                        break; // Exit the loop on interruption
                     }
                 }
-            } catch (InterruptedException e) {
-                SaturnClient.LOGGER.warn("Ping thread interrupted", e);
             } catch (Exception e) {
-                SaturnClient.LOGGER.error("Error in ping thread", e);
+                if (!(e instanceof InterruptedException)) {
+                    SaturnClient.LOGGER.error("Error in ping thread", e);
+                }
             }
         });
 
