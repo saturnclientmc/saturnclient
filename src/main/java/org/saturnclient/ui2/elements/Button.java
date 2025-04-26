@@ -8,6 +8,7 @@ import org.saturnclient.ui2.RenderScope;
 import org.saturnclient.ui2.resources.Fonts;
 
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.RotationAxis;
 
 public class Button extends Element {
     private static ThemeManager theme = new ThemeManager("Button", "hovering");
@@ -32,8 +33,21 @@ public class Button extends Element {
 
     @Override
     public void render(RenderScope renderScope, RenderContext ctx) {
-        renderScope.drawRoundedBorderCorner(50, 50, 30, fgColor.value);
-        renderScope.drawRect(30, 0, width, 3, -1);
+        int w = width;
+        int h = width;
+        int r = 30;
+        int s = 1;
+
+        renderScope.drawRect(0, 0, w, h, bgColor.value);
+
+        renderScope.drawRoundedBorder(w, h, s, r, fgColor.value);
+
+        // renderScope.drawRoundedSide(w - (r / 2 + s - 1), 0, w, h, s, r, fgColor.value); // right
+
+        // renderScope.matrices.push();
+        // renderScope.matrices.multiply(RotationAxis.NEGATIVE_Z.rotationDegrees(180));
+
+        // renderScope.matrices.pop();
 
         // if (ctx.isHovering()) {
         //     theme.setState("hovering");

@@ -137,6 +137,81 @@ public class RenderScope {
         this.matrices.pop();
     }
 
+    public void drawRoundedBorderCornerTopLeft(int s, int radius, int color) {
+        for (double angle = Math.PI / 2; angle <= Math.PI; angle += Math.PI / 180) {
+            int x = (int) Math.round(radius * Math.cos(angle));
+            int y = (int) Math.round(radius * Math.sin(angle));
+    
+            int snappedX = radius + x;
+            int snappedY = radius - y;
+    
+            drawRect(snappedX, snappedY, s, s, color);
+        }
+    }
+    
+
+    public void drawRoundedBorderCornerTopRight(int s, int radius, int color) {
+        for (double angle = Math.PI; angle >= Math.PI / 2; angle -= Math.PI / 180) {
+            int x = (int) Math.round(radius * Math.cos(angle));
+            int y = (int) Math.round(radius * Math.sin(angle));
+    
+            int snappedX = radius - x;
+            int snappedY = radius - y;
+    
+            drawRect(snappedX, snappedY, s, s, color);
+        }
+    }
+
+    public void drawRoundedBorderCornerBottomLeft(int s, int radius, int color) {
+        for (double angle = Math.PI; angle <= Math.PI * 1.5; angle += Math.PI / 180) {
+            int x = (int) Math.round(radius * Math.cos(angle));
+            int y = (int) Math.round(radius * Math.sin(angle));
+    
+            int snappedX = radius + x;
+            int snappedY = radius - y;
+    
+            drawRect(snappedX, snappedY, s, s, color);
+        }
+    }
+    
+    public void drawRoundedBorderCornerBottomRight(int s, int radius, int color) {
+        for (double angle = Math.PI * 1.5; angle <= Math.PI * 2; angle += Math.PI / 180) {
+            int x = (int) Math.round(radius * Math.cos(angle));
+            int y = (int) Math.round(radius * Math.sin(angle));
+    
+            int snappedX = radius + x;
+            int snappedY = radius - y;
+    
+            drawRect(snappedX, snappedY, s, s, color);
+        }
+    }    
+
+    public void drawRoundedBorder(int width, int height, int size, int radius, int color) {
+        radius = Math.min(radius, Math.min(width, height)) * 10;
+        size *= 10;
+        width *= 20;
+        height *= 20;
+
+        matrices.push();
+        matrices.scale(0.05f, 0.05f, 1.0f);
+        drawRoundedBorderCornerTopLeft(size, radius, color);
+
+        drawRect(radius, 0, width - (radius * 2), size, color);
+        drawRect(0, radius, size, height - (radius * 2), color);
+
+        drawRect(radius, height - size, width - (radius * 2), size, color);
+
+        drawRect(width - size, radius, size, height - (radius * 2), color);
+
+        matrices.translate(width - (radius * 2) - size, 0, 0);
+        drawRoundedBorderCornerTopRight(size, radius, color);
+        matrices.translate(0, height - (radius * 2) - size, 0);
+        drawRoundedBorderCornerBottomRight(size, radius, color);
+        matrices.translate(-(width - (radius * 2) - size), 0, 0);
+        drawRoundedBorderCornerBottomLeft(size, radius, color);
+        matrices.pop();
+    }
+
     public int getScaledWindowWidth() {
         return SaturnClient.client.getWindow().getScaledWidth();
      }
@@ -172,24 +247,4 @@ public class RenderScope {
         vertexConsumer.vertex(matrix4f, (float)x2, (float)y2, 0.0F).texture(u2, v2).color(color);
         vertexConsumer.vertex(matrix4f, (float)x2, (float)y1, 0.0F).texture(u2, v1).color(color);
      }
-
-     public void drawRoundedBorderCorner(int width, int height, int radius, int color) {
-        int s = 3;
-    
-        // Step through the arc by angle
-        for (double angle = Math.PI; angle >= Math.PI / 2; angle -= Math.PI / 180) {
-            int x = (int) Math.round(radius * Math.cos(angle));
-            int y = (int) Math.round(radius * Math.sin(angle));
-    
-            // Snap position to s-sized grid to avoid overlapping
-            int snappedX = (radius - x) / s * s;
-            int snappedY = (radius - y) / s * s;
-    
-            drawRect(snappedX, snappedY, s, s, color);
-        }
-    }       
-
-    public void drawRoundedBorder(int x, int y, int width, int height, int borderSize, int radius, int color) {
-
-    }
 }
