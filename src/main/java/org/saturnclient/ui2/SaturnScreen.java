@@ -46,6 +46,7 @@ public class SaturnScreen extends Screen {
             renderScope.matrices.translate(element.x, element.y, 0);
             element.render(renderScope, new RenderContext(mouseX, mouseY, element));
             renderScope.matrices.pop();
+            renderScope.setRenderLayer(null);
         }
 
         renderScope.matrices.pop();

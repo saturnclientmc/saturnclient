@@ -19,6 +19,7 @@ import net.minecraft.util.math.RotationAxis;
 public class RenderScope {
     public MatrixStack matrices;
     public VertexConsumerProvider.Immediate vertexConsumers;
+    private Function<Identifier, RenderLayer> renderLayers;
     private int opacity = 255 << 24;
 
     public RenderScope(MatrixStack matrices, VertexConsumerProvider.Immediate vertexConsumers) {
@@ -32,6 +33,10 @@ public class RenderScope {
 
     public int getColor(int color) {
         return opacity | (color & 0x00FFFFFF);
+    }
+
+    public void setRenderLayer(Function<Identifier, RenderLayer> renderLayers) {
+        this.renderLayers = renderLayers;
     }
 
     public void drawRect(int x, int y, int width, int height, int color) {
@@ -220,23 +225,30 @@ public class RenderScope {
     public int getScaledWindowHeight() {
        return SaturnClient.client.getWindow().getScaledHeight();
     }
-    public void drawTexture(Function<Identifier, RenderLayer> renderLayers, Identifier sprite, int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight, int color) {
-       this.drawTexture(renderLayers, sprite, x, y, u, v, width, height, width, height, textureWidth, textureHeight, color);
+    public void drawTexture(Identifier sprite, int x, int y, float u, float v, int width, int height, int color) {
+       this.drawTexture(sprite, x, y, u, v, width, height, width, height, width, height, color);
     }
 
-    public void drawTexture(Function<Identifier, RenderLayer> renderLayers, Identifier sprite, int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight) {
-       this.drawTexture(renderLayers, sprite, x, y, u, v, width, height, width, height, textureWidth, textureHeight);
+    public void drawTexture(Identifier sprite, int x, int y, float u, float v, int width, int height) {
+       this.drawTexture(sprite, x, y, u, v, width, height, width, height, width, height);
     }
 
-    public void drawTexture(Function<Identifier, RenderLayer> renderLayers, Identifier sprite, int x, int y, float u, float v, int width, int height, int regionWith, int regionHeight, int textureWidth, int textureHeight) {
-       this.drawTexture(renderLayers, sprite, x, y, u, v, width, height, regionWith, regionHeight, textureWidth, textureHeight, -1);
+    public void drawTexture(Identifier sprite, int x, int y, float u, float v, int width, int height, int regionWith, int regionHeight, int textureWidth, int textureHeight) {
+       this.drawTexture(sprite, x, y, u, v, width, height, regionWith, regionHeight, textureWidth, textureHeight, -1);
     }
 
-    public void drawTexture(Function<Identifier, RenderLayer> renderLayers, Identifier sprite, int x, int y, float u, float v, int width, int height, int regionWidth, int regionHeight, int textureWidth, int textureHeight, int color) {
-       this.drawTexturedQuad(renderLayers, sprite, x, x + width, y, y + height, (u + 0.0F) / (float)textureWidth, (u + (float)regionWidth) / (float)textureWidth, (v + 0.0F) / (float)textureHeight, (v + (float)regionHeight) / (float)textureHeight, color);
+    public void drawTexture(Identifier sprite, int x, int y, float u, float v, int width, int height, int regionWidth, int regionHeight, int textureWidth, int textureHeight, int color) {
+       this.drawTexturedQuad(sprite, x, x + width, y, y + height, (u + 0.0F) / (float)textureWidth, (u + (float)regionWidth) / (float)textureWidth, (v + 0.0F) / (float)textureHeight, (v + (float)regionHeight) / (float)textureHeight, color);
     }
 
-    private void drawTexturedQuad(Function<Identifier, RenderLayer> renderLayers, Identifier sprite, int x1, int x2, int y1, int y2, float u1, float u2, float v1, float v2, int color) {
+    private void drawTexturedQuad(Identifier sprite, int x1, int x2, int y1, int y2, float u1, float u2, float v1, float v2, int color) {
+        x1 *= 4;
+        x2 *= 4;
+        y1 *= 4;
+        y2 *= 4;
+
+        matrices.push();
+        matrices.scale(0.25f, 0.25f, 1.0f);
        RenderSystem.setShaderTexture(0, sprite);
        RenderLayer renderLayer = (RenderLayer)renderLayers.apply(sprite);
        Matrix4f matrix4f = this.matrices.peek().getPositionMatrix();
@@ -245,5 +257,6 @@ public class RenderScope {
        vertexConsumer.vertex(matrix4f, (float)x1, (float)y2, 0.0F).texture(u1, v2).color(color);
        vertexConsumer.vertex(matrix4f, (float)x2, (float)y2, 0.0F).texture(u2, v2).color(color);
        vertexConsumer.vertex(matrix4f, (float)x2, (float)y1, 0.0F).texture(u2, v1).color(color);
+       matrices.pop();
     }
 }

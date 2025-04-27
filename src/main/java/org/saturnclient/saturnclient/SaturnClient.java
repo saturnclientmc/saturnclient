@@ -38,7 +38,7 @@ public class SaturnClient implements ModInitializer {
         ThemeManager.load();
         ConfigManager.load();
         
-        ClientLifecycleEvents.CLIENT_STOPPING.register(_o -> {ConfigManager.save(); ThemeManager.save();});
+        ClientLifecycleEvents.CLIENT_STOPPING.register(_o -> ConfigManager.save());
         ScreenEvents.BEFORE_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
             if (SaturnClientConfig.saturnTitleScreen.value && screen instanceof TitleScreen
             && !(screen instanceof SaturnMenu)) {

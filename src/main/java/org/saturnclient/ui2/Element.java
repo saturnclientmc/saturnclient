@@ -3,8 +3,8 @@ package org.saturnclient.ui2;
 public class Element {
     protected int x;
     protected int y;
-    protected int width;
-    protected int height;
+    public int width;
+    public int height;
     public boolean focused;
 
     public void render(RenderScope renderScope, RenderContext ctx) {
@@ -13,14 +13,18 @@ public class Element {
     public void click(int mouseX, int mouseY) {
     }
 
-    public final void dimensions(int width, int height) {
+    public final Element dimensions(int width, int height) {
         this.width = width;
         this.height = height;
+
+        return this;
     }
 
-    public final void position(int x, int y) {
+    public final Element position(int x, int y) {
         this.x = x;
         this.y = y;
+
+        return this;
     }
 
     public final Element center(int w, int h) {
