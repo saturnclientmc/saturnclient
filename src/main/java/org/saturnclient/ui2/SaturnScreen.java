@@ -1,16 +1,12 @@
 package org.saturnclient.ui2;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.config.ThemeManager;
 import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
-import org.saturnclient.ui2.anim.Animation;
 import org.saturnclient.ui2.anim.Curve;
-import org.saturnclient.ui2.anim.SlideUp;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
@@ -25,41 +21,61 @@ public class SaturnScreen extends Screen {
     }
 
     public void draw(Element element) {
-        Animation animation = new SlideUp();
-        // Function<Float, Integer> curve = Curve::easeIn;
-        
-        int duration = 500;
-
         synchronized (elements) {
             elements.add(element);
         }
+        
+        if (element.animation != null) {
+            element.animation.init(element);
+            new Thread(() -> {
+                Function<Double, Double> curveFunction = Curve::easeInOutCubicReverse;
+                int delay = (element.animation.duration / 20) - 15;
+                long startTime = System.currentTimeMillis();
+                float lastProgress = 0.0f;
 
-        // new Thread(() -> {
-        //     boolean running = true;
-        //     Instant start = Instant.now();
-        //     int tick = 0;
-        //     while (running) {
-        //         if (animation != null) {
-        //             int elapsedMs = (int) java.time.Duration.between(start, Instant.now()).toMillis();
+                while (true) {
+                    int elapsed = (int) (System.currentTimeMillis() - startTime);
 
-        //             if (elapsedMs > duration) {
-        //                 running = false;
-        //             }
+                    float progress = Math.round(curveFunction.apply((double) elapsed / element.animation.duration) * 1000.0f) / 1000.0f;                
 
-        //             float progress = animation.tick(tick, element);
+                    float p = lastProgress;
 
-        //             SaturnClient.LOGGER.info("ms: " + curve.apply(progress) + ", Progress: " + progress);
-                    
-        //             try {
-        //                 Thread.sleep(30);
-        //             } catch (Exception e) {
-        //             }
-        //             tick++;
-        //         } else {
-        //             running = false;
-        //         }
-        //     }
-        // }).start();
+                    while (progress != p) {
+                        if (p < progress) {
+                            p += 0.01f;
+                            if (p > progress) p = progress;
+                        } else if (p > progress) {
+                            p -= 0.01f;
+                            if (p < progress) p = progress;
+                        }
+
+                        element.animation.tick(p, element);
+
+                        try {
+                            Thread.sleep(4);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    if (elapsed > (element.animation.duration + 30)) {
+                        break;
+                    }
+
+                    if (progress != lastProgress) {
+                        lastProgress = p;
+                    }
+
+                    if (delay > 0) {
+                        try {
+                            Thread.sleep(delay);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }).start();
+        }
     }
 
     @Override
