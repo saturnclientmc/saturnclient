@@ -1,8 +1,8 @@
 package org.saturnclient.ui2;
 
 public class Element {
-    protected int x;
-    protected int y;
+    public int x;
+    public int y;
     public int width;
     public int height;
     public boolean focused;

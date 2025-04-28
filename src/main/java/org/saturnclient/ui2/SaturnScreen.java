@@ -1,10 +1,16 @@
 package org.saturnclient.ui2;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
+import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.config.ThemeManager;
 import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
+import org.saturnclient.ui2.anim.Animation;
+import org.saturnclient.ui2.anim.Curve;
+import org.saturnclient.ui2.anim.SlideUp;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
@@ -19,9 +25,41 @@ public class SaturnScreen extends Screen {
     }
 
     public void draw(Element element) {
+        Animation animation = new SlideUp();
+        // Function<Float, Integer> curve = Curve::easeIn;
+        
+        int duration = 500;
+
         synchronized (elements) {
             elements.add(element);
         }
+
+        // new Thread(() -> {
+        //     boolean running = true;
+        //     Instant start = Instant.now();
+        //     int tick = 0;
+        //     while (running) {
+        //         if (animation != null) {
+        //             int elapsedMs = (int) java.time.Duration.between(start, Instant.now()).toMillis();
+
+        //             if (elapsedMs > duration) {
+        //                 running = false;
+        //             }
+
+        //             float progress = animation.tick(tick, element);
+
+        //             SaturnClient.LOGGER.info("ms: " + curve.apply(progress) + ", Progress: " + progress);
+                    
+        //             try {
+        //                 Thread.sleep(30);
+        //             } catch (Exception e) {
+        //             }
+        //             tick++;
+        //         } else {
+        //             running = false;
+        //         }
+        //     }
+        // }).start();
     }
 
     @Override
