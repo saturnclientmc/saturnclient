@@ -246,6 +246,7 @@ public class RenderScope {
         x2 *= 4;
         y1 *= 4;
         y2 *= 4;
+        color = getColor(color);
 
         matrices.push();
         matrices.scale(0.25f, 0.25f, 1.0f);

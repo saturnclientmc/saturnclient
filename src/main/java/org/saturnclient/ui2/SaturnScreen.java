@@ -27,53 +27,46 @@ public class SaturnScreen extends Screen {
         
         if (element.animation != null) {
             element.animation.init(element);
+
+            try {
+                Thread.sleep(25);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             new Thread(() -> {
-                Function<Double, Double> curveFunction = Curve::easeInOutCubicReverse;
-                int delay = (element.animation.duration / 20) - 15;
                 long startTime = System.currentTimeMillis();
-                float lastProgress = 0.0f;
 
-                while (true) {
-                    int elapsed = (int) (System.currentTimeMillis() - startTime);
+                Function<Double, Double> curveFunction = Curve::easeInOutCubic;
+                float progress = 0.0f;
+                double incremental = (1000 - element.animation.duration) / 10000.0;
 
-                    float progress = Math.round(curveFunction.apply((double) elapsed / element.animation.duration) * 1000.0f) / 1000.0f;                
+                System.out.println("Starting animation...");
+                // System.out.printf("Increment per step: %.6f%n", incremental);
 
-                    float p = lastProgress;
+                for (int i = 0; i <= 100; i++) {
+                    float newProgress = (float) (double) curveFunction.apply(i / 100.0);
 
-                    while (progress != p) {
-                        if (p < progress) {
-                            p += 0.01f;
-                            if (p > progress) p = progress;
-                        } else if (p > progress) {
-                            p -= 0.01f;
-                            if (p < progress) p = progress;
+                    while (Math.abs(newProgress - progress) > 1e-6) {
+                        if (progress < newProgress) {
+                            progress += incremental;
+                            if (progress > newProgress) progress = newProgress;
+                        } else {
+                            progress -= incremental;
+                            if (progress < newProgress) progress = newProgress;
                         }
 
-                        element.animation.tick(p, element);
+                        element.animation.tick(progress, element);
 
                         try {
-                            Thread.sleep(4);
+                            Thread.sleep(element.animation.duration / 100);
                         } catch (Exception e) {
                             e.printStackTrace();
-                        }
-                    }
-
-                    if (elapsed > (element.animation.duration + 30)) {
-                        break;
-                    }
-
-                    if (progress != lastProgress) {
-                        lastProgress = p;
-                    }
-
-                    if (delay > 0) {
-                        try {
-                            Thread.sleep(delay);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                        }            
                     }
                 }
+
+                System.out.println("Animation complete. " + (System.currentTimeMillis() - startTime) + "MS");
             }).start();
         }
     }
@@ -96,6 +89,7 @@ public class SaturnScreen extends Screen {
         renderScope.matrices.push();
 
         for (Element element : elements) {
+            renderScope.setOpacity(element.opacity);
             renderScope.matrices.push();
             renderScope.matrices.translate(element.x, element.y, 0);
             element.render(renderScope, new RenderContext(mouseX, mouseY, element));

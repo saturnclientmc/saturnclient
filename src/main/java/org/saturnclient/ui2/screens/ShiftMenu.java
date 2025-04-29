@@ -10,6 +10,7 @@ import org.saturnclient.ui2.SaturnScreen;
 import org.saturnclient.ui2.elements.Button;
 import org.saturnclient.ui2.elements.ImageTexture;
 import org.saturnclient.ui2.elements.TextureButton;
+import org.saturnclient.ui2.anim.Fade;
 import org.saturnclient.ui2.anim.SlideY;
 
 public class ShiftMenu extends SaturnScreen {
@@ -19,8 +20,8 @@ public class ShiftMenu extends SaturnScreen {
 
     @Override
     public void ui() {
-        draw(new ImageTexture(Textures.LOGO).dimensions(49, 49).centerOffset(width, height, 0, -45).animation(new SlideY(300)));
-        draw(new ImageTexture(Textures.LOGO_TEXT).dimensions(49, 8).centerOffset(width, height, 0, -23));
+        draw(new ImageTexture(Textures.LOGO).dimensions(49, 49).centerOffset(width, height, 0, -40).animation(new SlideY(700, -20)));
+        draw(new ImageTexture(Textures.LOGO_TEXT).dimensions(49, 8).centerOffset(width, height, 0, -18).animation(new Fade(700)));
 
         Element button = new Button("Settings", () -> {
             SaturnClient.client.setScreen(new ModMenu());

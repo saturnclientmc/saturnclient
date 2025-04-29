@@ -27,16 +27,12 @@ public class SlideY extends Animation {
     
     @Override
     public void tick(float progress, Element element) {
-        if (progress > 0) {
-            element.y = elementY + Math.min(maxOffset, (int) (offset * progress));
-        } else {
-            element.y = elementY + Math.max(-offset, (int) (offset * progress));
-        }
+        element.y = elementY + (int) (offset * progress);
     }
 
     @Override
     public void init(Element element) {
-        element.y += offset;
+        element.y -= offset;
         elementY = element.y;
     }
 }
