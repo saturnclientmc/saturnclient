@@ -42,7 +42,6 @@ public class SaturnScreen extends Screen {
                 double incremental = (1000 - element.animation.duration) / 10000.0;
 
                 System.out.println("Starting animation...");
-                // System.out.printf("Increment per step: %.6f%n", incremental);
 
                 for (int i = 0; i <= 100; i++) {
                     float newProgress = (float) (double) curveFunction.apply(i / 100.0);
@@ -73,6 +72,8 @@ public class SaturnScreen extends Screen {
 
     @Override
     protected void init() {
+        width *= 2;
+        height *= 2;
         ui(); // abstraction to render the saturn ui and also render extra stuff here
     }
 
@@ -81,6 +82,9 @@ public class SaturnScreen extends Screen {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        mouseX *= 2;
+        mouseY *= 2;
+
         // We are using a Abstracted RenderScope because older minecraft versions don't
         // use DrawContext
         RenderScope renderScope = new RenderScope(context.getMatrices(),
@@ -88,9 +92,11 @@ public class SaturnScreen extends Screen {
 
         renderScope.matrices.push();
 
+        renderScope.matrices.scale(0.5f, 0.5f, 1.0f);
+
         for (Element element : elements) {
-            renderScope.setOpacity(element.opacity);
             renderScope.matrices.push();
+            renderScope.setOpacity(element.opacity);
             renderScope.matrices.translate(element.x, element.y, 0);
             element.render(renderScope, new RenderContext(mouseX, mouseY, element));
             renderScope.matrices.pop();
@@ -102,6 +108,8 @@ public class SaturnScreen extends Screen {
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        mouseX *= 2;
+        mouseY *= 2;
         if (button == 0) {
             for (Element element : new ArrayList<>(elements)) {
                 element.focused = false;

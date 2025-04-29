@@ -20,7 +20,7 @@ public class ShiftMenu extends SaturnScreen {
 
     @Override
     public void ui() {
-        draw(new ImageTexture(Textures.LOGO).dimensions(49, 49).centerOffset(width, height, 0, -40).animation(new SlideY(700, -20)));
+        draw(new ImageTexture(Textures.LOGO).dimensions(49, 49).centerOffset(width, height, 0, -40).animation(new SlideY(700, -40)));
         draw(new ImageTexture(Textures.LOGO_TEXT).dimensions(49, 8).centerOffset(width, height, 0, -18).animation(new Fade(700)));
 
         Element button = new Button("Settings", () -> {
