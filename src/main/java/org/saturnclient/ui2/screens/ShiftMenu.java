@@ -20,8 +20,8 @@ public class ShiftMenu extends SaturnScreen {
 
     @Override
     public void ui() {
-        draw(new ImageTexture(Textures.LOGO).dimensions(49, 49).centerOffset(width, height, 0, -40).animation(new SlideY(700, -40)));
-        draw(new ImageTexture(Textures.LOGO_TEXT).dimensions(49, 8).centerOffset(width, height, 0, -18).animation(new Fade(700)));
+        draw(new ImageTexture(Textures.LOGO).dimensions(98, 98).centerOffset(width, height, 0, -80).animation(new SlideY(700, -40)));
+        draw(new ImageTexture(Textures.LOGO_TEXT).dimensions(98, 16).centerOffset(width, height, 0, -36).animation(new Fade(700)));
 
         Element button = new Button("Settings", () -> {
             SaturnClient.client.setScreen(new ModMenu());

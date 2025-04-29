@@ -31,7 +31,7 @@ public class Button extends Element {
         this.text = text;
         this.font = Fonts.getFont(bold.value);
         this.onClick = onClick;
-        this.dimensions(Fonts.getWidth(text, font)+ 25 , Fonts.getHeight() + 10);
+        this.dimensions(Fonts.getWidth(text, font) + 50, Fonts.getHeight() + 20);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class Button extends Element {
 
         renderScope.drawRoundedBorder(width, height, border.value, cornerRadius.value, borderColor.value);
 
-        renderScope.drawText(text, width / 2 - Fonts.getWidth(text, font) / 2, height / 2 - Fonts.getHeight() / 2, bold.value, fgColor.value);
+        renderScope.drawText(text, (width - Fonts.getWidth(text, font)) / 2, (height - Fonts.getHeight()) / 2, bold.value, fgColor.value);
     }
 
     @Override

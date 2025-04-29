@@ -22,12 +22,21 @@ public class Fonts {
             Style.EMPTY.withFont(font));
     }
 
+    // public static int getWidth(String text, Identifier font) {
+    //     return SaturnClient.client.textRenderer.getWidth(Text.literal(text).setStyle(
+    //         Style.EMPTY.withFont(font)));
+    // }
+
+    // public static int getHeight() {
+    //     return SaturnClient.client.textRenderer.fontHeight;
+    // }
+
     public static int getWidth(String text, Identifier font) {
         return SaturnClient.client.textRenderer.getWidth(Text.literal(text).setStyle(
-            Style.EMPTY.withFont(font)));
+            Style.EMPTY.withFont(font))) * 2;
     }
 
     public static int getHeight() {
-        return SaturnClient.client.textRenderer.fontHeight;
+        return SaturnClient.client.textRenderer.fontHeight * 2;
     }
 }

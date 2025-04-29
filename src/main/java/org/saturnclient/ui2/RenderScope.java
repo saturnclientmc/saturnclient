@@ -73,9 +73,13 @@ public class RenderScope {
 
         Identifier font = bold ? Fonts.PANTON_BOLD : Fonts.PANTON;
 
+        matrices.push();
+        matrices.translate(x, y, 0);
+        matrices.scale(2.0f, 2.0f, 1.0f);
         TextRenderer textRenderer = SaturnClient.client.textRenderer;
-        textRenderer.draw(Fonts.setFont(text, font), (float) x, (float) y, color, false, this.matrices.peek().getPositionMatrix(),
+        textRenderer.draw(Fonts.setFont(text, font), 0, 0, color, false, this.matrices.peek().getPositionMatrix(),
                 this.vertexConsumers, TextLayerType.NORMAL, 0, 15728880);
+        matrices.pop();
     }
 
     public void drawRoundedCorner(int width, int height, int radius, int color) {
