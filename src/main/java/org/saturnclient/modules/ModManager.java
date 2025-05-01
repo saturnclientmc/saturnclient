@@ -13,7 +13,8 @@ import org.saturnclient.ui2.RenderScope;
 
 public class ModManager {
     public static Module[] MODS = {
-        new Crosshair()
+        new Crosshair(),
+        new AutoSprint(),
     };
 
     public static void init() {
