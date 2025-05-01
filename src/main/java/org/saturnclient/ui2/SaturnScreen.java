@@ -2,18 +2,24 @@ package org.saturnclient.ui2;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
 import org.saturnclient.saturnclient.config.ThemeManager;
 import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
-import org.saturnclient.ui2.anim.Curve;
+import org.saturnclient.ui2.anim.Animation;
 
+import net.minecraft.client.gl.PostEffectProcessor;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.render.DefaultFramebufferSet;
+import net.minecraft.client.util.Pool;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 
 public class SaturnScreen extends Screen {
+    private final Pool pool = new Pool(3);
     protected List<Element> elements = new ArrayList<>();
+    public int blurDuration = 700;
+    public float blurProgress = 0.0f;
 
     public SaturnScreen(String title) {
         super(Text.literal(title));
@@ -34,39 +40,9 @@ public class SaturnScreen extends Screen {
                 e.printStackTrace();
             }
 
-            new Thread(() -> {
-                long startTime = System.currentTimeMillis();
-
-                Function<Double, Double> curveFunction = Curve::easeInOutCubic;
-                float progress = 0.0f;
-                double incremental = (1000 - element.animation.duration) / 10000.0;
-
-                System.out.println("Starting animation...");
-
-                for (int i = 0; i <= 100; i++) {
-                    float newProgress = (float) (double) curveFunction.apply(i / 100.0);
-
-                    while (Math.abs(newProgress - progress) > 1e-6) {
-                        if (progress < newProgress) {
-                            progress += incremental;
-                            if (progress > newProgress) progress = newProgress;
-                        } else {
-                            progress -= incremental;
-                            if (progress < newProgress) progress = newProgress;
-                        }
-
-                        element.animation.tick(progress, element);
-
-                        try {
-                            Thread.sleep(element.animation.duration / 100);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }            
-                    }
-                }
-
-                System.out.println("Animation complete. " + (System.currentTimeMillis() - startTime) + "MS");
-            }).start();
+            Animation.execute((Float progress) -> {
+                element.animation.tick(progress, element);
+            }, element.animation.duration);
         }
     }
 
@@ -75,15 +51,34 @@ public class SaturnScreen extends Screen {
         width *= 2;
         height *= 2;
         ui(); // abstraction to render the saturn ui and also render extra stuff here
+
+        try {
+            Thread.sleep(25);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Animation.execute((Float progress) -> {
+            blurProgress = progress;
+        }, blurDuration);
     }
 
     public void ui() {
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         mouseX *= 2;
         mouseY *= 2;
+
+        PostEffectProcessor postEffectProcessor = this.client.getShaderLoader().loadPostEffect(
+                    Identifier.ofVanilla("blur"),
+                    DefaultFramebufferSet.MAIN_ONLY);
+            if (postEffectProcessor != null) {
+                postEffectProcessor.setUniforms("Radius", 20 * blurProgress);
+                postEffectProcessor.render(this.client.getFramebuffer(), this.pool);
+            }
 
         // We are using a Abstracted RenderScope because older minecraft versions don't
         // use DrawContext
