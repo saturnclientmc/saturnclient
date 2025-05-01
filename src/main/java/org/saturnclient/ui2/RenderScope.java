@@ -32,8 +32,11 @@ public class RenderScope {
     }
 
     public int getColor(int color) {
-        return opacity | (color & 0x00FFFFFF);
-    }
+        int originalAlpha = (color >>> 24) & 0xFF;
+        int newAlpha = (opacity >>> 24) & 0xFF;
+        int mixedAlpha = (originalAlpha * newAlpha) / 255;
+        return (mixedAlpha << 24) | (color & 0x00FFFFFF);
+    }    
 
     public void setRenderLayer(Function<Identifier, RenderLayer> renderLayers) {
         this.renderLayers = renderLayers;
