@@ -76,7 +76,7 @@ public class SaturnScreen extends Screen {
                     Identifier.ofVanilla("blur"),
                     DefaultFramebufferSet.MAIN_ONLY);
             if (postEffectProcessor != null) {
-                postEffectProcessor.setUniforms("Radius", 20 * blurProgress);
+                postEffectProcessor.setUniforms("Radius", 10 * blurProgress);
                 postEffectProcessor.render(this.client.getFramebuffer(), this.pool);
             }
 
