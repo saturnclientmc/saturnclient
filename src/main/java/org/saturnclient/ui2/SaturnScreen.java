@@ -34,7 +34,6 @@ public abstract class SaturnScreen extends Screen {
 
     public SaturnScreen(String title) {
         super(Text.literal(title));
-        ThemeManager.load();
     }
 
     public void draw(Element element) {
@@ -44,12 +43,6 @@ public abstract class SaturnScreen extends Screen {
         
         if (element.animation != null) {
             element.animation.init(element);
-
-            try {
-                Thread.sleep(25);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
 
             Animation.execute((Float progress) -> {
                 element.animation.tick(progress, element);
@@ -62,12 +55,7 @@ public abstract class SaturnScreen extends Screen {
         width *= 2;
         height *= 2;
         ui(); // abstraction to render the saturn ui and also render extra stuff here
-
-        try {
-            Thread.sleep(25);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        ThemeManager.load();
 
         Animation.execute((Float progress) -> {
             blurProgress = progress;
