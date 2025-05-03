@@ -17,7 +17,7 @@ import net.minecraft.client.util.Pool;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-public class SaturnScreen extends Screen {
+public abstract class SaturnScreen extends Screen {
     private final Pool pool = new Pool(3);
     protected List<Element> elements = new ArrayList<>();
     public int blurDuration = 700;
@@ -74,8 +74,7 @@ public class SaturnScreen extends Screen {
         }, blurDuration);
     }
 
-    public void ui() {
-    }
+    public abstract void ui();
 
     @SuppressWarnings("deprecation")
     @Override
@@ -102,12 +101,13 @@ public class SaturnScreen extends Screen {
 
         renderScope.matrices.push();
 
-        renderScope.matrices.scale(0.5f, 0.5f, 1.0f);
+        renderScope.matrices.scale(0.5f, 0.5f, 0.5f);
 
         for (Element element : elements) {
             renderScope.matrices.push();
             renderScope.setOpacity(element.opacity);
             renderScope.matrices.translate(element.x, element.y, 0);
+            renderScope.matrices.scale(element.scale, element.scale, 1.0f);
             element.render(renderScope, new RenderContext(mouseX, mouseY, element));
             renderScope.matrices.pop();
             renderScope.setRenderLayer(null);
@@ -127,7 +127,7 @@ public class SaturnScreen extends Screen {
                 int adjustedMouseX = (int) mouseX - element.x;
                 int adjustedMouseY = (int) mouseY - element.y;
 
-                if (Utils.isHovering(adjustedMouseX, adjustedMouseY, element.width, element.height)) {
+                if (Utils.isHovering(adjustedMouseX, adjustedMouseY, element.width, element.height, element.scale)) {
                     element.focused = true;
                     element.click(adjustedMouseX, adjustedMouseY);
                 }

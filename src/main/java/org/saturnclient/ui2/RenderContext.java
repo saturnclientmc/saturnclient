@@ -4,6 +4,7 @@ public class RenderContext {
     public int mouseX, mouseY;
     public int elementX, elementY;
     public int elementWidth, elementHeight;
+    public float elementScale;
 
     public RenderContext(int mouseX, int mouseY, Element e) {
         this.mouseX = mouseX;
@@ -12,12 +13,10 @@ public class RenderContext {
         this.elementY = e.y;
         this.elementWidth = e.width;
         this.elementHeight = e.height;
+        this.elementScale = e.scale;
     }
 
     public boolean isHovering() {
-        return mouseX >= elementX &&
-               mouseX <= elementX + elementWidth &&
-               mouseY >= elementY &&
-               mouseY <= elementY + elementHeight;
+        return Utils.isHovering(mouseX - elementX, mouseY - elementY, elementWidth, elementHeight, elementScale);
     }
 }
