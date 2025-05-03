@@ -13,5 +13,6 @@
 - Cloak rendering: `IIpho3nix` & `Dhyan Blum`
 - Who Am I: `FokshaWasTaken`
 - Panton font (ui): `Ivan Petrov` & `Fontfabric`
+- Panorama: https://www.planetminecraft.com/texture-pack/minecraft-cavesand-cliffs-part-ii-main-menu-panorama/
 
 If any of the code or assets are in your name and you want to remove them, please submit an issue, we are still in alpha to have any artists so we would also appreciate if you could help us make some cosmetics

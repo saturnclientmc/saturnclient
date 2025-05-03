@@ -8,7 +8,9 @@ import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
 import org.saturnclient.ui2.anim.Animation;
 
 import net.minecraft.client.gl.PostEffectProcessor;
+import net.minecraft.client.gui.CubeMapRenderer;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.RotatingCubeMapRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.render.DefaultFramebufferSet;
 import net.minecraft.client.util.Pool;
@@ -20,6 +22,15 @@ public class SaturnScreen extends Screen {
     protected List<Element> elements = new ArrayList<>();
     public int blurDuration = 700;
     public float blurProgress = 0.0f;
+
+    protected static final CubeMapRenderer PANORAMA_RENDERER = new CubeMapRenderer(
+            Identifier.of("saturnclient", "textures/gui/title/background/panorama"));
+
+    public static final RotatingCubeMapRenderer ROTATING_PANORAMA_RENDERER;
+
+    static {
+        ROTATING_PANORAMA_RENDERER = new RotatingCubeMapRenderer(PANORAMA_RENDERER);
+    }
 
     public SaturnScreen(String title) {
         super(Text.literal(title));
@@ -71,6 +82,10 @@ public class SaturnScreen extends Screen {
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         mouseX *= 2;
         mouseY *= 2;
+
+        if (client.world == null && client.getCurrentServerEntry() == null) {
+            ROTATING_PANORAMA_RENDERER.render(context, this.width, this.height, 1.0F, delta);
+        }
 
         PostEffectProcessor postEffectProcessor = this.client.getShaderLoader().loadPostEffect(
                     Identifier.ofVanilla("blur"),
