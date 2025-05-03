@@ -36,6 +36,13 @@ public class Element {
         return this;
     }
 
+    public final Element centerHorizontal(int w, int h, int offsetX, int offsetY) {
+        this.x = (w - (int) (width * scale)) / 2 + offsetX;
+        this.y = offsetY;
+
+        return this;
+    }
+
     public final Element center(int w, int h) {
         this.centerOffset(w, h, 0, 0);
         return this;

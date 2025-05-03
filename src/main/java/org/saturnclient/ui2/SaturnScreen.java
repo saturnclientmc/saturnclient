@@ -22,6 +22,7 @@ public abstract class SaturnScreen extends Screen {
     protected List<Element> elements = new ArrayList<>();
     public int blurDuration = 700;
     public float blurProgress = 0.0f;
+    public int backgroundBlur = 10;
 
     protected static final CubeMapRenderer PANORAMA_RENDERER = new CubeMapRenderer(
             Identifier.of("saturnclient", "textures/gui/title/background/panorama"));
@@ -78,7 +79,7 @@ public abstract class SaturnScreen extends Screen {
                     Identifier.ofVanilla("blur"),
                     DefaultFramebufferSet.MAIN_ONLY);
             if (postEffectProcessor != null) {
-                postEffectProcessor.setUniforms("Radius", 10 * blurProgress);
+                postEffectProcessor.setUniforms("Radius", backgroundBlur * blurProgress);
                 postEffectProcessor.render(this.client.getFramebuffer(), this.pool);
             }
 
