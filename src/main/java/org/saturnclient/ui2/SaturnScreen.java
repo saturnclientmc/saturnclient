@@ -6,6 +6,7 @@ import java.util.List;
 import org.saturnclient.saturnclient.config.ThemeManager;
 import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
 import org.saturnclient.ui2.anim.Animation;
+import org.saturnclient.ui2.components.ElementRenderer;
 
 import net.minecraft.client.gl.PostEffectProcessor;
 import net.minecraft.client.gui.CubeMapRenderer;
@@ -40,6 +41,10 @@ public abstract class SaturnScreen extends Screen {
     public void draw(Element element) {
         synchronized (elements) {
             elements.add(element);
+
+            if (element instanceof ElementRenderer) {
+                elements.addAll(((ElementRenderer) element).getChildren());
+            }
         }
         
         if (element.animation != null) {
@@ -124,5 +129,35 @@ public abstract class SaturnScreen extends Screen {
         }
 
         return false;
+    }
+
+    @Override
+    public boolean mouseScrolled(
+            double mouseX,
+            double mouseY,
+            double horizontalAmount,
+            double verticalAmount) {
+        for (Element element : new ArrayList<>(elements)) {
+            double adjustedMouseX = mouseX - element.x;
+            double adjustedMouseY = mouseY - element.y;
+            boolean isMouseInside = adjustedMouseX >= 0 &&
+                    adjustedMouseX <= (element.width * element.scale) &&
+                    adjustedMouseY >= 0 &&
+                    adjustedMouseY <= (element.height * element.scale);
+
+            if (isMouseInside) {
+                element.scroll(
+                        (int) (adjustedMouseX / element.scale),
+                        (int) (adjustedMouseY / element.scale),
+                        horizontalAmount,
+                        verticalAmount);
+            }
+        }
+
+        return super.mouseScrolled(
+                mouseX,
+                mouseY,
+                horizontalAmount,
+                verticalAmount);
     }
 }

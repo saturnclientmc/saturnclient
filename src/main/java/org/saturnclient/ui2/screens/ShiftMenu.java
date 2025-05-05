@@ -4,7 +4,6 @@ import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.saturnclient.menus.CloaksMenu;
 import org.saturnclient.saturnclient.menus.HudEditor;
-import org.saturnclient.saturnclient.menus.ModMenu;
 import org.saturnclient.ui.Textures;
 import org.saturnclient.ui2.Element;
 import org.saturnclient.ui2.SaturnScreen;

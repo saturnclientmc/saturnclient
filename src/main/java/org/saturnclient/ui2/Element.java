@@ -22,6 +22,9 @@ public class Element {
     public void click(int mouseX, int mouseY) {
     }
 
+    public void scroll(int mouseX, int mouseY, double horizontalAmount, double verticalAmount) {
+    }
+
     public final Element dimensions(int width, int height) {
         this.width = width;
         this.height = height;

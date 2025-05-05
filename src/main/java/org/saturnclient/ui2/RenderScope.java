@@ -20,7 +20,7 @@ public class RenderScope {
     public MatrixStack matrices;
     public VertexConsumerProvider.Immediate vertexConsumers;
     private Function<Identifier, RenderLayer> renderLayers;
-    private int opacity = 255 << 24;
+   private int opacity = 255 << 24;
 
     public RenderScope(MatrixStack matrices, VertexConsumerProvider.Immediate vertexConsumers) {
         this.matrices = matrices;
