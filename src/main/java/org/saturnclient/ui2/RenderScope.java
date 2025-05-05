@@ -1,7 +1,11 @@
 package org.saturnclient.ui2;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.Objects;
 import java.util.function.Function;
 
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.saturnclient.ui2.resources.Fonts;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -9,9 +13,11 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import org.saturnclient.saturnclient.SaturnClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.font.TextRenderer.TextLayerType;
+import net.minecraft.client.gui.ScreenRect;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.util.Window;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.RotationAxis;
@@ -20,11 +26,13 @@ public class RenderScope {
     public MatrixStack matrices;
     public VertexConsumerProvider.Immediate vertexConsumers;
     private Function<Identifier, RenderLayer> renderLayers;
-   private int opacity = 255 << 24;
+    private ScissorStack scissorStack = new ScissorStack();
+    private int opacity = 255 << 24;
 
     public RenderScope(MatrixStack matrices, VertexConsumerProvider.Immediate vertexConsumers) {
         this.matrices = matrices;
         this.vertexConsumers = vertexConsumers;
+        this.scissorStack = new ScissorStack();
     }
 
     public void setOpacity(float alpha) {
@@ -191,5 +199,69 @@ public class RenderScope {
        vertexConsumer.vertex(matrix4f, (float)x2, (float)y2, 0.0F).texture(u2, v2).color(color);
        vertexConsumer.vertex(matrix4f, (float)x2, (float)y1, 0.0F).texture(u2, v1).color(color);
        matrices.pop();
+    }
+
+    public void enableScissor(int x1, int y1, int x2, int y2) {
+        ScreenRect screenRect = (new ScreenRect(x1, y1, x2 - x1, y2 - y1)).transform(this.matrices.peek().getPositionMatrix());
+        this.setScissor(this.scissorStack.push(screenRect));
+     }
+  
+     public void disableScissor() {
+        this.setScissor(this.scissorStack.pop());
+     }
+  
+     public boolean scissorContains(int x, int y) {
+        return this.scissorStack.containsPoint(x, y);
+     }
+  
+     private void setScissor(@Nullable ScreenRect rect) {
+        this.draw();
+        if (rect != null) {
+           Window window = SaturnClient.client.getWindow();
+           int i = window.getFramebufferHeight();
+           double d = window.getScaleFactor();
+           double e = (double)rect.getLeft() * d;
+           double f = (double)i - (double)rect.getBottom() * d;
+           double g = (double)rect.width() * d;
+           double h = (double)rect.height() * d;
+           RenderSystem.enableScissor((int)e, (int)f, Math.max(0, (int)g), Math.max(0, (int)h));
+        } else {
+           RenderSystem.disableScissor();
+        }
+  
+    }
+
+    public void draw() {
+        this.vertexConsumers.draw();
+    }
+
+    static class ScissorStack {
+        private final Deque<ScreenRect> stack = new ArrayDeque<>();
+
+        public ScreenRect push(ScreenRect p_281812_) {
+            ScreenRect screenrectangle = this.stack.peekLast();
+            if (screenrectangle != null) {
+                ScreenRect screenrectangle1 = Objects.requireNonNullElse(p_281812_.intersection(screenrectangle), ScreenRect.empty());
+                this.stack.addLast(screenrectangle1);
+                return screenrectangle1;
+            } else {
+                this.stack.addLast(p_281812_);
+                return p_281812_;
+            }
+        }
+
+        @Nullable
+        public ScreenRect pop() {
+            if (this.stack.isEmpty()) {
+                throw new IllegalStateException("Scissor stack underflow");
+            } else {
+                this.stack.removeLast();
+                return this.stack.peekLast();
+            }
+        }
+
+        public boolean containsPoint(int p_329411_, int p_333404_) {
+            return this.stack.isEmpty() ? true : this.stack.peek().contains(p_329411_, p_333404_);
+        }
     }
 }

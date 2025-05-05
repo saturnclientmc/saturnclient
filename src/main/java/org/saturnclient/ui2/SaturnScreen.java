@@ -98,6 +98,8 @@ public abstract class SaturnScreen extends Screen {
         renderScope.matrices.scale(0.5f, 0.5f, 0.5f);
 
         for (Element element : elements) {
+            renderScope.enableScissor(element.x, element.y, element.x + element.width, element.y + element.height);
+
             renderScope.matrices.push();
             renderScope.setOpacity(element.opacity);
             renderScope.matrices.translate(element.x, element.y, 0);
@@ -105,6 +107,8 @@ public abstract class SaturnScreen extends Screen {
             element.render(renderScope, new RenderContext(mouseX, mouseY, element));
             renderScope.matrices.pop();
             renderScope.setRenderLayer(null);
+
+            renderScope.disableScissor();
         }
 
         renderScope.matrices.pop();
