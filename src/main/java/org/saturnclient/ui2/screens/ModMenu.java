@@ -14,10 +14,22 @@ public class ModMenu extends SaturnScreen {
     public void ui() {
         Scroll scroll = new Scroll();
 
-        scroll.draw(new Button("Hello World!", () -> {
+        scroll.draw(new Button("Hello World! 1", () -> {
             SaturnClient.LOGGER.info("Clicked Hello World!");
-        }));
+        }).position(0, 0));
+        
+        scroll.draw(new Button("Hello World! 1", () -> {
+            SaturnClient.LOGGER.info("Clicked Hello World!");
+        }).position(0, 50));
 
-        draw(scroll);
+        scroll.draw(new Button("Hello World! 2", () -> {
+            SaturnClient.LOGGER.info("Clicked Hello World!");
+        }).position(0, 100));
+
+        scroll.draw(new Button("Hello World! 3", () -> {
+            SaturnClient.LOGGER.info("Clicked Hello World!");
+        }).position(0, 150));
+
+        draw(scroll.dimensions(width, 100));
     }
 }
