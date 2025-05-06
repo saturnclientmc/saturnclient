@@ -16,10 +16,10 @@ public class Scroll extends Element {
     private static Property<Integer> scrollBarColor = theme.property("scrollbar-color", new Property<Integer>(0xFFFF0000));
 
     private static Property<Integer> scrollBarRadius = theme.property("scrollbar-radius", new Property<Integer>(10));
-    private static Property<Integer> scrollBarWidth = theme.property("scrollbar-radius", new Property<Integer>(10));
+    private static Property<Integer> scrollBarWidth = theme.property("scrollbar-width", new Property<Integer>(5));
     private static Property<Integer> scrollBarPadding = theme.property("scrollbar-padding", new Property<Integer>(5));
     private static Property<Integer> cornerRadius = theme.property("corner-radius", new Property<Integer>(10));
-    private static Property<Integer> padding = theme.property("padding", new Property<Integer>(10));
+    private static Property<Integer> padding = theme.property("padding", new Property<Integer>(25));
 
     public static Property<Integer> gap = theme.property("gap", new Property<Integer>(10));
 

@@ -10,11 +10,13 @@ import net.minecraft.util.Identifier;
 public abstract class Module {
     private final String name;
     private final String namespace;
+    private final String description;
     private final ConfigManager configManager;
 
-    public Module(String name, String namespace, NamedProperty<?>... props) {
+    public Module(String name, String namespace, String description, NamedProperty<?>... props) {
         this.name = name;
         this.namespace = namespace;
+        this.description = description;
 
         configManager = new ConfigManager(name);
 
@@ -23,9 +25,10 @@ public abstract class Module {
         }
     }
 
-    public Module(ConfigManager config, String name, String namespace) {
+    public Module(ConfigManager config, String name, String namespace, String description) {
         this.name = name;
         this.namespace = namespace;
+        this.description = description;
 
         configManager = config;
     }
@@ -47,5 +50,9 @@ public abstract class Module {
 
     public ConfigManager getConfig() {
         return configManager;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

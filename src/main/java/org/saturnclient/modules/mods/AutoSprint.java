@@ -10,7 +10,7 @@ public class AutoSprint extends Module {
     private static Property<Boolean> enabled = new Property<>(true);
 
     public AutoSprint() {
-        super("Auto Sprint", "sprint", enabled.named("Enabled"));
+        super("Auto Sprint", "sprint", "Makes the player always sprint", enabled.named("Enabled"));
     }
 
     @Override

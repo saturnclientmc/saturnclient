@@ -2,10 +2,8 @@ package org.saturnclient.ui2.screens;
 
 import org.saturnclient.modules.ModManager;
 import org.saturnclient.modules.Module;
-import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.menus.ConfigEditor;
 import org.saturnclient.ui2.SaturnScreen;
-import org.saturnclient.ui2.elements.Button;
+import org.saturnclient.ui2.components.SaturnModule;
 import org.saturnclient.ui2.elements.Scroll;
 
 public class ModMenu extends SaturnScreen {
@@ -21,11 +19,9 @@ public class ModMenu extends SaturnScreen {
         int col = 0;
         
         for (Module mod : ModManager.MODS) {
-            scroll.draw(new Button(mod.getName(), () -> {
-                SaturnClient.client.setScreen(new ConfigEditor(mod.getConfig()));
-            }).dimensions(100, 50).position((100 + Scroll.gap.value) * col, (50 + Scroll.gap.value) * row));
+            scroll.draw(new SaturnModule(mod).position((270 + Scroll.gap.value) * col, (120 + Scroll.gap.value) * row));
 
-            if (col == 3) {
+            if (col == 2) {
                 col = 0;
                 row++;
             } else {
@@ -33,6 +29,6 @@ public class ModMenu extends SaturnScreen {
             }
         }
     
-        draw(scroll.dimensions(400, 250).center(width, height));
+        draw(scroll.dimensions(600, 350).center(width, height));
     }
 }
