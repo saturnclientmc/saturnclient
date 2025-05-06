@@ -17,13 +17,9 @@ public abstract class Animation {
 
     public static void execute(Consumer<Float> tick, int duration) {
         new Thread(() -> {
-            long startTime = System.currentTimeMillis();
-
             Function<Double, Double> curveFunction = Curve::easeInOutCubic;
             float progress = 0.0f;
             double incremental = (1000 - duration) / 10000.0;
-
-            System.out.println("Starting animation...");
 
             for (int i = 0; i <= 100; i++) {
                 float newProgress = (float) (double) curveFunction.apply(i / 100.0);
@@ -46,8 +42,6 @@ public abstract class Animation {
                     }            
                 }
             }
-
-            System.out.println("Animation complete. " + (System.currentTimeMillis() - startTime) + "MS");
         }).start();
     }
 }

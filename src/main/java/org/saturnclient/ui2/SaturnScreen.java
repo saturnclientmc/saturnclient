@@ -8,6 +8,7 @@ import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
 import org.saturnclient.ui2.anim.Animation;
 import org.saturnclient.ui2.components.ElementRenderer;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.PostEffectProcessor;
 import net.minecraft.client.gui.CubeMapRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -100,6 +101,9 @@ public abstract class SaturnScreen extends Screen {
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        mouseX *= 2;
+        mouseY *= 2;
+
         ElementRenderer.mouseClicked(elements, mouseX, mouseY, button);
 
         return false;
@@ -111,6 +115,9 @@ public abstract class SaturnScreen extends Screen {
             double mouseY,
             double horizontalAmount,
             double verticalAmount) {
+        mouseX *= 2;
+        mouseY *= 2;
+
         ElementRenderer.mouseScrolled(elements, mouseX, mouseY, horizontalAmount, verticalAmount);
 
         return super.mouseScrolled(
@@ -118,5 +125,11 @@ public abstract class SaturnScreen extends Screen {
                 mouseY,
                 horizontalAmount,
                 verticalAmount);
+    }
+
+    @Override
+    public void resize(MinecraftClient client, int width, int height) {
+        elements.clear();
+        super.resize(client, width, height);
     }
 }

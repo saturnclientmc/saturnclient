@@ -41,8 +41,6 @@ public class ElementRenderer {
     }
 
     public static void mouseClicked(List<Element> elements, double mouseX, double mouseY, int button) {
-        mouseX *= 2;
-        mouseY *= 2;
         if (button == 0) {
             for (Element element : new ArrayList<>(elements)) {
                 element.focused = false;
@@ -52,7 +50,7 @@ public class ElementRenderer {
 
                 if (Utils.isHovering(adjustedMouseX, adjustedMouseY, element.width, element.height, element.scale)) {
                     element.focused = true;
-                    element.click(adjustedMouseX, adjustedMouseY);
+                    element.click((int) (adjustedMouseX * element.scale), (int) (adjustedMouseY * element.scale));
                 }
             }
         }
@@ -65,17 +63,10 @@ public class ElementRenderer {
             double horizontalAmount,
             double verticalAmount) {
                 for (Element element : new ArrayList<>(elements)) {
-                    double adjustedMouseX = mouseX - element.x;
-                    double adjustedMouseY = mouseY - element.y;
-                    boolean isMouseInside = adjustedMouseX >= 0 &&
-                            adjustedMouseX <= (element.width * element.scale) &&
-                            adjustedMouseY >= 0 &&
-                            adjustedMouseY <= (element.height * element.scale);
-        
-                    if (isMouseInside) {
+                    if (Utils.isHovering((int) mouseX - element.x, (int) mouseY - element.y, element.width, element.height, element.scale)) {
                         element.scroll(
-                                (int) (adjustedMouseX / element.scale),
-                                (int) (adjustedMouseY / element.scale),
+                                (int) mouseX - element.x,
+                                (int) mouseY - element.y,
                                 horizontalAmount,
                                 verticalAmount);
                     }
