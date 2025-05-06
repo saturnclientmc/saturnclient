@@ -71,13 +71,13 @@ public class Scroll extends Element {
     }
 
     int calculateScrollBarHeight() {
-        if (maxScroll <= 0) return height; // No scrolling needed
+        if (maxScroll <= 0) return height - (scrollBarPadding.value * 2); // No scrolling needed
         return Math.max(20, (height * height) / (height + maxScroll)) - (scrollBarPadding.value * 2); // At least 20px tall
     }
 
     int calculateScrollBarY() {
         int scrollBarHeight = calculateScrollBarHeight();
-        if (maxScroll <= 0) return 0;
+        if (maxScroll <= 0) return scrollBarPadding.value;
         return (scroll * (height - scrollBarHeight)) / maxScroll + scrollBarPadding.value;
     }    
 }
