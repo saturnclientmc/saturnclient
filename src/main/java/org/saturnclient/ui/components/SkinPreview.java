@@ -13,6 +13,14 @@ import net.minecraft.entity.LivingEntity;
 // If you think this code is bad, it's because it's written by Mojang
 
 public class SkinPreview extends SaturnWidget {
+    private boolean negativeAngle = false;
+    private float angle = 0.0f;
+
+    public SkinPreview(float angle, boolean negativeAngle) {
+        this.angle = angle;
+        this.negativeAngle = negativeAngle;
+    }
+
     public static void drawEntity(DrawContext context, int x1, int y1, int x2, int y2, int size, float f, float mouseX,
             float mouseY, LivingEntity entity, float angle, boolean negativeAngle) {
         float g = (float) (x1 + x2) / 2.0F;
@@ -28,8 +36,8 @@ public class SkinPreview extends SaturnWidget {
         float o = entity.headYaw;
         entity.setYaw(angle);
         entity.bodyYaw = angle;
-        entity.setPitch(-j * 20.0F);
-        entity.headYaw = negativeAngle ? -i * 40.0F : i * 40.0F;
+        entity.setPitch(negativeAngle ? -(j * 20.0F) : j * 20.0F);
+        entity.headYaw = negativeAngle ? (i * 40.0F) + 180f : -(i * 40.0F);
         entity.prevHeadYaw = entity.getHeadYaw();
         entity.setCustomNameVisible(false);
 
@@ -73,7 +81,7 @@ public class SkinPreview extends SaturnWidget {
     public void render(DrawContext context, boolean hovering, int mouseX, int mouseY) {
         LivingEntity entity = SaturnClient.client.player;
         if (entity != null) {
-            drawEntity(context, 0, 0, 75, 78, 30, 0.0625F, mouseX, mouseY, entity, -30.0f, true);
+            drawEntity(context, 0, 0, 75, 78, 30, 0.0625F, mouseX, mouseY, entity, angle, negativeAngle);
         }
     }
 }

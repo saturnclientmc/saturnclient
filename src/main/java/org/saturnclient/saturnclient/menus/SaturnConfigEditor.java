@@ -4,6 +4,7 @@ import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.ui.Textures;
 import org.saturnclient.ui.widgets.SaturnClickableImage;
 import org.saturnclient.ui.widgets.SaturnSprite;
+import org.saturnclient.ui2.screens.ModMenu;
 
 public class SaturnConfigEditor extends ConfigEditor {
 

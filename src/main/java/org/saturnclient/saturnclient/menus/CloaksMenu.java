@@ -102,7 +102,7 @@ public class CloaksMenu extends SaturnUi {
                 .setHeight(rectHeight - 10)
                 .setAnimations(SaturnClientConfig.getAnimations()));
 
-        draw(new SkinPreview()
+        draw(new SkinPreview(-30.0f, false)
                 .setScale(3.0f)
                 .setX((rectX + rectWidth) - 180)
                 .setY(rectY + 8)
