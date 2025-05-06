@@ -82,7 +82,7 @@ public class RenderScope {
     public void drawText(String text, int x, int y, boolean bold, int color) {
         color = getColor(color);
 
-        Identifier font = bold ? Fonts.PANTON_BOLD : Fonts.PANTON;
+        Identifier font = bold ? Fonts.INTER_BOLD : Fonts.INTER;
 
         matrices.push();
         matrices.translate(x, y, 0);

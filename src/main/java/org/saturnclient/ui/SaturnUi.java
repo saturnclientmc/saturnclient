@@ -44,12 +44,12 @@ public class SaturnUi extends Screen {
 
     public static MutableText text(String text) {
         return Text.literal(text).setStyle(
-                Style.EMPTY.withFont(Identifier.of("saturnclient:panton")));
+                Style.EMPTY.withFont(Identifier.of("saturnclient:inter")));
     }
 
     public static MutableText textBold(String text) {
         return Text.literal(text).setStyle(
-                Style.EMPTY.withFont(Identifier.of("saturnclient:panton_bold")));
+                Style.EMPTY.withFont(Identifier.of("saturnclient:inter_bold")));
     }
 
     public static void drawHighResTexture(DrawContext context, Identifier t, int x, int y, int w, int h) {

@@ -2,11 +2,11 @@
   "providers": [
     {
       "type": "reference",
-      "id": "saturnclient:panton"
+      "id": "saturnclient:inter"
     },
     {
       "type": "reference",
-      "id": "saturnclient:panton_bold"
+      "id": "saturnclient:inter_bold"
     }
   ]
 }

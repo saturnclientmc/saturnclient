@@ -14,6 +14,10 @@ public class RenderContext {
     }
 
     public boolean isHovering() {
-        return Utils.isHovering(mouseX , mouseY, elementWidth, elementHeight, elementScale);
+        return Utils.isHovering(mouseX, mouseY, elementWidth, elementHeight, elementScale);
+    }
+
+    public boolean isHovering(int x, int y, int width, int height) {
+        return Utils.isHovering(mouseX - x, mouseY - y, width, height, elementScale);
     }
 }

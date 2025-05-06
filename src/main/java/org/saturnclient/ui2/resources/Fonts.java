@@ -6,14 +6,14 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public class Fonts {
-    public static final Identifier PANTON = Identifier.of("saturnclient", "panton");
-    public static final Identifier PANTON_BOLD = Identifier.of("saturnclient", "panton_bold");
+    public static final Identifier INTER = Identifier.of("saturnclient", "inter");
+    public static final Identifier INTER_BOLD = Identifier.of("saturnclient", "inter_bold");
 
     public static Identifier getFont(boolean bold) {
         if (bold) {
-            return PANTON_BOLD;
+            return INTER_BOLD;
         } else {
-            return PANTON;
+            return INTER;
         }
     }
     
