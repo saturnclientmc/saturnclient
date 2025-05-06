@@ -1,0 +1,12 @@
+{
+  "providers": [
+    {
+      "type": "ttf",
+      "file": "saturnclient:inter_bold.ttf",
+      "shift": [0, 0],
+      "size": 9,
+      "oversample": 8.0,
+      "skip_missing": true
+    }
+  ]
+}
