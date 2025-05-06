@@ -54,6 +54,7 @@ public abstract class SaturnScreen extends Screen {
 
     @Override
     protected void init() {
+        elements.clear();
         width *= 2;
         height *= 2;
         ui(); // abstraction to render the saturn ui and also render extra stuff here
