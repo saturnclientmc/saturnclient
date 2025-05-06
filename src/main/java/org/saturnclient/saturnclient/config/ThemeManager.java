@@ -44,17 +44,30 @@ public class ThemeManager {
     }
 
     public void setState(String state) {
-            this.state = state;
+        this.state = state;
+        if (this.state != null) {
+            for (Map.Entry<String, Property<?>> tProp : properties.get(namespace+"@"+state).entrySet()) {
+                currentStyling.get(tProp.getKey()).setValue(tProp.getValue().value);
+            }
+        } else {
+            for (Map.Entry<String, Property<?>> tProp : properties.get(namespace).entrySet()) {
+                currentStyling.get(tProp.getKey()).setValue(tProp.getValue().value);
+            }
+        }
+    }
 
-            if (this.state != null) {
-                for (Map.Entry<String, Property<?>> tProp : properties.get(namespace+"@"+state).entrySet()) {
-                    currentStyling.get(tProp.getKey()).setValue(tProp.getValue().value);
-                }
-            } else {
-                for (Map.Entry<String, Property<?>> tProp : properties.get(namespace).entrySet()) {
-                    currentStyling.get(tProp.getKey()).setValue(tProp.getValue().value);
+    public void applyState(String state) {
+        if (this.state != null) {
+            for (Map.Entry<String, Property<?>> tProp : properties.get(namespace+"@"+state).entrySet()) {
+                Property<?> p = currentStyling.get(tProp.getKey());
+                Property<?> currProp = properties.get(namespace).get(tProp.getKey());
+                if (p.value.equals(currProp.value)) {
+                    p.setValue(tProp.getValue().value);
                 }
             }
+        } else {
+            setState(state);
+        }
     }
 
     // Generic method to store any type of property
