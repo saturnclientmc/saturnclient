@@ -15,13 +15,14 @@ import java.util.Map;
 import org.saturnclient.saturnclient.SaturnClient;
 
 public class ConfigManager {
-
     private static File configFile = new File(
             SaturnClient.client.runDirectory,
             "saturn.json");
     private static Map<String, Map<String, Property<?>>> properties = new HashMap<>();
+    private static JsonObject cachedThemeJson = null;
 
     private Map<String, Property<?>> currentMap;
+    private String namespace;
 
     public ConfigManager(String namespace) {
         currentMap = new LinkedHashMap<>();
@@ -43,7 +44,42 @@ public class ConfigManager {
     public <T> Property<T> property(String name, Property<T> value) {
         System.out.println("Adding property: " + name);
         currentMap.put(name, value);
+        loadProp(name, value);
         return value;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> void loadProp(String name, Property<T> prop) {
+        if (cachedThemeJson != null) {
+            JsonElement element = cachedThemeJson.get(namespace);
+            if (element != null && element.isJsonObject()) {
+                JsonObject theme = element.getAsJsonObject();
+                JsonElement value = theme.get(name);
+                if (value != null && prop.matchesJson(value)) {
+                    switch (prop.getType()) {
+                        case BOOLEAN:
+                            ((Property<Boolean>) prop).setValue(value.getAsBoolean());
+                            break;
+                        case INTEGER:
+                            ((Property<Integer>) prop).setValue(value.getAsInt());
+                            break;
+                        case FLOAT:
+                            ((Property<Float>) prop).setValue(value.getAsFloat());
+                            break;
+                        case STRING:
+                            ((Property<String>) prop).setValue(value.getAsString());
+                            break;
+                        case HEX:
+                            ((Property<Integer>) prop).setValue(value.getAsInt());
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        } else {
+            load();
+        }
     }
 
     public static void load() {

@@ -3,7 +3,6 @@ package org.saturnclient.ui2;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.saturnclient.saturnclient.config.ThemeManager;
 import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
 import org.saturnclient.ui2.anim.Animation;
 import org.saturnclient.ui2.components.ElementRenderer;
@@ -58,7 +57,6 @@ public abstract class SaturnScreen extends Screen {
         width *= 2;
         height *= 2;
         ui(); // abstraction to render the saturn ui and also render extra stuff here
-        ThemeManager.load();
 
         Animation.execute((Float progress) -> {
             blurProgress = progress;

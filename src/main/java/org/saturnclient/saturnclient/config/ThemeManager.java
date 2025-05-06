@@ -22,6 +22,7 @@ public class ThemeManager {
             SaturnClient.client.runDirectory,
             "saturn.theme.json");
     private static Map<String, Map<String, Property<?>>> properties = new HashMap<>();
+    private static JsonObject cachedThemeJson = null;
 
     // private Map<String, Map<String, Property<?>>> states;
     private Map<String, Property<?>> currentStyling;
@@ -59,9 +60,12 @@ public class ThemeManager {
     // Generic method to store any type of property
     public <T> Property<T> property(String name, Property<T> prop) {
         for (String state : states) {
-            properties.get(namespace+"@"+state).put(name, new Property<T>(prop.value));
+            Property<?> property = new Property<T>(prop.value);
+            properties.get(namespace+"@"+state).put(name, property);
+            loadProp(state, name, property);
         }
 
+        loadProp(null, name, prop);
         properties.get(namespace).put(name, new Property<T>(prop.value));
         currentStyling.put(name, prop);
 
@@ -69,7 +73,43 @@ public class ThemeManager {
     }
 
     public <T> void propertyStateDefault(String state, String name, T value) {
-        properties.get(namespace+"@"+state).get(name).setValue(value, value); // sets the current and default value
+        Property<?> prop = properties.get(namespace+"@"+state).get(name);
+        prop.setValue(value, value); // sets the current and default value
+        loadProp(state, name, prop);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> void loadProp(String state, String name, Property<T> prop) {
+        if (cachedThemeJson == null) {
+            load();
+        }
+
+            JsonElement element = cachedThemeJson.get(state != null ? namespace+"@"+state : namespace);
+            if (element != null && element.isJsonObject()) {
+                JsonObject theme = element.getAsJsonObject();
+                JsonElement value = theme.get(name);
+                if (value != null && prop.matchesJson(value)) {
+                    switch (prop.getType()) {
+                        case BOOLEAN:
+                            ((Property<Boolean>) prop).setValue(value.getAsBoolean());
+                            break;
+                        case INTEGER:
+                            ((Property<Integer>) prop).setValue(value.getAsInt());
+                            break;
+                        case FLOAT:
+                            ((Property<Float>) prop).setValue(value.getAsFloat());
+                            break;
+                        case STRING:
+                            ((Property<String>) prop).setValue(value.getAsString());
+                            break;
+                        case HEX:
+                            ((Property<Integer>) prop).setValue(value.getAsInt());
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
     }
 
     public static void load() {
@@ -80,71 +120,10 @@ public class ThemeManager {
                 Files.write(themeFile.toPath(), "{}".getBytes());
             }
 
-            JsonObject jsonObject = JsonParser.parseString(
-                    new String(Files.readAllBytes(themeFile.toPath()))).getAsJsonObject();
-
-            for (String namespace : properties.keySet()) {
-                JsonElement themeElement = jsonObject.get(namespace);
-
-                if (themeElement == null)
-                    continue;
-
-                JsonObject theme = jsonObject.get(namespace).getAsJsonObject();
-
-                if (theme == null) {
-                    continue;
-                }
-
-                Map<String, Property<?>> propertyMap = properties.get(namespace);
-                loadProperties(theme, propertyMap);
-            }
+            cachedThemeJson = JsonParser.parseString(
+                new String(Files.readAllBytes(themeFile.toPath()))).getAsJsonObject();
         } catch (IOException e) {
             SaturnClient.LOGGER.error("Error reading the theme file", e);
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    private static void loadProperties(JsonObject theme, Map<String, Property<?>> propertyMap) {
-        for (String propertyName : propertyMap.keySet()) {
-            JsonElement c = theme.get(propertyName);
-
-            if (c == null) {
-                continue;
-            }
-
-            Property<?> p = propertyMap.get(propertyName);
-            if (p.matchesJson(c)) {
-                if (p.getType() == Property.PropertyType.NAMESPACE) {
-                    // Handle nested namespace
-                    JsonObject nestedTheme = c.getAsJsonObject();
-                    Map<String, Property<?>> nestedProperties = p.getNamespaceValue();
-                    loadProperties(nestedTheme, nestedProperties);
-                } else {
-                    // Handle regular properties
-                    switch (p.getType()) {
-                        case BOOLEAN:
-                            ((Property<Boolean>) p).value = c.getAsBoolean();
-                            break;
-                        case INTEGER:
-                            ((Property<Integer>) p).value = c.getAsInt();
-                            break;
-                        case FLOAT:
-                            ((Property<Float>) p).value = c.getAsFloat();
-                            break;
-                        case STRING:
-                            ((Property<String>) p).value = c.getAsString();
-                            break;
-                        case HEX:
-                            ((Property<Integer>) p).value = c.getAsInt();
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            } else {
-                SaturnClient.LOGGER.warn(
-                        "Property does not match JSON: " + propertyName);
-            }
         }
     }
 

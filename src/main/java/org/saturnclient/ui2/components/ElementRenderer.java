@@ -26,8 +26,6 @@ public class ElementRenderer {
 
     public static void render(List<Element> elements, RenderScope renderScope, int mouseX, int mouseY) {
         for (Element element : elements) {
-            renderScope.enableScissor(element.x, element.y, element.x + element.width, element.y + element.height);
-
             renderScope.matrices.push();
             renderScope.setOpacity(element.opacity);
             renderScope.matrices.translate(element.x, element.y, 0);
@@ -35,8 +33,6 @@ public class ElementRenderer {
             element.render(renderScope, new RenderContext(mouseX, mouseY, element));
             renderScope.matrices.pop();
             renderScope.setRenderLayer(null);
-
-            renderScope.disableScissor();
         }
     }
 

@@ -9,7 +9,6 @@ import net.minecraft.client.gui.screen.TitleScreen;
 import org.saturnclient.modules.ModManager;
 import org.saturnclient.saturnclient.auth.Auth;
 import org.saturnclient.saturnclient.config.ConfigManager;
-import org.saturnclient.saturnclient.config.ThemeManager;
 import org.saturnclient.saturnclient.cosmetics.Hats;
 import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 import org.saturnclient.saturnclient.event.KeyInputHandler;
@@ -32,10 +31,8 @@ public class SaturnClient implements ModInitializer {
     public void onInitialize() {
         LOGGER.info("Initializing " + MOD_ID);
         client = MinecraftClient.getInstance();
-        ModManager.init();
         SaturnClientConfig.init();
-        ThemeManager.load();
-        ConfigManager.load();
+        ModManager.init();
         
         ClientLifecycleEvents.CLIENT_STOPPING.register(_o -> ConfigManager.save());
         ScreenEvents.BEFORE_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
