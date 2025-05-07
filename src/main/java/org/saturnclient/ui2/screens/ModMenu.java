@@ -2,6 +2,7 @@ package org.saturnclient.ui2.screens;
 
 import org.saturnclient.modules.ModManager;
 import org.saturnclient.modules.Module;
+import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.saturnclient.config.ThemeManager;
 import org.saturnclient.ui.Textures;
@@ -43,18 +44,18 @@ public class ModMenu extends SaturnScreen {
 
         draw(new Sidebar(
             new Sidebar.SidebarComponent(Textures.MODS_TAB, () -> {
-                
+                SaturnClient.LOGGER.info("TOP");
             }, false),
             new Sidebar.SidebarComponent(Textures.MODS_TAB, () -> {
-                
+                SaturnClient.LOGGER.info("MID_TOP");
             }, false),
 
             new Sidebar.SidebarComponent(Textures.MODS_TAB, () -> {
-                
+                SaturnClient.LOGGER.info("BOTTOM");
             }, true),
 
             new Sidebar.SidebarComponent(Textures.MODS_TAB, () -> {
-                
+                SaturnClient.LOGGER.info("MID-BOTTOM");
             }, true)
         ).centerOffset(width, height, -(scrollWidth / 2 + 20), 0));
     }
