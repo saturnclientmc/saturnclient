@@ -31,12 +31,19 @@ public class Fonts {
     //     return SaturnClient.client.textRenderer.fontHeight;
     // }
 
-    public static int getWidth(String text, Identifier font) {
-        return SaturnClient.client.textRenderer.getWidth(Text.literal(text).setStyle(
-            Style.EMPTY.withFont(font))) * 2;
+    public static int getWidth(String text, boolean bold) {
+        return SaturnClient.client.textRenderer.getWidth(setFont(text, getFont(bold)));
     }
 
     public static int getHeight() {
-        return SaturnClient.client.textRenderer.fontHeight * 2;
+        return 18;
+    }
+
+    public static int centerX(int w, String text, boolean bold) {
+        return (w - Fonts.getWidth(text, bold)) / 2;
+    }
+
+    public static int centerY(int h) {
+        return (h - 18) / 2;
     }
 }

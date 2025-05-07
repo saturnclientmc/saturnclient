@@ -7,8 +7,6 @@ import org.saturnclient.ui2.RenderContext;
 import org.saturnclient.ui2.RenderScope;
 import org.saturnclient.ui2.resources.Fonts;
 
-import net.minecraft.util.Identifier;
-
 public class Button extends Element {
     private static ThemeManager theme = new ThemeManager("Button", "hovering");
     private static Property<Integer> bgColor = theme.property("bg-color", new Property<Integer>(0xFF000000));
@@ -21,14 +19,12 @@ public class Button extends Element {
     }
 
     private String text;
-    private Identifier font;
     private Runnable onClick;
 
     public Button(String text, Runnable onClick) {
         this.text = text;
-        this.font = Fonts.getFont(bold.value);
         this.onClick = onClick;
-        this.dimensions(Fonts.getWidth(text, font) + 50, Fonts.getHeight() + 20);
+        this.dimensions(Fonts.getWidth(text, bold.value) + 50, 38);
     }
 
     @Override
@@ -40,7 +36,8 @@ public class Button extends Element {
         }
         renderScope.drawRoundedRectangle(0, 0, width, height, cornerRadius.value, bgColor.value);
 
-        renderScope.drawText(text, (width - Fonts.getWidth(text, font)) / 2, (height - Fonts.getHeight()) / 2, bold.value, fgColor.value);
+        // renderScope.drawText(text, (width - Fonts.getWidth(text, font)) / 2, (height - Fonts.getHeight()) / 2, bold.value, fgColor.value);
+        renderScope.drawText(text, Fonts.centerX(width, text, bold.value), Fonts.centerY(height), bold.value, fgColor.value);
     }
 
     @Override

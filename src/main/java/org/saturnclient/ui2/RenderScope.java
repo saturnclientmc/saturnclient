@@ -86,9 +86,9 @@ public class RenderScope {
 
         matrices.push();
         matrices.translate(x, y, 0);
-        matrices.scale(2.0f, 2.0f, 1.0f);
+        matrices.scale(1.0f, 1.0f, 1.0f);
         TextRenderer textRenderer = SaturnClient.client.textRenderer;
-        textRenderer.draw(Fonts.setFont(text, font), 0, 0, color, false, this.matrices.peek().getPositionMatrix(),
+        textRenderer.draw(Fonts.setFont(text, font), 0, 7, color, false, this.matrices.peek().getPositionMatrix(),
                 this.vertexConsumers, TextLayerType.NORMAL, 0, 15728880);
         matrices.pop();
     }

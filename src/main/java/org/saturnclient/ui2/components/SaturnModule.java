@@ -98,13 +98,13 @@ public class SaturnModule extends Element {
     }
 
     private static String formatText(String text, int width) {
-        width -= Fonts.getWidth("..", Fonts.INTER);
+        width -= Fonts.getWidth("..", false);
 
         StringBuilder trimmedText = new StringBuilder();
         
         for (int i = 0; i < text.length(); i++) {
             String current = trimmedText.toString() + text.charAt(i);
-            double currentWidth = Fonts.getWidth(current, Fonts.INTER) * 0.7;
+            double currentWidth = Fonts.getWidth(current, false) * 0.7;
             
             if (currentWidth > width) {
                 trimmedText.append("..");
