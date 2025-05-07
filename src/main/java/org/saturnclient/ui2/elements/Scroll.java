@@ -19,22 +19,25 @@ public class Scroll extends Element {
     private static Property<Integer> scrollBarWidth = theme.property("scrollbar-width", new Property<Integer>(5));
     private static Property<Integer> scrollBarPadding = theme.property("scrollbar-padding", new Property<Integer>(5));
     private static Property<Integer> cornerRadius = theme.property("corner-radius", new Property<Integer>(10));
-    private static Property<Integer> padding = theme.property("padding", new Property<Integer>(25));
-
-    public static Property<Integer> gap = theme.property("gap", new Property<Integer>(10));
+    
+    int padding = 0;
 
     protected List<Element> children = new ArrayList<>();
     int scroll = 0;
     int maxScroll = 0;
 
+    public Scroll(int padding) {
+        this.padding = padding;
+    }
+
     @Override
     public void render(RenderScope renderScope, RenderContext ctx) {
         renderScope.drawRoundedRectangle(0, 0, width, height, cornerRadius.value, bgColor.value);
 
-        renderScope.enableScissor(padding.value, padding.value, width - padding.value, height - padding.value);
+        renderScope.enableScissor(padding, padding, width - padding, height - padding);
         renderScope.matrices.push();
-        renderScope.matrices.translate(padding.value, (-scroll) + padding.value, 0);
-        ElementRenderer.render(children, renderScope, ctx.mouseX - padding.value, ctx.mouseY - padding.value + scroll);
+        renderScope.matrices.translate(padding, (-scroll) + padding, 0);
+        ElementRenderer.render(children, renderScope, ctx.mouseX - padding, ctx.mouseY - padding + scroll);
         renderScope.matrices.pop();
         renderScope.disableScissor();
 
@@ -53,7 +56,7 @@ public class Scroll extends Element {
 
     @Override
     public void click(int mouseX, int mouseY) {
-        ElementRenderer.mouseClicked(children, mouseX - padding.value, mouseY - padding.value + scroll, 0);
+        ElementRenderer.mouseClicked(children, mouseX - padding, mouseY - padding + scroll, 0);
     }
 
     public void draw(Element element) {

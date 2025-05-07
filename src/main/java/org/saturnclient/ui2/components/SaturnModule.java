@@ -5,7 +5,6 @@ import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.saturnclient.config.ThemeManager;
 import org.saturnclient.saturnclient.menus.ConfigEditor;
-import org.saturnclient.ui.Textures;
 import org.saturnclient.ui2.Element;
 import org.saturnclient.ui2.RenderContext;
 import org.saturnclient.ui2.RenderScope;
@@ -15,34 +14,29 @@ import org.saturnclient.ui2.resources.Fonts;
 import net.minecraft.client.render.RenderLayer;
 
 public class SaturnModule extends Element {
-    private static ThemeManager theme = new ThemeManager("SaturnModule", "hovering", "enabled", "settings-hovering");
+    private static ThemeManager theme = new ThemeManager("SaturnModule", "enabled", "hovering", "toggle-hovering");
     private static Property<Integer> bgColor = theme.property("bg-color", new Property<Integer>(-16777216));
-    private static Property<Integer> nameColor = theme.property("name-color", new Property<Integer>(-1));
-    private static Property<Integer> descriptionColor = theme.property("description-color", new Property<Integer>(-5592406));
-    private static Property<Integer> barColor = theme.property("bar-color", new Property<Integer>(-1));
-    private static Property<Integer> settingsFg = theme.property("settings-fg", new Property<Integer>(-1));
-    private static Property<Integer> settingsBg = theme.property("settings-bg", new Property<Integer>(-16777216));
-    private static Property<Integer> iconFg = theme.property("icon-fg", new Property<Integer>(-1));
+    private static Property<Integer> fgColor = theme.property("fg-color", new Property<Integer>(-1));
+    private static Property<Integer> iconColor = theme.property("icon-color", new Property<Integer>(-5592406));
+    private static Property<Integer> toggleFg = theme.property("toggle-fg", new Property<Integer>(-1));
+    private static Property<Integer> toggleBg = theme.property("toggle-bg", new Property<Integer>(-16777216));
 
-    private static Property<Integer> cornerRadius = theme.property("corner-radius", new Property<Integer>(10));
-    private static Property<Integer> barWidth = theme.property("bar-width", new Property<Integer>(7));
-    private static Property<Integer> padding = theme.property("padding", new Property<Integer>(10));
-
-    int settingsHeight = 26;
+    private static Property<Integer> cornerRadius = theme.property("corner-radius", new Property<Integer>(25));
+    private static Property<Boolean> toggleBold = theme.property("toggle-bold", new Property<Boolean>(false));
+    private static Property<Boolean> nameBold = theme.property("name-bold", new Property<Boolean>(false));
 
     static {
-        theme.propertyStateDefault("enabled", "bar-color", -7643914);
-        theme.propertyStateDefault("hovering", "name-color", -7643914);
-        theme.propertyStateDefault("settings-hovering", "name-color", -7643914);
-        theme.propertyStateDefault("settings-hovering", "settings-bg", -7643914);
+        theme.propertyStateDefault("enabled", "toggle-bg", -7643914);
+        theme.propertyStateDefault("hovering", "fg-color", -7643914);
+        theme.propertyStateDefault("hovering", "icon-color", -7643914);
     }
 
     private Module mod;
 
     public SaturnModule(Module mod) {
         this.mod = mod;
-        this.width = 270;
-        this.height = 120;
+        this.width = 140;
+        this.height = 140;
     }
 
     @Override
@@ -55,65 +49,35 @@ public class SaturnModule extends Element {
             theme.setState(null);
         }
 
-        if (ctx.isHovering(barWidth.value + padding.value, height - padding.value - settingsHeight, width - barWidth.value - (padding.value * 2), settingsHeight)) {
-            theme.applyState("settings-hovering");
+        if (ctx.isHovering(0, (height-30), width, 30)) {
+            theme.applyState("toggle-hovering");
         } else if (ctx.isHovering()) {
             theme.applyState("hovering");
         }
 
+        renderScope.enableScissor(0, 0, width + 10, height - 30);
         renderScope.drawRoundedRectangle(0, 0, width, height, cornerRadius.value, bgColor.value);
-
-        renderScope.enableScissor(0, 0, barWidth.value, height);
-        renderScope.drawRoundedRectangle(0, 0, barWidth.value * 2, height, cornerRadius.value, barColor.value);
         renderScope.disableScissor();
 
-        renderScope.drawTexture(mod.getIconTexture(), barWidth.value + padding.value, padding.value, 0, 0, 21, 21, iconFg.value);
-        renderScope.drawText(mod.getName(), (int) (padding.value * 1.5f) + 21 + barWidth.value, padding.value + ((23 - Fonts.getHeight()) / 2), true, nameColor.value);
+        renderScope.drawTexture(mod.getIconTexture(), (width - 20) / 2, (height - 65) / 2, 0, 0, 20, 20, iconColor.value);
 
-        renderScope.matrices.push();
-        renderScope.matrices.translate(padding.value + barWidth.value, 42, 0);
-        renderScope.matrices.scale(0.7f, 0.7f, 1.0f);
-        renderScope.drawText(formatText(mod.getDescription(), width - barWidth.value - padding.value), 0, 0, false, descriptionColor.value);
-        renderScope.matrices.pop();
+        renderScope.drawText(mod.getName(), Fonts.centerX(width, mod.getName(), focused), Fonts.centerY(height), nameBold.value, fgColor.value);
 
-        renderScope.drawRoundedRectangle(barWidth.value + padding.value, height - padding.value - settingsHeight, width - (padding.value * 2) - barWidth.value, settingsHeight, 10, settingsBg.value);
+        renderScope.enableScissor(0, height - 30, width + 10, height);
+        renderScope.drawRoundedRectangle(0, 0, width, height, cornerRadius.value, toggleBg.value);
+        renderScope.disableScissor();
 
-        renderScope.drawTexture(Textures.SETTINGS, barWidth.value + (padding.value * 2), height - padding.value - settingsHeight + 5, 0, 0, 16, 16);
+        String t = mod.isEnabled() ? "Enabled" : "Disabled";
 
-        renderScope.matrices.push();
-        renderScope.matrices.translate(barWidth.value + (padding.value * 2) + 20, height - padding.value - (settingsHeight / 2), 0);
-        renderScope.matrices.scale(0.7f, 0.7f, 1);
-        renderScope.matrices.translate(0, -(Fonts.getHeight() / 2) + 2, 0);
-        renderScope.drawText("Settings", 0, 0, false, settingsFg.value);
-        renderScope.matrices.pop();
+        renderScope.drawText(t, Fonts.centerX(width, t, toggleBold.value), height - 30 + Fonts.centerY(30), toggleBold.value, toggleFg.value);
     }
 
     @Override
     public void click(int mouseX, int mouseY) {
-        if (Utils.isHovering(mouseX - (barWidth.value + padding.value), mouseY - (height - padding.value - settingsHeight), width - barWidth.value - (padding.value * 2), settingsHeight, scale)) {
-            SaturnClient.client.setScreen(new ConfigEditor(mod.getConfig()));
-        } else {
+        if (Utils.isHovering(mouseX, mouseY - (height-30), width, 30, scale)) {
             mod.setEnabled(!mod.isEnabled());
+        } else {
+            SaturnClient.client.setScreen(new ConfigEditor(mod.getConfig()));
         }
     }
-
-    private static String formatText(String text, int width) {
-        width -= Fonts.getWidth("..", false);
-
-        StringBuilder trimmedText = new StringBuilder();
-        
-        for (int i = 0; i < text.length(); i++) {
-            String current = trimmedText.toString() + text.charAt(i);
-            double currentWidth = Fonts.getWidth(current, false) * 0.7;
-            
-            if (currentWidth > width) {
-                trimmedText.append("..");
-                break;
-            }
-            
-            trimmedText.append(text.charAt(i));
-        }
-        
-        return trimmedText.toString();
-    }    
 }
