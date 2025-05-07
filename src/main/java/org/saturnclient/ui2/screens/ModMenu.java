@@ -21,7 +21,7 @@ public class ModMenu extends SaturnScreen {
         for (Module mod : ModManager.MODS) {
             scroll.draw(new SaturnModule(mod).position((270 + Scroll.gap.value) * col, (120 + Scroll.gap.value) * row));
 
-            if (col == 2) {
+            if (col == 1) {
                 col = 0;
                 row++;
             } else {
