@@ -135,6 +135,8 @@ public class ThemeManager {
 
             cachedThemeJson = JsonParser.parseString(
                 new String(Files.readAllBytes(themeFile.toPath()))).getAsJsonObject();
+
+            SaturnClient.LOGGER.info("Theme loaded");
         } catch (IOException e) {
             SaturnClient.LOGGER.error("Error reading the theme file", e);
         }

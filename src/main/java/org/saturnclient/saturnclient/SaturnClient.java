@@ -2,9 +2,7 @@ package org.saturnclient.saturnclient;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
-import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.TitleScreen;
 
 import org.saturnclient.modules.ModManager;
 import org.saturnclient.saturnclient.auth.Auth;
@@ -12,7 +10,6 @@ import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.saturnclient.cosmetics.Hats;
 import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 import org.saturnclient.saturnclient.event.KeyInputHandler;
-import org.saturnclient.ui2.screens.TitleMenu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,12 +32,6 @@ public class SaturnClient implements ModInitializer {
         ModManager.init();
         
         ClientLifecycleEvents.CLIENT_STOPPING.register(_o -> ConfigManager.save());
-        ScreenEvents.BEFORE_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
-            if (SaturnClientConfig.saturnTitleScreen.value && screen instanceof TitleScreen
-            && !(screen instanceof TitleMenu)) {
-                client.setScreen(new TitleMenu());
-            }
-        });
         
         SpecialModelLoaderEvents.LOAD_SCOPE.register(() -> {
             return (resourceManager, location) -> MOD_ID.equals(location.getNamespace());

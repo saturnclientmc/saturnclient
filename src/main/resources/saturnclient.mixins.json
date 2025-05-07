@@ -9,7 +9,8 @@
     "PlayerEntityRendererMixin",
     "WhoAmI",
     "SaturnReload",
-    "DrawContextAccessor"
+    "DrawContextAccessor",
+    "TitleScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
