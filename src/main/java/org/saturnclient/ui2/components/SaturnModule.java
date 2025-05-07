@@ -17,7 +17,7 @@ public class SaturnModule extends Element {
     private static ThemeManager theme = new ThemeManager("SaturnModule", "enabled", "hovering", "toggle-hovering");
     private static Property<Integer> bgColor = theme.property("bg-color", new Property<Integer>(-16777216));
     private static Property<Integer> fgColor = theme.property("fg-color", new Property<Integer>(-1));
-    private static Property<Integer> iconColor = theme.property("icon-color", new Property<Integer>(-5592406));
+    private static Property<Integer> iconColor = theme.property("icon-color", new Property<Integer>(-1));
     private static Property<Integer> toggleFg = theme.property("toggle-fg", new Property<Integer>(-1));
     private static Property<Integer> toggleBg = theme.property("toggle-bg", new Property<Integer>(-16777216));
 

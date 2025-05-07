@@ -5,6 +5,8 @@ import org.saturnclient.modules.Module;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.saturnclient.config.ThemeManager;
+import org.saturnclient.saturnclient.menus.CloaksMenu;
+import org.saturnclient.saturnclient.menus.SaturnConfigEditor;
 import org.saturnclient.ui.Textures;
 import org.saturnclient.ui2.SaturnScreen;
 import org.saturnclient.ui2.components.SaturnModule;
@@ -43,19 +45,19 @@ public class ModMenu extends SaturnScreen {
         draw(scroll.dimensions(scrollWidth, 350).center(width, height));
 
         draw(new Sidebar(
+            0,
             new Sidebar.SidebarComponent(Textures.MODS_TAB, () -> {
-                SaturnClient.LOGGER.info("TOP");
             }, false),
-            new Sidebar.SidebarComponent(Textures.MODS_TAB, () -> {
-                SaturnClient.LOGGER.info("MID_TOP");
+            new Sidebar.SidebarComponent(Textures.SETTINGS, () -> {
+                SaturnClient.client.setScreen(new SaturnConfigEditor());
             }, false),
 
-            new Sidebar.SidebarComponent(Textures.MODS_TAB, () -> {
-                SaturnClient.LOGGER.info("BOTTOM");
-            }, true),
+            new Sidebar.SidebarComponent(Textures.CLOAK, () -> {
+                SaturnClient.client.setScreen(new CloaksMenu());
+            }, false),
 
-            new Sidebar.SidebarComponent(Textures.MODS_TAB, () -> {
-                SaturnClient.LOGGER.info("MID-BOTTOM");
+            new Sidebar.SidebarComponent(Textures.CLOSE, () -> {
+                this.close();
             }, true)
         ).centerOffset(width, height, -(scrollWidth / 2 + 20), 0));
     }
