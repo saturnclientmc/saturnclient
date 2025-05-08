@@ -30,7 +30,7 @@ public class ModMenu extends SaturnScreen {
         int col = 0;
         
         for (Module mod : ModManager.MODS) {
-            scroll.draw(new SaturnModule(mod).position((140 + gap.value) * col, (140 + gap.value) * row));
+            scroll.draw(new SaturnModule(mod).position((180 + gap.value) * col, (140 + gap.value) * row));
 
             if (col == 2) {
                 col = 0;
@@ -40,7 +40,7 @@ public class ModMenu extends SaturnScreen {
             }
         }
 
-        int scrollWidth = 420 + (gap.value * 2) + (padding.value * 2);
+        int scrollWidth = 540 + (gap.value * 2) + (padding.value * 2);
     
         draw(scroll.dimensions(scrollWidth, 350).center(width, height));
 
