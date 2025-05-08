@@ -25,6 +25,7 @@ public class SaturnModule extends Element {
     private static Property<Integer> padding = theme.property("padding", new Property<Integer>(10));
     private static Property<Integer> iconMargin = theme.property("icon-margin", new Property<Integer>(10));
     private static Property<Integer> iconPadding = theme.property("icon-padding", new Property<Integer>(4));
+    private static Property<Integer> tagGap = theme.property("tag-gap", new Property<Integer>(4));
 
     private static ThemeManager settingsTheme = new ThemeManager("SaturnModule$Settings", "hovering");
     private static Property<Integer> settingsBg = settingsTheme.property("bg-color", new Property<Integer>(-16777216));
@@ -42,7 +43,7 @@ public class SaturnModule extends Element {
     public SaturnModule(Module mod) {
         this.mod = mod;
         this.width = 180;
-        this.height = 140;
+        this.height = 113;
     }
 
     @Override
@@ -65,17 +66,29 @@ public class SaturnModule extends Element {
 
         renderScope.matrices.translate(padding.value, padding.value, 0);
 
+        // Top part
         renderScope.drawRoundedRectangle(0, 0, 20, 20, 10, iconBgColor.value);
         renderScope.drawTexture(mod.getIconTexture(), iconPadding.value, iconPadding.value, 0, 0, 20 - (iconPadding.value * 2), 20 - (iconPadding.value * 2), iconColor.value);
         renderScope.drawText(mod.getName(), 20 + iconMargin.value, (22 - Fonts.getHeight()) / 2, false, fgColor.value);
+
         renderScope.matrices.push();
         renderScope.matrices.translate(20 + iconMargin.value, ((22 - Fonts.getHeight()) / 2) + Fonts.getHeight(), 0);
 
         renderScope.matrices.scale(0.5f, 0.5f, 1);
         renderScope.drawText(formatText(mod.getDescription(), (int) ((width - iconMargin.value) * 1.5f)), 0, 0, false, -20);
         renderScope.matrices.pop();
-
         renderScope.matrices.pop();
+
+        // Mid part
+        int i = padding.value;
+        for (String tag : mod.getTags()) {
+            renderScope.matrices.push();
+            renderScope.matrices.translate(i, height - 40 - Fonts.getHeight(), 0);
+            renderScope.matrices.scale(0.5f, 0.5f, 1);
+            renderScope.drawText(tag, 0, 0, false, -20);
+            renderScope.matrices.pop();
+            i += (Fonts.getWidth(tag, false) * 0.5f) + tagGap.value;
+        }
 
         // Settings button
         renderScope.matrices.push();

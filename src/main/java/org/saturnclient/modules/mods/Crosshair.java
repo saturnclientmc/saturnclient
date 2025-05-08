@@ -1,6 +1,7 @@
 package org.saturnclient.modules.mods;
 
 import org.saturnclient.modules.Module;
+import org.saturnclient.modules.ModuleDetails;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.ui2.RenderScope;
@@ -13,7 +14,7 @@ public class Crosshair extends Module {
     public static Property<Boolean> range_indicator = new Property<>(false);
 
     public Crosshair() {
-        super("Crosshair", "crosshair", "Changes the crosshair if you're aiming at a entity", enabled.named("Enabled"), range_indicator.named("Range Indicator"));
+        super(new ModuleDetails("Crosshair", "crosshair").description("Changes the crosshair if you're aiming at a entity").tags("Visuals", "Utility"), enabled.named("Enabled"), range_indicator.named("Range Indicator"));
     }
 
     @Override

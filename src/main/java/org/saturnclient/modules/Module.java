@@ -12,25 +12,19 @@ public abstract class Module {
     private final String namespace;
     private final String description;
     private final ConfigManager configManager;
+    public final String[] tags;
 
-    public Module(String name, String namespace, String description, NamedProperty<?>... props) {
-        this.name = name;
-        this.namespace = namespace;
-        this.description = description;
+    public Module(ModuleDetails details, NamedProperty<?>... props) {
+        this.name = details.name;
+        this.namespace = details.namespace;
+        this.description = details.description;
+        this.tags = details.tags;
 
         configManager = new ConfigManager(name);
 
         for (NamedProperty<?> prop : props) {
             configManager.property(prop.name, prop.prop);
         }
-    }
-
-    public Module(ConfigManager config, String name, String namespace, String description) {
-        this.name = name;
-        this.namespace = namespace;
-        this.description = description;
-
-        configManager = config;
     }
 
     public void render(RenderScope scope) {}
@@ -54,5 +48,13 @@ public abstract class Module {
 
     public String getDescription() {
         return description;
+    }
+    
+    public String[] getTags() {
+        return tags;
+    }
+    
+    public String getVersion() {
+        return "v0.0.1";
     }
 }
