@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.saturnclient.ui2.Element;
-import org.saturnclient.ui2.RenderContext;
+import org.saturnclient.ui2.ElementContext;
 import org.saturnclient.ui2.RenderScope;
 import org.saturnclient.ui2.Utils;
 import org.saturnclient.ui2.anim.Animation;
@@ -30,7 +30,7 @@ public class ElementRenderer {
             renderScope.setOpacity(element.opacity);
             renderScope.matrices.translate(element.x, element.y, 0);
             renderScope.matrices.scale(element.scale, element.scale, 1.0f);
-            element.render(renderScope, new RenderContext(mouseX, mouseY, element));
+            element.render(renderScope, new ElementContext(mouseX, mouseY, element));
             renderScope.matrices.pop();
             renderScope.setRenderLayer(null);
         }

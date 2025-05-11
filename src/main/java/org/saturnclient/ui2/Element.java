@@ -16,7 +16,7 @@ public class Element {
     public float scale = 1.0f;
     public Function<Double, Double> curve = Curve::easeInOutCubic;
 
-    public void render(RenderScope renderScope, RenderContext ctx) {
+    public void render(RenderScope renderScope, ElementContext ctx) {
     }
 
     public void click(int mouseX, int mouseY) {

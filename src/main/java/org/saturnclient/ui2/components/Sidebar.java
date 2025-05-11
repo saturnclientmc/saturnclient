@@ -3,7 +3,7 @@ package org.saturnclient.ui2.components;
 import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.saturnclient.config.ThemeManager;
 import org.saturnclient.ui2.Element;
-import org.saturnclient.ui2.RenderContext;
+import org.saturnclient.ui2.ElementContext;
 import org.saturnclient.ui2.RenderScope;
 import org.saturnclient.ui2.Utils;
 
@@ -47,7 +47,7 @@ public class Sidebar extends Element {
     }
 
     @Override
-    public void render(RenderScope renderScope, RenderContext ctx) {
+    public void render(RenderScope renderScope, ElementContext ctx) {
         int topRow = 0;
         int bottomRow = 0;
 

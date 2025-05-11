@@ -1,11 +1,11 @@
 package org.saturnclient.ui2;
 
-public class RenderContext {
+public class ElementContext {
     public int mouseX, mouseY;
     public int elementWidth, elementHeight;
     public float elementScale;
 
-    public RenderContext(int mouseX, int mouseY, Element e) {
+    public ElementContext(int mouseX, int mouseY, Element e) {
         this.mouseX = mouseX - e.x;
         this.mouseY = mouseY - e.y;
         this.elementWidth = e.width;

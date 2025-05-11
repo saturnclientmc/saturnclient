@@ -6,7 +6,7 @@ import java.util.List;
 import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.saturnclient.config.ThemeManager;
 import org.saturnclient.ui2.Element;
-import org.saturnclient.ui2.RenderContext;
+import org.saturnclient.ui2.ElementContext;
 import org.saturnclient.ui2.RenderScope;
 import org.saturnclient.ui2.components.ElementRenderer;
 
@@ -31,7 +31,7 @@ public class Scroll extends Element {
     }
 
     @Override
-    public void render(RenderScope renderScope, RenderContext ctx) {
+    public void render(RenderScope renderScope, ElementContext ctx) {
         renderScope.drawRoundedRectangle(0, 0, width, height, cornerRadius.value, bgColor.value);
 
         renderScope.enableScissor(padding, padding, width - padding, height - padding);

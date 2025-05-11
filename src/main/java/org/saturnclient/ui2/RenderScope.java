@@ -80,13 +80,17 @@ public class RenderScope {
     }
 
     public void drawText(String text, int x, int y, boolean bold, int color) {
+        drawText(1.0f, text, x, y, bold, color);
+    }
+
+    public void drawText(float scale, String text, int x, int y, boolean bold, int color) {
         int i = 0;
         for (String line : text.split("\n")) {
             color = getColor(color);
             Identifier font = bold ? Fonts.INTER_BOLD : Fonts.INTER;
             matrices.push();
             matrices.translate(x, y + (i * Fonts.getHeight()), 0);
-            matrices.scale(1.0f, 1.0f, 1.0f);
+            matrices.scale(scale, scale, 1.0f);
             TextRenderer textRenderer = SaturnClient.client.textRenderer;
             textRenderer.draw(Fonts.setFont(line, font), 0, 7, color, false, this.matrices.peek().getPositionMatrix(),
                     this.vertexConsumers, TextLayerType.NORMAL, 0, 15728880);
@@ -95,7 +99,7 @@ public class RenderScope {
         }
     }
 
-    public void drawRoundedCorner(int width, int height, int radius, int color) {
+    private void drawRoundedCorner(int width, int height, int radius, int color) {
         int w = width * 20;
         int h = height * 20;
     

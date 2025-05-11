@@ -3,7 +3,7 @@ package org.saturnclient.ui2.elements;
 import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.saturnclient.config.ThemeManager;
 import org.saturnclient.ui2.Element;
-import org.saturnclient.ui2.RenderContext;
+import org.saturnclient.ui2.ElementContext;
 import org.saturnclient.ui2.RenderScope;
 
 public class Text extends Element {
@@ -17,7 +17,7 @@ public class Text extends Element {
     }
 
     @Override
-    public void render(RenderScope renderScope, RenderContext ctx) {
+    public void render(RenderScope renderScope, ElementContext ctx) {
         renderScope.drawText(this.text, this.x, this.y, false, fgColor.value);
     }
 }

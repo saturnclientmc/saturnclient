@@ -3,8 +3,6 @@ package org.saturnclient.ui2.screens;
 import org.saturnclient.modules.ModManager;
 import org.saturnclient.modules.Module;
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.config.Property;
-import org.saturnclient.saturnclient.config.ThemeManager;
 import org.saturnclient.saturnclient.menus.CloaksMenu;
 import org.saturnclient.saturnclient.menus.SaturnConfigEditor;
 import org.saturnclient.ui.Textures;
@@ -14,23 +12,22 @@ import org.saturnclient.ui2.components.Sidebar;
 import org.saturnclient.ui2.elements.Scroll;
 
 public class ModMenu extends SaturnScreen {
-    private static ThemeManager theme = new ThemeManager("ModMenu");
-    private static Property<Integer> padding = theme.property("padding", new Property<Integer>(25));
-    private static Property<Integer> gap = theme.property("gap", new Property<Integer>(10));
-
     public ModMenu() {
         super("Mod Menu");
     }
 
     @Override
     public void ui() {
-        Scroll scroll = new Scroll(padding.value);
+        int p = 10;
+        int g = 10;
+
+        Scroll scroll = new Scroll(p);
 
         int row = 0;
         int col = 0;
         
         for (Module mod : ModManager.MODS) {
-            scroll.draw(new SaturnModule(mod).position((180 + gap.value) * col, (140 + gap.value) * row));
+            scroll.draw(new SaturnModule(mod).position((160 + g) * col, (50 + g) * row));
 
             if (col == 2) {
                 col = 0;
@@ -40,7 +37,7 @@ public class ModMenu extends SaturnScreen {
             }
         }
 
-        int scrollWidth = 540 + (gap.value * 2) + (padding.value * 2);
+        int scrollWidth = 480 + 10 + (g * 2) + (p * 2);
     
         draw(scroll.dimensions(scrollWidth, 350).center(width, height));
 
