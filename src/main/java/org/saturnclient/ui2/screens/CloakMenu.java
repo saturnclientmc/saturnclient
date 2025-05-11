@@ -1,18 +1,20 @@
 package org.saturnclient.ui2.screens;
 
-import org.saturnclient.modules.ModManager;
-import org.saturnclient.modules.Module;
 import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.saturnclient.auth.Auth;
+import org.saturnclient.saturnclient.auth.SaturnPlayer;
+import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 import org.saturnclient.saturnclient.menus.SaturnConfigEditor;
 import org.saturnclient.ui.Textures;
 import org.saturnclient.ui2.SaturnScreen;
-import org.saturnclient.ui2.components.SaturnModule;
+import org.saturnclient.ui2.components.CosmeticPreview;
 import org.saturnclient.ui2.components.Sidebar;
+import org.saturnclient.ui2.components.SkinPreview;
 import org.saturnclient.ui2.elements.Scroll;
 
-public class ModMenu extends SaturnScreen {
-    public ModMenu() {
-        super("Mod Menu");
+public class CloakMenu extends SaturnScreen {
+    public CloakMenu() {
+        super("Cloaks Menu");
     }
 
     @Override
@@ -25,14 +27,20 @@ public class ModMenu extends SaturnScreen {
         int row = 0;
         int col = 0;
         
-        for (Module mod : ModManager.MODS) {
-            scroll.draw(new SaturnModule(mod).position((160 + g) * col, (50 + g) * row));
+        SaturnPlayer player = Auth.players.get(Auth.uuid);
 
-            if (col == 2) {
-                col = 0;
-                row++;
-            } else {
-                col++;
+        if (player != null) {
+            for (String cloak : Cloaks.availableCloaks) {
+                scroll.draw(new CosmeticPreview(cloak == player.cloak, Textures.getCloakPreview(cloak), () -> {
+                    Cloaks.setCloak(Auth.uuid, cloak);
+                }).position((50 + g) * col, (111 + g) * row));
+    
+                if (col == 5) {
+                    col = 0;
+                    row++;
+                } else {
+                    col++;
+                }
             }
         }
 
@@ -40,16 +48,18 @@ public class ModMenu extends SaturnScreen {
     
         draw(scroll.dimensions(scrollWidth, 350).center(width, height));
 
+        draw(new SkinPreview(-30.0f, false).scale(3.5f).position(scrollWidth - 40 - p, 200));
+
         draw(new Sidebar(
-            0,
+            2,
             new Sidebar.SidebarComponent(Textures.MODS_TAB, () -> {
+                SaturnClient.client.setScreen(new ModMenu());
             }, false),
             new Sidebar.SidebarComponent(Textures.SETTINGS, () -> {
                 SaturnClient.client.setScreen(new SaturnConfigEditor());
             }, false),
 
             new Sidebar.SidebarComponent(Textures.CLOAK, () -> {
-                SaturnClient.client.setScreen(new CloakMenu());
             }, false),
 
             new Sidebar.SidebarComponent(Textures.HAT, () -> {

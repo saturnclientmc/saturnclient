@@ -3,6 +3,7 @@ package org.saturnclient.ui2;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import org.jetbrains.annotations.Nullable;
@@ -240,6 +241,11 @@ public class RenderScope {
     public void draw() {
         this.vertexConsumers.draw();
     }
+
+    public void draw(Consumer<VertexConsumerProvider> drawer) {
+        drawer.accept(this.vertexConsumers);
+        this.vertexConsumers.draw();
+     }
 
     static class ScissorStack {
         private final Deque<ScreenRect> stack = new ArrayDeque<>();

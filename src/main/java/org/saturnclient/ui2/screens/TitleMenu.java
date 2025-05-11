@@ -2,7 +2,6 @@ package org.saturnclient.ui2.screens;
 
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.SaturnClientConfig;
-import org.saturnclient.saturnclient.menus.CloaksMenu;
 import org.saturnclient.saturnclient.menus.HudEditor;
 import org.saturnclient.ui.Textures;
 import org.saturnclient.ui2.SaturnScreen;
@@ -56,7 +55,7 @@ public class TitleMenu extends SaturnScreen {
         }).dimensions(s, s).centerHorizontal(width, height, 0, 8).animation(new SlideY(700, s + 8)));
 
         draw(new TextureButton(Textures.CLOAK, () -> {
-            client.setScreen(new CloaksMenu());
+            client.setScreen(new CloakMenu());
         }).dimensions(s, s).centerHorizontal(width, height, s + 2, 8).animation(new SlideY(700, s + 8)));
     }
 }

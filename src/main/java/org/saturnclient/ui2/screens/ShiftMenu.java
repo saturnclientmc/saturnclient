@@ -2,7 +2,6 @@ package org.saturnclient.ui2.screens;
 
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.SaturnClientConfig;
-import org.saturnclient.saturnclient.menus.CloaksMenu;
 import org.saturnclient.saturnclient.menus.HudEditor;
 import org.saturnclient.ui.Textures;
 import org.saturnclient.ui2.Element;
@@ -30,7 +29,7 @@ public class ShiftMenu extends SaturnScreen {
         draw(button);
 
         draw(new TextureButton(Textures.COSMETICS, () -> {
-            client.setScreen(new CloaksMenu());
+            client.setScreen(new CloakMenu());
         }).dimensions(button.height, button.height).centerOffset(width, height, (button.width / 2) + (button.height / 2) + 4, 0));
 
         draw(new TextureButton(Textures.HUD_ICON, () -> {
