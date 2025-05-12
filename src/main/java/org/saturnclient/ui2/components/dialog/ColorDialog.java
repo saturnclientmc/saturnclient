@@ -4,13 +4,13 @@ import java.awt.Color;
 
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.config.Property;
+import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
+import org.saturnclient.ui2.RenderScope;
 import org.saturnclient.ui2.SaturnScreen;
 
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.text.Text;
 
-public class ColorDialog extends Screen {
+public class ColorDialog extends SaturnScreen {
     private Property<Integer> prop;
     private SaturnScreen parent;
     private static final int PICKER_WIDTH = 200;
@@ -25,7 +25,7 @@ public class ColorDialog extends Screen {
     private boolean dragging = false;
 
     public ColorDialog(Property<Integer> prop , SaturnScreen parent) {
-        super(Text.literal("Color Dialog"));
+        super("Color Dialog");
         this.prop = prop;
         this.parent = parent;
 
@@ -35,13 +35,22 @@ public class ColorDialog extends Screen {
     }
 
     @Override
+    public void ui() {}
+
+    @Override
     public void close() {
         SaturnClient.client.setScreen(parent);
     }
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        renderBackground(context, mouseX, mouseY, delta);
+        super.render(context, mouseX, mouseY, delta);
+        RenderScope renderScope = new RenderScope(context.getMatrices(),
+                ((DrawContextAccessor) context).getVertexConsumers());
+
+        renderScope.matrices.push();
+
+        renderScope.matrices.scale(0.5f, 0.5f, 0.5f);
 
         int xStart = (width - PICKER_WIDTH) / 2;
         int yStart = (height - PICKER_HEIGHT) / 2;
@@ -62,6 +71,8 @@ public class ColorDialog extends Screen {
         context.drawBorder(x, y, 8, 8, 0xFFffffff);
 
         renderSlider(context, mouseX, mouseY, delta);
+
+        renderScope.matrices.pop();
     }
 
     public void renderSlider(DrawContext context, int mouseX, int mouseY, float delta) {
@@ -86,6 +97,9 @@ public class ColorDialog extends Screen {
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        mouseX *= 2;
+        mouseY *= 2;
+
         int xStart = (width - PICKER_WIDTH) / 2;
         int yStart = (height - PICKER_HEIGHT) / 2;
 
@@ -121,6 +135,9 @@ public class ColorDialog extends Screen {
 
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
+        mouseX *= 2;
+        mouseY *= 2;
+
         if (dragging) {
             updateOpacity(mouseX);
             return true;

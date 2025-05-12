@@ -47,7 +47,7 @@ public class SaturnModule extends Element {
             theme.setState("enabled");
         }
 
-        if (ctx.isHovering(width - s - p, height - s - p, s, s)) {
+        if (ctx.isHovering(width - s - p - 5, height - s - p - 5, s + 10, s + 10)) {
             settingsHover = true;
         } else if (ctx.isHovering()) {
             theme.applyState("hovering");
@@ -77,7 +77,7 @@ public class SaturnModule extends Element {
         int p = 10;
         int s = 14;
 
-        if (Utils.isHovering(mouseX - (width - s - p), mouseY - (height - s - p), s, s, 1.0f)) {
+        if (Utils.isHovering(mouseX - (width - s - p - 5), mouseY - (height - s - p - 5), s + 10, s + 10, 1.0f)) {
             SaturnClient.client.setScreen(new ConfigEditor(mod.getConfig()));
         } else {
             mod.setEnabled(!mod.isEnabled());

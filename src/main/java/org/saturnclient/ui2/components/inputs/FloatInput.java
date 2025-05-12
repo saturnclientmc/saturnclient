@@ -16,7 +16,7 @@ public class FloatInput extends Input {
 
     @Override
     public void charTyped(char chr) {
-        if ((Character.isDigit(chr) || chr == '.') && text.length() < 10) {
+        if ((Character.isDigit(chr) || chr == '.' || (chr == '-' && cursorPosition == 0)) && text.length() < 10) {
             if (text.equals("0") && cursorPosition == 1) {
                 text = "" + chr;
             } else {
@@ -24,22 +24,28 @@ public class FloatInput extends Input {
                         chr +
                         text.substring(cursorPosition);
 
-                prop.value = text.isEmpty() ? 0 : Float.parseFloat(text);
-                ConfigManager.save();
-
-                cursorPosition++;
+                try {
+                    prop.value = text.isEmpty() ? 0 : Float.parseFloat(text);
+                    cursorPosition++;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
 
     @Override
     public void backspace() {
-        if (text.length() == 0) {
-            text = "0";
-            cursorPosition = 1;
+        try {
+            if (text.length() == 0) {
+                text = "0";
+                cursorPosition = 1;
+            }
+            prop.value = Float.parseFloat(text);
+            ConfigManager.save();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        prop.value = Float.parseFloat(text);
-        ConfigManager.save();
     }
 
     @Override
