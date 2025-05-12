@@ -18,7 +18,7 @@ public class TextureButton extends Element {
 
 
     static {
-        theme.propertyStateDefault("hovering", "fg-color", 0xFFFF0000);
+        theme.propertyStateDefault("hovering", "fg-color", 0xFF845eee);
     }
 
     Identifier sprite;

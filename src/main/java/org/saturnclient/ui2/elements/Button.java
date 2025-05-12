@@ -15,7 +15,7 @@ public class Button extends Element {
     private static Property<Boolean> bold = theme.property("fg-bold", new Property<Boolean>(false));
 
     static {
-        theme.propertyStateDefault("hovering", "fg-color", 0xFFFF0000);
+        theme.propertyStateDefault("hovering", "fg-color", 0xFF845eee);
     }
 
     private String text;

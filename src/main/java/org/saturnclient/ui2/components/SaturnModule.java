@@ -15,16 +15,17 @@ import net.minecraft.client.render.RenderLayer;
 
 public class SaturnModule extends Element {
     private static ThemeManager theme = new ThemeManager("Module", "enabled", "hovering");
-    private static Property<Integer> bgColor = theme.property("bg", new Property<>(0xFF581c1c));
+    private static Property<Integer> bgColor = theme.property("bg", new Property<>(0xFF1d202d));
     private static Property<Integer> fgColor = theme.property("fg", new Property<>(0xFFA1A2B8));
-    private static Property<Integer> iconBg = theme.property("icon-bg", new Property<>(0xFF802222));
+    private static Property<Integer> iconFg = theme.property("icon-fg", new Property<>(0xFFA1A2B8));
+    private static Property<Integer> iconBg = theme.property("icon-bg", new Property<>(0xFF2e3248));
     private static Property<Integer> iconRadius = theme.property("icon-radius", new Property<>(10));
     private static Property<Integer> radius = theme.property("radius", new Property<>(10));
 
     static {
-        theme.propertyStateDefault("enabled", "bg", 0xFF14532d);
-        theme.propertyStateDefault("enabled", "icon-bg", 0xFF1e6f3f);
-        theme.propertyStateDefault("hovering", "fg", 0xFFbfc0cf);
+        theme.propertyStateDefault("enabled", "bg", 0xFF1d202d);
+        theme.propertyStateDefault("enabled", "icon-bg", 0xFF845eee);
+        theme.propertyStateDefault("hovering", "fg", 0xFF845eee);
     }
 
     private Module mod;
@@ -59,7 +60,7 @@ public class SaturnModule extends Element {
 
         renderScope.drawRoundedRectangle(p, p, h, h, iconRadius.value, iconBg.value);
 
-        renderScope.drawTexture(mod.getIconTexture(), p + (p / 2), p + (p / 2), 0, 0, h - p, h - p, fgColor.value);
+        renderScope.drawTexture(mod.getIconTexture(), p + (p / 2), p + (p / 2), 0, 0, h - p, h - p, iconFg.value);
 
         renderScope.drawText(0.6f, mod.getName(), p+h+4, p + 1, true, fgColor.value);
 
