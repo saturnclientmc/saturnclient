@@ -10,7 +10,7 @@ import org.saturnclient.modules.ModDimensions;
 import org.saturnclient.modules.ModManager;
 import org.saturnclient.modules.Module;
 import org.saturnclient.saturnclient.config.ConfigManager;
-import org.saturnclient.ui.SaturnUi;
+import org.saturnclient.ui2.SaturnScreen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,7 +90,7 @@ public class HudEditor extends Screen {
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         if (client.world == null && client.getCurrentServerEntry() == null) {
-            SaturnUi.ROTATING_PANORAMA_RENDERER.render(context, this.width, this.height, 1.0F, delta);
+            SaturnScreen.ROTATING_PANORAMA_RENDERER.render(context, this.width, this.height, 1.0F, delta);
         }
 
         for (HudMod mod : hudMods) {

@@ -3,7 +3,7 @@ package org.saturnclient.ui2.screens;
 import org.saturnclient.saturnclient.auth.Auth;
 import org.saturnclient.saturnclient.auth.SaturnPlayer;
 import org.saturnclient.saturnclient.cosmetics.Hats;
-import org.saturnclient.ui.Textures;
+import org.saturnclient.ui2.resources.Textures;
 import org.saturnclient.ui2.SaturnScreen;
 import org.saturnclient.ui2.components.CosmeticPreview;
 import org.saturnclient.ui2.components.Sidebar;

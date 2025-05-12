@@ -22,6 +22,16 @@ public class Fonts {
             Style.EMPTY.withFont(font));
     }
 
+    public static Text setFont(String text, boolean bold) {
+        return Text.literal(text).setStyle(
+            Style.EMPTY.withFont(bold ? INTER_BOLD : INTER));
+    }
+
+    public static Text setFont(String text) {
+        return Text.literal(text).setStyle(
+            Style.EMPTY.withFont(INTER));
+    }
+
     // public static int getWidth(String text, Identifier font) {
     //     return SaturnClient.client.textRenderer.getWidth(Text.literal(text).setStyle(
     //         Style.EMPTY.withFont(font)));

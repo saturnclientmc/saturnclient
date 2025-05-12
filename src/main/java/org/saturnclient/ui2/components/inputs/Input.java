@@ -2,10 +2,10 @@ package org.saturnclient.ui2.components.inputs;
 
 import org.lwjgl.glfw.GLFW;
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui2.Element;
 import org.saturnclient.ui2.ElementContext;
 import org.saturnclient.ui2.RenderScope;
+import org.saturnclient.ui2.resources.Fonts;
 
 public abstract class Input extends Element {
     String text = "";
@@ -71,7 +71,7 @@ public abstract class Input extends Element {
         if (focused) {
             int cursorX = 2 +
                 SaturnClient.client.textRenderer.getWidth(
-                            SaturnUi.text(visibleText.substring(0, cursorPosition - scrollOffset)));
+                            Fonts.setFont(visibleText.substring(0, cursorPosition - scrollOffset)));
 
             renderScope.drawRect(cursorX, 2, 1, height - 1, 0xFFFFFFFF);
         }
@@ -86,7 +86,7 @@ public abstract class Input extends Element {
         int maxWidth = width - 4; // Available width for text
         while (offset < cursorPosition) { // Ensure cursor remains visible
             String visibleText = text.substring(offset, cursorPosition);
-            if (SaturnClient.client.textRenderer.getWidth(SaturnUi.text(visibleText)) > maxWidth) {
+            if (SaturnClient.client.textRenderer.getWidth(Fonts.setFont(visibleText)) > maxWidth) {
                 offset++;
             } else {
                 break;
@@ -101,7 +101,7 @@ public abstract class Input extends Element {
         // Ensure text does not overflow past the available width
         for (int i = 1; i <= visibleText.length(); i++) {
             if (SaturnClient.client.textRenderer.getWidth(
-                    SaturnUi.text(visibleText.substring(0, i))) > width - 4) {
+                    Fonts.setFont(visibleText.substring(0, i))) > width - 4) {
                 return visibleText.substring(0, i - 1); // Trim overflow
             }
         }
