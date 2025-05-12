@@ -131,4 +131,11 @@ public abstract class SaturnScreen extends Screen {
         elements.clear();
         super.resize(client, width, height);
     }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        ElementRenderer.keyPressed(elements, keyCode, scanCode, modifiers);
+
+        return super.keyPressed(keyCode, scanCode, modifiers);
+    }
 }

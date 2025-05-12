@@ -25,6 +25,12 @@ public class Element {
     public void scroll(int mouseX, int mouseY, double horizontalAmount, double verticalAmount) {
     }
 
+    public void keyPressed(int keyCode, int scanCode, int modifiers) {
+    }
+
+    public void charTyped(char typedChar) {
+    }
+
     public final Element dimensions(int width, int height) {
         this.width = width;
         this.height = height;

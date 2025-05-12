@@ -68,4 +68,17 @@ public class ElementRenderer {
                     }
                 }
             }
+
+    public static void keyPressed(List<Element> elements, int keyCode, int scanCode, int modifiers) {
+        for (Element element : new ArrayList<>(elements)) {
+            if (element.focused) {
+                element.keyPressed(keyCode, scanCode, modifiers);
+
+                char typedChar = Utils.getCharFromKey(keyCode, modifiers);
+                if (typedChar != '\0') {
+                    element.charTyped(typedChar);
+                }
+            }
+        }
+    }
 }

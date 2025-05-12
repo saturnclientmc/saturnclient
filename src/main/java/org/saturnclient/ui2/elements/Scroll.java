@@ -82,5 +82,10 @@ public class Scroll extends Element {
         int scrollBarHeight = calculateScrollBarHeight();
         if (maxScroll <= 0) return scrollBarPadding.value;
         return (scroll * (height - scrollBarHeight)) / maxScroll + scrollBarPadding.value;
-    }    
+    }
+
+    @Override
+    public void keyPressed(int keyCode, int scanCode, int modifiers) {
+        ElementRenderer.keyPressed(children, keyCode, scanCode, modifiers);
+    }
 }
