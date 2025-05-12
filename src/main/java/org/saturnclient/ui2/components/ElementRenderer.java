@@ -44,7 +44,7 @@ public class ElementRenderer {
                 int adjustedMouseX = (int) mouseX - element.x;
                 int adjustedMouseY = (int) mouseY - element.y;
 
-                if (Utils.isHovering(adjustedMouseX, adjustedMouseY, element.width, element.height, element.scale)) {
+                if (element.opacity > 0 && Utils.isHovering(adjustedMouseX, adjustedMouseY, element.width, element.height, element.scale)) {
                     element.focused = true;
                     element.click((int) (adjustedMouseX * element.scale), (int) (adjustedMouseY * element.scale));
                 }
@@ -71,7 +71,7 @@ public class ElementRenderer {
 
     public static void keyPressed(List<Element> elements, int keyCode, int scanCode, int modifiers) {
         for (Element element : new ArrayList<>(elements)) {
-            if (element.focused) {
+            if (element.focused && element.opacity > 0) {
                 element.keyPressed(keyCode, scanCode, modifiers);
 
                 char typedChar = Utils.getCharFromKey(keyCode, modifiers);
