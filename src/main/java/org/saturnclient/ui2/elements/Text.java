@@ -18,6 +18,6 @@ public class Text extends Element {
 
     @Override
     public void render(RenderScope renderScope, ElementContext ctx) {
-        renderScope.drawText(this.text, this.x, this.y, false, fgColor.value);
+        renderScope.drawText(this.text, 0, 0, false, fgColor.value);
     }
 }

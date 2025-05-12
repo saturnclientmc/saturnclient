@@ -1,10 +1,8 @@
 package org.saturnclient.ui2.screens;
 
-import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.auth.Auth;
 import org.saturnclient.saturnclient.auth.SaturnPlayer;
 import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
-import org.saturnclient.saturnclient.menus.SaturnConfigEditor;
 import org.saturnclient.ui.Textures;
 import org.saturnclient.ui2.SaturnScreen;
 import org.saturnclient.ui2.components.CosmeticPreview;
@@ -50,25 +48,6 @@ public class CloakMenu extends SaturnScreen {
 
         draw(new SkinPreview(-30.0f, false).scale(3.5f).position(scrollWidth - 40 - p, 200));
 
-        draw(new Sidebar(
-            2,
-            new Sidebar.SidebarComponent(Textures.MODS_TAB, () -> {
-                SaturnClient.client.setScreen(new ModMenu());
-            }, false),
-            new Sidebar.SidebarComponent(Textures.SETTINGS, () -> {
-                SaturnClient.client.setScreen(new SaturnConfigEditor());
-            }, false),
-
-            new Sidebar.SidebarComponent(Textures.CLOAK, () -> {
-            }, false),
-
-            new Sidebar.SidebarComponent(Textures.HAT, () -> {
-                SaturnClient.client.setScreen(new HatMenu());
-            }, false),
-
-            new Sidebar.SidebarComponent(Textures.CLOSE, () -> {
-                this.close();
-            }, true)
-        ).centerOffset(width, height, -(scrollWidth / 2 + 20), 0));
+        draw(new Sidebar(2, this::close).centerOffset(width, height, -(scrollWidth / 2 + 20), 0));
     }
 }

@@ -12,9 +12,11 @@ import net.minecraft.client.render.RenderLayer;
 public class Crosshair extends Module {
     public static Property<Boolean> enabled = new Property<>(false);
     public static Property<Boolean> range_indicator = new Property<>(false);
+    public static Property<Integer> idk = new Property<>(-1, Property.PropertyType.HEX);
+    public static Property<Integer> idk2 = new Property<>(-1, Property.PropertyType.INTEGER);
 
     public Crosshair() {
-        super(new ModuleDetails("Crosshair", "crosshair").description("Changes the crosshair if you're aiming at a entity").tags("Visuals", "Utility"), enabled.named("Enabled"), range_indicator.named("Range Indicator"));
+        super(new ModuleDetails("Crosshair", "crosshair").description("Changes the crosshair if you're aiming at a entity").tags("Visuals", "Utility"), enabled.named("Enabled"), range_indicator.named("Range Indicator"), idk.named("Color"), idk2.named("Integer"));
     }
 
     @Override

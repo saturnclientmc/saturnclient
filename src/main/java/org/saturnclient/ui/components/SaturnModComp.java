@@ -5,10 +5,10 @@ import net.minecraft.client.gui.DrawContext;
 import org.saturnclient.modules.Module;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.SaturnClientConfig;
-import org.saturnclient.saturnclient.menus.ConfigEditor;
 import org.saturnclient.ui.SaturnUi;
 import org.saturnclient.ui.SaturnWidget;
 import org.saturnclient.ui.Textures;
+import org.saturnclient.ui2.screens.ConfigEditor;
 
 public class SaturnModComp extends SaturnWidget {
 

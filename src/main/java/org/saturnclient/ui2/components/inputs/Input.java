@@ -66,13 +66,12 @@ public abstract class Input extends Element {
         int scrollOffset = getScrollOffset();
         String visibleText = getVisibleText(scrollOffset);
         int textColor = focused ? 0xFFFFFF : 0xAAAAAA;
-        renderScope.drawText(visibleText, 2, 2, false, textColor);
+        renderScope.drawText(0.6f, visibleText, 2, 2, false, textColor);
 
         if (focused) {
             int cursorX = 2 +
                 SaturnClient.client.textRenderer.getWidth(
-                            SaturnUi.text(
-                                    visibleText.substring(0, cursorPosition - scrollOffset)));
+                            SaturnUi.text(visibleText.substring(0, cursorPosition - scrollOffset)));
 
             renderScope.drawRect(cursorX, 2, 1, height - 1, 0xFFFFFFFF);
         }

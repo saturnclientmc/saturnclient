@@ -7,16 +7,15 @@ import org.saturnclient.ui2.ElementContext;
 import org.saturnclient.ui2.RenderScope;
 import org.saturnclient.ui2.SaturnScreen;
 import org.saturnclient.ui2.components.dialog.ColorDialog;
-import org.saturnclient.ui2.resources.Fonts;
 
 public class HexInput extends Element {
     public Property<Integer> prop;
     public SaturnScreen screen;
 
     public HexInput(Property<Integer> prop, SaturnScreen screen) {
-        this.width = 50;
+        this.width = 58;
+        this.height = 18;
         this.prop = prop;
-        this.height = Fonts.getHeight() + 8;
         this.scale = 0.8f;
         this.screen = screen;
     }
@@ -28,6 +27,6 @@ public class HexInput extends Element {
 
     @Override
     public void render(RenderScope renderScope, ElementContext ctx) {
-        renderScope.drawRoundedRectangle(0, 0, width, height, 10, prop.value);
+        renderScope.drawRoundedRectangle(0, 0, width, height, 17, prop.value);
     }
 }

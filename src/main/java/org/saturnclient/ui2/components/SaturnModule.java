@@ -4,12 +4,12 @@ import org.saturnclient.modules.Module;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.saturnclient.config.ThemeManager;
-import org.saturnclient.saturnclient.menus.ConfigEditor;
 import org.saturnclient.ui.Textures;
 import org.saturnclient.ui2.Element;
 import org.saturnclient.ui2.ElementContext;
 import org.saturnclient.ui2.RenderScope;
 import org.saturnclient.ui2.Utils;
+import org.saturnclient.ui2.screens.ConfigEditor;
 
 import net.minecraft.client.render.RenderLayer;
 

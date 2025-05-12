@@ -2,9 +2,6 @@ package org.saturnclient.ui2.screens;
 
 import org.saturnclient.modules.ModManager;
 import org.saturnclient.modules.Module;
-import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.menus.SaturnConfigEditor;
-import org.saturnclient.ui.Textures;
 import org.saturnclient.ui2.SaturnScreen;
 import org.saturnclient.ui2.components.SaturnModule;
 import org.saturnclient.ui2.components.Sidebar;
@@ -40,25 +37,6 @@ public class ModMenu extends SaturnScreen {
     
         draw(scroll.dimensions(scrollWidth, 350).center(width, height));
 
-        draw(new Sidebar(
-            0,
-            new Sidebar.SidebarComponent(Textures.MODS_TAB, () -> {
-            }, false),
-            new Sidebar.SidebarComponent(Textures.SETTINGS, () -> {
-                SaturnClient.client.setScreen(new SaturnConfigEditor());
-            }, false),
-
-            new Sidebar.SidebarComponent(Textures.CLOAK, () -> {
-                SaturnClient.client.setScreen(new CloakMenu());
-            }, false),
-
-            new Sidebar.SidebarComponent(Textures.HAT, () -> {
-                SaturnClient.client.setScreen(new HatMenu());
-            }, false),
-
-            new Sidebar.SidebarComponent(Textures.CLOSE, () -> {
-                this.close();
-            }, true)
-        ).centerOffset(width, height, -(scrollWidth / 2 + 20), 0));
+        draw(new Sidebar(0, this::close).centerOffset(width, height, -(scrollWidth / 2 + 20), 0));
     }
 }

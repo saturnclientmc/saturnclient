@@ -1,11 +1,17 @@
 package org.saturnclient.ui2.components;
 
+import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.saturnclient.config.ThemeManager;
+import org.saturnclient.ui.Textures;
 import org.saturnclient.ui2.Element;
 import org.saturnclient.ui2.ElementContext;
 import org.saturnclient.ui2.RenderScope;
 import org.saturnclient.ui2.Utils;
+import org.saturnclient.ui2.screens.CloakMenu;
+import org.saturnclient.ui2.screens.HatMenu;
+import org.saturnclient.ui2.screens.ModMenu;
+import org.saturnclient.ui2.screens.SaturnConfigEditor;
 
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
@@ -36,14 +42,34 @@ public class Sidebar extends Element {
         }
     }
 
-    SidebarComponent[] components;
+    Runnable onClose;
+    SidebarComponent[] components = {
+        new Sidebar.SidebarComponent(Textures.MODS_TAB, () -> {
+                SaturnClient.client.setScreen(new ModMenu());
+            }, false),
+            new Sidebar.SidebarComponent(Textures.SETTINGS, () -> {
+                SaturnClient.client.setScreen(new SaturnConfigEditor());
+            }, false),
+
+            new Sidebar.SidebarComponent(Textures.CLOAK, () -> {
+                SaturnClient.client.setScreen(new CloakMenu());
+            }, false),
+
+            new Sidebar.SidebarComponent(Textures.HAT, () -> {
+                SaturnClient.client.setScreen(new HatMenu());
+            }, false),
+
+            new Sidebar.SidebarComponent(Textures.CLOSE, () -> {
+                onClose.run();
+            }, true)
+    };
     int active = 0;
 
-    public Sidebar(int active, SidebarComponent... components) {
-        this.components = components;
+    public Sidebar(int active, Runnable onClose) {
         this.width = 30;
         this.height = 350;
         this.active = active;
+        this.onClose = onClose;
     }
 
     @Override
@@ -54,6 +80,8 @@ public class Sidebar extends Element {
         int sp = 30 - padding.value;
         int s = 30 - (padding.value * 2);
 
+        int s2 = s + padding.value;
+
         renderScope.setRenderLayer(RenderLayer::getGuiTextured);
 
         renderScope.drawRoundedRectangle(0, 0, width, height, cornerRadius.value, bgColor.value);
@@ -63,7 +91,7 @@ public class Sidebar extends Element {
         for (SidebarComponent component : components) {
             if (component.end) {
                 int y = (height - (sp * bottomRow)) - (s * 2);
-                if (ctx.isHovering(padding.value, y, s, s) || active == i) {
+                if (ctx.isHovering(0, y - (padding.value / 2), s2, s2) || active == i) {
                     theme.setState("hovering");
                 } else {
                     theme.setState(null);
@@ -73,7 +101,7 @@ public class Sidebar extends Element {
                 bottomRow += 1;
             } else {
                 int y = padding.value + ((sp) * topRow);
-                if (ctx.isHovering(padding.value, y, s, s) || active == i) {
+                if (ctx.isHovering(0, y - (padding.value / 2), s2, s2) || active == i) {
                     theme.setState("hovering");
                 } else {
                     theme.setState(null);
@@ -94,16 +122,17 @@ public class Sidebar extends Element {
 
         int sp = 30 - padding.value;
         int s = 30 - (padding.value * 2);
+        int s2 = s + padding.value;
 
         for (SidebarComponent component : components) {
             if (component.end) {
-                if (Utils.isHovering(mouseX - padding.value, mouseY - (height - (sp * bottomRow) - (s * 2)), s, s, scale)) {
+                if (Utils.isHovering(mouseX, mouseY - (height - (sp * bottomRow) - (s * 2)), s2, s2, scale)) {
                     component.onClick.run();
                     break;
                 }
                 bottomRow += 1;
             } else {
-                if (Utils.isHovering(mouseX - padding.value, mouseY - (padding.value + ((sp) * topRow)), s, s, scale)) {
+                if (Utils.isHovering(mouseX, mouseY - (padding.value + ((sp) * topRow)), s2, s2, scale)) {
                     component.onClick.run();
                     break;
                 }
