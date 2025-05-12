@@ -46,7 +46,7 @@ public class HatMenu extends SaturnScreen {
     
         draw(scroll.dimensions(scrollWidth, 350).center(width, height));
 
-        draw(new SkinPreview(170f, true).scale(3.5f).position(scrollWidth - 40 - p, 200));
+        draw(new SkinPreview(170f, true).scale(3.5f).position(scroll.x + (scrollWidth - 220), scroll.y+40));
 
         draw(new Sidebar(3, this::close).centerOffset(width, height, -(scrollWidth / 2 + 20), 0));
     }
