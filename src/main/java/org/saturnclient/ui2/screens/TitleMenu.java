@@ -2,6 +2,7 @@ package org.saturnclient.ui2.screens;
 
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.SaturnClientConfig;
+import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.saturnclient.menus.HudEditor;
 import org.saturnclient.ui.Textures;
 import org.saturnclient.ui2.SaturnScreen;
@@ -26,7 +27,7 @@ public class TitleMenu extends SaturnScreen {
     public void ui() {
         backgroundBlur = 0;
 
-        draw(new FloatInput());
+        draw(new FloatInput(new Property<Float>(1.0f)));
 
         draw(new ImageTexture(Textures.LOGO_TEXT).dimensions(98, 10).centerOffset(width, height, 0, -36).animation(new Fade(700)));
         draw(new ImageTexture(SaturnClientConfig.getLogo()).dimensions(98, 98).centerOffset(width, height, 0, -82).animation(new SlideY(700, -40)));
