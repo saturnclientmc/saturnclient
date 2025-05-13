@@ -96,7 +96,7 @@ public class Cloaks {
                                 }
 
                                 // Register textures on main thread
-                                net.minecraft.client.MinecraftClient.getInstance().execute(() -> {
+                                SaturnClient.client.execute(() -> {
                                     try {
                                         List<AnimatedCloakData> animatedFrames = new ArrayList<>();
                                         for (int i = 0; i < frameCount; i++) {
@@ -118,7 +118,7 @@ public class Cloaks {
                         }
                     }).start();
                 } else {
-                    net.minecraft.client.MinecraftClient.getInstance().execute(() -> loadStaticCloak(player.cloak + ".png"));
+                    SaturnClient.client.execute(() -> loadStaticCloak(player.cloak + ".png"));
                 }
             }
         }

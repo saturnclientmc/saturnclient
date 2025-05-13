@@ -3,7 +3,6 @@ package org.saturnclient.saturnclient.auth;
 import java.util.HashMap;
 import java.util.Map;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
-import net.minecraft.client.MinecraftClient;
 import org.saturnclient.saturnclient.cosmetics.Hats;
 import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 import org.saturnclient.saturnclient.SaturnClient;
@@ -22,13 +21,12 @@ public class Auth {
         ClientLifecycleEvents.CLIENT_STOPPING.register(_o -> close());
 
         try {
-            MinecraftClient client = MinecraftClient.getInstance();
-            if (client.getSession() == null) {
+            if (SaturnClient.client.getSession() == null) {
                 SaturnClient.LOGGER.error("No active Minecraft session found");
                 return false;
             }
 
-            String accessToken = client.getSession().getAccessToken();
+            String accessToken = SaturnClient.client.getSession().getAccessToken();
             SaturnClient.LOGGER.info("Authenticating");
 
             Network.init();
@@ -55,7 +53,7 @@ public class Auth {
 
             Cloaks.loadCloak(uuid);
 
-            playerNames.put(client.getSession().getUsername(), uuid);
+            playerNames.put(SaturnClient.client.getSession().getUsername(), uuid);
 
             afterAuth();
 
@@ -119,16 +117,21 @@ public class Auth {
     private static void startPingThread() {
         pingThread = new Thread(() -> {
             try {
-                while (running) {
-                    Thread.sleep(25000); // 25 seconds
-                    if (running) {
-                        Network.write("ping");
+                while (running && !Thread.currentThread().isInterrupted()) {
+                    try {
+                        Thread.sleep(25000); // 25 seconds
+                        if (running) {
+                            Network.write("ping");
+                        }
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt(); // Restore interrupt status
+                        break; // Exit the loop on interruption
                     }
                 }
-            } catch (InterruptedException e) {
-                SaturnClient.LOGGER.warn("Ping thread interrupted", e);
             } catch (Exception e) {
-                SaturnClient.LOGGER.error("Error in ping thread", e);
+                if (!(e instanceof InterruptedException)) {
+                    SaturnClient.LOGGER.error("Error in ping thread", e);
+                }
             }
         });
 
@@ -184,7 +187,7 @@ public class Auth {
     public static void sendReload() {
         for (Map.Entry<String, String> player : playerNames.entrySet()) {
             if (players.containsKey(player.getValue()) && !player.getValue().equals(uuid)) {
-                MinecraftClient.getInstance().player.networkHandler
+                SaturnClient.client.player.networkHandler
                         .sendChatCommand("msg " + player.getKey() + " "
                                 + "$SATURN_RELOAD if you are seeing this as a player, please report this to https://github.com/saturnclientmc/saturnclient/issues");
                 ;

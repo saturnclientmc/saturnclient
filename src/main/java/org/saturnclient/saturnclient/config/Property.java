@@ -139,4 +139,19 @@ public class Property<T> {
     public static boolean valueIsNamespace(Object obj) {
         return obj instanceof Map;
     }
+
+    @SuppressWarnings("unchecked")
+    public void setValue(Object value) {
+        this.value = (T) value;
+    }
+
+    @SuppressWarnings("unchecked")
+    public void setValue(Object value, Object defaultValue) {
+        this.value = (T) value;
+        this.defaultValue = (T) defaultValue;
+    }
+
+    public NamedProperty<T> named(String name) {
+        return new NamedProperty<>(name, this);
+    }
 }

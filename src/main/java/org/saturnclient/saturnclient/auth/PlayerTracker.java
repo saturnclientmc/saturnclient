@@ -2,8 +2,9 @@ package org.saturnclient.saturnclient.auth;
 
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.minecraft.client.MinecraftClient;
+import org.saturnclient.saturnclient.SaturnClient;
 import net.minecraft.client.network.PlayerListEntry;
+import net.minecraft.client.MinecraftClient;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -19,7 +20,7 @@ public class PlayerTracker {
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
             trackedPlayers.clear();
             client.execute(() -> {
-                checkForNewPlayers(MinecraftClient.getInstance());
+                checkForNewPlayers(SaturnClient.client);
             });
         });
 

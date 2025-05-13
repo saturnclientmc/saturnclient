@@ -1,7 +1,10 @@
 package org.saturnclient.saturnclient.mixin;
 
 import net.minecraft.client.network.PlayerListEntry;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
+
 import org.jetbrains.annotations.Nullable;
 import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.saturnclient.auth.Auth;
@@ -29,7 +32,11 @@ public abstract class TabListMixin {
         String name = profile.getName();
         String uuid = profile.getId().toString().replaceAll("-", "");
 
-        return Text.literal(
-                Auth.players.containsKey(uuid) ? SaturnClientConfig.getSaturnIndicator() + name : name);
+        MutableText iconText = Text.literal(SaturnClientConfig.getSaturnIndicator())
+            .styled(style -> style.withColor(SaturnClientConfig.getIconColor(uuid)));
+        
+        Text nameText = Text.literal(name).styled(style -> style.withColor(Formatting.WHITE));
+
+        return Auth.players.containsKey(uuid) ? iconText.append(nameText) : Text.literal(name);
     }
 }

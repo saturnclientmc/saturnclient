@@ -1,6 +1,6 @@
 package org.saturnclient.saturnclient.cosmetics.cloaks.utils;
 
-import net.minecraft.client.MinecraftClient;
+import org.saturnclient.saturnclient.SaturnClient;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.util.Identifier;
@@ -20,7 +20,7 @@ public class IdentifierUtils {
             ByteBuffer bb = BufferUtils.createByteBuffer(bytes.length).put(bytes);
             bb.flip();
             NativeImageBackedTexture nibt = new NativeImageBackedTexture(NativeImage.read(bb));
-            MinecraftClient.getInstance().getTextureManager().registerTexture(i, nibt);
+            SaturnClient.client.getTextureManager().registerTexture(i, nibt);
         } catch (Exception e) {
             e.printStackTrace();
         }

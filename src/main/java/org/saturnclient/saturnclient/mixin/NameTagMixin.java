@@ -1,6 +1,6 @@
 package org.saturnclient.saturnclient.mixin;
 
-import net.minecraft.client.MinecraftClient;
+import org.saturnclient.saturnclient.SaturnClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.font.TextRenderer.TextLayerType;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -9,7 +9,9 @@ import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.Vec3d;
 
 import org.saturnclient.saturnclient.SaturnClientConfig;
@@ -34,20 +36,32 @@ public abstract class NameTagMixin<S extends EntityRenderState> {
     @Inject(method = "renderLabelIfPresent(Lnet/minecraft/client/render/entity/state/EntityRenderState;Lnet/minecraft/text/Text;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At("HEAD"), cancellable = true)
     private void onRenderLabelIfPresent(S state, Text text, MatrixStack matrices,
             VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci) {
-        if (isSaturn(state)) {
-            renderLabel(state, Text.literal(SaturnClientConfig.getSaturnIndicator()).append(text), matrices,
+
+        String uuid = isSaturn(state);
+
+        if (uuid != null) {
+            MutableText iconText = Text.literal(SaturnClientConfig.getSaturnIndicator())
+            .styled(style -> style.withColor(SaturnClientConfig.getIconColor(uuid)));
+        
+            Text nameText = text.copy().styled(style -> style.withColor(Formatting.WHITE));
+
+            renderLabel(state, iconText.append(nameText), matrices,
                     vertexConsumers, light);
+
             ci.cancel();
         }
     }
 
-    private boolean isSaturn(S state) {
+    private String isSaturn(S state) {
         if (state instanceof PlayerEntityRenderState) {
             String name = ((PlayerEntityRenderState) state).name;
             String uuid = Auth.playerNames.get(name);
-            return uuid != null && Auth.players.containsKey(uuid);
+            if (Auth.players.containsKey(uuid)) {
+                return uuid;
+            }
         }
-        return false;
+
+        return null;
     }
 
     private void renderLabel(S state, Text text, MatrixStack matrices,
@@ -61,9 +75,9 @@ public abstract class NameTagMixin<S extends EntityRenderState> {
             matrices.multiply(this.dispatcher.getRotation());
             matrices.scale(0.025F, -0.025F, 0.025F);
             Matrix4f matrix4f = matrices.peek().getPositionMatrix();
-            TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+            TextRenderer textRenderer = SaturnClient.client.textRenderer;
             float f = (float) (-textRenderer.getWidth(text)) / 2.0F;
-            int j = (int) (MinecraftClient.getInstance().options.getTextBackgroundOpacity(0.25F) * 255.0F) << 24;
+            int j = (int) (SaturnClient.client.options.getTextBackgroundOpacity(0.25F) * 255.0F) << 24;
             textRenderer.draw(text, f, (float) i, -2130706433, false, matrix4f, vertexConsumers,
                     bl ? TextLayerType.SEE_THROUGH : TextLayerType.NORMAL, j, light);
             if (bl) {
