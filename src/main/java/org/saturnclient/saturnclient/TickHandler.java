@@ -1,4 +1,4 @@
-package com.example.examplemod;
+package org.saturnclient.saturnclient;
 
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -14,7 +14,7 @@ public class TickHandler {
             Minecraft mc = Minecraft.getMinecraft();
 
             if (Keybindings.openGuiKey.isPressed()) {
-                mc.displayGuiScreen(new ExampleMod.MyGuiScreen());
+                mc.displayGuiScreen(new SaturnClient.MyGuiScreen());
             }
         }
     }

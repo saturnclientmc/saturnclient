@@ -1,4 +1,4 @@
-package com.example.examplemod;
+package org.saturnclient.saturnclient;
 
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.fml.client.registry.ClientRegistry;

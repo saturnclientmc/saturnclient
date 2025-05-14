@@ -1,8 +1,8 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "modid": "saturnclient",
+  "name": "Saturn Client",
+  "description": "Example placeholder mod. test",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",

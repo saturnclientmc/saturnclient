@@ -113,7 +113,7 @@ Build 1.11.2-13.20.0.2292:
 	williewillus: Fix forge pipeline block shifts (#3789)
 
 Build 1.11.2-13.20.0.2291:
-	maxa.shen: Add pack.mcmeta to examplemod (#3813)
+	maxa.shen: Add pack.mcmeta to saturnclient (#3813)
 
 Build 1.11.2-13.20.0.2290:
 	bs2609:
@@ -6887,7 +6887,7 @@ Build 1.7.2-10.12.0.1030:
 		Update Forge for patch changes
 		
 		MinecraftForge/FML@064b66af3d6c92b19821b88ec26cbb59577d68b4 Prevent players from logging in until server has finished starting.
-		MinecraftForge/FML@2aa73afa15908dadb0a033c49deb0ffefad2f265 Fix ExampleMod.java for build #1024+
+		MinecraftForge/FML@2aa73afa15908dadb0a033c49deb0ffefad2f265 Fix saturnclient.java for build #1024+
 		MinecraftForge/FML@c890206268da3c594d97198f5426b52ff6b8460c Try and handle removal of mods a bit better. Currently no way to allow a world which has missing blocks to load - but i have the code in place to allow it i think.
 		MinecraftForge/FML@995c204338cd601e118396d4b4ef8feb6e759037 Fix failing to load a world with missing mod blocks and items. There will be a way to force worlds to load when stuff is missing, but for right now, it will fail as this is "world safe".
 		MinecraftForge/FML@fa5f4c884272f415933329a9e914e0b7d052e31a Some argumentation
