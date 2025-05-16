@@ -14,7 +14,7 @@ public class HexInput extends Element {
 
     public HexInput(Property<Integer> prop, SaturnScreen screen) {
         this.width = 58;
-        this.height = 18;
+        this.height = 20;
         this.prop = prop;
         this.scale = 0.8f;
         this.screen = screen;

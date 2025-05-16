@@ -12,6 +12,7 @@ import org.saturnclient.ui2.components.inputs.IntInput;
 import org.saturnclient.ui2.components.inputs.Toggle;
 import org.saturnclient.ui2.elements.Scroll;
 import org.saturnclient.ui2.elements.Text;
+import org.saturnclient.ui2.resources.Fonts;
 
 public class SaturnConfigEditor extends SaturnScreen {
     public SaturnConfigEditor() {
@@ -50,10 +51,17 @@ public class SaturnConfigEditor extends SaturnScreen {
             int modX = (w / 2) * col; // two-column layout
             int modY = 25 * row;
 
-            configScroll.draw(
+            if (prop.getType() == Property.PropertyType.NAMESPACE) {
+                configScroll.draw(
                             new Text(
-                                    propName.substring(0, 1).toUpperCase() + propName.substring(1)
-                            ).position(modX, modY + 1).scale(0.7f));
+                                    propName
+                            ).position(Fonts.centerX(520, propName, false), modY + 1).scale(0.7f));
+            } else {
+                configScroll.draw(
+                                new Text(
+                                        propName
+                                ).position(modX, modY + 1).scale(0.7f));
+            }
 
             switch (prop.getType()) {
                 case BOOLEAN:
@@ -79,6 +87,8 @@ public class SaturnConfigEditor extends SaturnScreen {
                     Map<String, Property<?>> nestedProperties = (Map<String, Property<?>>) prop.value;
                     row = drawProperties(configScroll, nestedProperties, row + 1, col, w);
                     break;
+
+                case STRING:
             }
 
             if (full) {

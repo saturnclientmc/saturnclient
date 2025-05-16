@@ -24,7 +24,7 @@ public class ModDimensions {
             "Background Color", bgColor,
             "Foreground Color", fgColor,
             "Corner Radius", radius
-        )).named("Hud Position"); 
+        )).named("In-Game Display"); 
     }
 
     public ModDimensions(int width, int height) {

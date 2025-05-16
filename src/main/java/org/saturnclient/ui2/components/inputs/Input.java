@@ -42,10 +42,10 @@ public abstract class Input extends Element {
         String visibleText = text.substring(scrollOffset);
 
         int newCursorPos = scrollOffset;
-        int textWidth = 0;
+        float textWidth = 0;
 
         for (int i = 0; i < visibleText.length(); i++) {
-            textWidth = SaturnClient.client.textRenderer.getWidth(visibleText.substring(0, i + 1));
+            textWidth = SaturnClient.client.textRenderer.getWidth(visibleText.substring(0, i + 1)) * 0.6f;
 
             if (textWidth > mouseX) {
                 break;
@@ -66,14 +66,14 @@ public abstract class Input extends Element {
         int scrollOffset = getScrollOffset();
         String visibleText = getVisibleText(scrollOffset);
         int textColor = focused ? 0xFFFFFF : 0xAAAAAA;
-        renderScope.drawText(0.6f, visibleText, 2, 2, false, textColor);
+        renderScope.drawText(0.6f, visibleText, 4, 4, false, textColor);
 
         if (focused) {
-            int cursorX = 2 +
-                SaturnClient.client.textRenderer.getWidth(
-                            Fonts.setFont(visibleText.substring(0, cursorPosition - scrollOffset)));
+            int cursorX = 4 +
+                (int) (SaturnClient.client.textRenderer.getWidth(
+                            Fonts.setFont(visibleText.substring(0, cursorPosition - scrollOffset))) * 0.6f);
 
-            renderScope.drawRect(cursorX, 2, 1, height - 1, 0xFFFFFFFF);
+            renderScope.drawRect(cursorX, 2, 1, height - 4, 0xFFFFFFFF);
         }
     }
 

@@ -25,15 +25,30 @@ public class ArmorDisplay extends Module implements HudMod {
     }
 
     public void renderArmor(RenderScope scope, ItemStack helmet, ItemStack chestplate, ItemStack leggings, ItemStack boots) {
-        scope.drawItem(helmet, 0, 0);
-        scope.drawItem(chestplate, 0, 15);
-        scope.drawItem(leggings, 0, 30);
-        scope.drawItem(boots, 0, 45);
+        int row = 0;
 
-        renderHealth(scope, 0, helmet.getMaxDamage(), helmet.getDamage());
-        renderHealth(scope, 1, chestplate.getMaxDamage(), chestplate.getDamage());
-        renderHealth(scope, 2, leggings.getMaxDamage(), leggings.getDamage());
-        renderHealth(scope, 3, boots.getMaxDamage(), boots.getDamage());
+        if (!helmet.isEmpty()) {
+            scope.drawItem(helmet, 0, 0);
+            renderHealth(scope, row, helmet.getMaxDamage(), helmet.getDamage());
+            row++;
+        }
+
+        if (!chestplate.isEmpty()) {
+            scope.drawItem(chestplate, 0, 15 * row);
+            renderHealth(scope, row, chestplate.getMaxDamage(), chestplate.getDamage());
+            row++;
+        }
+        if (!leggings.isEmpty()) {
+            scope.drawItem(leggings, 0, 15 * row);
+            renderHealth(scope, row, leggings.getMaxDamage(), leggings.getDamage());
+            row++;
+        }
+
+        if (!boots.isEmpty()) {
+            scope.drawItem(boots, 0, 15 * row);
+            renderHealth(scope, row, boots.getMaxDamage(), boots.getDamage());
+            row++;
+        }
     }
 
     public void renderHealth(RenderScope scope, int i, int max, int current) {
