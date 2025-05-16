@@ -1,11 +1,11 @@
 package org.saturnclient.modules;
 
-import net.minecraft.client.gui.DrawContext;
+import org.saturnclient.ui2.RenderScope;
 
 public interface HudMod {
     public ModDimensions getDimensions();
 
-    public void renderDummy(DrawContext context);
+    public void renderDummy(RenderScope scope);
 
-    public void render(DrawContext context);
+    public void renderHud(RenderScope scope);
 }

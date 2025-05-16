@@ -40,6 +40,12 @@ public class ConfigManager {
         System.out.println("Created sub-namespace: " + namespace);
     }
 
+    public void sub(String namespace) {
+        Property<Map<String, Property<?>>> namespaceProperty = new Property<>(currentMap,
+                Property.PropertyType.NAMESPACE);
+        property(namespace, namespaceProperty);
+    }
+
     // Generic method to store any type of property
     public <T> Property<T> property(String name, Property<T> value) {
         System.out.println("Adding property: " + name);

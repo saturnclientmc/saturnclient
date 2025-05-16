@@ -3,7 +3,6 @@ package org.saturnclient.modules;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.util.math.MatrixStack;
 
 import org.saturnclient.modules.mods.*;
 import org.saturnclient.saturnclient.SaturnClient;
@@ -15,6 +14,7 @@ public class ModManager {
     public static Module[] MODS = {
         new Crosshair(),
         new AutoSprint(),
+        new ArmorDisplay()
     };
 
     public static void init() {
@@ -38,16 +38,17 @@ public class ModManager {
                     if (m instanceof HudMod && m.isEnabled()) {
                         ModDimensions dim = ((HudMod) m).getDimensions();
 
-                        MatrixStack matrices = context.getMatrices();
-                        matrices.push();
+                        renderScope.matrices.push();
 
-                        matrices.translate(dim.x.value, (float) dim.y.value, 0);
+                        renderScope.matrices.translate(dim.x.value, (float) dim.y.value, 0);
 
-                        matrices.scale(dim.scale.value, dim.scale.value, 1.0f);
+                        renderScope.matrices.scale(dim.scale.value, dim.scale.value, 1.0f);
 
-                        ((HudMod) m).render(context);
+                        renderScope.drawRoundedRectangle(0, 0, dim.width, dim.height, dim.radius.value, dim.bgColor.value);
 
-                        matrices.pop();
+                        ((HudMod) m).renderHud(renderScope);
+
+                        renderScope.matrices.pop();
                     } else {
                         m.render(renderScope);
                     }

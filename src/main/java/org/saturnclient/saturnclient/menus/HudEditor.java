@@ -10,6 +10,8 @@ import org.saturnclient.modules.ModDimensions;
 import org.saturnclient.modules.ModManager;
 import org.saturnclient.modules.Module;
 import org.saturnclient.saturnclient.config.ConfigManager;
+import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
+import org.saturnclient.ui2.RenderScope;
 import org.saturnclient.ui2.SaturnScreen;
 
 import java.util.ArrayList;
@@ -93,6 +95,8 @@ public class HudEditor extends Screen {
             SaturnScreen.ROTATING_PANORAMA_RENDERER.render(context, this.width, this.height, 1.0F, delta);
         }
 
+        RenderScope scope = new RenderScope(context.getMatrices(), ((DrawContextAccessor) context).getVertexConsumers());
+
         for (HudMod mod : hudMods) {
             ModDimensions dim = mod.getDimensions();
             MatrixStack matrices = context.getMatrices();
@@ -102,7 +106,7 @@ public class HudEditor extends Screen {
             matrices.scale(dim.scale.value, dim.scale.value, 1.0f);
 
             // Render the mod
-            mod.renderDummy(context);
+            mod.renderDummy(scope);
 
             matrices.pop();
 
