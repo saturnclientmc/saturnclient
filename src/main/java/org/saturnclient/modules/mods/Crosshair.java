@@ -14,7 +14,13 @@ public class Crosshair extends Module {
     public static Property<Boolean> range_indicator = new Property<>(false);
 
     public Crosshair() {
-        super(new ModuleDetails("Crosshair", "crosshair").description("Changes the crosshair if you're aiming at a entity").tags("Visuals", "Utility"), enabled.named("Enabled"), range_indicator.named("Range Indicator"));
+        super(
+            new ModuleDetails("Crosshair", "crosshair")
+            .description("Changes the crosshair if you're aiming at a entity")
+            .tags("Visuals", "Utility")
+            .version("v0.1.0"),
+            enabled.named("Enabled"),
+            range_indicator.named("Range Indicator"));
     }
 
     @Override

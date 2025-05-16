@@ -8,20 +8,12 @@ import org.saturnclient.ui2.RenderScope;
 import net.minecraft.util.Identifier;
 
 public abstract class Module {
-    private final String name;
-    private final String namespace;
-    private final String description;
+    private final ModuleDetails details;
     private final ConfigManager configManager;
-    public final String[] tags;
 
     public Module(ModuleDetails details, NamedProperty<?>... props) {
-        this.name = details.name;
-        this.namespace = details.namespace;
-        this.description = details.description;
-        this.tags = details.tags;
-
-        configManager = new ConfigManager(name);
-
+        this.details = details;
+        configManager = new ConfigManager(details.name);
         for (NamedProperty<?> prop : props) {
             configManager.property(prop.name, prop.prop);
         }
@@ -35,11 +27,11 @@ public abstract class Module {
     public abstract void setEnabled(boolean e);
 
     public final String getName() {
-        return name;
+        return details.name;
     }
     
     public Identifier getIconTexture() {
-        return Textures.getModIcon(namespace);
+        return Textures.getModIcon(details.namespace);
     }
 
     public ConfigManager getConfig() {
@@ -47,14 +39,14 @@ public abstract class Module {
     }
 
     public String getDescription() {
-        return description;
+        return details.description;
     }
     
     public String[] getTags() {
-        return tags;
+        return details.tags;
     }
     
     public String getVersion() {
-        return "v0.0.1";
+        return details.version;
     }
 }
