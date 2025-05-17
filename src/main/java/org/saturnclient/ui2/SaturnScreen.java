@@ -13,13 +13,10 @@ import net.minecraft.client.gui.CubeMapRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.RotatingCubeMapRenderer;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.render.DefaultFramebufferSet;
-import net.minecraft.client.util.Pool;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public abstract class SaturnScreen extends Screen {
-    private final Pool pool = new Pool(3);
     protected List<Element> elements = new ArrayList<>();
     public int blurDuration = 700;
     public float blurProgress = 0.0f;
@@ -76,13 +73,13 @@ public abstract class SaturnScreen extends Screen {
             ROTATING_PANORAMA_RENDERER.render(context, this.width, this.height, 1.0F, delta);
         }
 
-        PostEffectProcessor postEffectProcessor = this.client.getShaderLoader().loadPostEffect(
-                    Identifier.ofVanilla("blur"),
-                    DefaultFramebufferSet.MAIN_ONLY);
-            if (postEffectProcessor != null) {
-                postEffectProcessor.setUniforms("Radius", backgroundBlur * blurProgress);
-                postEffectProcessor.render(this.client.getFramebuffer(), this.pool);
-            }
+        // PostEffectProcessor postEffectProcessor = this.client.getShaderLoader().loadPostEffect(
+        //             Identifier.ofVanilla("blur"),
+        //             DefaultFramebufferSet.MAIN_ONLY);
+        //     if (postEffectProcessor != null) {
+        //         postEffectProcessor.setUniforms("Radius", backgroundBlur * blurProgress);
+        //         postEffectProcessor.render(this.client.getFramebuffer(), this.pool);
+        //     }
 
         // We are using a Abstracted RenderScope because older minecraft versions don't
         // use DrawContext

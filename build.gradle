@@ -17,8 +17,8 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    modApi "dev.felnull:special-model-loader:1.4.0+pre.1"
-    include "dev.felnull:special-model-loader:1.4.0+pre.1"
+    modApi "dev.felnull:special-model-loader:1.3.0"
+    include "dev.felnull:special-model-loader:1.3.0"
 }
 
 

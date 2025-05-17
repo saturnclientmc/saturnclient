@@ -44,7 +44,7 @@ public class SaturnModule extends Element {
         int s = 14;
         boolean settingsHover = false;
 
-        renderScope.setRenderLayer(RenderLayer::getGuiTextured);
+        // renderScope.setRenderLayer(RenderLayer::getGuiTextured);
 
         if (mod.isEnabled()) {
             theme.setState("enabled");

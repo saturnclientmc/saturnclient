@@ -68,8 +68,8 @@ public class SkinPreview extends Element {
 
         entityRenderDispatcher.setRenderShadows(false);
         renderScope.draw((vertexConsumers) -> {
-            entityRenderDispatcher.render(entity, 0.0, 0.0, 0.0, 1.0F, renderScope.matrices, vertexConsumers,
-                    15728880);
+            // entityRenderDispatcher.render(entity, 0.0, 0.0, 0.0, 1.0F, renderScope.matrices, vertexConsumers,
+            //         15728880);
         });
         renderScope.draw();
         entityRenderDispatcher.setRenderShadows(true);

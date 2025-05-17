@@ -16,7 +16,7 @@ public class ImageTexture extends Element {
 
     @Override
     public void render(RenderScope renderScope, ElementContext ctx) {
-        renderScope.setRenderLayer(RenderLayer::getGuiTextured);
+        // renderScope.setRenderLayer(RenderLayer::getGuiTextured);
         renderScope.drawTexture(sprite, 0, 0, 0, 0, width, height);
     }
 }

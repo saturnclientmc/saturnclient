@@ -29,7 +29,7 @@ public class ClickableTexture extends Element {
             theme.setState(null);
         }
         
-        renderScope.setRenderLayer(RenderLayer::getGuiTextured);
+        // renderScope.setRenderLayer(RenderLayer::getGuiTextured);
         renderScope.drawTexture(sprite, 0, 0, 0, 0, width, height, fgColor.value);
     }
 

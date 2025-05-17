@@ -7,6 +7,7 @@
     {
       "type": "reference",
       "id": "saturnclient:inter_bold"
-    }
+    },
+    { "type": "reference", "id": "minecraft:default" }
   ]
 }

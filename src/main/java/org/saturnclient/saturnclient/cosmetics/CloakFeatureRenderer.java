@@ -3,80 +3,72 @@ package org.saturnclient.saturnclient.cosmetics;
 import org.saturnclient.saturnclient.auth.Auth;
 import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 
+import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.equipment.EquipmentModel;
-import net.minecraft.client.render.entity.equipment.EquipmentModelLoader;
-import net.minecraft.client.render.entity.equipment.EquipmentModel.LayerType;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
-import net.minecraft.client.render.entity.model.BipedEntityModel;
-import net.minecraft.client.render.entity.model.EntityModelLayers;
-import net.minecraft.client.render.entity.model.LoadedEntityModels;
-import net.minecraft.client.render.entity.model.PlayerCapeModel;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
-import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
 import net.minecraft.client.util.SkinTextures;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.EquippableComponent;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.player.PlayerModelPart;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.equipment.EquipmentAsset;
-import net.minecraft.registry.RegistryKey;
+import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RotationAxis;
 
-public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState, PlayerEntityModel> {
-    private final BipedEntityModel<PlayerEntityRenderState> model;
-    private final EquipmentModelLoader equipmentModelLoader;
-
-    public CloakFeatureRenderer(FeatureRendererContext<PlayerEntityRenderState, PlayerEntityModel> context,
-            LoadedEntityModels modelLoader, EquipmentModelLoader equipmentModelLoader) {
-        super(context);
-        this.model = new PlayerCapeModel<PlayerEntityRenderState>(
-                modelLoader.getModelPart(EntityModelLayers.PLAYER_CAPE));
-        this.equipmentModelLoader = equipmentModelLoader;
+public class CloakFeatureRenderer extends FeatureRenderer<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> {
+    public CloakFeatureRenderer(FeatureRendererContext<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> featureRendererContext) {
+        super(featureRendererContext);
     }
 
-    private boolean hasCustomModelForLayer(ItemStack stack, EquipmentModel.LayerType layerType) {
-        EquippableComponent equippableComponent = (EquippableComponent) stack.get(DataComponentTypes.EQUIPPABLE);
-        if (equippableComponent != null && !equippableComponent.assetId().isEmpty()) {
-            EquipmentModel equipmentModel = this.equipmentModelLoader
-                    .get((RegistryKey<EquipmentAsset>) equippableComponent.assetId().get());
-            return !equipmentModel.getLayers(layerType).isEmpty();
-        } else {
-            return false;
-        }
-    }
-
-    public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i,
-            PlayerEntityRenderState playerEntityRenderState, float f, float g) {
-        if (!playerEntityRenderState.invisible && playerEntityRenderState.capeVisible) {
-            SkinTextures skinTextures = playerEntityRenderState.skinTextures;
-
+   public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, AbstractClientPlayerEntity abstractClientPlayerEntity, float f, float g, float h, float j, float k, float l) {
+        if (!abstractClientPlayerEntity.isInvisible() && abstractClientPlayerEntity.isPartVisible(PlayerModelPart.CAPE)) {
+            SkinTextures skinTextures = abstractClientPlayerEntity.getSkinTextures();
             if (skinTextures.capeTexture() == null) {
-                String name = playerEntityRenderState.name;
-                String uuid = Auth.playerNames.get(name);
-                if (uuid == null || !Auth.players.containsKey(uuid)) {
+                String uuid = abstractClientPlayerEntity.getUuidAsString().replace("-", "");
+                if (!Auth.players.containsKey(uuid)) {
                     return;
                 }
 
                 Identifier customCape = Cloaks.getCurrentCloakTexture(uuid);
 
-                if (customCape != null
-                        && !this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack, LayerType.WINGS)) {
-                    matrixStack.push();
-                    if (this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack, LayerType.HUMANOID)) {
-                        matrixStack.translate(0.0F, -0.053125F, 0.06875F);
-                    }
+                ItemStack itemStack = abstractClientPlayerEntity.getEquippedStack(EquipmentSlot.CHEST);
+                if (!itemStack.isOf(Items.ELYTRA)) {
+                matrixStack.push();
+                matrixStack.translate(0.0F, 0.0F, 0.125F);
+                double d = MathHelper.lerp((double)h, abstractClientPlayerEntity.prevCapeX, abstractClientPlayerEntity.capeX) - MathHelper.lerp((double)h, abstractClientPlayerEntity.prevX, abstractClientPlayerEntity.getX());
+                double e = MathHelper.lerp((double)h, abstractClientPlayerEntity.prevCapeY, abstractClientPlayerEntity.capeY) - MathHelper.lerp((double)h, abstractClientPlayerEntity.prevY, abstractClientPlayerEntity.getY());
+                double m = MathHelper.lerp((double)h, abstractClientPlayerEntity.prevCapeZ, abstractClientPlayerEntity.capeZ) - MathHelper.lerp((double)h, abstractClientPlayerEntity.prevZ, abstractClientPlayerEntity.getZ());
+                float n = MathHelper.lerpAngleDegrees(h, abstractClientPlayerEntity.prevBodyYaw, abstractClientPlayerEntity.bodyYaw);
+                double o = (double)MathHelper.sin(n * 0.017453292F);
+                double p = (double)(-MathHelper.cos(n * 0.017453292F));
+                float q = (float)e * 10.0F;
+                q = MathHelper.clamp(q, -6.0F, 32.0F);
+                float r = (float)(d * o + m * p) * 100.0F;
+                r = MathHelper.clamp(r, 0.0F, 150.0F);
+                float s = (float)(d * p - m * o) * 100.0F;
+                s = MathHelper.clamp(s, -20.0F, 20.0F);
+                if (r < 0.0F) {
+                    r = 0.0F;
+                }
 
-                    VertexConsumer vertexConsumer = vertexConsumerProvider
-                            .getBuffer(RenderLayer.getEntityAlpha(customCape));
-                    ((PlayerEntityModel) this.getContextModel()).copyTransforms(this.model);
-                    this.model.setAngles(playerEntityRenderState);
-                    this.model.render(matrixStack, vertexConsumer, 0xF000F0, OverlayTexture.DEFAULT_UV);
-                    matrixStack.pop();
+                float t = MathHelper.lerp(h, abstractClientPlayerEntity.prevStrideDistance, abstractClientPlayerEntity.strideDistance);
+                q += MathHelper.sin(MathHelper.lerp(h, abstractClientPlayerEntity.prevHorizontalSpeed, abstractClientPlayerEntity.horizontalSpeed) * 6.0F) * 32.0F * t;
+                if (abstractClientPlayerEntity.isInSneakingPose()) {
+                    q += 25.0F;
+                }
+
+                matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(6.0F + r / 2.0F + q));
+                matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(s / 2.0F));
+                matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0F - s / 2.0F));
+                VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntityAlpha(customCape));
+                ((PlayerEntityModel)this.getContextModel()).renderCape(matrixStack, vertexConsumer, i, OverlayTexture.DEFAULT_UV);
+                matrixStack.pop();
                 }
             }
         }

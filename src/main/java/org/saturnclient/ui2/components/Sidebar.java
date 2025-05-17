@@ -82,7 +82,7 @@ public class Sidebar extends Element {
 
         int s2 = s + padding.value;
 
-        renderScope.setRenderLayer(RenderLayer::getGuiTextured);
+        // renderScope.setRenderLayer(RenderLayer::getGuiTextured);
 
         renderScope.drawRoundedRectangle(0, 0, width, height, cornerRadius.value, bgColor.value);
 

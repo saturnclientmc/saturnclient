@@ -41,7 +41,7 @@ public class CosmeticPreview extends Element {
 
         renderScope.drawRoundedRectangle(0, 0, width, height, cornerRadius.value, bgColor.value);
         
-        renderScope.setRenderLayer(RenderLayer::getGuiTextured);
+        // renderScope.setRenderLayer(RenderLayer::getGuiTextured);
 
         int texWidth = width - padding.value;
         int texHeight = height - padding.value;

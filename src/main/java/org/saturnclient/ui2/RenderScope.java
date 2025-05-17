@@ -15,17 +15,21 @@ import org.saturnclient.saturnclient.SaturnClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.font.TextRenderer.TextLayerType;
 import net.minecraft.client.gui.ScreenRect;
+import net.minecraft.client.render.BufferBuilder;
+import net.minecraft.client.render.BufferRenderer;
 import net.minecraft.client.render.DiffuseLighting;
-import net.minecraft.client.render.OverlayTexture;
+import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.item.ItemRenderState;
+import net.minecraft.client.render.VertexFormat.DrawMode;
+import net.minecraft.client.render.VertexFormats;
+import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.util.Window;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ModelTransformationMode;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.crash.CrashException;
 import net.minecraft.util.crash.CrashReport;
@@ -39,13 +43,11 @@ public class RenderScope {
     private Function<Identifier, RenderLayer> renderLayers;
     private ScissorStack scissorStack = new ScissorStack();
     private int opacity = 255 << 24;
-    private final ItemRenderState itemRenderState;
 
     public RenderScope(MatrixStack matrices, VertexConsumerProvider.Immediate vertexConsumers) {
         this.matrices = matrices;
         this.vertexConsumers = vertexConsumers;
         this.scissorStack = new ScissorStack();
-        this.itemRenderState = new ItemRenderState();
     }
 
     public void setOpacity(float alpha) {
@@ -200,30 +202,35 @@ public class RenderScope {
        this.drawTexturedQuad(sprite, x, x + width, y, y + height, (u + 0.0F) / (float)textureWidth, (u + (float)regionWidth) / (float)textureWidth, (v + 0.0F) / (float)textureHeight, (v + (float)regionHeight) / (float)textureHeight, color);
     }
 
-    private void drawTexturedQuad(Identifier sprite, int x1, int x2, int y1, int y2, float u1, float u2, float v1, float v2, int color) {
-        x1 *= 4;
-        x2 *= 4;
-        y1 *= 4;
-        y2 *= 4;
-        color = getColor(color);
+   private void drawTexturedQuad(Identifier sprite, int x1, int x2, int y1, int y2, float u1, float u2, float v1, float v2, int color) {
+      RenderSystem.setShaderTexture(0, sprite);
+      RenderSystem.setShader(GameRenderer::getPositionTexColorProgram);
+      RenderSystem.enableBlend();
+      RenderSystem.defaultBlendFunc();
 
-        matrices.push();
-        matrices.scale(0.25f, 0.25f, 1.0f);
-       RenderSystem.setShaderTexture(0, sprite);
-       RenderLayer renderLayer = (RenderLayer)renderLayers.apply(sprite);
-       Matrix4f matrix4f = this.matrices.peek().getPositionMatrix();
-       VertexConsumer vertexConsumer = this.vertexConsumers.getBuffer(renderLayer);
-       vertexConsumer.vertex(matrix4f, (float)x1, (float)y1, 0.0F).texture(u1, v1).color(color);
-       vertexConsumer.vertex(matrix4f, (float)x1, (float)y2, 0.0F).texture(u1, v2).color(color);
-       vertexConsumer.vertex(matrix4f, (float)x2, (float)y2, 0.0F).texture(u2, v2).color(color);
-       vertexConsumer.vertex(matrix4f, (float)x2, (float)y1, 0.0F).texture(u2, v1).color(color);
-       matrices.pop();
-    }
+      Matrix4f matrix4f = this.matrices.peek().getPositionMatrix();
+      BufferBuilder bufferBuilder = Tessellator.getInstance().begin(DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR);
 
-    public void enableScissor(int x1, int y1, int x2, int y2) {
-        ScreenRect screenRect = (new ScreenRect(x1, y1, x2 - x1, y2 - y1)).transform(this.matrices.peek().getPositionMatrix());
-        this.setScissor(this.scissorStack.push(screenRect));
-     }
+      // Extract ARGB components from int color (0xAARRGGBB)
+      float a = ((color >> 24) & 0xFF) / 255.0f;
+      float r = ((color >> 16) & 0xFF) / 255.0f;
+      float g = ((color >> 8) & 0xFF) / 255.0f;
+      float b = (color & 0xFF) / 255.0f;
+
+      float z = 0.0f;
+
+      bufferBuilder.vertex(matrix4f, (float)x1, (float)y1, z).texture(u1, v1).color(r, g, b, a);
+      bufferBuilder.vertex(matrix4f, (float)x1, (float)y2, z).texture(u1, v2).color(r, g, b, a);
+      bufferBuilder.vertex(matrix4f, (float)x2, (float)y2, z).texture(u2, v2).color(r, g, b, a);
+      bufferBuilder.vertex(matrix4f, (float)x2, (float)y1, z).texture(u2, v1).color(r, g, b, a);
+
+      BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
+      RenderSystem.disableBlend();
+   }
+
+   public void enableScissor(int x1, int y1, int x2, int y2) {
+      this.setScissor(this.scissorStack.push(new ScreenRect(x1, y1, x2 - x1, y2 - y1)));
+   }
   
      public void disableScissor() {
         this.setScissor(this.scissorStack.pop());
@@ -289,7 +296,7 @@ public class RenderScope {
         }
     }
 
-    public void drawItem(ItemStack item, int x, int y) {
+   public void drawItem(ItemStack item, int x, int y) {
       this.drawItem(SaturnClient.client.player, SaturnClient.client.world, item, x, y, 0);
    }
 
@@ -319,25 +326,24 @@ public class RenderScope {
 
    private void drawItem(@Nullable LivingEntity entity, @Nullable World world, ItemStack stack, int x, int y, int seed, int z) {
       if (!stack.isEmpty()) {
-         SaturnClient.client.getItemModelManager().update(this.itemRenderState, stack, ModelTransformationMode.GUI, false, world, entity, seed);
+         BakedModel bakedModel = SaturnClient.client.getItemRenderer().getModel(stack, world, entity, seed);
          this.matrices.push();
-         this.matrices.translate((float)(x + 8), (float)(y + 8), (float)(150 + (this.itemRenderState.hasDepth() ? z : 0)));
+         this.matrices.translate((float)(x + 8), (float)(y + 8), (float)(150 + (bakedModel.hasDepth() ? z : 0)));
 
          try {
             this.matrices.scale(16.0F, -16.0F, 16.0F);
-            boolean bl = !this.itemRenderState.isSideLit();
+            boolean bl = !bakedModel.isSideLit();
             if (bl) {
                this.draw();
                DiffuseLighting.disableGuiDepthLighting();
             }
 
-            this.itemRenderState.render(this.matrices, this.vertexConsumers, 15728880, OverlayTexture.DEFAULT_UV);
             this.draw();
             if (bl) {
                DiffuseLighting.enableGuiDepthLighting();
             }
-         } catch (Throwable var11) {
-            CrashReport crashReport = CrashReport.create(var11, "Rendering item");
+         } catch (Throwable var12) {
+            CrashReport crashReport = CrashReport.create(var12, "Rendering item");
             CrashReportSection crashReportSection = crashReport.addElement("Item being rendered");
             crashReportSection.add("Item Type", () -> {
                return String.valueOf(stack.getItem());
