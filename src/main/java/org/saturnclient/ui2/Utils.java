@@ -1,5 +1,7 @@
 package org.saturnclient.ui2;
 
+import java.util.List;
+
 import org.lwjgl.glfw.GLFW;
 
 public class Utils {
@@ -43,5 +45,9 @@ public class Utils {
             case GLFW.GLFW_KEY_GRAVE_ACCENT -> shift ? '~' : '`';
             default -> '\0';
         };
+    }
+
+    public static <T> T getOrNull(List<T> list, int index) {
+        return (index >= 0 && index < list.size()) ? list.get(index) : null;
     }
 }

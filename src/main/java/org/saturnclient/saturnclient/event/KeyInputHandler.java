@@ -4,14 +4,13 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.util.Identifier;
 
 import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.ui2.screens.EmoteWheel;
 import org.saturnclient.ui2.screens.ShiftMenu;
 
 import dev.kosmx.playerAnim.api.layered.AnimationStack;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
-import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
 
 import org.lwjgl.glfw.GLFW;
 
@@ -48,14 +47,13 @@ public class KeyInputHandler {
                 client.setScreen(new ShiftMenu());
             }
 
+            if (freelookKeyBinding.wasPressed()) {
+                client.setScreen(new EmoteWheel());
+            }
+
             if (SaturnClient.client.player != null && SaturnClient.client.player.isSneaking()) {
                 AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(SaturnClient.client.player);
                 animationStack.removeLayer(1000);
-            }
-
-            if (freelookKeyBinding.wasPressed()) {
-                AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(SaturnClient.client.player);
-                animationStack.addAnimLayer(1000, PlayerAnimationRegistry.getAnimation(Identifier.of("saturnclient", "backflip")).playAnimation());
             }
         });
     }

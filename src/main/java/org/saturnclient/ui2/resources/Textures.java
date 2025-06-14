@@ -39,7 +39,12 @@ public class Textures {
         return Identifier.of("saturnclient", "textures/gui/hat/" + (hat.isEmpty() ? "none" : hat) + ".png");
     }
 
+    public static Identifier getEmotePreview(String emote) {
+        return Identifier.of("saturnclient", "textures/gui/emote/" + (emote == null ? "none" : emote) + ".png");
+    }
+
     public static Identifier getModIcon(String modId) {
         return Identifier.of("saturnclient", "textures/gui/mod/" + modId + ".png");
     }
+
 }
