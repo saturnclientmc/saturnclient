@@ -7,6 +7,7 @@ import net.minecraft.client.MinecraftClient;
 import org.saturnclient.modules.ModManager;
 import org.saturnclient.saturnclient.auth.Auth;
 import org.saturnclient.saturnclient.config.ConfigManager;
+import org.saturnclient.saturnclient.cosmetics.Emotes;
 import org.saturnclient.saturnclient.cosmetics.Hats;
 import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 import org.saturnclient.saturnclient.event.KeyInputHandler;
@@ -38,6 +39,7 @@ public class SaturnClient implements ModInitializer {
         });
         
         KeyInputHandler.register();
+        Emotes.initialize();
         if (Auth.authenticate()) {
             Cloaks.initialize();
             Hats.initialize();

@@ -3,6 +3,7 @@ package org.saturnclient.ui2;
 import java.util.List;
 
 import org.lwjgl.glfw.GLFW;
+import org.saturnclient.saturnclient.SaturnClient;
 
 public class Utils {
     public static boolean isHovering(int mouseX, int mouseY, int elementWidth, int elementHeight, float elementScale) {
@@ -48,6 +49,7 @@ public class Utils {
     }
 
     public static <T> T getOrNull(List<T> list, int index) {
+        SaturnClient.LOGGER.info("Accessing index {} in list of size {}", index, list.size());
         return (index >= 0 && index < list.size()) ? list.get(index) : null;
     }
 }

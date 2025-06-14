@@ -28,24 +28,24 @@ public class EmoteWheel extends SaturnScreen {
         int row = 0;
         int col = 0;
 
-        draw(new ImageTexture(Textures.LOGO_TEXT).dimensions(98, 10).centerOffset(width, height, 0, -150).animation(new Fade(700)));
-        draw(new ImageTexture(SaturnClientConfig.getLogo()).dimensions(98, 98).centerOffset(width, height, 0, -194).animation(new SlideY(700, -20)));
+        draw(new ImageTexture(Textures.LOGO_TEXT).dimensions(98, 10).centerOffset(width, height, 0, -105).animation(new Fade(700)));
+        draw(new ImageTexture(SaturnClientConfig.getLogo()).dimensions(98, 98).centerOffset(width, height, 0, -149).animation(new SlideY(700, -20)));
 
-        draw(new TextureButton(Textures.MODS_TAB, () -> {
+        draw(new TextureButton(Textures.LEFT, () -> {
             if (page > 1) {
                 page--;
                 elements.clear();
                 ui();
             }
-        }).dimensions(30, 30).centerOffset(width, height, -25, 0).animation(new Fade(700)));
+        }).dimensions(30, 30).centerOffset(width, height, -20, 45).animation(new Fade(700)));
 
-        draw(new TextureButton(Textures.MODS_TAB, () -> {
-            if (page > 1) {
+        draw(new TextureButton(Textures.RIGHT, () -> {
+            if ((8 * page) < Emotes.availableEmotes.size()) {
                 page++;
                 elements.clear();
                 ui();
             }
-        }).dimensions(30, 30).centerOffset(width, height, 10, 0).animation(new Fade(700)));
+        }).dimensions(30, 30).centerOffset(width, height, 20, 45).animation(new Fade(700)));
         
         while (row < 3) {
             int idx = (row * 3 + col) * page;
@@ -63,7 +63,7 @@ public class EmoteWheel extends SaturnScreen {
                 AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(SaturnClient.client.player);
                 animationStack.addAnimLayer(1000, PlayerAnimationRegistry.getAnimation(Identifier.of("saturnclient", emote)).playAnimation());
                 close();
-            }).dimensions(70, 70).centerOffset(width, height, -90 + (col * 80), -80 + (row * 80)).animation(new Fade(700)));
+            }).dimensions(70, 70).centerOffset(width, height, -80 + (col * 80), -35 + (row * 80)).animation(new Fade(700)));
 
             if (col < 2) {
                 col++;
@@ -72,5 +72,10 @@ public class EmoteWheel extends SaturnScreen {
                 row++;
             }
         }
+    }
+
+    @Override
+    public boolean shouldPause() {
+        return false;
     }
 }
