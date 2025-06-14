@@ -2,6 +2,7 @@ package org.saturnclient.ui2.screens;
 
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.SaturnClientConfig;
+import org.saturnclient.saturnclient.auth.Auth;
 import org.saturnclient.saturnclient.cosmetics.Emotes;
 import org.saturnclient.ui2.SaturnScreen;
 import org.saturnclient.ui2.Utils;
@@ -62,6 +63,7 @@ public class EmoteWheel extends SaturnScreen {
                 }
                 AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(SaturnClient.client.player);
                 animationStack.addAnimLayer(1000, PlayerAnimationRegistry.getAnimation(Identifier.of("saturnclient", emote)).playAnimation());
+                Auth.sendEmote(emote);
                 close();
             }).dimensions(70, 70).centerOffset(width, height, -80 + (col * 80), -35 + (row * 80)).animation(new Fade(700)));
 

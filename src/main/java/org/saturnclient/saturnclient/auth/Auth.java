@@ -194,4 +194,16 @@ public class Auth {
             }
         }
     }
+
+    public static void sendEmote(String emote) {
+        String uuid = SaturnClient.client.player.getUuidAsString().replace("-", "");
+        for (Map.Entry<String, String> player : playerNames.entrySet()) {
+            if (players.containsKey(player.getValue()) && !player.getValue().equals(uuid)) {
+                SaturnClient.client.player.networkHandler
+                        .sendChatCommand("msg " + player.getKey() + " "
+                                + "$SATURN_EMOTE&@"+uuid+"&@"+emote+"&@ if you are seeing this as a player, please report this to https://github.com/saturnclientmc/saturnclient/issues");
+                ;
+            }
+        }
+    }
 }
