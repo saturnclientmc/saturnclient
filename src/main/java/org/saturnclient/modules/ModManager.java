@@ -14,7 +14,8 @@ public class ModManager {
     public static Module[] MODS = {
         new Crosshair(),
         new AutoSprint(),
-        new ArmorDisplay()
+        new ArmorDisplay(),
+        new Fps(),
     };
 
     public static void init() {

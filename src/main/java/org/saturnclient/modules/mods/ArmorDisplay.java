@@ -17,7 +17,8 @@ public class ArmorDisplay extends Module implements HudMod {
     private static ModDimensions dimensions = new ModDimensions(40, 60);
 
     public ArmorDisplay() {
-        super(new ModuleDetails("Armor Display", "armor").description("Displays armor durability")
+        super(new ModuleDetails("Armor Display", "armor")
+            .description("Displays armor durability")
             .version("v0.1.0")
             .tags("Utility"),
             enabled.named("Enabled"),
