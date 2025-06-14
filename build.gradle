@@ -19,6 +19,10 @@ dependencies {
 
     modApi "dev.felnull:special-model-loader:1.4.0+pre.1"
     include "dev.felnull:special-model-loader:1.4.0+pre.1"
+
+    include modImplementation("dev.kosmx.player-anim:player-animation-lib-fabric:${project.player_anim}")
+    //You might want bendy-lib. playerAnimator will wrap it.
+    // include modRuntimeOnly("io.github.kosmx.bendy-lib:bendy-lib-fabric:${project.bendylib_version}")
 }
 
 
@@ -28,6 +32,11 @@ repositories {
 		name = "FelNull Maven"
 		url = "https://maven.felnull.dev"
 	}
+
+    maven {
+        name "KosmX's maven"
+        url 'https://maven.kosmx.dev/'
+    }
 }
 
 processResources {
