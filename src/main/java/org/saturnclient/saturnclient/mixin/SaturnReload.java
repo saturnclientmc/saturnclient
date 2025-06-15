@@ -24,24 +24,39 @@ public class SaturnReload {
     @Inject(method = "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;Lnet/minecraft/client/gui/hud/MessageIndicator;)V", at = @At("HEAD"), cancellable = true)
     public void onAddMessage(Text message, @Nullable MessageSignatureData signatureData,
             @Nullable MessageIndicator indicator, CallbackInfo ci) {
-        String msg = message.toString();
-        if (msg.contains("$SATURN_RELOAD")) {
-            for (Map.Entry<String, String> player : Auth.playerNames.entrySet()) {
-                String name = player.getKey();
-                if (msg.contains(name)) {
-                    Auth.player(name, player.getValue());
+        try {
+            String msg = message.toString();
+            if (msg.contains("$SATURN_RELOAD")) {
+                for (Map.Entry<String, String> player : Auth.playerNames.entrySet()) {
+                    String name = player.getKey();
+                    if (msg.contains(name)) {
+                        Auth.player(name, player.getValue());
+                    }
+                    ci.cancel();
                 }
-                ci.cancel();
+            } else if (msg.contains("$SATURN_EMOTE")) {
+                    String[] args = msg.split("&@");
+                    for (AbstractClientPlayerEntity player : SaturnClient.client.world.getPlayers()) {
+                        if (player.getUuidAsString().replace("-", "").equals(args[1])) {
+                            AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(player);
+                            animationStack.addAnimLayer(1000, PlayerAnimationRegistry.getAnimation(Identifier.of("saturnclient", args[2])).playAnimation());
+                            ci.cancel();
+                            break;
+                        }
+                    }
+            } else if (msg.contains("$SATURN_CANCEL_EMOTE")) {
+                    String[] args = msg.split("&@");
+                    for (AbstractClientPlayerEntity player : SaturnClient.client.world.getPlayers()) {
+                        if (player.getUuidAsString().replace("-", "").equals(args[1])) {
+                            AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(player);
+                            animationStack.removeLayer(1000);
+                            ci.cancel();
+                            break;
+                        }
+                    }
             }
-        } else if (msg.contains("$SATURN_EMOTE")) {
-            String[] args = msg.split("&@");
-            for (AbstractClientPlayerEntity player : SaturnClient.client.world.getPlayers()) {
-                if (player.getUuidAsString().replace("-", "").equals(args[1])) {
-                    AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(player);
-                    animationStack.addAnimLayer(1000, PlayerAnimationRegistry.getAnimation(Identifier.of("saturnclient", args[2])).playAnimation());
-                }
-            }
-            ci.cancel();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

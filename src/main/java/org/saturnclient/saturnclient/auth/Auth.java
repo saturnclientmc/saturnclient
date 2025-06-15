@@ -206,4 +206,16 @@ public class Auth {
             }
         }
     }
+
+    public static void cancelEmote() {
+        String uuid = SaturnClient.client.player.getUuidAsString().replace("-", "");
+        for (Map.Entry<String, String> player : playerNames.entrySet()) {
+            if (players.containsKey(player.getValue()) && !player.getValue().equals(uuid)) {
+                SaturnClient.client.player.networkHandler
+                        .sendChatCommand("msg " + player.getKey() + " "
+                                + "$SATURN_CANCEL_EMOTE&@"+uuid+"&@ if you are seeing this as a player, please report this to https://github.com/saturnclientmc/saturnclient/issues");
+                ;
+            }
+        }
+    }
 }
