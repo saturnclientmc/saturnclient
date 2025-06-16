@@ -11,7 +11,6 @@ import net.minecraft.client.render.RenderLayer;
 
 public class Crosshair extends Module {
     public static Property<Boolean> enabled = new Property<>(false);
-    public static Property<Boolean> range_indicator = new Property<>(false);
 
     public Crosshair() {
         super(
@@ -19,14 +18,12 @@ public class Crosshair extends Module {
             .description("Changes the crosshair if you're aiming at a entity")
             .tags("Visuals", "Utility")
             .version("v0.1.0"),
-            enabled.named("Enabled"),
-            range_indicator.named("Range Indicator"));
+            enabled.named("Enabled"));
     }
 
     @Override
     public void render(RenderScope scope) {
         if (enabled.value
-                && range_indicator.value
                 && SaturnClient.client.targetedEntity != null
                 && SaturnClient.client.targetedEntity.isAlive()) {
             int scaledWidth = 15;

@@ -21,6 +21,7 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.ItemRenderState;
+import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.Window;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
@@ -354,6 +355,16 @@ public class RenderScope {
             }
 
             this.matrices.pop();
+        }
+    }
+
+    public void drawSpriteStretched(Sprite sprite, int x, int y, int width, int height) {
+        this.drawSpriteStretched(sprite, x, y, width, height, -1);
+    }
+
+    public void drawSpriteStretched(Sprite sprite, int x, int y, int width, int height, int color) {
+        if (width != 0 && height != 0) {
+            this.drawTexturedQuad(sprite.getAtlasId(), x, x + width, y, y + height, sprite.getMinU(), sprite.getMaxU(), sprite.getMinV(), sprite.getMaxV(), color);
         }
     }
 }

@@ -3,6 +3,7 @@ package org.saturnclient.modules;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.render.RenderLayer;
 
 import org.saturnclient.modules.mods.*;
 import org.saturnclient.saturnclient.SaturnClient;
@@ -16,6 +17,7 @@ public class ModManager {
         new AutoSprint(),
         new ArmorDisplay(),
         new Fps(),
+        new PotionDisplay()
     };
 
     public static void init() {
@@ -46,6 +48,8 @@ public class ModManager {
                         renderScope.matrices.scale(dim.scale.value, dim.scale.value, 1.0f);
 
                         renderScope.drawRoundedRectangle(0, 0, dim.width, dim.height, dim.radius.value, dim.bgColor.value);
+
+                        renderScope.setRenderLayer(RenderLayer::getGuiTextured);
 
                         ((HudMod) m).renderHud(renderScope);
 
