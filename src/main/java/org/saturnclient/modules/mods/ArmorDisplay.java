@@ -52,8 +52,10 @@ public class ArmorDisplay extends Module implements HudMod {
         }
     }
 
-    public void renderHealth(RenderScope scope, int i, int max, int current) {
-        scope.drawText(0.5f, String.valueOf(((double) current / max) * 100) + "%", 17, (15 * i) + 3, dimensions.font.value, dimensions.fgColor.value);
+    public void renderHealth(RenderScope scope, int i, int max_damage, int damage) {
+        if (max_damage > 0 ) {
+            scope.drawText(0.5f, "" + (max_damage - damage), 17, (15 * i) + 3, dimensions.font.value, dimensions.fgColor.value);
+        }
     }
 
     @Override
