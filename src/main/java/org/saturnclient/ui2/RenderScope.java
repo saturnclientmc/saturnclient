@@ -37,7 +37,7 @@ import net.minecraft.world.World;
 public class RenderScope {
     public MatrixStack matrices;
     public VertexConsumerProvider.Immediate vertexConsumers;
-    private Function<Identifier, RenderLayer> renderLayers;
+    // private Function<Identifier, RenderLayer> renderLayers;
     private ScissorStack scissorStack = new ScissorStack();
     private int opacity = 255 << 24;
     private final ItemRenderState itemRenderState;
@@ -61,7 +61,7 @@ public class RenderScope {
     }    
 
     public void setRenderLayer(Function<Identifier, RenderLayer> renderLayers) {
-        this.renderLayers = renderLayers;
+        // this.renderLayers = renderLayers;
     }
 
     public void drawRect(int x, int y, int width, int height, int color) {
@@ -213,7 +213,7 @@ public class RenderScope {
         matrices.push();
         matrices.scale(0.25f, 0.25f, 1.0f);
         RenderSystem.setShaderTexture(0, sprite);
-        RenderLayer renderLayer = (RenderLayer)renderLayers.apply(sprite);
+        RenderLayer renderLayer = (RenderLayer)RenderLayer.getGuiTextured(sprite);
         Matrix4f matrix4f = this.matrices.peek().getPositionMatrix();
         VertexConsumer vertexConsumer = this.vertexConsumers.getBuffer(renderLayer);
         vertexConsumer.vertex(matrix4f, (float)x1, (float)y1, 0.0F).texture(u1, v1).color(color);

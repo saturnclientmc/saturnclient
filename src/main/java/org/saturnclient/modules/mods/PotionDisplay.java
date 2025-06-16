@@ -1,5 +1,7 @@
 package org.saturnclient.modules.mods;
 
+import java.util.Arrays;
+
 import org.saturnclient.modules.HudMod;
 import org.saturnclient.modules.ModDimensions;
 import org.saturnclient.modules.Module;
@@ -13,15 +15,22 @@ import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.StatusEffectSpriteManager;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
 public class PotionDisplay extends Module implements HudMod {
     public static Property<Boolean> enabled = new Property<>(false);
-    private static ModDimensions dimensions = new ModDimensions(40, 60);
+    private static ModDimensions dimensions = new ModDimensions(60, 0);
+    private final StatusEffectInstance[] dummyEffects = {
+        new StatusEffectInstance(Registries.STATUS_EFFECT.getEntry(Identifier.ofVanilla("speed")).get(), 12000, 2),
+        new StatusEffectInstance(Registries.STATUS_EFFECT.getEntry(Identifier.ofVanilla("strength")).get(), 12000, 2),
+        new StatusEffectInstance(Registries.STATUS_EFFECT.getEntry(Identifier.ofVanilla("fire_resistance")).get(), 12000, 2),
+    };
 
     public PotionDisplay() {
-        super(new ModuleDetails("Potion Display", "potions")
+        super(new ModuleDetails("Potion Display", "potion")
             .description("Displays potion effects")
             .version("v0.1.0")
             .tags("Utility"),
@@ -30,20 +39,32 @@ public class PotionDisplay extends Module implements HudMod {
         dimensions.prop());
     }
 
-    @Override
-    public void renderHud(RenderScope scope) {
+    private void renderEffects(RenderScope scope, Iterable<StatusEffectInstance> effects) {
         int row = 0;
 
         StatusEffectSpriteManager statusEffectSpriteManager = SaturnClient.client.getStatusEffectSpriteManager();
 
-        for (StatusEffectInstance effect : SaturnClient.client.player.getStatusEffects()) {
+        for (StatusEffectInstance effect : effects) {
             if (effect.shouldShowIcon()) {
                 RegistryEntry<StatusEffect> registryEntry = effect.getEffectType();
                 Sprite sprite = statusEffectSpriteManager.getSprite(registryEntry);
                 scope.drawSpriteStretched(sprite, 0, 18 * row, 16, 16);
-                scope.drawText(0.6f, getDurationAsString(effect), 19, 18 * row + 2, dimensions.font.value, -1);
+                scope.drawText(0.5f, getDurationAsString(effect), 20, 18 * row + 3, dimensions.font.value, -1);
+                row++;
             }
         }
+
+        dimensions.height = 18 * row;
+    }
+
+    @Override
+    public void renderHud(RenderScope scope) {
+        renderEffects(scope, SaturnClient.client.player.getStatusEffects());
+    }
+
+    @Override
+    public void renderDummy(RenderScope scope) {
+        renderEffects(scope, Arrays.asList(dummyEffects));
     }
 
     // This code was from: https://github.com/magicus/statuseffecttimer/blob/master/src/main/java/se/icus/mag/statuseffecttimer/mixin/StatusEffectTimerMixin.java
@@ -65,10 +86,6 @@ public class PotionDisplay extends Module implements HudMod {
 			return String.valueOf(totalSeconds) + "s";
 		}
 	}
-
-    @Override
-    public void renderDummy(RenderScope scope) {
-    }
 
     @Override
     public ModDimensions getDimensions() {
