@@ -9,6 +9,7 @@ import org.saturnclient.ui2.components.Sidebar;
 import org.saturnclient.ui2.components.inputs.FloatInput;
 import org.saturnclient.ui2.components.inputs.HexInput;
 import org.saturnclient.ui2.components.inputs.IntInput;
+import org.saturnclient.ui2.components.inputs.Select;
 import org.saturnclient.ui2.components.inputs.Toggle;
 import org.saturnclient.ui2.elements.Scroll;
 import org.saturnclient.ui2.elements.Text;
@@ -55,7 +56,7 @@ public class SaturnConfigEditor extends SaturnScreen {
                 configScroll.draw(
                             new Text(
                                     propName
-                            ).position(Fonts.centerX(520, propName, false), modY + 1).scale(0.7f));
+                            ).position(Fonts.centerX(520, propName, Text.font.value), modY + 1).scale(0.7f));
             } else {
                 configScroll.draw(
                                 new Text(
@@ -87,6 +88,9 @@ public class SaturnConfigEditor extends SaturnScreen {
                     Map<String, Property<?>> nestedProperties = (Map<String, Property<?>>) prop.value;
                     row = drawProperties(configScroll, nestedProperties, row + 1, col, w);
                     break;
+
+                case SELECT:
+                    configScroll.draw(new Select((Property<Integer>) prop).position(w / 2, modY));
 
                 case STRING:
             }

@@ -8,12 +8,16 @@ import net.minecraft.util.Identifier;
 public class Fonts {
     public static final Identifier INTER = Identifier.of("saturnclient", "inter");
     public static final Identifier INTER_BOLD = Identifier.of("saturnclient", "inter_bold");
+    public static final Identifier DEFAULT = Identifier.ofVanilla("default");
 
-    public static Identifier getFont(boolean bold) {
-        if (bold) {
-            return INTER_BOLD;
-        } else {
-            return INTER;
+    public static Identifier getFont(int font) {
+        switch (font) {
+            case 0:
+                return DEFAULT;
+            case 1:
+                return INTER;
+            default:
+                return INTER_BOLD;
         }
     }
     
@@ -22,35 +26,24 @@ public class Fonts {
             Style.EMPTY.withFont(font));
     }
 
-    public static Text setFont(String text, boolean bold) {
-        return Text.literal(text).setStyle(
-            Style.EMPTY.withFont(bold ? INTER_BOLD : INTER));
+    public static int getWidth(String text, int font) {
+        if (font == 0) {
+            return getWidth(text, getFont(font)) * 2;
+        } else {
+            return getWidth(text, getFont(font));
+        }
     }
 
-    public static Text setFont(String text) {
-        return Text.literal(text).setStyle(
-            Style.EMPTY.withFont(INTER));
-    }
-
-    // public static int getWidth(String text, Identifier font) {
-    //     return SaturnClient.client.textRenderer.getWidth(Text.literal(text).setStyle(
-    //         Style.EMPTY.withFont(font)));
-    // }
-
-    // public static int getHeight() {
-    //     return SaturnClient.client.textRenderer.fontHeight;
-    // }
-
-    public static int getWidth(String text, boolean bold) {
-        return SaturnClient.client.textRenderer.getWidth(setFont(text, getFont(bold)));
+    private static int getWidth(String text, Identifier font) {
+        return SaturnClient.client.textRenderer.getWidth(setFont(text, font));
     }
 
     public static int getHeight() {
         return 18;
     }
 
-    public static int centerX(int w, String text, boolean bold) {
-        return (w - Fonts.getWidth(text, bold)) / 2;
+    public static int centerX(int w, String text, int font) {
+        return (w - Fonts.getWidth(text, font)) / 2;
     }
 
     public static int centerY(int h) {

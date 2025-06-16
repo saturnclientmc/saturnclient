@@ -22,6 +22,7 @@ public class SaturnModule extends Element {
     private static Property<Integer> iconBg = theme.property("icon-bg", new Property<>(0xFF2e3248));
     private static Property<Integer> tagBg = theme.property("tag-bg", new Property<>(0xFF2e3248));
     private static Property<Integer> iconRadius = theme.property("icon-radius", new Property<>(10));
+    private static Property<Integer> font = theme.property("font", Property.font(1));
     private static Property<Integer> radius = theme.property("radius", new Property<>(10));
 
     static {
@@ -64,15 +65,15 @@ public class SaturnModule extends Element {
 
         renderScope.drawTexture(mod.getIconTexture(), p + (p / 2), p + (p / 2), 0, 0, h - p, h - p, iconFg.value);
 
-        renderScope.drawText(0.6f, mod.getName(), p+h+4, p + 1, true, fgColor.value);
+        renderScope.drawText(0.6f, mod.getName(), p+h+4, p + 1, font.value, fgColor.value);
 
-        renderScope.drawText(0.35f, mod.getVersion(), width - p - (int) (Fonts.getWidth(mod.getVersion(), false) * 0.35f), p + 1, false, fgColor.value);
+        renderScope.drawText(0.35f, mod.getVersion(), width - p - (int) (Fonts.getWidth(mod.getVersion(), font.value) * 0.35f), p + 1, font.value, fgColor.value);
 
         int xt = p + h + 4;
         for (String tag : mod.getTags()) {
-            int xtb = (int) (Fonts.getWidth(tag, false) * 0.4f);
+            int xtb = (int) (Fonts.getWidth(tag, font.value) * 0.4f);
             renderScope.drawRoundedRectangle(xt, p + (h/2), xtb + 6, 12, 5, tagBg.value);
-            renderScope.drawText(0.4f, tag, xt+2, p + (h/2) + 3, false, fgColor.value);
+            renderScope.drawText(0.4f, tag, xt+2, p + (h/2) + 3, font.value, fgColor.value);
             xt += xtb + 9;
         }
 

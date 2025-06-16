@@ -51,7 +51,8 @@ public class ThemeManager {
             }
         } else {
             for (Map.Entry<String, Property<?>> tProp : properties.get(namespace).entrySet()) {
-                currentStyling.get(tProp.getKey()).setValue(tProp.getValue().value);
+                Property<?> p = currentStyling.get(tProp.getKey());
+                if (p != null) p.setValue(tProp.getValue().value);
             }
         }
     }
@@ -61,7 +62,7 @@ public class ThemeManager {
             for (Map.Entry<String, Property<?>> tProp : properties.get(namespace+"@"+state).entrySet()) {
                 Property<?> p = currentStyling.get(tProp.getKey());
                 Property<?> currProp = properties.get(namespace).get(tProp.getKey());
-                if (p.value.equals(currProp.value)) {
+                if (currProp != null && p.value.equals(currProp.value)) {
                     p.setValue(tProp.getValue().value);
                 }
             }

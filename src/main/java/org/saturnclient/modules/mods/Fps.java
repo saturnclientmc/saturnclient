@@ -26,15 +26,15 @@ public class Fps extends Module implements HudMod {
     @Override
     public void renderHud(RenderScope scope) {
         String text = String.valueOf(SaturnClient.client.getCurrentFps()) + " FPS";
-        scope.drawText(text, 0, 0, false, fgColor.value);
-        dimensions.width = Fonts.getWidth(text, isEnabled());
+        scope.drawText(text, 0, 0, dimensions.font.value, fgColor.value);
+        dimensions.width = Fonts.getWidth(text, dimensions.font.value);
     }
 
     @Override
     public void renderDummy(RenderScope scope) {
         String text = "369 FPS";
-        scope.drawText(text, 0, 0, false, fgColor.value);
-        dimensions.width = Fonts.getWidth(text, isEnabled());
+        scope.drawText(text, 0, 0, dimensions.font.value, fgColor.value);
+        dimensions.width = Fonts.getWidth(text, dimensions.font.value);
     }
 
     @Override

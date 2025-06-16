@@ -13,12 +13,14 @@ public class Property<T> {
         FLOAT,
         STRING,
         HEX,
-        NAMESPACE
+        NAMESPACE,
+        SELECT,
     }
 
     public T value;
     public boolean isReset = false;
     private T defaultValue;
+    private String[] availableValues;
     private PropertyType type;
 
     public Property(T value) {
@@ -43,32 +45,45 @@ public class Property<T> {
         this.type = type;
     }
 
-    public boolean getBool() {
-        if (value instanceof Boolean) {
-            return (boolean) value;
-        }
-        throw new IllegalStateException("Property does not contain a boolean");
+    public static Property<Integer> select(Integer value, String... availableValues) {
+        Property<Integer> property = new Property<>(value, PropertyType.SELECT);
+        property.availableValues = availableValues;
+        return property;
     }
 
-    public int getInt() {
-        if (value instanceof Integer) {
-            return (int) value;
-        }
-        throw new IllegalStateException("Property does not contain an int");
+    public static Property<Integer> font(int value) {
+        return select(value, "Default", "Inter", "Inter bold");
     }
 
-    public float getFloat() {
-        if (value instanceof Float) {
-            return (float) value;
-        }
-        throw new IllegalStateException("Property does not contain a float");
+    @SuppressWarnings("unchecked")
+    public static <T> Property<T> namespace(Map<String, Property<?>> value) {
+        Property<T> property = new Property<>((T) value, PropertyType.NAMESPACE);
+        property.type = PropertyType.NAMESPACE;
+        return property;
     }
 
-    public String getString() {
-        if (value instanceof String) {
-            return (String) value;
+    public void next() {
+        if ((Integer) value < availableValues.length-1) setValue((Integer)value+1);
+        else setValue(0);
+    }
+
+    public void prev() {
+        if ((Integer) value > 0) setValue((Integer)value-1);
+        else setValue(availableValues.length - 1);
+    }
+
+    public void setSelection(int selection) {
+        if (selection >= 0 && selection < availableValues.length && type == PropertyType.SELECT) {
+            setValue(selection);
         }
-        throw new IllegalStateException("Property does not contain a string");
+    }
+
+    public String getSelection() {
+        if (type == PropertyType.SELECT) {
+            return availableValues[(Integer) value];
+        } else {
+            return null;
+        }
     }
 
     public void reset() {

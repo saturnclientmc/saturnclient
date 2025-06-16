@@ -12,6 +12,7 @@ public class ModDimensions {
     public Property<Integer> bgColor = new Property<>(0xFF000000, Property.PropertyType.HEX);
     public Property<Integer> fgColor = new Property<>(0xFFffffff, Property.PropertyType.HEX);
     public Property<Integer> radius = new Property<>(0);
+    public Property<Integer> font = Property.font(0);
 
     public int width = 0;
     public int height = 0;
@@ -23,7 +24,8 @@ public class ModDimensions {
             "Scale", scale,
             "Background Color", bgColor,
             "Foreground Color", fgColor,
-            "Corner Radius", radius
+            "Corner Radius", radius,
+            "Font", font
         )).named("In-Game Display"); 
     }
 

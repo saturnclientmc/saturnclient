@@ -12,7 +12,7 @@ public class Button extends Element {
     private static Property<Integer> bgColor = theme.property("bg-color", new Property<Integer>(0xFF000000));
     private static Property<Integer> fgColor = theme.property("fg-color", new Property<Integer>(0xFFFFFFFF));
     private static Property<Integer> cornerRadius = theme.property("corner-radius", new Property<Integer>(10));
-    private static Property<Boolean> bold = theme.property("fg-bold", new Property<Boolean>(false));
+    private static Property<Integer> font = theme.property("font", Property.font(1));
 
     static {
         theme.propertyStateDefault("hovering", "fg-color", 0xFF845eee);
@@ -24,7 +24,7 @@ public class Button extends Element {
     public Button(String text, Runnable onClick) {
         this.text = text;
         this.onClick = onClick;
-        this.dimensions(Fonts.getWidth(text, bold.value) + 50, 38);
+        this.dimensions(Fonts.getWidth(text, font.value) + 50, 38);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class Button extends Element {
         renderScope.drawRoundedRectangle(0, 0, width, height, cornerRadius.value, bgColor.value);
 
         // renderScope.drawText(text, (width - Fonts.getWidth(text, font)) / 2, (height - Fonts.getHeight()) / 2, bold.value, fgColor.value);
-        renderScope.drawText(text, Fonts.centerX(width, text, bold.value), Fonts.centerY(height), bold.value, fgColor.value);
+        renderScope.drawText(text, Fonts.centerX(width, text, font.value), Fonts.centerY(height), font.value, fgColor.value);
     }
 
     @Override
