@@ -9,7 +9,7 @@ public class ModDimensions {
     public Property<Integer> x = new Property<>(0);
     public Property<Integer> y = new Property<>(0);
     public Property<Float> scale = new Property<>(1.0f);
-    public Property<Integer> bgColor = new Property<>(0xFF000000, Property.PropertyType.HEX);
+    public Property<Integer> bgColor = new Property<>(0x00000000, Property.PropertyType.HEX);
     public Property<Integer> fgColor = new Property<>(0xFFffffff, Property.PropertyType.HEX);
     public Property<Integer> radius = new Property<>(0);
     public Property<Integer> font = Property.font(0);
