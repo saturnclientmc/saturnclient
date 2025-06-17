@@ -1,5 +1,6 @@
 package org.saturnclient.modules.mods;
 
+import org.lwjgl.glfw.GLFW;
 import org.saturnclient.modules.HudMod;
 import org.saturnclient.modules.ModDimensions;
 import org.saturnclient.modules.Module;
@@ -14,6 +15,7 @@ import net.minecraft.item.Items;
 
 public class ArmorDisplay extends Module implements HudMod {
     private static Property<Boolean> enabled = Property.bool(true);
+    private static Property<Integer> test = Property.keybinding(GLFW.GLFW_KEY_Y);
     private static ModDimensions dimensions = new ModDimensions(40, 60);
 
     public ArmorDisplay() {
@@ -22,7 +24,15 @@ public class ArmorDisplay extends Module implements HudMod {
             .version("v0.1.0")
             .tags("Utility"),
             enabled.named("Enabled"),
+            test.named("Test key"),
             dimensions.prop());
+    }
+
+    @Override
+    public void tick() {
+        if (test.isKeyPressed()) {
+            
+        }
     }
 
     public void renderArmor(RenderScope scope, ItemStack helmet, ItemStack chestplate, ItemStack leggings, ItemStack boots) {

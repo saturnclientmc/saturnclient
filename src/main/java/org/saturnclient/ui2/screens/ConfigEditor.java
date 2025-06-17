@@ -9,6 +9,7 @@ import org.saturnclient.ui2.components.Sidebar;
 import org.saturnclient.ui2.components.inputs.FloatInput;
 import org.saturnclient.ui2.components.inputs.HexInput;
 import org.saturnclient.ui2.components.inputs.IntInput;
+import org.saturnclient.ui2.components.inputs.KeybindingSelector;
 import org.saturnclient.ui2.components.inputs.Select;
 import org.saturnclient.ui2.components.inputs.Toggle;
 import org.saturnclient.ui2.elements.Scroll;
@@ -95,6 +96,10 @@ public class ConfigEditor extends SaturnScreen {
 
                 case SELECT:
                     configScroll.draw(new Select((Property<Integer>) prop).position(w / 2, modY));
+                    break;
+
+                case KEYBINDING:
+                    configScroll.draw(new KeybindingSelector((Property<Integer>) prop).position(w / 2, modY));
                     break;
 
                 case STRING:

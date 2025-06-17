@@ -2,6 +2,9 @@ package org.saturnclient.saturnclient.config;
 
 import java.util.Map;
 
+import org.lwjgl.glfw.GLFW;
+import org.saturnclient.saturnclient.SaturnClient;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 
@@ -15,6 +18,7 @@ public class Property<T> {
         HEX,
         NAMESPACE,
         SELECT,
+        KEYBINDING,
     }
 
     public T value;
@@ -77,6 +81,10 @@ public class Property<T> {
 
     public static Property<Integer> color(int value) {
         return new Property<>(value, PropertyType.HEX);
+    }
+
+    public static Property<Integer> keybinding(int value) {
+        return new Property<>(value, PropertyType.KEYBINDING);
     }
 
     public void next() {
@@ -185,5 +193,9 @@ public class Property<T> {
 
     public NamedProperty<T> named(String name) {
         return new NamedProperty<>(name, this);
+    }
+
+    public boolean isKeyPressed() {
+        return GLFW.glfwGetKey(SaturnClient.client.getWindow().getHandle(), (Integer) (Object) value) == GLFW.GLFW_PRESS;
     }
 }
