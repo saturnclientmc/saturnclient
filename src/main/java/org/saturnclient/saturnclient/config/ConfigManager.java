@@ -137,25 +137,17 @@ public class ConfigManager {
                     Map<String, Property<?>> nestedProperties = p.getNamespaceValue();
                     loadProperties(nestedConfig, nestedProperties);
                 } else {
-                    // Handle regular properties
-                    switch (p.getType()) {
-                        case BOOLEAN:
-                            ((Property<Boolean>) p).value = c.getAsBoolean();
-                            break;
-                        case INTEGER:
-                            ((Property<Integer>) p).value = c.getAsInt();
-                            break;
-                        case FLOAT:
-                            ((Property<Float>) p).value = c.getAsFloat();
-                            break;
-                        case STRING:
-                            ((Property<String>) p).value = c.getAsString();
-                            break;
-                        case HEX:
-                            ((Property<Integer>) p).value = c.getAsInt();
-                            break;
-                        default:
-                            break;
+                    if (p.value instanceof Integer) {
+                        ((Property<Integer>) p).value = c.getAsInt();
+                    } else if (p.value instanceof String) {
+                        ((Property<String>) p).value = c.getAsString();
+                    } else if (p.value instanceof Float) {
+                        ((Property<Float>) p).value = c.getAsFloat();
+                    } else if (p.value instanceof Boolean) {
+                        ((Property<Boolean>) p).value = c.getAsBoolean();
+                    } else {
+                        SaturnClient.LOGGER.warn(
+                                "Unknown property type for: " + propertyName);
                     }
                 }
             } else {
@@ -201,36 +193,29 @@ public class ConfigManager {
         for (String propertyName : propertyMap.keySet()) {
             Property<?> property = propertyMap.get(propertyName);
             JsonElement propertyValue = null;
-
-            if (property.getType() == Property.PropertyType.NAMESPACE) {
-                // Handle nested namespace
-                JsonObject nestedConfig = new JsonObject();
-                Map<String, Property<?>> nestedProperties = (Map<String, Property<?>>) property.value;
-                saveProperties(nestedConfig, nestedProperties);
-                propertyValue = nestedConfig;
-            } else {
-                // Convert the property value based on its type
-                switch (property.getType()) {
-                    case BOOLEAN:
-                        propertyValue = new JsonPrimitive((Boolean) property.value);
-                        break;
-                    case INTEGER:
+            // Convert the property value based on its type
+            switch (property.getType()) {
+                case NAMESPACE:
+                    // Handle nested namespace
+                    JsonObject nestedConfig = new JsonObject();
+                    Map<String, Property<?>> nestedProperties = (Map<String, Property<?>>) property.value;
+                    saveProperties(nestedConfig, nestedProperties);
+                    propertyValue = nestedConfig;
+                    break;
+                default:
+                    if (property.value instanceof Integer) {
                         propertyValue = new JsonPrimitive((Integer) property.value);
-                        break;
-                    case FLOAT:
-                        propertyValue = new JsonPrimitive((Float) property.value);
-                        break;
-                    case STRING:
+                    } else if (property.value instanceof String) {
                         propertyValue = new JsonPrimitive((String) property.value);
-                        break;
-                    case HEX:
-                        propertyValue = new JsonPrimitive((Integer) property.value);
-                        break;
-                    default:
+                    } else if (property.value instanceof Float) {
+                        propertyValue = new JsonPrimitive((Float) property.value);
+                    } else if (property.value instanceof Boolean) {
+                        propertyValue = new JsonPrimitive((Boolean) property.value);
+                    } else {
                         SaturnClient.LOGGER.warn(
                                 "Unknown property type for: " + propertyName);
-                        break;
-                }
+                    }
+                    break;
             }
 
             if (propertyValue != null) {
