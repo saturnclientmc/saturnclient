@@ -196,6 +196,6 @@ public class Property<T> {
     }
 
     public boolean isKeyPressed() {
-        return GLFW.glfwGetKey(SaturnClient.client.getWindow().getHandle(), (Integer) (Object) value) == GLFW.GLFW_PRESS;
+        return (Integer) value == -1 ? false : GLFW.glfwGetKey(SaturnClient.client.getWindow().getHandle(), (Integer) (Object) value) == GLFW.GLFW_PRESS;
     }
 }

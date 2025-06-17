@@ -22,15 +22,19 @@ public class KeybindingSelector extends Element {
     @Override
     public void render(RenderScope renderScope, ElementContext ctx) {
         int textColor = focused ? 0xFFFFFF : 0xAAAAAA;
-        int scanCode = GLFW.glfwGetKeyScancode(prop.value);
-
         renderScope.drawRoundedRectangle(0, 0, width, height, 10, 0xFF000000);
-        renderScope.drawText(0.6f, GLFW.glfwGetKeyName(prop.value, scanCode).toUpperCase(), 4, 4, font.value, textColor);
+        renderScope.drawText(0.6f, prop.value == -1 ? "<NONE>" :
+            GLFW.glfwGetKeyName(prop.value, GLFW.glfwGetKeyScancode(prop.value)).toUpperCase(),
+            4, 4, font.value, textColor);
     }
 
     @Override
     public void keyPressed(int keyCode, int scanCode, int modifiers) {
-        prop.value = keyCode;
+        if (keyCode == GLFW.GLFW_KEY_BACKSPACE) {
+            prop.value = -1;
+        } else {
+            prop.value = keyCode;
+        }
         focused = false;
     }
 }
