@@ -8,9 +8,9 @@ import org.saturnclient.ui2.RenderScope;
 
 public class Toggle extends Element {
     private static ThemeManager theme = new ThemeManager("Toggle", "hovering", "enabled");
-    private static Property<Integer> bgColor = theme.property("bg-color", new Property<Integer>(0xFF808080));
-    private static Property<Integer> fgColor = theme.property("fg-color", new Property<Integer>(0xFF909090));
-    private static Property<Integer> cornerRadius = theme.property("corner-radius", new Property<Integer>(30));
+    private static Property<Integer> bgColor = theme.property("bg-color", Property.color(0xFF808080));
+    private static Property<Integer> fgColor = theme.property("fg-color", Property.color(0xFF909090));
+    private static Property<Integer> cornerRadius = theme.property("corner-radius", Property.integer(30));
 
     static {
         theme.propertyStateDefault("enabled", "bg-color", 0xaf8B5CF6);

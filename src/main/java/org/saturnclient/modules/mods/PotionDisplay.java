@@ -21,8 +21,9 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
 public class PotionDisplay extends Module implements HudMod {
-    public static Property<Boolean> enabled = new Property<>(false);
+    public static Property<Boolean> enabled = Property.bool(false);
     private static ModDimensions dimensions = new ModDimensions(60, 0);
+
     private final StatusEffectInstance[] dummyEffects = {
         new StatusEffectInstance(Registries.STATUS_EFFECT.getEntry(Identifier.ofVanilla("speed")).get(), 12000, 2),
         new StatusEffectInstance(Registries.STATUS_EFFECT.getEntry(Identifier.ofVanilla("strength")).get(), 12000, 2),

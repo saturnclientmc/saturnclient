@@ -16,14 +16,14 @@ import net.minecraft.client.render.RenderLayer;
 
 public class SaturnModule extends Element {
     private static ThemeManager theme = new ThemeManager("Module", "enabled", "hovering");
-    private static Property<Integer> bgColor = theme.property("bg", new Property<>(0xFF1d202d));
-    private static Property<Integer> fgColor = theme.property("fg", new Property<>(0xFFA1A2B8));
-    private static Property<Integer> iconFg = theme.property("icon-fg", new Property<>(0xFFA1A2B8));
-    private static Property<Integer> iconBg = theme.property("icon-bg", new Property<>(0xFF2e3248));
-    private static Property<Integer> tagBg = theme.property("tag-bg", new Property<>(0xFF2e3248));
-    private static Property<Integer> iconRadius = theme.property("icon-radius", new Property<>(10));
+    private static Property<Integer> bgColor = theme.property("bg", Property.color(0xFF1d202d));
+    private static Property<Integer> fgColor = theme.property("fg", Property.color(0xFFA1A2B8));
+    private static Property<Integer> iconFg = theme.property("icon-fg", Property.color(0xFFA1A2B8));
+    private static Property<Integer> iconBg = theme.property("icon-bg", Property.color(0xFF2e3248));
+    private static Property<Integer> tagBg = theme.property("tag-bg", Property.color(0xFF2e3248));
+    private static Property<Integer> iconRadius = theme.property("icon-radius", Property.color(10));
     private static Property<Integer> font = theme.property("font", Property.font(1));
-    private static Property<Integer> radius = theme.property("radius", new Property<>(10));
+    private static Property<Integer> radius = theme.property("radius", Property.color(10));
 
     static {
         theme.propertyStateDefault("enabled", "bg", 0xFF1d202d);

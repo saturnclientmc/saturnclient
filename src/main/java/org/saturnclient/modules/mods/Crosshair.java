@@ -10,7 +10,7 @@ import org.saturnclient.ui2.resources.Textures;
 import net.minecraft.client.render.RenderLayer;
 
 public class Crosshair extends Module {
-    public static Property<Boolean> enabled = new Property<>(false);
+    public static Property<Boolean> enabled = Property.bool(false);
 
     public Crosshair() {
         super(

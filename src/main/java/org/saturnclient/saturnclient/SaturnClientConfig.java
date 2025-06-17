@@ -10,11 +10,9 @@ import net.minecraft.util.Identifier;
 public class SaturnClientConfig {
     public static ConfigManager config;
 
-    public static Property<Boolean> realisticLogo =
-            new Property<>(false);
+    public static Property<Boolean> realisticLogo = Property.bool(false);
 
-    public static Property<Boolean> saturnTitleScreen = 
-            new Property<>(true);
+    public static Property<Boolean> saturnTitleScreen = Property.bool(true);
 
     public static Identifier getLogo() {
         return realisticLogo.value ? Textures.REALISTIC_LOGO : Textures.LOGO;

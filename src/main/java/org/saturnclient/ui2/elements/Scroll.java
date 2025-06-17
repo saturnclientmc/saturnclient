@@ -12,13 +12,13 @@ import org.saturnclient.ui2.components.ElementRenderer;
 
 public class Scroll extends Element {
     private static ThemeManager theme = new ThemeManager("Scroll");
-    private static Property<Integer> bgColor = theme.property("bg-color", new Property<Integer>(0x90000000));
-    private static Property<Integer> scrollBarColor = theme.property("scrollbar-color", new Property<Integer>(-7643914));
+    private static Property<Integer> bgColor = theme.property("bg-color", Property.color(0x90000000));
+    private static Property<Integer> scrollBarColor = theme.property("scrollbar-color", Property.color(-7643914));
 
-    private static Property<Integer> scrollBarRadius = theme.property("scrollbar-radius", new Property<Integer>(10));
-    private static Property<Integer> scrollBarWidth = theme.property("scrollbar-width", new Property<Integer>(5));
-    private static Property<Integer> scrollBarPadding = theme.property("scrollbar-padding", new Property<Integer>(5));
-    private static Property<Integer> cornerRadius = theme.property("corner-radius", new Property<Integer>(10));
+    private static Property<Integer> scrollBarRadius = theme.property("scrollbar-radius", Property.integer(10));
+    private static Property<Integer> scrollBarWidth = theme.property("scrollbar-width", Property.integer(5));
+    private static Property<Integer> scrollBarPadding = theme.property("scrollbar-padding", Property.integer(5));
+    private static Property<Integer> cornerRadius = theme.property("corner-radius", Property.integer(10));
     
     int padding = 0;
 

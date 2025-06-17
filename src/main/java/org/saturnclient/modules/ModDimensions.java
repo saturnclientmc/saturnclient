@@ -6,19 +6,19 @@ import org.saturnclient.saturnclient.config.NamedProperty;
 import org.saturnclient.saturnclient.config.Property;
 
 public class ModDimensions {
-    public Property<Integer> x = new Property<>(0);
-    public Property<Integer> y = new Property<>(0);
-    public Property<Float> scale = new Property<>(1.0f);
-    public Property<Integer> bgColor = new Property<>(0x00000000, Property.PropertyType.HEX);
-    public Property<Integer> fgColor = new Property<>(0xFFffffff, Property.PropertyType.HEX);
-    public Property<Integer> radius = new Property<>(0);
+    public Property<Integer> x = Property.integer(0);
+    public Property<Integer> y = Property.integer(0);
+    public Property<Float> scale = Property.floatProp(1.0f);
+    public Property<Integer> bgColor = Property.color(0x00000000);
+    public Property<Integer> fgColor = Property.color(0xFFffffff);
+    public Property<Integer> radius = Property.integer(0);
     public Property<Integer> font = Property.font(0);
 
     public int width = 0;
     public int height = 0;
 
     public NamedProperty<Map<String, Property<?>>> prop() {
-        return new Property<Map<String, Property<?>>>(Map.of(
+        return Property.namespace(Map.of(
             "X", x,
             "Y", y,
             "Scale", scale,

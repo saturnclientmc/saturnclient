@@ -9,9 +9,9 @@ import org.saturnclient.ui2.resources.Fonts;
 
 public class Button extends Element {
     private static ThemeManager theme = new ThemeManager("Button", "hovering");
-    private static Property<Integer> bgColor = theme.property("bg-color", new Property<Integer>(0xFF000000));
-    private static Property<Integer> fgColor = theme.property("fg-color", new Property<Integer>(0xFFFFFFFF));
-    private static Property<Integer> cornerRadius = theme.property("corner-radius", new Property<Integer>(10));
+    private static Property<Integer> bgColor = theme.property("bg-color", Property.color(0xFF000000));
+    private static Property<Integer> fgColor = theme.property("fg-color", Property.color(0xFFFFFFFF));
+    private static Property<Integer> cornerRadius = theme.property("corner-radius", Property.integer(10));
     private static Property<Integer> font = theme.property("font", Property.font(1));
 
     static {

@@ -23,26 +23,30 @@ public class Property<T> {
     private String[] availableValues;
     private PropertyType type;
 
-    public Property(T value) {
-        this.value = value;
-        this.defaultValue = value;
-        if (value instanceof Boolean) {
-            type = PropertyType.BOOLEAN;
-        } else if (value instanceof Integer) {
-            type = PropertyType.INTEGER;
-        } else if (value instanceof Float) {
-            type = PropertyType.FLOAT;
-        } else if (value instanceof String) {
-            type = PropertyType.STRING;
-        } else if (valueIsNamespace(value)) {
-            type = PropertyType.NAMESPACE;
-        }
-    }
-
-    public Property(T value, PropertyType type) {
+    private Property(T value, PropertyType type) {
         this.value = value;
         this.defaultValue = value;
         this.type = type;
+    }
+
+    public static <T> Property<T> from(T value) {
+        if (value instanceof Boolean) {
+            return new Property<>(value, PropertyType.BOOLEAN);
+        } else if (value instanceof Integer) {
+            return new Property<>(value, PropertyType.INTEGER);
+        } else if (value instanceof Float) {
+            return new Property<>(value, PropertyType.FLOAT);
+        } else if (value instanceof String) {
+            return new Property<>(value, PropertyType.STRING);
+        } else if (valueIsNamespace(value)) {
+            return new Property<>(value, PropertyType.NAMESPACE);
+        } else {
+            return null;
+        }
+    }
+
+    public static Property<Integer> font(int value) {
+        return select(value, "Default", "Inter", "Inter bold");
     }
 
     public static Property<Integer> select(Integer value, String... availableValues) {
@@ -51,15 +55,28 @@ public class Property<T> {
         return property;
     }
 
-    public static Property<Integer> font(int value) {
-        return select(value, "Default", "Inter", "Inter bold");
+    public static Property<Map<String, Property<?>>> namespace(Map<String, Property<?>> value) {
+        return new Property<>(value, PropertyType.NAMESPACE);
     }
 
-    @SuppressWarnings("unchecked")
-    public static <T> Property<T> namespace(Map<String, Property<?>> value) {
-        Property<T> property = new Property<>((T) value, PropertyType.NAMESPACE);
-        property.type = PropertyType.NAMESPACE;
-        return property;
+    public static Property<Boolean> bool(boolean value) {
+        return new Property<>(value, PropertyType.BOOLEAN);
+    }
+
+    public static Property<Integer> integer(int value) {
+        return new Property<>(value, PropertyType.INTEGER);
+    }
+
+    public static Property<Float> floatProp(float value) {
+        return new Property<>(value, PropertyType.FLOAT);
+    }
+
+    public static Property<String> string(String value) {
+        return new Property<>(value, PropertyType.STRING);
+    }
+
+    public static Property<Integer> color(int value) {
+        return new Property<>(value, PropertyType.HEX);
     }
 
     public void next() {

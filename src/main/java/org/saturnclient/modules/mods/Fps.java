@@ -10,8 +10,7 @@ import org.saturnclient.ui2.RenderScope;
 import org.saturnclient.ui2.resources.Fonts;
 
 public class Fps extends Module implements HudMod {
-    private static Property<Boolean> enabled = new Property<>(false);
-    private static Property<Integer> fgColor = new Property<>(-1, Property.PropertyType.HEX);
+    private static Property<Boolean> enabled = Property.bool(false);
     private static ModDimensions dimensions = new ModDimensions(60, Fonts.getHeight());
     
     public Fps() {
@@ -26,14 +25,14 @@ public class Fps extends Module implements HudMod {
     @Override
     public void renderHud(RenderScope scope) {
         String text = String.valueOf(SaturnClient.client.getCurrentFps()) + " FPS";
-        scope.drawText(text, 0, 0, dimensions.font.value, fgColor.value);
+        scope.drawText(text, 0, 0, dimensions.font.value, dimensions.fgColor.value);
         dimensions.width = Fonts.getWidth(text, dimensions.font.value);
     }
 
     @Override
     public void renderDummy(RenderScope scope) {
         String text = "369 FPS";
-        scope.drawText(text, 0, 0, dimensions.font.value, fgColor.value);
+        scope.drawText(text, 0, 0, dimensions.font.value, dimensions.fgColor.value);
         dimensions.width = Fonts.getWidth(text, dimensions.font.value);
     }
 

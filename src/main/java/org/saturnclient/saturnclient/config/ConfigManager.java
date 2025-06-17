@@ -32,8 +32,7 @@ public class ConfigManager {
 
     public ConfigManager(ConfigManager config, String namespace) {
         currentMap = new LinkedHashMap<>();
-        Property<Map<String, Property<?>>> namespaceProperty = new Property<>(currentMap,
-                Property.PropertyType.NAMESPACE);
+        Property<Map<String, Property<?>>> namespaceProperty = Property.namespace(currentMap);
         config.property(namespace, namespaceProperty);
         // Update the parent's state
         config.currentMap.put(namespace, namespaceProperty);
@@ -41,8 +40,7 @@ public class ConfigManager {
     }
 
     public void sub(String namespace) {
-        Property<Map<String, Property<?>>> namespaceProperty = new Property<>(currentMap,
-                Property.PropertyType.NAMESPACE);
+        Property<Map<String, Property<?>>> namespaceProperty = Property.namespace(currentMap);
         property(namespace, namespaceProperty);
     }
 

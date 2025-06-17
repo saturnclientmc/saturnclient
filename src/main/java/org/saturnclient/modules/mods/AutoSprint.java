@@ -8,7 +8,7 @@ import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.config.Property;
 
 public class AutoSprint extends Module {
-    private static Property<Boolean> enabled = new Property<>(true);
+    private static Property<Boolean> enabled = Property.bool(false);
 
     public AutoSprint() {
         super(

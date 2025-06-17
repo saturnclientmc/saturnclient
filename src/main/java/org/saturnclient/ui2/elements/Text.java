@@ -8,7 +8,7 @@ import org.saturnclient.ui2.RenderScope;
 
 public class Text extends Element {
     private static ThemeManager theme = new ThemeManager("Text");
-    private static Property<Integer> fgColor = theme.property("fg-color", new Property<Integer>(0xFFFFFFFF));
+    private static Property<Integer> fgColor = theme.property("fg-color", Property.color(0xFFFFFFFF));
     public static Property<Integer> font = theme.property("font", Property.font(1));
 
     private String text;

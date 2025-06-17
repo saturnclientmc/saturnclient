@@ -74,13 +74,13 @@ public class ThemeManager {
     // Generic method to store any type of property
     public <T> Property<T> property(String name, Property<T> prop) {
         for (String state : states) {
-            Property<?> property = new Property<T>(prop.value);
+            Property<?> property = Property.from(prop.value);
             properties.get(namespace+"@"+state).put(name, property);
             loadProp(state, name, property);
         }
 
         loadProp(null, name, prop);
-        properties.get(namespace).put(name, new Property<T>(prop.value));
+        properties.get(namespace).put(name, Property.from(prop.value));
         currentStyling.put(name, prop);
 
         return prop;

@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
 
 public class ClickableTexture extends Element {
     private static ThemeManager theme = new ThemeManager("ClickableTexture", "hovering");
-    private static Property<Integer> fgColor = theme.property("fg-color", new Property<Integer>(0xFFFFFFFF));
+    private static Property<Integer> fgColor = theme.property("fg-color", Property.color(0xFFFFFFFF));
 
     Identifier sprite;
     private Runnable onClick;

@@ -18,13 +18,13 @@ import net.minecraft.util.Identifier;
 
 public class Sidebar extends Element {
     private static ThemeManager theme = new ThemeManager("SideBar", "hovering");
-    private static Property<Integer> bgColor = theme.property("bg-color", new Property<Integer>(0x90000000));
-    private static Property<Integer> iconFg = theme.property("icon-fg", new Property<Integer>(-1));
-    private static Property<Integer> iconBg = theme.property("icon-bg", new Property<Integer>(0x00000000));
+    private static Property<Integer> bgColor = theme.property("bg-color", Property.color(0x90000000));
+    private static Property<Integer> iconFg = theme.property("icon-fg", Property.color(0xFFFFFFFF));
+    private static Property<Integer> iconBg = theme.property("icon-bg", Property.color(0x00000000));
 
-    private static Property<Integer> cornerRadius = theme.property("corner-radius", new Property<Integer>(10));
-    private static Property<Integer> iconRadius = theme.property("icon-radius", new Property<Integer>(10));
-    private static Property<Integer> padding = theme.property("padding", new Property<Integer>(10));
+    private static Property<Integer> cornerRadius = theme.property("corner-radius", Property.integer(10));
+    private static Property<Integer> iconRadius = theme.property("icon-radius", Property.integer(10));
+    private static Property<Integer> padding = theme.property("padding", Property.integer(10));
 
     static {
         theme.propertyStateDefault("hovering", "icon-bg", -7643914);

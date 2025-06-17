@@ -11,8 +11,8 @@ import net.minecraft.client.render.RenderLayer;
 
 public class Select extends Element {
     private static ThemeManager theme = new ThemeManager("Toggle");
-    private static Property<Integer> fgColor = theme.property("fg-color", new Property<Integer>(0xAAAAAA));
-    private static Property<Integer> arrowColor = theme.property("arrow-color", new Property<Integer>(0xff8B5CF6));
+    private static Property<Integer> fgColor = theme.property("fg-color", Property.color(0xAAAAAA));
+    private static Property<Integer> arrowColor = theme.property("arrow-color", Property.color(0xff8B5CF6));
     private static Property<Integer> font = theme.property("font", Property.font(1));
 
     private Property<Integer> prop;
