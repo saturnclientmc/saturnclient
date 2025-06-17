@@ -15,7 +15,10 @@
   "entrypoints": {
     "main": ["org.saturnclient.saturnclient.SaturnClient"]
   },
-  "mixins": ["saturnclient.mixins.json"],
+  "mixins": [
+    "saturnclient.mixins.json",
+    "mods.mixins.json"
+  ],
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric": "*",
