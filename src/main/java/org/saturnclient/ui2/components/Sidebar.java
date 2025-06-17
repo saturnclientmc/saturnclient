@@ -1,6 +1,7 @@
 package org.saturnclient.ui2.components;
 
 import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.saturnclient.config.ThemeManager;
 import org.saturnclient.ui2.resources.Textures;
@@ -9,9 +10,9 @@ import org.saturnclient.ui2.ElementContext;
 import org.saturnclient.ui2.RenderScope;
 import org.saturnclient.ui2.Utils;
 import org.saturnclient.ui2.screens.CloakMenu;
+import org.saturnclient.ui2.screens.ConfigEditor;
 import org.saturnclient.ui2.screens.HatMenu;
 import org.saturnclient.ui2.screens.ModMenu;
-import org.saturnclient.ui2.screens.SaturnConfigEditor;
 
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
@@ -48,7 +49,7 @@ public class Sidebar extends Element {
                 SaturnClient.client.setScreen(new ModMenu());
             }, false),
             new Sidebar.SidebarComponent(Textures.SETTINGS, () -> {
-                SaturnClient.client.setScreen(new SaturnConfigEditor());
+                SaturnClient.client.setScreen(new ConfigEditor(SaturnClientConfig.config));
             }, false),
 
             new Sidebar.SidebarComponent(Textures.CLOAK, () -> {

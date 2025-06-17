@@ -38,7 +38,7 @@ public class ConfigEditor extends SaturnScreen {
 
         draw(scroll.dimensions(scrollWidth, 350).center(width, height));
 
-        draw(new Sidebar(0, this::close).centerOffset(width, height, -(scrollWidth / 2 + 20), 0));
+        draw(new Sidebar(1, this::close).centerOffset(width, height, -(scrollWidth / 2 + 20), 0));
     }
 
     @SuppressWarnings("unchecked")
