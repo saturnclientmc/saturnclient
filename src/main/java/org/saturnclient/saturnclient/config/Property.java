@@ -26,6 +26,7 @@ public class Property<T> {
     private T defaultValue;
     private String[] availableValues;
     private PropertyType type;
+    private boolean wasPressedLastTick = false;
 
     private Property(T value, PropertyType type) {
         this.value = value;
@@ -197,5 +198,17 @@ public class Property<T> {
 
     public boolean isKeyPressed() {
         return (Integer) value == -1 ? false : GLFW.glfwGetKey(SaturnClient.client.getWindow().getHandle(), (Integer) (Object) value) == GLFW.GLFW_PRESS;
+    }
+
+    public boolean wasKeyPressed() {
+        long window = SaturnClient.client.getWindow().getHandle();
+        int key = (Integer) value;
+
+        boolean isPressed = key != -1 && GLFW.glfwGetKey(window, key) == GLFW.GLFW_PRESS;
+
+        boolean wasJustPressed = isPressed && !wasPressedLastTick;
+        wasPressedLastTick = isPressed;
+
+        return wasJustPressed;
     }
 }

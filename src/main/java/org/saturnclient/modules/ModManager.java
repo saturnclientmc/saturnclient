@@ -19,6 +19,7 @@ public class ModManager {
         new Fps(),
         new PotionDisplay(),
         new Coordinates(),
+        new Freelook()
     };
 
     public static void init() {
