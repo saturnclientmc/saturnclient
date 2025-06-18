@@ -50,7 +50,7 @@ public class PotionDisplay extends Module implements HudMod {
                 RegistryEntry<StatusEffect> registryEntry = effect.getEffectType();
                 Sprite sprite = statusEffectSpriteManager.getSprite(registryEntry);
                 scope.drawSpriteStretched(sprite, 0, 18 * row, 16, 16);
-                scope.drawText(0.5f, getDurationAsString(effect), 20, 18 * row + 3, dimensions.font.value, -1);
+                scope.drawText(0.5f, getDurationAsString(effect), 18, 18 * row + 3, dimensions.font.value, -1);
                 row++;
             }
         }

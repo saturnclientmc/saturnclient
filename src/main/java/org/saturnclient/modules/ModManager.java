@@ -19,7 +19,8 @@ public class ModManager {
         new Fps(),
         new PotionDisplay(),
         new Coordinates(),
-        new Freelook()
+        new Freelook(),
+        new Keystrokes()
     };
 
     public static void init() {
@@ -49,7 +50,9 @@ public class ModManager {
 
                         renderScope.matrices.scale(dim.scale.value, dim.scale.value, 1.0f);
 
-                        renderScope.drawRoundedRectangle(0, 0, dim.width, dim.height, dim.radius.value, dim.bgColor.value);
+                        if (dim.renderBackground) {
+                            renderScope.drawRoundedRectangle(0, 0, dim.width, dim.height, dim.radius.value, dim.bgColor.value);
+                        }
 
                         renderScope.setRenderLayer(RenderLayer::getGuiTextured);
 

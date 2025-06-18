@@ -13,6 +13,7 @@ public class ModDimensions {
     public Property<Integer> fgColor = Property.color(0xFFffffff);
     public Property<Integer> radius = Property.integer(0);
     public Property<Integer> font = Property.font(0);
+    public boolean renderBackground = true;
 
     public int width = 0;
     public int height = 0;
@@ -28,6 +29,8 @@ public class ModDimensions {
             "Font", font
         )).named("In-Game Display"); 
     }
+
+    public ModDimensions() {}
 
     public ModDimensions(int width, int height) {
         this.width = width;
