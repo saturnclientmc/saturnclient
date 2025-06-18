@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 
 public class ArmorDisplay extends Module implements HudMod {
-    private static Property<Boolean> enabled = Property.bool(true);
+    private static Property<Boolean> enabled = Property.bool(false);
     private static ModDimensions dimensions = new ModDimensions(40, 60);
 
     public ArmorDisplay() {

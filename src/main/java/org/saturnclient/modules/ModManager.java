@@ -17,7 +17,8 @@ public class ModManager {
         new AutoSprint(),
         new ArmorDisplay(),
         new Fps(),
-        new PotionDisplay()
+        new PotionDisplay(),
+        new Coordinates(),
     };
 
     public static void init() {
