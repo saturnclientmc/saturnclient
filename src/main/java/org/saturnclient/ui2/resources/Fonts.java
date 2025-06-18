@@ -27,10 +27,14 @@ public class Fonts {
     }
 
     public static int getWidth(String text, int font) {
+        int w = 0;
+        for (String line : text.split("\n")) {
+            w = Math.max(w, getWidth(line, getFont(font)));
+        }
         if (font == 0) {
-            return getWidth(text, getFont(font)) * 2;
+            return w * 2;
         } else {
-            return getWidth(text, getFont(font));
+            return w;
         }
     }
 
