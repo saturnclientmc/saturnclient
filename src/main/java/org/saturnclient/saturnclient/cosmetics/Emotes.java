@@ -7,6 +7,11 @@ public class Emotes {
     public static List<String> availableEmotes = new ArrayList<>();
 
     public static void initialize() {
-        availableEmotes.add("backflip");
+        availableEmotes.add("tpose");
+        availableEmotes.add("back_flip");
+        availableEmotes.add("facepalm");
+        availableEmotes.add("cry");
+        availableEmotes.add("giga_chad");
+        availableEmotes.add("front_flip");
     }
 }

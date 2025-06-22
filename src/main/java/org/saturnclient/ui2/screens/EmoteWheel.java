@@ -62,6 +62,10 @@ public class EmoteWheel extends SaturnScreen {
                     return;
                 }
                 AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(SaturnClient.client.player);
+                if (animationStack.isActive() && animationStack.getPriority() == 1000) {
+                    animationStack.removeLayer(1000);
+                    Auth.cancelEmote();
+                }
                 animationStack.addAnimLayer(1000, PlayerAnimationRegistry.getAnimation(Identifier.of("saturnclient", emote)).playAnimation());
                 Auth.sendEmote(emote);
                 close();
