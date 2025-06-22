@@ -43,6 +43,11 @@ public class SaturnParser {
         }
     }
 
+    public String getStringOrNull(String i) throws IOException {
+        String val = params.get(i);
+        return val;
+    }
+
     public boolean getBool(String i) throws IOException {
         String val = params.get(i);
         if (val != null) {

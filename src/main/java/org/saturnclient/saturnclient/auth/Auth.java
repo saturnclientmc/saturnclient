@@ -95,6 +95,16 @@ public class Auth {
                                 playerNames.entrySet().removeIf(entry -> entry.getValue().equals(uuid));
                             }
                             break;
+                        
+                        case "successful_transaction":
+                            String cloak = parser.getStringOrNull("cloak");
+                            String hat = parser.getStringOrNull("hat");
+                            if (cloak != null) {
+                                Cloaks.availableCloaks.add(cloak);
+                            }
+                            if (hat != null) {
+                                Hats.availableHats.add(hat);
+                            }
 
                         default:
                             if (parser.error != null) {
@@ -216,6 +226,14 @@ public class Auth {
                                 + "$SATURN_CANCEL_EMOTE&@"+uuid+"&@ if you are seeing this as a player, please report this to https://github.com/saturnclientmc/saturnclient/issues");
                 ;
             }
+        }
+    }
+
+    public static void buyCloak(String name) {
+        try {
+            Network.write("buy_cloak@cloak=" + name);
+        } catch (Exception e) {
+            SaturnClient.LOGGER.error("Request failed", e);
         }
     }
 }

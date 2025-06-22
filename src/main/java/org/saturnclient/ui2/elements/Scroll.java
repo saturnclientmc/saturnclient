@@ -61,16 +61,14 @@ public class Scroll extends Element {
 
     public void draw(Element element) {
         children.add(element);
+    }
 
-        if (element.width > width) {
-            width = element.width;
+    @Override
+    public Element dimensions(int width, int height) {
+        for (Element element : children) {
+            maxScroll = Math.max(maxScroll, element.y + element.height - height);
         }
-
-        if (element.height > height) {
-            height = element.height;
-        }
-
-        maxScroll = Math.max(maxScroll, element.y - maxScroll);
+        return super.dimensions(width, height);
     }
 
     int calculateScrollBarHeight() {

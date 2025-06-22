@@ -13,6 +13,7 @@ import org.saturnclient.ui2.screens.CloakMenu;
 import org.saturnclient.ui2.screens.ConfigEditor;
 import org.saturnclient.ui2.screens.HatMenu;
 import org.saturnclient.ui2.screens.ModMenu;
+import org.saturnclient.ui2.screens.Store;
 
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
@@ -62,7 +63,11 @@ public class Sidebar extends Element {
 
             new Sidebar.SidebarComponent(Textures.CLOSE, () -> {
                 onClose.run();
-            }, true)
+            }, true),
+
+            new Sidebar.SidebarComponent(Textures.STORE, () -> {
+                SaturnClient.client.setScreen(new Store());
+            }, true),
     };
     int active = 0;
 

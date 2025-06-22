@@ -30,7 +30,7 @@ public class CloakMenu extends SaturnScreen {
         if (player != null) {
             for (String cloak : Cloaks.availableCloaks) {
                 scroll.draw(new CosmeticPreview(cloak == player.cloak, Textures.getCloakPreview(cloak), () -> {
-                    Cloaks.setCloak(Auth.uuid, cloak);
+                    Cloaks.setCloak(cloak);
                 }).position((50 + g) * col, (111 + g) * row));
     
                 if (col == 5) {

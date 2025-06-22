@@ -20,6 +20,7 @@ import org.saturnclient.saturnclient.SaturnClient;
  * Originally created by IIpho3nix and modified for Saturn Client by leo.
  */
 public class Cloaks {
+    public static final String[] ALL_CLOAKS = { "glitch", "mercedes_flow", };
     private static final String[] ANIMATED_CLOAKS = { "glitch", "mercedes_flow" };
 
     private static final String CLOAKS_RESOURCE_PATH = "assets/saturnclient/textures/cloaks/";
@@ -46,6 +47,17 @@ public class Cloaks {
         setCloakSilent(uuid, cloakName);
         Auth.sendReload();
         SaturnClient.LOGGER.info("Cloak set to " + cloakName);
+    }
+
+    /**
+     * Sets cloak of the current player
+     * 
+     * @param cloakName Name of the cloak file to load
+     */
+    public static void setCloak(String cloakName) {
+        if (availableCloaks.contains(cloakName)) {
+            setCloak(Auth.uuid, cloakName);
+        }
     }
 
     /**

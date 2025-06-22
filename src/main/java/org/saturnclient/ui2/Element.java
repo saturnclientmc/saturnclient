@@ -31,45 +31,45 @@ public class Element {
     public void charTyped(char typedChar) {
     }
 
-    public final Element dimensions(int width, int height) {
+    public Element dimensions(int width, int height) {
         this.width = width;
         this.height = height;
 
         return this;
     }
 
-    public final Element position(int x, int y) {
+    public Element position(int x, int y) {
         this.x = x;
         this.y = y;
 
         return this;
     }
 
-    public final Element centerHorizontal(int w, int h, int offsetX, int offsetY) {
+    public Element centerHorizontal(int w, int h, int offsetX, int offsetY) {
         this.x = (w - (int) (width * scale)) / 2 + offsetX;
         this.y = offsetY;
 
         return this;
     }
 
-    public final Element center(int w, int h) {
+    public Element center(int w, int h) {
         this.centerOffset(w, h, 0, 0);
         return this;
     }
 
-    public final Element centerOffset(int w, int h, int offsetX, int offsetY) {
+    public Element centerOffset(int w, int h, int offsetX, int offsetY) {
         this.x = (w - (int) (width * scale)) / 2 + offsetX;
         this.y = (h - (int) (height * scale)) / 2 + offsetY;
 
         return this;
     }
 
-    public final Element animation(Animation animation) {
+    public Element animation(Animation animation) {
         this.animation = animation;
         return this;
     }
 
-    public final Element animation(Animation animation, Function<Double, Double> curve) {
+    public Element animation(Animation animation, Function<Double, Double> curve) {
         this.animation = animation;
         this.curve = curve;
         return this;
