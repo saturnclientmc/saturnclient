@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
 
 public class CosmeticPreview extends Element {
     private static ThemeManager theme = new ThemeManager("CosmeticPreview", "selected", "hovering");
-    private static Property<Integer> bgColor = theme.property("bg-color", Property.color(0xAA000000));
+    private static Property<Integer> bgColor = theme.property("bg-color", Property.color(0x89000000));
     private static Property<Integer> fgColor = theme.property("fg-color", Property.color(0xFFFFFFFF));
     private static Property<Integer> padding = theme.property("padding", Property.integer(14));
     private static Property<Integer> cornerRadius = theme.property("corner-radius", Property.integer(10));
