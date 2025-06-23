@@ -78,9 +78,9 @@ public class Sidebar extends Element {
         int topRow = 0;
         int bottomRow = 0;
 
-        int sp = 30 - padding.value;
+        int gap = 5; // 5px gap between icons
+        int sp = 30 - padding.value + gap;
         int s = 30 - (padding.value * 2);
-
         int s2 = s + padding.value;
 
         renderScope.setRenderLayer(RenderLayer::getGuiTextured);
@@ -101,7 +101,7 @@ public class Sidebar extends Element {
                 renderScope.drawTexture(component.sprite, padding.value, y, 0, 0, s, s, iconFg.value);
                 bottomRow += 1;
             } else {
-                int y = padding.value + ((sp) * topRow);
+                int y = padding.value + (sp * topRow);
                 if (ctx.isHovering(0, y - (padding.value / 2), s2, s2) || active == i) {
                     theme.setState("hovering");
                 } else {
@@ -121,19 +121,22 @@ public class Sidebar extends Element {
         int topRow = 0;
         int bottomRow = 0;
 
-        int sp = 30 - padding.value;
+        int gap = 5; // same 5px gap here
+        int sp = 30 - padding.value + gap;
         int s = 30 - (padding.value * 2);
         int s2 = s + padding.value;
 
         for (SidebarComponent component : components) {
             if (component.end) {
-                if (Utils.isHovering(mouseX, mouseY - (height - (sp * bottomRow) - (s * 2)), s2, s2, scale)) {
+                int y = (height - (sp * bottomRow)) - (s * 2);
+                if (Utils.isHovering(mouseX - (padding.value / 2), mouseY - (y - (padding.value / 2)), s2, s2, scale)) {
                     component.onClick.run();
                     break;
                 }
                 bottomRow += 1;
             } else {
-                if (Utils.isHovering(mouseX, mouseY - (padding.value + ((sp) * topRow)), s2, s2, scale)) {
+                int y = padding.value + (sp * topRow);
+                if (Utils.isHovering(mouseX - (padding.value / 2), mouseY - (y - (padding.value / 2)), s2, s2, scale)) {
                     component.onClick.run();
                     break;
                 }
