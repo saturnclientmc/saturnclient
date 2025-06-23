@@ -3,9 +3,9 @@ package org.saturnclient.ui2;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.saturnclient.saturnclient.config.ThemeManager;
 import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
 import org.saturnclient.ui2.anim.Animation;
+import org.saturnclient.ui2.anim.SlideXAbsolute;
 import org.saturnclient.ui2.components.ElementRenderer;
 
 import net.minecraft.client.MinecraftClient;
@@ -51,6 +51,25 @@ public abstract class SaturnScreen extends Screen {
                 element.animation.tick(progress, element);
             }, element.animation.duration);
         }
+
+        if (element.duration != null) {
+            new Thread(() -> {
+                try {
+                    Animation fadeOut = new SlideXAbsolute(700, -(width - element.x));
+                    Thread.sleep(element.duration);
+                    fadeOut.init(element);
+                    Animation.executeSync((Float progress) -> {
+                        fadeOut.tick(progress, element);
+                    }, fadeOut.duration);
+                    synchronized (elements) {
+                        elements.remove(element);
+                    }
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        }
     }
 
     @Override
@@ -63,8 +82,6 @@ public abstract class SaturnScreen extends Screen {
         Animation.execute((Float progress) -> {
             blurProgress = progress;
         }, blurDuration);
-
-        ThemeManager.load();
     }
 
     public abstract void ui();
@@ -96,7 +113,7 @@ public abstract class SaturnScreen extends Screen {
 
         renderScope.matrices.scale(0.5f, 0.5f, 0.5f);
 
-        ElementRenderer.render(elements, renderScope, mouseX, mouseY);
+        ElementRenderer.render(new ArrayList<>(elements), renderScope, mouseX, mouseY);
 
         renderScope.matrices.pop();
     }

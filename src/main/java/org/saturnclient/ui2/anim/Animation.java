@@ -44,4 +44,32 @@ public abstract class Animation {
             }
         }).start();
     }
+
+    public static void executeSync(Consumer<Float> tick, int duration) {
+        Function<Double, Double> curveFunction = Curve::easeInOutCubic;
+        float progress = 0.0f;
+        double incremental = (1000 - duration) / 10000.0;
+
+        for (int i = 0; i <= 100; i++) {
+            float newProgress = (float) (double) curveFunction.apply(i / 100.0);
+
+            while (Math.abs(newProgress - progress) > 1e-6) {
+                if (progress < newProgress) {
+                    progress += incremental;
+                    if (progress > newProgress) progress = newProgress;
+                } else {
+                    progress -= incremental;
+                    if (progress < newProgress) progress = newProgress;
+                }
+
+                tick.accept(newProgress);
+
+                try {
+                    Thread.sleep(duration / 100);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }            
+            }
+        }
+    }
 }

@@ -5,6 +5,9 @@ import java.util.Map;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import org.saturnclient.saturnclient.cosmetics.Hats;
 import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
+import org.saturnclient.ui2.SaturnScreen;
+import org.saturnclient.ui2.elements.Notification;
+import org.saturnclient.ui2.elements.Notification.NotificationKind;
 import org.saturnclient.saturnclient.SaturnClient;
 
 public class Auth {
@@ -109,6 +112,11 @@ public class Auth {
                         default:
                             if (parser.error != null) {
                                 SaturnClient.LOGGER.error("Error from the server: " + parser.error);
+
+                                if (SaturnClient.client.currentScreen instanceof SaturnScreen) {
+                                    String[] a = parser.error.replace("!", "").split(": ");
+                                    ((SaturnScreen) SaturnClient.client.currentScreen).draw(new Notification(SaturnClient.client.currentScreen.width, SaturnClient.client.currentScreen.height, NotificationKind.Error, a[0], a[1]));
+                                }
                             }
                             break;
                     }

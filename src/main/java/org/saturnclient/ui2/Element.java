@@ -15,6 +15,7 @@ public class Element {
     public Animation animation;
     public float scale = 1.0f;
     public Function<Double, Double> curve = Curve::easeInOutCubic;
+    public Integer duration = null; // Element duration, will fade out if not null
 
     public void render(RenderScope renderScope, ElementContext ctx) {
     }
