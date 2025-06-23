@@ -6,6 +6,7 @@ import org.saturnclient.saturnclient.auth.SaturnPlayer;
 import org.saturnclient.saturnclient.auth.Auth;
 
 public class Hats {
+    public static final String[] ALL_HATS = { "horns_black", "horns_white", "halo", "halo_black" };
     public static List<String> availableHats = new ArrayList<>();
 
     public static void initialize() {

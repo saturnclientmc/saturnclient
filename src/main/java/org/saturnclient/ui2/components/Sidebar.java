@@ -9,11 +9,10 @@ import org.saturnclient.ui2.Element;
 import org.saturnclient.ui2.ElementContext;
 import org.saturnclient.ui2.RenderScope;
 import org.saturnclient.ui2.Utils;
-import org.saturnclient.ui2.screens.CloakMenu;
 import org.saturnclient.ui2.screens.ConfigEditor;
-import org.saturnclient.ui2.screens.HatMenu;
 import org.saturnclient.ui2.screens.ModMenu;
-import org.saturnclient.ui2.screens.Store;
+import org.saturnclient.ui2.screens.cosmetics.CloakMenu;
+import org.saturnclient.ui2.screens.store.CloakStore;
 
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
@@ -53,12 +52,8 @@ public class Sidebar extends Element {
                 SaturnClient.client.setScreen(new ConfigEditor(SaturnClientConfig.config));
             }, false),
 
-            new Sidebar.SidebarComponent(Textures.CLOAK, () -> {
+            new Sidebar.SidebarComponent(Textures.SHIRT, () -> {
                 SaturnClient.client.setScreen(new CloakMenu());
-            }, false),
-
-            new Sidebar.SidebarComponent(Textures.HAT, () -> {
-                SaturnClient.client.setScreen(new HatMenu());
             }, false),
 
             new Sidebar.SidebarComponent(Textures.CLOSE, () -> {
@@ -66,7 +61,7 @@ public class Sidebar extends Element {
             }, true),
 
             new Sidebar.SidebarComponent(Textures.STORE, () -> {
-                SaturnClient.client.setScreen(new Store());
+                SaturnClient.client.setScreen(new CloakStore());
             }, true),
     };
     int active = 0;

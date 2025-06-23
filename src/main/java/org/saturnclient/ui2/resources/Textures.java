@@ -19,6 +19,7 @@ public class Textures {
     public static final Identifier RIGHT = Identifier.of("saturnclient", "textures/gui/components/right.png");
     public static final Identifier STORE = Identifier.of("saturnclient", "textures/gui/components/store.png");
     public static final Identifier COINS = Identifier.of("saturnclient", "textures/gui/components/coins.png");
+    public static final Identifier SHIRT = Identifier.of("saturnclient", "textures/gui/components/shirt.png");
 
     public static final Identifier LOGO = Identifier.of("saturnclient", "textures/logo/logo.png");
     public static final Identifier REALISTIC_LOGO = Identifier.of("saturnclient", "textures/logo/realistic.png");

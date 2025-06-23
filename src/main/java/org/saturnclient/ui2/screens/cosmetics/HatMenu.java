@@ -1,5 +1,6 @@
-package org.saturnclient.ui2.screens;
+package org.saturnclient.ui2.screens.cosmetics;
 
+import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.auth.Auth;
 import org.saturnclient.saturnclient.auth.SaturnPlayer;
 import org.saturnclient.saturnclient.cosmetics.Hats;
@@ -9,6 +10,8 @@ import org.saturnclient.ui2.components.CosmeticPreview;
 import org.saturnclient.ui2.components.Sidebar;
 import org.saturnclient.ui2.components.SkinPreview;
 import org.saturnclient.ui2.elements.Scroll;
+import org.saturnclient.ui2.elements.TabMenu;
+import org.saturnclient.ui2.elements.TabMenu.TabMenuComponent;
 
 public class HatMenu extends SaturnScreen {
     public HatMenu() {
@@ -48,6 +51,13 @@ public class HatMenu extends SaturnScreen {
 
         draw(new SkinPreview(170f, true).scale(3.5f).position(scroll.x + (scrollWidth - 220), scroll.y+40));
 
-        draw(new Sidebar(3, this::close).centerOffset(width, height, -(scrollWidth / 2 + 20), 0));
+        draw(new Sidebar(2, this::close).centerOffset(width, height, -(scrollWidth / 2 + 20), 0));
+
+        draw(new TabMenu(1,
+            new TabMenuComponent(Textures.CLOAK, () -> {
+                SaturnClient.client.setScreen(new CloakMenu());
+            }),
+            new TabMenuComponent(Textures.HAT, () -> {})
+        ).centerOffset(width, height, 0, -195));
     }
 }

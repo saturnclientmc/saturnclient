@@ -236,4 +236,12 @@ public class Auth {
             SaturnClient.LOGGER.error("Request failed", e);
         }
     }
+
+    public static void buyHat(String name) {
+        try {
+            Network.write("buy_hat@hat=" + name);
+        } catch (Exception e) {
+            SaturnClient.LOGGER.error("Request failed", e);
+        }
+    }
 }

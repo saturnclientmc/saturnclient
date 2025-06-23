@@ -1,5 +1,6 @@
-package org.saturnclient.ui2.screens;
+package org.saturnclient.ui2.screens.store;
 
+import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.auth.Auth;
 import org.saturnclient.saturnclient.auth.SaturnPlayer;
 import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
@@ -8,13 +9,15 @@ import org.saturnclient.ui2.components.CosmeticPreview;
 import org.saturnclient.ui2.components.Sidebar;
 import org.saturnclient.ui2.elements.ImageTexture;
 import org.saturnclient.ui2.elements.Scroll;
+import org.saturnclient.ui2.elements.TabMenu;
+import org.saturnclient.ui2.elements.TabMenu.TabMenuComponent;
 import org.saturnclient.ui2.elements.Text;
 import org.saturnclient.ui2.resources.Fonts;
 import org.saturnclient.ui2.resources.Textures;
 
-public class Store extends SaturnScreen {
-    public Store() {
-        super("Store");
+public class CloakStore extends SaturnScreen {
+    public CloakStore() {
+        super("Hat Store");
     }
 
     @Override
@@ -37,15 +40,14 @@ public class Store extends SaturnScreen {
                     int y = (111 + gy) * row;
                     scroll.draw(new CosmeticPreview(cloak == player.cloak, Textures.getCloakPreview(cloak), () -> {
                         Auth.buyCloak(cloak);
-                        // This is to refresh the screen to remove the cloak because it's in our inventory
-                        resize(client, width, height);
+                        SaturnClient.client.setScreen(new CloakStore());
                     }).position(x, y));
 
                     String t = "100";
 
                     scroll.draw(new Text(t).position(x + Fonts.centerX(50, t, Text.font.value), y + 113).scale(0.5f));
 
-                    scroll.draw(new ImageTexture(Textures.COINS).dimensions(16, 16).position(x + Fonts.getWidth(t, Text.font.value), y + 112).scale(0.5f));
+                    scroll.draw(new ImageTexture(Textures.COINS).dimensions(16, 16).position(x + Fonts.getWidth(t, Text.font.value) - 1, y + 112).scale(0.5f));
         
                     if (col == 8) {
                         col = 0;
@@ -62,5 +64,12 @@ public class Store extends SaturnScreen {
         draw(scroll.dimensions(scrollWidth, 350).centerOffset(width, height, 15, 0));
 
         draw(new Sidebar(5, this::close).centerOffset(width, height, -((scrollWidth - 30) / 2 + 20), 0));
+
+        draw(new TabMenu(0,
+            new TabMenuComponent(Textures.CLOAK, () -> {}),
+            new TabMenuComponent(Textures.HAT, () -> {
+                SaturnClient.client.setScreen(new HatStore());
+            })
+        ).centerOffset(width, height, 0, -195));
     }
 }
