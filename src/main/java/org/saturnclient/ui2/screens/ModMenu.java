@@ -5,7 +5,9 @@ import org.saturnclient.modules.Module;
 import org.saturnclient.ui2.SaturnScreen;
 import org.saturnclient.ui2.components.SaturnModule;
 import org.saturnclient.ui2.components.Sidebar;
+import org.saturnclient.ui2.elements.ImageTexture;
 import org.saturnclient.ui2.elements.Scroll;
+import org.saturnclient.ui2.resources.Textures;
 
 public class ModMenu extends SaturnScreen {
     public ModMenu() {
@@ -38,5 +40,7 @@ public class ModMenu extends SaturnScreen {
         draw(scroll.dimensions(scrollWidth, 350).center(width, height));
 
         draw(new Sidebar(0, this::close).centerOffset(width, height, -(scrollWidth / 2 + 20), 0));
+
+        draw(new ImageTexture(Textures.LOGO_TEXT_BIG).dimensions(180, 18).position(width - 180 - 20, height - 18 - 20));
     }
 }
