@@ -1,6 +1,7 @@
 package org.saturnclient.saturnclient;
 
 import org.saturnclient.saturnclient.config.Property;
+import org.lwjgl.glfw.GLFW;
 import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.ui2.resources.Textures;
 
@@ -13,6 +14,7 @@ public class SaturnClientConfig {
     public static Property<Boolean> realisticLogo = Property.bool(false);
 
     public static Property<Boolean> saturnTitleScreen = Property.bool(true);
+    public static Property<Integer> openEmoteWheel = Property.keybinding(GLFW.GLFW_KEY_B);
 
     public static Identifier getLogo() {
         return realisticLogo.value ? Textures.REALISTIC_LOGO : Textures.LOGO;
@@ -43,5 +45,6 @@ public class SaturnClientConfig {
         config = new ConfigManager("Saturn Client");
         config.property("Realistic logo", realisticLogo);
         config.property("Saturn client title screen", saturnTitleScreen);
+        config.property("Open Emote Wheel", openEmoteWheel);
     }
 }

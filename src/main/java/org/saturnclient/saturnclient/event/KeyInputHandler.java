@@ -6,7 +6,8 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.auth.Auth;
+import org.saturnclient.saturnclient.SaturnClientConfig;
+// import org.saturnclient.saturnclient.auth.Auth;
 import org.saturnclient.ui2.screens.EmoteWheel;
 import org.saturnclient.ui2.screens.ShiftMenu;
 
@@ -25,21 +26,11 @@ public class KeyInputHandler {
     private static final int DEFAULT_MENU_KEY = GLFW.GLFW_KEY_RIGHT_SHIFT;
     private static KeyBinding mainMenuKeyBinding;
 
-    private static final String FREELOOK_KEY_ID = "key.saturnclient.emote";
-    private static final int FREELOOK_KEY = GLFW.GLFW_KEY_B;
-    private static KeyBinding freelookKeyBinding;
-
     public static void register() {
         mainMenuKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 MAIN_MENU_KEY_ID,
                 InputUtil.Type.KEYSYM,
                 DEFAULT_MENU_KEY,
-                KEY_CATEGORY));
-
-        freelookKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                FREELOOK_KEY_ID,
-                InputUtil.Type.KEYSYM,
-                FREELOOK_KEY,
                 KEY_CATEGORY));
 
         // Register the event handler for the main menu key
@@ -48,7 +39,7 @@ public class KeyInputHandler {
                 client.setScreen(new ShiftMenu());
             }
 
-            if (freelookKeyBinding.wasPressed()) {
+            if (SaturnClientConfig.openEmoteWheel.wasKeyPressed()) {
                 client.setScreen(new EmoteWheel());
             }
 
@@ -56,7 +47,7 @@ public class KeyInputHandler {
                 AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(SaturnClient.client.player);
                 if (animationStack.isActive() && animationStack.getPriority() == 1000) {
                     animationStack.removeLayer(1000);
-                    Auth.cancelEmote();
+                    // Auth.cancelEmote();
                 }
             }
         });
