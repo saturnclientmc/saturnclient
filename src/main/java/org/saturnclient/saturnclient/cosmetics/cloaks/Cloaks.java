@@ -45,7 +45,6 @@ public class Cloaks {
     public static void setCloak(String uuid, String cloakName) {
         Auth.setCloak(cloakName);
         setCloakSilent(uuid, cloakName);
-        Auth.sendReload();
         SaturnClient.LOGGER.info("Cloak set to " + cloakName);
     }
 
@@ -113,20 +112,25 @@ public class Cloaks {
                                         List<AnimatedCloakData> animatedFrames = new ArrayList<>();
                                         for (int i = 0; i < frameCount; i++) {
                                             String frameId = fileName.replace(".gif", "") + "_frame_" + i;
-                                            Identifier frameIdentifier = Identifier.of(SaturnClient.MOD_ID, "cloaks_" + frameId);
-                                            IdentifierUtils.registerBufferedImageTexture(frameIdentifier, frames.get(i));
+                                            Identifier frameIdentifier = Identifier.of(SaturnClient.MOD_ID,
+                                                    "cloaks_" + frameId);
+                                            IdentifierUtils.registerBufferedImageTexture(frameIdentifier,
+                                                    frames.get(i));
                                             animatedFrames.add(new AnimatedCloakData(frameIdentifier, delays.get(i)));
                                         }
                                         animatedCloaks.put(uuid, animatedFrames);
                                         lastFrameTime.put(uuid, System.currentTimeMillis());
-                                        SaturnClient.LOGGER.info("Loaded " + frames.size() + " frames for animated cloak: " + fileName);
+                                        SaturnClient.LOGGER.info(
+                                                "Loaded " + frames.size() + " frames for animated cloak: " + fileName);
                                     } catch (Exception e) {
-                                        SaturnClient.LOGGER.error("Failed to register animated cloak textures: " + fileName, e);
+                                        SaturnClient.LOGGER
+                                                .error("Failed to register animated cloak textures: " + fileName, e);
                                     }
                                 });
                             }
                         } catch (IOException e) {
-                            SaturnClient.LOGGER.error("Failed to load animated cloak from resources: " + player.cloak + ".gif", e);
+                            SaturnClient.LOGGER
+                                    .error("Failed to load animated cloak from resources: " + player.cloak + ".gif", e);
                         }
                     }).start();
                 } else {

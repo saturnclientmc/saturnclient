@@ -8,7 +8,6 @@
     "NameTagMixin",
     "PlayerEntityRendererMixin",
     "WhoAmI",
-    "SaturnReload",
     "DrawContextAccessor",
     "TitleScreenMixin"
   ],

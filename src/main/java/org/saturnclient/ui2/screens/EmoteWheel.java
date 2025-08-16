@@ -2,6 +2,7 @@ package org.saturnclient.ui2.screens;
 
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.SaturnClientConfig;
+import org.saturnclient.saturnclient.auth.Auth;
 // import org.saturnclient.saturnclient.auth.Auth;
 import org.saturnclient.saturnclient.cosmetics.Emotes;
 import org.saturnclient.ui2.SaturnScreen;
@@ -29,8 +30,10 @@ public class EmoteWheel extends SaturnScreen {
         int row = 0;
         int col = 0;
 
-        draw(new ImageTexture(Textures.LOGO_TEXT).dimensions(98, 10).centerOffset(width, height, 0, -105).animation(new Fade(700)));
-        draw(new ImageTexture(SaturnClientConfig.getLogo()).dimensions(98, 98).centerOffset(width, height, 0, -149).animation(new SlideY(700, -20)));
+        draw(new ImageTexture(Textures.LOGO_TEXT).dimensions(98, 10).centerOffset(width, height, 0, -105)
+                .animation(new Fade(700)));
+        draw(new ImageTexture(SaturnClientConfig.getLogo()).dimensions(98, 98).centerOffset(width, height, 0, -149)
+                .animation(new SlideY(700, -20)));
 
         draw(new TextureButton(Textures.LEFT, () -> {
             if (page > 1) {
@@ -47,7 +50,7 @@ public class EmoteWheel extends SaturnScreen {
                 ui();
             }
         }).dimensions(30, 30).centerOffset(width, height, 20, 45).animation(new Fade(700)));
-        
+
         while (row < 3) {
             int idx = (row * 3 + col) * page;
 
@@ -64,12 +67,14 @@ public class EmoteWheel extends SaturnScreen {
                 AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(SaturnClient.client.player);
                 if (animationStack.isActive() && animationStack.getPriority() == 1000) {
                     animationStack.removeLayer(1000);
-                    // Auth.cancelEmote();
                 }
-                animationStack.addAnimLayer(1000, PlayerAnimationRegistry.getAnimation(Identifier.of("saturnclient", emote)).playAnimation());
-                // Auth.sendEmote(emote);
+                animationStack.addAnimLayer(1000,
+                        PlayerAnimationRegistry.getAnimation(Identifier.of("saturnclient",
+                                emote)).playAnimation());
+                Auth.emote(emote);
                 close();
-            }).dimensions(70, 70).centerOffset(width, height, -80 + (col * 80), -35 + (row * 80)).animation(new Fade(700)));
+            }).dimensions(70, 70).centerOffset(width, height, -80 + (col * 80), -35 + (row * 80))
+                    .animation(new Fade(700)));
 
             if (col < 2) {
                 col++;

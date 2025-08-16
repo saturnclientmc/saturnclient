@@ -16,7 +16,6 @@ public class Hats {
     public static void setHat(String uuid, String hatName) {
         setHatSilent(uuid, hatName);
         Auth.setHat(hatName);
-        Auth.sendReload();
     }
 
     public static void setHatSilent(String uuid, String hatName) {

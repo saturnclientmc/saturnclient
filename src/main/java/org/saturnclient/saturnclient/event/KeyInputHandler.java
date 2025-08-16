@@ -7,7 +7,7 @@ import net.minecraft.client.util.InputUtil;
 
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.SaturnClientConfig;
-// import org.saturnclient.saturnclient.auth.Auth;
+import org.saturnclient.saturnclient.auth.Auth;
 import org.saturnclient.ui2.screens.EmoteWheel;
 import org.saturnclient.ui2.screens.ShiftMenu;
 
@@ -47,7 +47,7 @@ public class KeyInputHandler {
                 AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(SaturnClient.client.player);
                 if (animationStack.isActive() && animationStack.getPriority() == 1000) {
                     animationStack.removeLayer(1000);
-                    // Auth.cancelEmote();
+                    Auth.emote("");
                 }
             }
         });

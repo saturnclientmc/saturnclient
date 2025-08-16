@@ -2,12 +2,22 @@ package org.saturnclient.saturnclient.auth;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.util.Identifier;
+
 import org.saturnclient.saturnclient.cosmetics.Hats;
 import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 import org.saturnclient.ui2.SaturnScreen;
 import org.saturnclient.ui2.elements.Notification;
 import org.saturnclient.ui2.elements.Notification.NotificationKind;
+
+import dev.kosmx.playerAnim.api.layered.AnimationStack;
+import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
+import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
+
 import org.saturnclient.saturnclient.SaturnClient;
 
 public class Auth {
@@ -98,16 +108,61 @@ public class Auth {
                                 playerNames.entrySet().removeIf(entry -> entry.getValue().equals(uuid));
                             }
                             break;
-                        
+
                         case "successful_transaction":
                             String cloak = parser.getStringOrNull("cloak");
                             String hat = parser.getStringOrNull("hat");
                             if (cloak != null) {
                                 Cloaks.availableCloaks.add(cloak);
+
                             }
                             if (hat != null) {
                                 Hats.availableHats.add(hat);
                             }
+
+                        case "update_cloak":
+                            String targetUuid = parser.getStringOrNull("uuid");
+                            String targetCloak = parser.getStringOrNull("cloak");
+                            if (targetUuid != null && targetCloak != null) {
+                                SaturnPlayer player = players.get(targetUuid);
+                                if (player != null) {
+                                    player.cloak = targetCloak;
+                                }
+                            }
+                            break;
+
+                        case "update_hat":
+                            targetUuid = parser.getStringOrNull("uuid");
+                            String targetHat = parser.getStringOrNull("hat");
+                            if (targetUuid != null && targetHat != null) {
+                                SaturnPlayer player = players.get(targetUuid);
+                                if (player != null) {
+                                    player.hat = targetHat;
+                                }
+                            }
+                            break;
+
+                        case "emote":
+                            targetUuid = parser.getStringOrNull("uuid");
+                            String emote = parser.getStringOrNull("name");
+
+                            for (AbstractClientPlayerEntity player : SaturnClient.client.world.getPlayers()) {
+                                if (player.getUuidAsString().replace("-", "").equals(targetUuid)) {
+                                    AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(player);
+                                    if (emote != null && !emote.isEmpty()) {
+                                        if (animationStack.isActive() && animationStack.getPriority() == 1000) {
+                                            animationStack.removeLayer(1000);
+                                        }
+                                        animationStack.addAnimLayer(1000,
+                                                PlayerAnimationRegistry
+                                                        .getAnimation(Identifier.of("saturnclient", emote))
+                                                        .playAnimation());
+                                    } else {
+                                        animationStack.removeLayer(1000);
+                                    }
+                                }
+                            }
+                            break;
 
                         default:
                             if (parser.error != null) {
@@ -115,7 +170,10 @@ public class Auth {
 
                                 if (SaturnClient.client.currentScreen instanceof SaturnScreen) {
                                     String[] a = parser.error.replace("!", "").split(": ");
-                                    ((SaturnScreen) SaturnClient.client.currentScreen).draw(new Notification(SaturnClient.client.currentScreen.width, SaturnClient.client.currentScreen.height, NotificationKind.Error, a[0], a[1]));
+                                    ((SaturnScreen) SaturnClient.client.currentScreen)
+                                            .draw(new Notification(SaturnClient.client.currentScreen.width,
+                                                    SaturnClient.client.currentScreen.height, NotificationKind.Error,
+                                                    a[0], a[1]));
                                 }
                             }
                             break;
@@ -179,7 +237,7 @@ public class Auth {
 
     public static void setCloak(String cloakName) {
         try {
-            Network.write("set_cloak@cloak=" + cloakName);
+            Network.write("set_cloak@cloak=" + cloakName + "@notify=" + stringifyPlayers());
         } catch (Exception e) {
             SaturnClient.LOGGER.error("Request failed", e);
         }
@@ -187,10 +245,24 @@ public class Auth {
 
     public static void setHat(String hatName) {
         try {
-            Network.write("set_hat@hat=" + hatName);
+            Network.write("set_hat@hat=" + hatName + "@notify=" + stringifyPlayers());
         } catch (Exception e) {
             SaturnClient.LOGGER.error("Request failed", e);
         }
+    }
+
+    public static void emote(String name) {
+        try {
+            Network.write("emote@name=" + name + "@notify=" + stringifyPlayers());
+        } catch (Exception e) {
+            SaturnClient.LOGGER.error("Request failed", e);
+        }
+    }
+
+    public static String stringifyPlayers() {
+        return players.keySet().stream()
+                .filter(key -> key != uuid)
+                .collect(Collectors.joining("$"));
     }
 
     public static void player(String name, String uuid) {
@@ -199,41 +271,6 @@ public class Auth {
             Network.write("player@uuid=" + uuid.replaceAll("-", ""));
         } catch (Exception e) {
             SaturnClient.LOGGER.error("Request failed", e);
-        }
-    }
-
-    public static void sendReload() {
-        for (Map.Entry<String, String> player : playerNames.entrySet()) {
-            if (players.containsKey(player.getValue()) && !player.getValue().equals(uuid)) {
-                SaturnClient.client.player.networkHandler
-                        .sendChatCommand("msg " + player.getKey() + " "
-                                + "$SATURN_RELOAD if you are seeing this as a player, please report this to https://github.com/saturnclientmc/saturnclient/issues");
-                ;
-            }
-        }
-    }
-
-    public static void sendEmote(String emote) {
-        String uuid = SaturnClient.client.player.getUuidAsString().replace("-", "");
-        for (Map.Entry<String, String> player : playerNames.entrySet()) {
-            if (players.containsKey(player.getValue()) && !player.getValue().equals(uuid)) {
-                SaturnClient.client.player.networkHandler
-                        .sendChatCommand("msg " + player.getKey() + " "
-                                + "$SATURN_EMOTE&@"+uuid+"&@"+emote+"&@ if you are seeing this as a player, please report this to https://github.com/saturnclientmc/saturnclient/issues");
-                ;
-            }
-        }
-    }
-
-    public static void cancelEmote() {
-        String uuid = SaturnClient.client.player.getUuidAsString().replace("-", "");
-        for (Map.Entry<String, String> player : playerNames.entrySet()) {
-            if (players.containsKey(player.getValue()) && !player.getValue().equals(uuid)) {
-                SaturnClient.client.player.networkHandler
-                        .sendChatCommand("msg " + player.getKey() + " "
-                                + "$SATURN_CANCEL_EMOTE&@"+uuid+"&@ if you are seeing this as a player, please report this to https://github.com/saturnclientmc/saturnclient/issues");
-                ;
-            }
         }
     }
 
