@@ -37,7 +37,7 @@ public class Network {
         // Generate AES key
         new SecureRandom().nextBytes(key);
 
-        socket = new Socket("localhost", 8080);
+        socket = new Socket("77.247.92.168", 8080);
         // out = new DataOutputStream(socket.getOutputStream());
         out = new PrintWriter(socket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
