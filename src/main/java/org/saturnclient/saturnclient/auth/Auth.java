@@ -104,10 +104,33 @@ public class Auth {
                             String hat = parser.getStringOrNull("hat");
                             if (cloak != null) {
                                 Cloaks.availableCloaks.add(cloak);
+
                             }
                             if (hat != null) {
                                 Hats.availableHats.add(hat);
                             }
+
+                        case "update_cloak":
+                            String targetUuid = parser.getStringOrNull("uuid");
+                            String targetCloak = parser.getStringOrNull("cloak");
+                            if (targetUuid != null && targetCloak != null) {
+                                SaturnPlayer player = players.get(targetUuid);
+                                if (player != null) {
+                                    player.cloak = targetCloak;
+                                }
+                            }
+                            break;
+
+                        case "update_hat":
+                            targetUuid = parser.getStringOrNull("uuid");
+                            String targetHat = parser.getStringOrNull("hat");
+                            if (targetUuid != null && targetHat != null) {
+                                SaturnPlayer player = players.get(targetUuid);
+                                if (player != null) {
+                                    player.hat = targetHat;
+                                }
+                            }
+                            break;
 
                         default:
                             if (parser.error != null) {
@@ -182,7 +205,7 @@ public class Auth {
 
     public static void setCloak(String cloakName) {
         try {
-            Network.write("set_cloak@cloak=" + cloakName + "@notify=" + "d362a04228bd49e1a807ae74dbe8aba9");
+            Network.write("set_cloak@cloak=" + cloakName + "@notify=" + stringifyPlayers());
         } catch (Exception e) {
             SaturnClient.LOGGER.error("Request failed", e);
         }
@@ -190,10 +213,14 @@ public class Auth {
 
     public static void setHat(String hatName) {
         try {
-            Network.write("set_hat@hat=" + hatName + "@notify=" + "d362a04228bd49e1a807ae74dbe8aba9");
+            Network.write("set_hat@hat=" + hatName + "@notify=" + stringifyPlayers());
         } catch (Exception e) {
             SaturnClient.LOGGER.error("Request failed", e);
         }
+    }
+
+    public static String stringifyPlayers() {
+        return String.join("$", players.keySet());
     }
 
     public static void player(String name, String uuid) {
