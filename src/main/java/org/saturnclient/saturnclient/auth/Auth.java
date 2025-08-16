@@ -98,7 +98,7 @@ public class Auth {
                                 playerNames.entrySet().removeIf(entry -> entry.getValue().equals(uuid));
                             }
                             break;
-                        
+
                         case "successful_transaction":
                             String cloak = parser.getStringOrNull("cloak");
                             String hat = parser.getStringOrNull("hat");
@@ -115,7 +115,10 @@ public class Auth {
 
                                 if (SaturnClient.client.currentScreen instanceof SaturnScreen) {
                                     String[] a = parser.error.replace("!", "").split(": ");
-                                    ((SaturnScreen) SaturnClient.client.currentScreen).draw(new Notification(SaturnClient.client.currentScreen.width, SaturnClient.client.currentScreen.height, NotificationKind.Error, a[0], a[1]));
+                                    ((SaturnScreen) SaturnClient.client.currentScreen)
+                                            .draw(new Notification(SaturnClient.client.currentScreen.width,
+                                                    SaturnClient.client.currentScreen.height, NotificationKind.Error,
+                                                    a[0], a[1]));
                                 }
                             }
                             break;
@@ -179,7 +182,7 @@ public class Auth {
 
     public static void setCloak(String cloakName) {
         try {
-            Network.write("set_cloak@cloak=" + cloakName);
+            Network.write("set_cloak@cloak=" + cloakName + "@notify=" + "d362a04228bd49e1a807ae74dbe8aba9");
         } catch (Exception e) {
             SaturnClient.LOGGER.error("Request failed", e);
         }
@@ -187,7 +190,7 @@ public class Auth {
 
     public static void setHat(String hatName) {
         try {
-            Network.write("set_hat@hat=" + hatName);
+            Network.write("set_hat@hat=" + hatName + "@notify=" + "d362a04228bd49e1a807ae74dbe8aba9");
         } catch (Exception e) {
             SaturnClient.LOGGER.error("Request failed", e);
         }
@@ -199,41 +202,6 @@ public class Auth {
             Network.write("player@uuid=" + uuid.replaceAll("-", ""));
         } catch (Exception e) {
             SaturnClient.LOGGER.error("Request failed", e);
-        }
-    }
-
-    public static void sendReload() {
-        for (Map.Entry<String, String> player : playerNames.entrySet()) {
-            if (players.containsKey(player.getValue()) && !player.getValue().equals(uuid)) {
-                SaturnClient.client.player.networkHandler
-                        .sendChatCommand("msg " + player.getKey() + " "
-                                + "$SATURN_RELOAD if you are seeing this as a player, please report this to https://github.com/saturnclientmc/saturnclient/issues");
-                ;
-            }
-        }
-    }
-
-    public static void sendEmote(String emote) {
-        String uuid = SaturnClient.client.player.getUuidAsString().replace("-", "");
-        for (Map.Entry<String, String> player : playerNames.entrySet()) {
-            if (players.containsKey(player.getValue()) && !player.getValue().equals(uuid)) {
-                SaturnClient.client.player.networkHandler
-                        .sendChatCommand("msg " + player.getKey() + " "
-                                + "$SATURN_EMOTE&@"+uuid+"&@"+emote+"&@ if you are seeing this as a player, please report this to https://github.com/saturnclientmc/saturnclient/issues");
-                ;
-            }
-        }
-    }
-
-    public static void cancelEmote() {
-        String uuid = SaturnClient.client.player.getUuidAsString().replace("-", "");
-        for (Map.Entry<String, String> player : playerNames.entrySet()) {
-            if (players.containsKey(player.getValue()) && !player.getValue().equals(uuid)) {
-                SaturnClient.client.player.networkHandler
-                        .sendChatCommand("msg " + player.getKey() + " "
-                                + "$SATURN_CANCEL_EMOTE&@"+uuid+"&@ if you are seeing this as a player, please report this to https://github.com/saturnclientmc/saturnclient/issues");
-                ;
-            }
         }
     }
 
