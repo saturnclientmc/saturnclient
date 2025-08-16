@@ -2,12 +2,22 @@ package org.saturnclient.saturnclient.auth;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.util.Identifier;
+
 import org.saturnclient.saturnclient.cosmetics.Hats;
 import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 import org.saturnclient.ui2.SaturnScreen;
 import org.saturnclient.ui2.elements.Notification;
 import org.saturnclient.ui2.elements.Notification.NotificationKind;
+
+import dev.kosmx.playerAnim.api.layered.AnimationStack;
+import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
+import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
+
 import org.saturnclient.saturnclient.SaturnClient;
 
 public class Auth {
@@ -132,6 +142,28 @@ public class Auth {
                             }
                             break;
 
+                        case "emote":
+                            targetUuid = parser.getStringOrNull("uuid");
+                            String emote = parser.getStringOrNull("name");
+
+                            for (AbstractClientPlayerEntity player : SaturnClient.client.world.getPlayers()) {
+                                if (player.getUuidAsString().replace("-", "").equals(targetUuid)) {
+                                    AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(player);
+                                    if (emote != null && !emote.isEmpty()) {
+                                        if (animationStack.isActive() && animationStack.getPriority() == 1000) {
+                                            animationStack.removeLayer(1000);
+                                        }
+                                        animationStack.addAnimLayer(1000,
+                                                PlayerAnimationRegistry
+                                                        .getAnimation(Identifier.of("saturnclient", emote))
+                                                        .playAnimation());
+                                    } else {
+                                        animationStack.removeLayer(1000);
+                                    }
+                                }
+                            }
+                            break;
+
                         default:
                             if (parser.error != null) {
                                 SaturnClient.LOGGER.error("Error from the server: " + parser.error);
@@ -219,8 +251,18 @@ public class Auth {
         }
     }
 
+    public static void emote(String name) {
+        try {
+            Network.write("emote@name=" + name + "@notify=" + stringifyPlayers());
+        } catch (Exception e) {
+            SaturnClient.LOGGER.error("Request failed", e);
+        }
+    }
+
     public static String stringifyPlayers() {
-        return String.join("$", players.keySet());
+        return players.keySet().stream()
+                .filter(key -> key != uuid)
+                .collect(Collectors.joining("$"));
     }
 
     public static void player(String name, String uuid) {
