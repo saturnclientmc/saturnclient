@@ -8,6 +8,8 @@
   <b>Saturn Client is a free and open source Minecraft client</b>
 </p>
 
+![image](https://github.com/user-attachments/assets/b0b23e72-c2eb-49aa-b49c-4d3cc4d60fcc)
+
 # Credits
 
 - Cloak rendering: `IIpho3nix` & `Dhyan Blum`
