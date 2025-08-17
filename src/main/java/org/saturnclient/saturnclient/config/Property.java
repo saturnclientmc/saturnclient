@@ -89,13 +89,17 @@ public class Property<T> {
     }
 
     public void next() {
-        if ((Integer) value < availableValues.length-1) setValue((Integer)value+1);
-        else setValue(0);
+        if ((Integer) value < availableValues.length - 1)
+            setValue((Integer) value + 1);
+        else
+            setValue(0);
     }
 
     public void prev() {
-        if ((Integer) value > 0) setValue((Integer)value-1);
-        else setValue(availableValues.length - 1);
+        if ((Integer) value > 0)
+            setValue((Integer) value - 1);
+        else
+            setValue(availableValues.length - 1);
     }
 
     public void setSelection(int selection) {
@@ -197,18 +201,14 @@ public class Property<T> {
     }
 
     public boolean isKeyPressed() {
-        return (Integer) value == -1 ? false : GLFW.glfwGetKey(SaturnClient.client.getWindow().getHandle(), (Integer) (Object) value) == GLFW.GLFW_PRESS;
+        return (Integer) value == -1 ? false
+                : GLFW.glfwGetKey(SaturnClient.client.getWindow().getHandle(),
+                        (Integer) (Object) value) == GLFW.GLFW_PRESS && SaturnClient.client.currentScreen == null;
     }
 
     public boolean wasKeyPressed() {
-        long window = SaturnClient.client.getWindow().getHandle();
-        int key = (Integer) value;
-
-        boolean isPressed = key != -1 && GLFW.glfwGetKey(window, key) == GLFW.GLFW_PRESS;
-
-        boolean wasJustPressed = isPressed && !wasPressedLastTick;
-        wasPressedLastTick = isPressed;
-
-        return wasJustPressed;
+        boolean isPressed = this.isKeyPressed();
+        wasPressedLastTick = isPressed && !wasPressedLastTick;
+        return wasPressedLastTick;
     }
 }
