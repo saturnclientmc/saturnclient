@@ -33,6 +33,10 @@ public class Toggle extends Element {
             theme.setState("enabled");
         }
 
+        if (ctx.isHovering()) {
+            theme.applyState("hovering");
+        }
+
         renderScope.drawRoundedRectangle(0, 0, width, height, cornerRadius.value, bgColor.value);
 
         renderScope.drawRoundedRectangle(prop.value ? 30 : 0, 0, 30, 30, 30, fgColor.value);

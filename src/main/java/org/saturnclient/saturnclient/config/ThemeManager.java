@@ -4,61 +4,90 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.saturnclient.saturnclient.SaturnClient;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonParser;
 
 public class ThemeManager {
-    // public static List<ThemeManager> theme = new ArrayList<>();
+    private static File themeFile = new File(
+            SaturnClient.client.runDirectory,
+            "saturn.theme.json");
+    private static List<ThemeManager> theme = new ArrayList<>();
+    private static JsonObject cachedThemeJson = null;
 
-    private String[] stateList;
-    private Map<String, Map<String, Property<?>>> states;
+    private Map<String, Map<String, Object>> states;
     private Map<String, Property<?>> currentStyling;
     private String namespace;
 
     public ThemeManager(String namespace, String... states) {
-        this.stateList = states;
-        this.states = new LinkedHashMap<>();
         this.namespace = namespace;
-        currentStyling = new LinkedHashMap<>();
+        this.states = new LinkedHashMap<>();
+        this.currentStyling = new LinkedHashMap<>();
         this.states.put(null, new LinkedHashMap<>());
         for (String s : states) {
             this.states.put(s, new LinkedHashMap<>());
         }
+        theme.add(this);
     }
 
     public void setState(String state) {
-        for (Map.Entry<String, Property<?>> tProp : states.get(state).entrySet()) {
-            currentStyling.get(tProp.getKey()).setValue(tProp.getValue().value);
+        for (Map.Entry<String, Object> tProp : states.get(state).entrySet()) {
+            currentStyling.get(tProp.getKey()).setValue(tProp.getValue());
         }
     }
 
     public void applyState(String state) {
+        for (Map.Entry<String, Object> tProp : states.get(state).entrySet()) {
+            if (!states.get(null).get(tProp.getKey()).equals(tProp.getValue()))
+                currentStyling.get(tProp.getKey()).setValue(tProp.getValue());
+        }
     }
 
     public <T> Property<T> property(String name, Property<T> prop) {
-        for (String state : stateList) {
-            Property<?> property = Property.from(prop.value);
-            states.get(state).put(name, property);
+        for (Map.Entry<String, Map<String, Object>> state : this.states.entrySet()) {
+            Property<?> property = prop.copy();
+            if (cachedThemeJson == null) {
+                load();
+            }
+            String stateName = state.getKey();
+            property.load(name, cachedThemeJson.get(stateName != null ? namespace + "@" + stateName : namespace));
+            state.getValue().put(name, property.value);
         }
 
-        states.get(null).put(name, Property.from(prop.value));
         currentStyling.put(name, prop);
 
         return prop;
     }
 
     public <T> void propertyStateDefault(String state, String name, T value) {
-        Property<?> prop = states.get(state).get(name);
+        Property<?> prop = currentStyling.get(name).copy();
         prop.setValue(value, value);
+        if (cachedThemeJson == null) {
+            load();
+        }
+        prop.load(name, cachedThemeJson.get(state != null ? namespace + "@" + state : namespace));
+        states.get(state).put(name, prop.value);
+    }
+
+    public static void load() {
+        try {
+            SaturnClient.LOGGER.info("Starting to load theme...");
+            if (!themeFile.exists()) {
+                themeFile.createNewFile();
+                Files.write(themeFile.toPath(), "{}".getBytes());
+            }
+
+            cachedThemeJson = JsonParser.parseString(
+                    new String(Files.readAllBytes(themeFile.toPath()))).getAsJsonObject();
+
+            SaturnClient.LOGGER.info("Theme loaded");
+        } catch (IOException e) {
+            SaturnClient.LOGGER.error("Error reading the theme file", e);
+        }
     }
 }

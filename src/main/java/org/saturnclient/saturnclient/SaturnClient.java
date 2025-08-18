@@ -39,9 +39,9 @@ public class SaturnClient implements ModInitializer {
         client = MinecraftClient.getInstance();
         SaturnClientConfig.init();
         ModManager.init();
-        
+
         ClientLifecycleEvents.CLIENT_STOPPING.register(_o -> ConfigManager.save());
-        
+
         SpecialModelLoaderEvents.LOAD_SCOPE.register(() -> {
             return (resourceManager, location) -> MOD_ID.equals(location.getNamespace());
         });
@@ -49,11 +49,12 @@ public class SaturnClient implements ModInitializer {
         ScreenEvents.AFTER_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
             if (screen != null && !(screen instanceof TitleMenu)) {
                 if (screen instanceof SaturnScreen) {
-                    ((SaturnScreen) screen).draw(new ImageTexture(Textures.LOGO_TEXT_BIG).dimensions(180, 18).position(screen.width - 180 - 20, screen.height - 18 - 20));
+                    ((SaturnScreen) screen).draw(new ImageTexture(Textures.LOGO_TEXT_BIG).dimensions(180, 18)
+                            .position(screen.width - 180 - 20, screen.height - 18 - 20));
                 } else {
                     ScreenEvents.afterRender(screen).register((screen1, context, mouseX, mouseY, tickDelta) -> {
                         RenderScope renderScope = new RenderScope(context.getMatrices(),
-                            ((DrawContextAccessor) context).getVertexConsumers());
+                                ((DrawContextAccessor) context).getVertexConsumers());
 
                         int width = context.getScaledWindowWidth();
                         int height = context.getScaledWindowHeight();
@@ -71,7 +72,7 @@ public class SaturnClient implements ModInitializer {
                 }
             }
         });
-        
+
         KeyInputHandler.register();
         Emotes.initialize();
         if (Auth.authenticate()) {

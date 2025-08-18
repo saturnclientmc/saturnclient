@@ -50,6 +50,10 @@ public class Property<T> {
         }
     }
 
+    public Property<T> copy() {
+        return new Property<>(this.value, this.type);
+    }
+
     public static Property<Integer> font(int value) {
         return select(value, "Default", "Inter", "Inter bold");
     }
@@ -160,12 +164,8 @@ public class Property<T> {
                 return true;
             if (value instanceof String && primitive.isString())
                 return true;
-
-            // Check if JSON string represents a valid hex integer
-            if (value instanceof String && primitive.isString()) {
-                String str = primitive.getAsString();
-                return str.matches("0x[0-9A-Fa-f]+");
-            }
+            if (type == PropertyType.HEX && primitive.isString())
+                return true;
         } else if (element.isJsonObject()) {
             return isNamespace(value);
         }
@@ -210,5 +210,49 @@ public class Property<T> {
         boolean isPressed = this.isKeyPressed();
         wasPressedLastTick = isPressed && !wasPressedLastTick;
         return wasPressedLastTick;
+    }
+
+    @SuppressWarnings("unchecked")
+    public void load(String name, JsonElement element) {
+        if (element != null && element.isJsonObject()) {
+            JsonElement value = element.getAsJsonObject().get(name);
+            if (value != null) {
+                switch (this.getType()) {
+                    case BOOLEAN:
+                        ((Property<Boolean>) this).setValue(value.getAsBoolean());
+                        break;
+                    case INTEGER:
+                        JsonPrimitive primitive = value.getAsJsonPrimitive();
+                        if (primitive.isNumber())
+                            ((Property<Integer>) this).setValue(value.getAsInt());
+                        else if (primitive.isString())
+                            ((Property<Integer>) this).setValue(parseHexToInt(value.getAsString()));
+                        break;
+                    case FLOAT:
+                        ((Property<Float>) this).setValue(value.getAsFloat());
+                        break;
+                    case STRING:
+                        ((Property<String>) this).setValue(value.getAsString());
+                        break;
+                    case HEX:
+                        ((Property<Integer>) this).setValue(parseHexToInt(value.getAsString()));
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+
+    public static int parseHexToInt(String hex) {
+        hex = hex.replaceAll("#", "");
+
+        if (hex.length() == 6) {
+            hex = "FF" + hex;
+        } else if (hex.length() != 8) {
+            throw new IllegalArgumentException("Hex string must be 6 or 8 characters long");
+        }
+
+        return (int) Long.parseLong(hex, 16);
     }
 }
