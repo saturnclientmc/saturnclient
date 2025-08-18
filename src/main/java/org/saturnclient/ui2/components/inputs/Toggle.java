@@ -27,19 +27,15 @@ public class Toggle extends Element {
 
     @Override
     public void render(RenderScope renderScope, ElementContext ctx) {
+        theme.setState(null);
+
         if (prop.value) {
             theme.setState("enabled");
-        }
-
-        if (ctx.isHovering()) {
-            theme.applyState("hovering");
         }
 
         renderScope.drawRoundedRectangle(0, 0, width, height, cornerRadius.value, bgColor.value);
 
         renderScope.drawRoundedRectangle(prop.value ? 30 : 0, 0, 30, 30, 30, fgColor.value);
-
-        theme.setState(null);
     }
 
     @Override
