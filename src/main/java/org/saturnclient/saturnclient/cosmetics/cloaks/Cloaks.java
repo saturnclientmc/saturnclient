@@ -20,8 +20,8 @@ import org.saturnclient.saturnclient.SaturnClient;
  * Originally created by IIpho3nix and modified for Saturn Client by leo.
  */
 public class Cloaks {
-    public static final String[] ALL_CLOAKS = { "glitch", "mercedes_flow", "crimson_mark", "bmw" };
-    private static final String[] ANIMATED_CLOAKS = { "glitch", "mercedes_flow" };
+    public static final String[] ALL_CLOAKS = { "glitch", "mercedes_flow", "crimson_mark", "bmw", "amg" };
+    private static final String[] ANIMATED_CLOAKS = { "glitch" };
 
     private static final String CLOAKS_RESOURCE_PATH = "assets/saturnclient/textures/cloaks/";
     public static final List<String> availableCloaks = new ArrayList<>();
