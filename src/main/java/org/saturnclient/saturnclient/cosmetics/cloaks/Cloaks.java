@@ -20,8 +20,9 @@ import org.saturnclient.saturnclient.SaturnClient;
  * Originally created by IIpho3nix and modified for Saturn Client by leo.
  */
 public class Cloaks {
-    public static final String[] ALL_CLOAKS = { "glitch", "mercedes_flow", "crimson_mark", "bmw", "amg", "amg_petronas", "ferrari", "redbull" };
-    private static final String[] ANIMATED_CLOAKS = { "glitch" };
+    public static final String[] ALL_CLOAKS = { "glitch", "mercedes_flow", "crimson_mark", "bmw", "amg", "amg_petronas",
+            "ferrari", "redbull" };
+    private static final String[] ANIMATED_CLOAKS = { "glitch", "redbull" };
 
     private static final String CLOAKS_RESOURCE_PATH = "assets/saturnclient/textures/cloaks/";
     public static final List<String> availableCloaks = new ArrayList<>();
@@ -106,27 +107,24 @@ public class Cloaks {
                                     delays.add(gif.getDelay(i) * 10);
                                 }
 
-                                // Register textures on main thread
-                                SaturnClient.client.execute(() -> {
-                                    try {
-                                        List<AnimatedCloakData> animatedFrames = new ArrayList<>();
-                                        for (int i = 0; i < frameCount; i++) {
-                                            String frameId = fileName.replace(".gif", "") + "_frame_" + i;
-                                            Identifier frameIdentifier = Identifier.of(SaturnClient.MOD_ID,
-                                                    "cloaks_" + frameId);
-                                            IdentifierUtils.registerBufferedImageTexture(frameIdentifier,
-                                                    frames.get(i));
-                                            animatedFrames.add(new AnimatedCloakData(frameIdentifier, delays.get(i)));
-                                        }
-                                        animatedCloaks.put(uuid, animatedFrames);
-                                        lastFrameTime.put(uuid, System.currentTimeMillis());
-                                        SaturnClient.LOGGER.info(
-                                                "Loaded " + frames.size() + " frames for animated cloak: " + fileName);
-                                    } catch (Exception e) {
-                                        SaturnClient.LOGGER
-                                                .error("Failed to register animated cloak textures: " + fileName, e);
+                                try {
+                                    List<AnimatedCloakData> animatedFrames = new ArrayList<>();
+                                    for (int i = 0; i < frameCount; i++) {
+                                        String frameId = fileName.replace(".gif", "") + "_frame_" + i;
+                                        Identifier frameIdentifier = Identifier.of(SaturnClient.MOD_ID,
+                                                "cloaks_" + frameId);
+                                        IdentifierUtils.registerBufferedImageTexture(frameIdentifier,
+                                                frames.get(i));
+                                        animatedFrames.add(new AnimatedCloakData(frameIdentifier, delays.get(i)));
                                     }
-                                });
+                                    animatedCloaks.put(uuid, animatedFrames);
+                                    lastFrameTime.put(uuid, System.currentTimeMillis());
+                                    SaturnClient.LOGGER.info(
+                                            "Loaded " + frames.size() + " frames for animated cloak: " + fileName);
+                                } catch (Exception e) {
+                                    SaturnClient.LOGGER
+                                            .error("Failed to register animated cloak textures: " + fileName, e);
+                                }
                             }
                         } catch (IOException e) {
                             SaturnClient.LOGGER
