@@ -202,7 +202,13 @@ public class Cloaks {
                 currentFrame = 0;
             }
 
-            return frames.get(currentFrame).getTextureId();
+            Identifier identifier = frames.get(currentFrame).getTextureId();
+
+            if (identifier == null) {
+                return Identifier.of(SaturnClient.MOD_ID, "textures/cloaks/" + cloakName + ".png");
+            }
+
+            return identifier;
         } else {
             return Identifier.of(SaturnClient.MOD_ID, "textures/cloaks/" + cloakName + ".png");
         }
