@@ -21,7 +21,7 @@ import org.saturnclient.saturnclient.SaturnClient;
  */
 public class Cloaks {
     public static final String[] ALL_CLOAKS = { "glitch", "mercedes_flow", "crimson_mark", "bmw", "amg", "amg_petronas",
-            "ferrari", "redbull" };
+            "ferrari", "redbull", "black_hole_amethyst", "black_hole_flame", "black_hole_white" };
     private static final String[] ANIMATED_CLOAKS = { "glitch", "black_hole_amethyst", "black_hole_flame",
             "black_hole_white" };
 
