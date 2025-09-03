@@ -4,13 +4,15 @@ import java.util.List;
 
 import org.lwjgl.glfw.GLFW;
 import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.ui2.elements.Notification;
+import org.saturnclient.ui2.elements.Notification.NotificationKind;
 
 public class Utils {
     public static boolean isHovering(int mouseX, int mouseY, int elementWidth, int elementHeight, float elementScale) {
         return mouseX >= 0 &&
-               mouseX <= (elementWidth * elementScale) &&
-               mouseY >= 0 &&
-               mouseY <= (elementHeight * elementScale);
+                mouseX <= (elementWidth * elementScale) &&
+                mouseY >= 0 &&
+                mouseY <= (elementHeight * elementScale);
     }
 
     public static char getCharFromKey(int keyCode, int modifiers) {
@@ -51,5 +53,14 @@ public class Utils {
     public static <T> T getOrNull(List<T> list, int index) {
         SaturnClient.LOGGER.info("Accessing index {} in list of size {}", index, list.size());
         return (index >= 0 && index < list.size()) ? list.get(index) : null;
+    }
+
+    public static void notify(NotificationKind kind, String title, String toast) {
+        if (SaturnClient.client.currentScreen instanceof SaturnScreen) {
+            ((SaturnScreen) SaturnClient.client.currentScreen)
+                    .draw(new Notification(SaturnClient.client.currentScreen.width,
+                            SaturnClient.client.currentScreen.height, kind,
+                            title, toast));
+        }
     }
 }
