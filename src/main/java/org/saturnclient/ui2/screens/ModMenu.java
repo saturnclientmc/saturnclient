@@ -23,8 +23,8 @@ public class ModMenu extends SaturnScreen {
 
         int row = 0;
         int col = 0;
-        
-        for (Module mod : ModManager.MODS) {
+
+        for (Module mod : ModManager.ALL_MODS) {
             scroll.draw(new SaturnModule(mod).position((160 + g) * col, (50 + g) * row));
 
             if (col == 2) {
@@ -36,7 +36,7 @@ public class ModMenu extends SaturnScreen {
         }
 
         int scrollWidth = 480 + 10 + (g * 2) + (p * 2);
-    
+
         draw(scroll.dimensions(scrollWidth, 350).center(width, height));
 
         draw(new Sidebar(0, this::close).centerOffset(width, height, -(scrollWidth / 2 + 20), 0));

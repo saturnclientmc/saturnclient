@@ -28,7 +28,6 @@ public class Auth {
     private static Thread pingThread;
     private static volatile boolean running = false;
 
-    @SuppressWarnings("resource")
     public static boolean authenticate() {
         // Register shutdown hook ONCE
         ClientLifecycleEvents.CLIENT_STOPPING.register(_o -> close());
