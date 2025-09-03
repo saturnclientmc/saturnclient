@@ -50,7 +50,7 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         }
     }
 
-    public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i,
+    public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light,
             PlayerEntityRenderState playerEntityRenderState, float f, float g) {
         if (!playerEntityRenderState.invisible && playerEntityRenderState.capeVisible) {
             SkinTextures skinTextures = playerEntityRenderState.skinTextures;
@@ -71,11 +71,23 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
                         matrixStack.translate(0.0F, -0.053125F, 0.06875F);
                     }
 
+                    int minBrightness = 7;
+
+                    int blockLight = (light >> 4) & 0xF;
+                    int skyLight = (light >> 20) & 0xF;
+
+                    // Clamp to minimum
+                    blockLight = Math.max(blockLight, minBrightness);
+                    skyLight = Math.max(skyLight, minBrightness);
+
+                    // Repack
+                    light = (skyLight << 20) | (blockLight << 4);
+
                     VertexConsumer vertexConsumer = vertexConsumerProvider
-                            .getBuffer(RenderLayer.getEntityAlpha(customCape));
+                            .getBuffer(RenderLayer.getEntitySolid(customCape));
                     ((PlayerEntityModel) this.getContextModel()).copyTransforms(this.model);
                     this.model.setAngles(playerEntityRenderState);
-                    this.model.render(matrixStack, vertexConsumer, 0xF000F0, OverlayTexture.DEFAULT_UV);
+                    this.model.render(matrixStack, vertexConsumer, light, OverlayTexture.DEFAULT_UV);
                     matrixStack.pop();
                 }
             }
