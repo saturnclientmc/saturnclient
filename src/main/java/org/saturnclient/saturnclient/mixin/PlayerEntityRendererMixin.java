@@ -25,6 +25,6 @@ public abstract class PlayerEntityRendererMixin
     @Inject(method = "<init>", at = @At("TAIL"))
     private void addCustomFeatureRenderer(EntityRendererFactory.Context ctx, boolean slim, CallbackInfo ci) {
         this.addFeature(new HatFeatureRenderer(this));
-        this.addFeature(new CloakFeatureRenderer(this, ctx.getEquipmentModelLoader()));
+        this.addFeature(new CloakFeatureRenderer(this, ctx.getEntityModels(), ctx.getEquipmentModelLoader()));
     }
 }

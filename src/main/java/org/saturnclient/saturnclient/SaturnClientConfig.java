@@ -12,8 +12,8 @@ public class SaturnClientConfig {
     public static ConfigManager config;
 
     public static Property<Boolean> realisticLogo = Property.bool(false);
-
     public static Property<Boolean> saturnTitleScreen = Property.bool(true);
+    public static Property<Boolean> bendyCloaks = Property.bool(true);
     public static Property<Integer> openEmoteWheel = Property.keybinding(GLFW.GLFW_KEY_B);
 
     public static Identifier getLogo() {
@@ -32,7 +32,7 @@ public class SaturnClientConfig {
      * - Partners: Gold
      * - Contributor: Aqua
      * - Other/player: White
-    */
+     */
     public static Formatting getIconColor(String uuid) {
         if (uuid.equals("d362a04228bd49e1a807ae74dbe8aba9")) {
             return Formatting.DARK_RED; // Owner
@@ -46,5 +46,6 @@ public class SaturnClientConfig {
         config.property("Realistic logo", realisticLogo);
         config.property("Saturn client title screen", saturnTitleScreen);
         config.property("Open Emote Wheel", openEmoteWheel);
+        config.property("Bendy Cloaks", bendyCloaks);
     }
 }
