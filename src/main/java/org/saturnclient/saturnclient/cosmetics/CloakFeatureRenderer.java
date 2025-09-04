@@ -23,9 +23,11 @@ import net.minecraft.item.equipment.EquipmentAsset;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.RotationAxis;
+import net.minecraft.util.math.Vec3d;
 
 public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState, PlayerEntityModel> {
     private final EquipmentModelLoader equipmentModelLoader;
+    private static final int PARTS = 16;
 
     public CloakFeatureRenderer(FeatureRendererContext<PlayerEntityRenderState, PlayerEntityModel> context,
             EquipmentModelLoader equipmentModelLoader) {
@@ -44,9 +46,25 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         }
     }
 
-    // Render quad with correct winding order (counter-clockwise for front face)
     private void renderCapeQuad(VertexConsumer vertexConsumer, MatrixStack matrixStack,
             float x1, float y1, float z1, float x2, float y2, float z2,
+            float u1, float v1, float u2, float v2, int light, int overlay,
+            float normalX, float normalY, float normalZ, boolean flipWinding) {
+        // Create the four corner vectors from the provided x, y, z coordinates
+        Vec3d bottomLeft = new Vec3d(x1, y2, z1);
+        Vec3d bottomRight = new Vec3d(x2, y2, z2);
+        Vec3d topRight = new Vec3d(x2, y1, z2);
+        Vec3d topLeft = new Vec3d(x1, y1, z1);
+
+        // Call the more detailed render method with the newly created vectors
+        renderCapeQuad(vertexConsumer, matrixStack,
+                bottomLeft, bottomRight, topRight, topLeft,
+                u1, v1, u2, v2, light, overlay,
+                normalX, normalY, normalZ, flipWinding);
+    }
+
+    private void renderCapeQuad(VertexConsumer vertexConsumer, MatrixStack matrixStack,
+            Vec3d bottomLeft, Vec3d bottomRight, Vec3d topRight, Vec3d topLeft,
             float u1, float v1, float u2, float v2, int light, int overlay,
             float normalX, float normalY, float normalZ, boolean flipWinding) {
         MatrixStack.Entry entry = matrixStack.peek();
@@ -54,7 +72,8 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         if (!flipWinding) {
             // Counter-clockwise winding (front face)
             // Vertex 1 (bottom-left)
-            vertexConsumer.vertex(entry.getPositionMatrix(), x1, y2, z1)
+            vertexConsumer
+                    .vertex(entry.getPositionMatrix(), (float) bottomLeft.x, (float) bottomLeft.y, (float) bottomLeft.z)
                     .color(255, 255, 255, 255)
                     .texture(u1, v2)
                     .overlay(overlay)
@@ -62,7 +81,9 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
                     .normal(normalX, normalY, normalZ);
 
             // Vertex 2 (bottom-right)
-            vertexConsumer.vertex(entry.getPositionMatrix(), x2, y2, z2)
+            vertexConsumer
+                    .vertex(entry.getPositionMatrix(), (float) bottomRight.x, (float) bottomRight.y,
+                            (float) bottomRight.z)
                     .color(255, 255, 255, 255)
                     .texture(u2, v2)
                     .overlay(overlay)
@@ -70,7 +91,7 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
                     .normal(normalX, normalY, normalZ);
 
             // Vertex 3 (top-right)
-            vertexConsumer.vertex(entry.getPositionMatrix(), x2, y1, z2)
+            vertexConsumer.vertex(entry.getPositionMatrix(), (float) topRight.x, (float) topRight.y, (float) topRight.z)
                     .color(255, 255, 255, 255)
                     .texture(u2, v1)
                     .overlay(overlay)
@@ -78,7 +99,7 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
                     .normal(normalX, normalY, normalZ);
 
             // Vertex 4 (top-left)
-            vertexConsumer.vertex(entry.getPositionMatrix(), x1, y1, z1)
+            vertexConsumer.vertex(entry.getPositionMatrix(), (float) topLeft.x, (float) topLeft.y, (float) topLeft.z)
                     .color(255, 255, 255, 255)
                     .texture(u1, v1)
                     .overlay(overlay)
@@ -87,7 +108,7 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         } else {
             // Clockwise winding (back face) - reverse vertex order
             // Vertex 4 (top-left)
-            vertexConsumer.vertex(entry.getPositionMatrix(), x1, y1, z1)
+            vertexConsumer.vertex(entry.getPositionMatrix(), (float) topLeft.x, (float) topLeft.y, (float) topLeft.z)
                     .color(255, 255, 255, 255)
                     .texture(u1, v1)
                     .overlay(overlay)
@@ -95,7 +116,7 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
                     .normal(normalX, normalY, normalZ);
 
             // Vertex 3 (top-right)
-            vertexConsumer.vertex(entry.getPositionMatrix(), x2, y1, z2)
+            vertexConsumer.vertex(entry.getPositionMatrix(), (float) topRight.x, (float) topRight.y, (float) topRight.z)
                     .color(255, 255, 255, 255)
                     .texture(u2, v1)
                     .overlay(overlay)
@@ -103,7 +124,9 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
                     .normal(normalX, normalY, normalZ);
 
             // Vertex 2 (bottom-right)
-            vertexConsumer.vertex(entry.getPositionMatrix(), x2, y2, z2)
+            vertexConsumer
+                    .vertex(entry.getPositionMatrix(), (float) bottomRight.x, (float) bottomRight.y,
+                            (float) bottomRight.z)
                     .color(255, 255, 255, 255)
                     .texture(u2, v2)
                     .overlay(overlay)
@@ -111,7 +134,8 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
                     .normal(normalX, normalY, normalZ);
 
             // Vertex 1 (bottom-left)
-            vertexConsumer.vertex(entry.getPositionMatrix(), x1, y2, z1)
+            vertexConsumer
+                    .vertex(entry.getPositionMatrix(), (float) bottomLeft.x, (float) bottomLeft.y, (float) bottomLeft.z)
                     .color(255, 255, 255, 255)
                     .texture(u1, v2)
                     .overlay(overlay)
@@ -125,6 +149,7 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         float capeWidth = 10.0f / 16.0f; // 10 pixels wide
         float capeHeight = 16.0f / 16.0f; // 16 pixels tall
         float capeDepth = 1.0f / 16.0f; // 1 pixel deep
+        float capePartHeight = capeHeight / PARTS;
 
         matrixStack.push();
         matrixStack.translate(0.0f, 1.25, 0.125f);
@@ -163,56 +188,87 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         float bottomV1 = 17.0f / 32.0f; // Start at pixel 17
         float bottomV2 = 18.0f / 32.0f; // End at pixel 18
 
-        // FRONT FACE
-        renderCapeQuad(vertexConsumer, matrixStack,
-                x2, y2, z2, x1, y1, z2,
-                frontU1, frontV1, frontU2, frontV2,
-                light, overlay,
-                0.0f, 0.0f, 1.0f, false);
+        float curveMagnitude = 0.5f;
 
-        // BACK FACE
-        renderCapeQuad(vertexConsumer, matrixStack,
-                x1, y2, z1, x2, y1, z1,
-                backU1, backV1, backU2, backV2,
-                light, overlay,
-                0.0f, 0.0f, 1.0f, false);
+        for (int i = 0; i < PARTS; i++) {
+            float y3 = -(capePartHeight * i);
+            float y4 = -(capePartHeight * (i + 1));
+            float totalVHeight = frontV2 - frontV1;
+            float partVHeight = totalVHeight / PARTS;
 
-        // LEFT SIDE
-        renderCapeQuad(vertexConsumer, matrixStack,
-                x2, y2, z1, x2, y1, z2,
-                0.0f, frontV1, 1.0f / 64.0f, frontV2,
-                light, overlay,
-                1.0f, 0.0f, 0.0f, false);
+            float v1 = frontV2 - (partVHeight * i);
+            float v2 = frontV2 - (partVHeight * (i + 1));
 
-        // RIGHT SIDE
-        renderCapeQuad(vertexConsumer, matrixStack,
-                x1, y2, z2, x1, y1, z1,
-                frontU2, frontV1, frontU2 + 1.0f / 64.0f, frontV2,
-                light, overlay,
-                -1.0f, 0.0f, 0.0f, false);
+            float u1 = frontU1;
+            float u2 = frontU2;
 
-        // TOP FACE
-        matrixStack.push();
-        matrixStack.translate(0.0f, y2 + capeDepth, 0.0f);
-        matrixStack.multiply(net.minecraft.util.math.RotationAxis.POSITIVE_X.rotationDegrees(90.0f));
-        matrixStack.translate(0.0f, -y2, 0.0f);
-        renderCapeQuad(vertexConsumer, matrixStack,
-                x2, y2, z2, x1, y2 + capeDepth, z2,
-                topU1, topV1, topU2, topV2,
-                light, overlay,
-                0.0f, 1.0f, 0.0f, true);
-        matrixStack.pop();
+            // Calculate the curve offset
+            float curveOffsetTop = (float) Math.sin((double) i / PARTS * Math.PI) * curveMagnitude;
+            float curveOffsetBottom = (float) Math.sin((double) (i + 1) / PARTS * Math.PI) * curveMagnitude;
 
-        // BOTTOM FACE
-        matrixStack.push();
-        matrixStack.multiply(net.minecraft.util.math.RotationAxis.POSITIVE_X.rotationDegrees(-90.0f));
-        matrixStack.translate(0.0f, -z2, -z2);
-        renderCapeQuad(vertexConsumer, matrixStack,
-                x2, y1, z2, x1, y1 + capeDepth, z2,
-                bottomU1, bottomV1, bottomU2, bottomV2,
-                light, overlay,
-                0.0f, -1.0f, 0.0f, false);
-        matrixStack.pop();
+            // Adjust the x and z coordinates
+            Vec3d topLeft = new Vec3d(x1, y3, z1 + curveOffsetTop);
+            Vec3d topRight = new Vec3d(x2, y3, z2 + curveOffsetTop);
+            Vec3d bottomLeft = new Vec3d(x1, y4, z1 + curveOffsetBottom);
+            Vec3d bottomRight = new Vec3d(x2, y4, z2 + curveOffsetBottom);
+
+            this.renderCapeQuad(vertexConsumer, matrixStack,
+                    bottomLeft, bottomRight, topRight, topLeft,
+                    u1, v1, u2, v2,
+                    light, overlay,
+                    0.0f, 0.0f, 1.0f, false);
+        }
+
+        // // BACK FACE
+        // this.renderCapeQuad(vertexConsumer, matrixStack,
+        // new Vec3d(x1, y1, z1), new Vec3d(x2, y1, z1), new Vec3d(x2, y2, z1), new
+        // Vec3d(x1, y2, z1),
+        // backU1, backV1, backU2, backV2,
+        // light, overlay,
+        // 0.0f, 0.0f, 1.0f, false);
+
+        // // LEFT SIDE
+        // this.renderCapeQuad(vertexConsumer, matrixStack,
+        // new Vec3d(x2, y1, z1), new Vec3d(x2, y1, z2), new Vec3d(x2, y2, z2), new
+        // Vec3d(x2, y2, z1),
+        // 0.0f, frontV1, 1.0f / 64.0f, frontV2,
+        // light, overlay,
+        // 1.0f, 0.0f, 0.0f, false);
+
+        // // RIGHT SIDE
+        // this.renderCapeQuad(vertexConsumer, matrixStack,
+        // new Vec3d(x1, y1, z2), new Vec3d(x1, y1, z1), new Vec3d(x1, y2, z1), new
+        // Vec3d(x1, y2, z2),
+        // frontU2, frontV1, frontU2 + 1.0f / 64.0f, frontV2,
+        // light, overlay,
+        // -1.0f, 0.0f, 0.0f, false);
+
+        // // TOP FACE
+        // matrixStack.push();
+        // matrixStack.translate(0.0f, y2 + capeDepth, 0.0f);
+        // matrixStack.multiply(net.minecraft.util.math.RotationAxis.POSITIVE_X.rotationDegrees(90.0f));
+        // matrixStack.translate(0.0f, -y2, 0.0f);
+        // this.renderCapeQuad(vertexConsumer, matrixStack,
+        // new Vec3d(x2, y2 + capeDepth, z2), new Vec3d(x1, y2 + capeDepth, z2), new
+        // Vec3d(x1, y2, z2),
+        // new Vec3d(x2, y2, z2),
+        // topU1, topV1, topU2, topV2,
+        // light, overlay,
+        // 0.0f, 1.0f, 0.0f, true);
+        // matrixStack.pop();
+
+        // // BOTTOM FACE
+        // matrixStack.push();
+        // matrixStack.multiply(net.minecraft.util.math.RotationAxis.POSITIVE_X.rotationDegrees(-90.0f));
+        // matrixStack.translate(0.0f, -z2, -z2);
+        // this.renderCapeQuad(vertexConsumer, matrixStack,
+        // new Vec3d(x2, y1 + capeDepth, z2), new Vec3d(x1, y1 + capeDepth, z2), new
+        // Vec3d(x1, y1, z2),
+        // new Vec3d(x2, y1, z2),
+        // bottomU1, bottomV1, bottomU2, bottomV2,
+        // light, overlay,
+        // 0.0f, -1.0f, 0.0f, false);
+        // matrixStack.pop();
 
         matrixStack.pop();
     }
