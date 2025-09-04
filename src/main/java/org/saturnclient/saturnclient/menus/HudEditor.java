@@ -26,7 +26,7 @@ public class HudEditor extends Screen {
 
     public HudEditor() {
         super(Text.literal("HUD Editor"));
-        for (Module m : ModManager.MODS) {
+        for (Module m : ModManager.ENABLED_MODS) {
             if (m.isEnabled() && m instanceof HudMod) {
                 hudMods.add((HudMod) m);
             }

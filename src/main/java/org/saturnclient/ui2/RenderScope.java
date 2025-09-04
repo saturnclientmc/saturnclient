@@ -58,13 +58,15 @@ public class RenderScope {
         int newAlpha = (opacity >>> 24) & 0xFF;
         int mixedAlpha = (originalAlpha * newAlpha) / 255;
         return (mixedAlpha << 24) | (color & 0x00FFFFFF);
-    }    
+    }
 
     public void setRenderLayer(Function<Identifier, RenderLayer> renderLayers) {
         // this.renderLayers = renderLayers;
     }
 
     public void drawRect(int x, int y, int width, int height, int color) {
+        if (color == 0)
+            return;
         color = getColor(color);
         Matrix4f matrix4f = this.matrices.peek().getPositionMatrix();
 
@@ -98,6 +100,8 @@ public class RenderScope {
     }
 
     public void drawText(float scale, String text, int x, int y, int font, int color) {
+        if (color == 0)
+            return;
         if (font == 0) {
             scale *= 2;
         }
@@ -108,7 +112,8 @@ public class RenderScope {
             matrices.translate(x, y + (i * Fonts.getHeight()), 0);
             matrices.scale(scale, scale, 1.0f);
             TextRenderer textRenderer = SaturnClient.client.textRenderer;
-            textRenderer.draw(Fonts.setFont(line, Fonts.getFont(font)), 0, font == 0 ? 1: 7, color, false, this.matrices.peek().getPositionMatrix(),
+            textRenderer.draw(Fonts.setFont(line, Fonts.getFont(font)), 0, font == 0 ? 1 : 7, color, false,
+                    this.matrices.peek().getPositionMatrix(),
                     this.vertexConsumers, TextLayerType.NORMAL, 0, 15728880);
             matrices.pop();
             i++;
@@ -118,19 +123,19 @@ public class RenderScope {
     private void drawRoundedCorner(int width, int height, int radius, int color) {
         int w = width * 20;
         int h = height * 20;
-    
+
         for (int y = 0; y < h; y++) {
             int startX = 0;
-    
+
             if (y < radius) {
                 double dy = radius - y - 0.5;
                 double dx = Math.sqrt(Math.max(0, radius * radius - dy * dy));
                 startX = radius - (int) dx;
             }
-    
+
             this.drawRect(startX, y, w - startX, 1, color);
         }
-    }    
+    }
 
     private void drawRoundedSide(int cornerWidth, int cornerHeight, int radius, int color) {
         // Top
@@ -159,6 +164,8 @@ public class RenderScope {
     }
 
     public void drawRoundedRectangle(int x, int y, int width, int height, int radius, int color) {
+        if (color == 0)
+            return;
         radius = Math.min(radius, Math.min(width, height));
         int cornerWidth = width / 2;
         int cornerHeight = height / 2;
@@ -183,27 +190,35 @@ public class RenderScope {
     public int getScaledWindowWidth() {
         return SaturnClient.client.getWindow().getScaledWidth();
     }
-  
+
     public int getScaledWindowHeight() {
-       return SaturnClient.client.getWindow().getScaledHeight();
+        return SaturnClient.client.getWindow().getScaledHeight();
     }
+
     public void drawTexture(Identifier sprite, int x, int y, float u, float v, int width, int height, int color) {
-       this.drawTexture(sprite, x, y, u, v, width, height, width, height, width, height, color);
+        this.drawTexture(sprite, x, y, u, v, width, height, width, height, width, height, color);
     }
 
     public void drawTexture(Identifier sprite, int x, int y, float u, float v, int width, int height) {
-       this.drawTexture(sprite, x, y, u, v, width, height, width, height, width, height);
+        this.drawTexture(sprite, x, y, u, v, width, height, width, height, width, height);
     }
 
-    public void drawTexture(Identifier sprite, int x, int y, float u, float v, int width, int height, int regionWith, int regionHeight, int textureWidth, int textureHeight) {
-       this.drawTexture(sprite, x, y, u, v, width, height, regionWith, regionHeight, textureWidth, textureHeight, -1);
+    public void drawTexture(Identifier sprite, int x, int y, float u, float v, int width, int height, int regionWith,
+            int regionHeight, int textureWidth, int textureHeight) {
+        this.drawTexture(sprite, x, y, u, v, width, height, regionWith, regionHeight, textureWidth, textureHeight, -1);
     }
 
-    public void drawTexture(Identifier sprite, int x, int y, float u, float v, int width, int height, int regionWidth, int regionHeight, int textureWidth, int textureHeight, int color) {
-       this.drawTexturedQuad(sprite, x, x + width, y, y + height, (u + 0.0F) / (float)textureWidth, (u + (float)regionWidth) / (float)textureWidth, (v + 0.0F) / (float)textureHeight, (v + (float)regionHeight) / (float)textureHeight, color);
+    public void drawTexture(Identifier sprite, int x, int y, float u, float v, int width, int height, int regionWidth,
+            int regionHeight, int textureWidth, int textureHeight, int color) {
+        this.drawTexturedQuad(sprite, x, x + width, y, y + height, (u + 0.0F) / (float) textureWidth,
+                (u + (float) regionWidth) / (float) textureWidth, (v + 0.0F) / (float) textureHeight,
+                (v + (float) regionHeight) / (float) textureHeight, color);
     }
 
-    private void drawTexturedQuad(Identifier sprite, int x1, int x2, int y1, int y2, float u1, float u2, float v1, float v2, int color) {
+    private void drawTexturedQuad(Identifier sprite, int x1, int x2, int y1, int y2, float u1, float u2, float v1,
+            float v2, int color) {
+        if (color == 0)
+            return;
         x1 *= 4;
         x2 *= 4;
         y1 *= 4;
@@ -213,44 +228,45 @@ public class RenderScope {
         matrices.push();
         matrices.scale(0.25f, 0.25f, 1.0f);
         RenderSystem.setShaderTexture(0, sprite);
-        RenderLayer renderLayer = (RenderLayer)RenderLayer.getGuiTextured(sprite);
+        RenderLayer renderLayer = (RenderLayer) RenderLayer.getGuiTextured(sprite);
         Matrix4f matrix4f = this.matrices.peek().getPositionMatrix();
         VertexConsumer vertexConsumer = this.vertexConsumers.getBuffer(renderLayer);
-        vertexConsumer.vertex(matrix4f, (float)x1, (float)y1, 0.0F).texture(u1, v1).color(color);
-        vertexConsumer.vertex(matrix4f, (float)x1, (float)y2, 0.0F).texture(u1, v2).color(color);
-        vertexConsumer.vertex(matrix4f, (float)x2, (float)y2, 0.0F).texture(u2, v2).color(color);
-        vertexConsumer.vertex(matrix4f, (float)x2, (float)y1, 0.0F).texture(u2, v1).color(color);
+        vertexConsumer.vertex(matrix4f, (float) x1, (float) y1, 0.0F).texture(u1, v1).color(color);
+        vertexConsumer.vertex(matrix4f, (float) x1, (float) y2, 0.0F).texture(u1, v2).color(color);
+        vertexConsumer.vertex(matrix4f, (float) x2, (float) y2, 0.0F).texture(u2, v2).color(color);
+        vertexConsumer.vertex(matrix4f, (float) x2, (float) y1, 0.0F).texture(u2, v1).color(color);
         matrices.pop();
     }
 
     public void enableScissor(int x1, int y1, int x2, int y2) {
-        ScreenRect screenRect = (new ScreenRect(x1, y1, x2 - x1, y2 - y1)).transform(this.matrices.peek().getPositionMatrix());
+        ScreenRect screenRect = (new ScreenRect(x1, y1, x2 - x1, y2 - y1))
+                .transform(this.matrices.peek().getPositionMatrix());
         this.setScissor(this.scissorStack.push(screenRect));
     }
-  
+
     public void disableScissor() {
         this.setScissor(this.scissorStack.pop());
     }
-  
+
     public boolean scissorContains(int x, int y) {
         return this.scissorStack.containsPoint(x, y);
     }
-  
+
     private void setScissor(@Nullable ScreenRect rect) {
         this.draw();
         if (rect != null) {
-           Window window = SaturnClient.client.getWindow();
-           int i = window.getFramebufferHeight();
-           double d = window.getScaleFactor();
-           double e = (double)rect.getLeft() * d;
-           double f = (double)i - (double)rect.getBottom() * d;
-           double g = (double)rect.width() * d;
-           double h = (double)rect.height() * d;
-           RenderSystem.enableScissor((int)e, (int)f, Math.max(0, (int)g), Math.max(0, (int)h));
+            Window window = SaturnClient.client.getWindow();
+            int i = window.getFramebufferHeight();
+            double d = window.getScaleFactor();
+            double e = (double) rect.getLeft() * d;
+            double f = (double) i - (double) rect.getBottom() * d;
+            double g = (double) rect.width() * d;
+            double h = (double) rect.height() * d;
+            RenderSystem.enableScissor((int) e, (int) f, Math.max(0, (int) g), Math.max(0, (int) h));
         } else {
-           RenderSystem.disableScissor();
+            RenderSystem.disableScissor();
         }
-  
+
     }
 
     public void draw() {
@@ -260,7 +276,7 @@ public class RenderScope {
     public void draw(Consumer<VertexConsumerProvider> drawer) {
         drawer.accept(this.vertexConsumers);
         this.vertexConsumers.draw();
-     }
+    }
 
     static class ScissorStack {
         private final Deque<ScreenRect> stack = new ArrayDeque<>();
@@ -268,7 +284,8 @@ public class RenderScope {
         public ScreenRect push(ScreenRect p_281812_) {
             ScreenRect screenrectangle = this.stack.peekLast();
             if (screenrectangle != null) {
-                ScreenRect screenrectangle1 = Objects.requireNonNullElse(p_281812_.intersection(screenrectangle), ScreenRect.empty());
+                ScreenRect screenrectangle1 = Objects.requireNonNullElse(p_281812_.intersection(screenrectangle),
+                        ScreenRect.empty());
                 this.stack.addLast(screenrectangle1);
                 return screenrectangle1;
             } else {
@@ -309,47 +326,51 @@ public class RenderScope {
     }
 
     public void drawItemWithoutEntity(ItemStack stack, int x, int y, int seed) {
-        this.drawItem((LivingEntity)null, SaturnClient.client.world, stack, x, y, seed);
+        this.drawItem((LivingEntity) null, SaturnClient.client.world, stack, x, y, seed);
     }
 
     public void drawItem(LivingEntity entity, ItemStack stack, int x, int y, int seed) {
         this.drawItem(entity, entity.getWorld(), stack, x, y, seed);
     }
 
-    private void drawItem(@Nullable LivingEntity entity, @Nullable World world, ItemStack stack, int x, int y, int seed) {
+    private void drawItem(@Nullable LivingEntity entity, @Nullable World world, ItemStack stack, int x, int y,
+            int seed) {
         this.drawItem(entity, world, stack, x, y, seed, 0);
     }
 
-    private void drawItem(@Nullable LivingEntity entity, @Nullable World world, ItemStack stack, int x, int y, int seed, int z) {
+    private void drawItem(@Nullable LivingEntity entity, @Nullable World world, ItemStack stack, int x, int y, int seed,
+            int z) {
         if (!stack.isEmpty()) {
-            SaturnClient.client.getItemModelManager().update(this.itemRenderState, stack, ModelTransformationMode.GUI, false, world, entity, seed);
+            SaturnClient.client.getItemModelManager().update(this.itemRenderState, stack, ModelTransformationMode.GUI,
+                    false, world, entity, seed);
             this.matrices.push();
-            this.matrices.translate((float)(x + 8), (float)(y + 8), (float)(150 + (this.itemRenderState.hasDepth() ? z : 0)));
+            this.matrices.translate((float) (x + 8), (float) (y + 8),
+                    (float) (150 + (this.itemRenderState.hasDepth() ? z : 0)));
 
             try {
                 this.matrices.scale(16.0F, -16.0F, 16.0F);
                 boolean bl = !this.itemRenderState.isSideLit();
                 if (bl) {
-                this.draw();
-                DiffuseLighting.disableGuiDepthLighting();
+                    this.draw();
+                    DiffuseLighting.disableGuiDepthLighting();
                 }
 
                 this.itemRenderState.render(this.matrices, this.vertexConsumers, 15728880, OverlayTexture.DEFAULT_UV);
                 this.draw();
                 if (bl) {
-                DiffuseLighting.enableGuiDepthLighting();
+                    DiffuseLighting.enableGuiDepthLighting();
                 }
             } catch (Throwable var11) {
                 CrashReport crashReport = CrashReport.create(var11, "Rendering item");
                 CrashReportSection crashReportSection = crashReport.addElement("Item being rendered");
                 crashReportSection.add("Item Type", () -> {
-                return String.valueOf(stack.getItem());
+                    return String.valueOf(stack.getItem());
                 });
                 crashReportSection.add("Item Components", () -> {
-                return String.valueOf(stack.getComponents());
+                    return String.valueOf(stack.getComponents());
                 });
                 crashReportSection.add("Item Foil", () -> {
-                return String.valueOf(stack.hasGlint());
+                    return String.valueOf(stack.hasGlint());
                 });
                 throw new CrashException(crashReport);
             }
@@ -363,8 +384,11 @@ public class RenderScope {
     }
 
     public void drawSpriteStretched(Sprite sprite, int x, int y, int width, int height, int color) {
+        if (color == 0)
+            return;
         if (width != 0 && height != 0) {
-            this.drawTexturedQuad(sprite.getAtlasId(), x, x + width, y, y + height, sprite.getMinU(), sprite.getMaxU(), sprite.getMinV(), sprite.getMaxV(), color);
+            this.drawTexturedQuad(sprite.getAtlasId(), x, x + width, y, y + height, sprite.getMinU(), sprite.getMaxU(),
+                    sprite.getMinV(), sprite.getMaxV(), color);
         }
     }
 }

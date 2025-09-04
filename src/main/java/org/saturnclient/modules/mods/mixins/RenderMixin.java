@@ -29,7 +29,7 @@ public class RenderMixin {
             RenderScope renderScope = new RenderScope(context.getMatrices(),
                     ((DrawContextAccessor) context).getVertexConsumers());
 
-            for (org.saturnclient.modules.Module m : ModManager.MODS) {
+            for (org.saturnclient.modules.Module m : ModManager.ENABLED_MODS) {
                 if (m instanceof HudMod && m.isEnabled()) {
                     ModDimensions dim = ((HudMod) m).getDimensions();
 

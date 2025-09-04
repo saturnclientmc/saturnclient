@@ -10,8 +10,7 @@ import net.minecraft.util.Identifier;
 
 import org.saturnclient.saturnclient.cosmetics.Hats;
 import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
-import org.saturnclient.ui2.SaturnScreen;
-import org.saturnclient.ui2.elements.Notification;
+import org.saturnclient.ui2.Utils;
 import org.saturnclient.ui2.elements.Notification.NotificationKind;
 
 import dev.kosmx.playerAnim.api.layered.AnimationStack;
@@ -28,7 +27,6 @@ public class Auth {
     private static Thread pingThread;
     private static volatile boolean running = false;
 
-    @SuppressWarnings("resource")
     public static boolean authenticate() {
         // Register shutdown hook ONCE
         ClientLifecycleEvents.CLIENT_STOPPING.register(_o -> close());
@@ -166,15 +164,8 @@ public class Auth {
 
                         default:
                             if (parser.error != null) {
-                                SaturnClient.LOGGER.error("Error from the server: " + parser.error);
-
-                                if (SaturnClient.client.currentScreen instanceof SaturnScreen) {
-                                    String[] a = parser.error.replace("!", "").split(": ");
-                                    ((SaturnScreen) SaturnClient.client.currentScreen)
-                                            .draw(new Notification(SaturnClient.client.currentScreen.width,
-                                                    SaturnClient.client.currentScreen.height, NotificationKind.Error,
-                                                    a[0], a[1]));
-                                }
+                                String[] a = parser.error.replace("!", "").split(": ");
+                                Utils.notify(NotificationKind.Error, a[0], a[1]);
                             }
                             break;
                     }

@@ -6,6 +6,7 @@ import org.lwjgl.glfw.GLFW;
 import org.saturnclient.saturnclient.SaturnClient;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 public class Property<T> {
@@ -25,7 +26,7 @@ public class Property<T> {
     public boolean isReset = false;
     private T defaultValue;
     private String[] availableValues;
-    private PropertyType type;
+    private final PropertyType type;
     private boolean wasPressedLastTick = false;
 
     private Property(T value, PropertyType type) {
@@ -34,24 +35,19 @@ public class Property<T> {
         this.type = type;
     }
 
+    // ---------- Factory Methods ----------
     public static <T> Property<T> from(T value) {
-        if (value instanceof Boolean) {
+        if (value instanceof Boolean)
             return new Property<>(value, PropertyType.BOOLEAN);
-        } else if (value instanceof Integer) {
+        if (value instanceof Integer)
             return new Property<>(value, PropertyType.INTEGER);
-        } else if (value instanceof Float) {
+        if (value instanceof Float)
             return new Property<>(value, PropertyType.FLOAT);
-        } else if (value instanceof String) {
+        if (value instanceof String)
             return new Property<>(value, PropertyType.STRING);
-        } else if (valueIsNamespace(value)) {
+        if (valueIsNamespace(value))
             return new Property<>(value, PropertyType.NAMESPACE);
-        } else {
-            return null;
-        }
-    }
-
-    public Property<T> copy() {
-        return new Property<>(this.value, this.type);
+        return null;
     }
 
     public static Property<Integer> font(int value) {
@@ -92,53 +88,35 @@ public class Property<T> {
         return new Property<>(value, PropertyType.KEYBINDING);
     }
 
+    // ---------- Select Helpers ----------
     public void next() {
-        if ((Integer) value < availableValues.length - 1)
-            setValue((Integer) value + 1);
-        else
-            setValue(0);
+        if (type == PropertyType.SELECT) {
+            int i = (Integer) value;
+            setValue((i < availableValues.length - 1) ? i + 1 : 0);
+        }
     }
 
     public void prev() {
-        if ((Integer) value > 0)
-            setValue((Integer) value - 1);
-        else
-            setValue(availableValues.length - 1);
+        if (type == PropertyType.SELECT) {
+            int i = (Integer) value;
+            setValue((i > 0) ? i - 1 : availableValues.length - 1);
+        }
     }
 
     public void setSelection(int selection) {
-        if (selection >= 0 && selection < availableValues.length && type == PropertyType.SELECT) {
+        if (type == PropertyType.SELECT && selection >= 0 && selection < availableValues.length) {
             setValue(selection);
         }
     }
 
     public String getSelection() {
-        if (type == PropertyType.SELECT) {
-            return availableValues[(Integer) value];
-        } else {
-            return null;
-        }
+        return (type == PropertyType.SELECT) ? availableValues[(Integer) value] : null;
     }
 
+    // ---------- Lifecycle ----------
     public void reset() {
         value = defaultValue;
         isReset = true;
-    }
-
-    public int getHexString() {
-        if (value instanceof String) {
-            String str = (String) value;
-            if (str.startsWith("0x") || str.startsWith("0X")) {
-                try {
-                    return Integer.parseInt(str.substring(2), 16);
-                } catch (NumberFormatException e) {
-                    throw new IllegalStateException(
-                            "Invalid hexadecimal integer format");
-                }
-            }
-        }
-        throw new IllegalStateException(
-                "Property does not contain a valid hex integer");
     }
 
     public PropertyType getType() {
@@ -153,32 +131,91 @@ public class Property<T> {
         throw new IllegalStateException("Property is not a namespace");
     }
 
-    public boolean matchesJson(JsonElement element) {
-        if (element.isJsonPrimitive()) {
-            JsonPrimitive primitive = element.getAsJsonPrimitive();
-            if (value instanceof Boolean && primitive.isBoolean())
-                return true;
-            if (value instanceof Integer && primitive.isNumber())
-                return true;
-            if (value instanceof Float && primitive.isNumber())
-                return true;
-            if (value instanceof String && primitive.isString())
-                return true;
-            if (type == PropertyType.HEX && primitive.isString())
-                return true;
-        } else if (element.isJsonObject()) {
-            return isNamespace(value);
+    // ---------- JSON Serialization ----------
+    /*
+     * BOOLEAN,
+     * INTEGER,
+     * FLOAT,
+     * STRING,
+     * HEX,
+     * NAMESPACE,
+     * SELECT,
+     * KEYBINDING,
+     */
+    public JsonElement toJson() {
+        switch (type) {
+            case BOOLEAN:
+                return new JsonPrimitive((Boolean) value);
+            case INTEGER:
+                return new JsonPrimitive((Integer) value);
+            case FLOAT:
+                return new JsonPrimitive((Float) value);
+            case NAMESPACE:
+                JsonObject nested = new JsonObject();
+                getNamespaceValue().forEach((k, v) -> nested.add(k, v.toJson()));
+                return nested;
+            case HEX:
+                return new JsonPrimitive(String.format("#%08X", (Integer) value));
+            case KEYBINDING:
+                return new JsonPrimitive((Integer) value);
+            case SELECT:
+                return new JsonPrimitive((Integer) value);
+            default:
+                return new JsonPrimitive(String.valueOf(value));
         }
-        return false;
     }
 
+    public void loadFromJson(JsonElement element) {
+        if (element == null)
+            return;
+
+        switch (type) {
+            case BOOLEAN:
+                if (element.isJsonPrimitive() && element.getAsJsonPrimitive().isBoolean())
+                    setValue(element.getAsBoolean());
+                break;
+            case INTEGER:
+                if (element.isJsonPrimitive()) {
+                    JsonPrimitive p = element.getAsJsonPrimitive();
+                    if (p.isNumber())
+                        setValue(p.getAsInt());
+                    else if (p.isString())
+                        setValue(parseHexToInt(p.getAsString()));
+                }
+                break;
+            case FLOAT:
+                if (element.isJsonPrimitive() && element.getAsJsonPrimitive().isNumber())
+                    setValue(element.getAsFloat());
+                break;
+            case STRING:
+                if (element.isJsonPrimitive() && element.getAsJsonPrimitive().isString())
+                    setValue(element.getAsString());
+                break;
+            case HEX:
+                if (element.isJsonPrimitive() && element.getAsJsonPrimitive().isString())
+                    setValue(parseHexToInt(element.getAsString()));
+                break;
+            case NAMESPACE:
+                if (element.isJsonObject()) {
+                    JsonObject obj = element.getAsJsonObject();
+                    getNamespaceValue().forEach((k, v) -> v.loadFromJson(obj.get(k)));
+                }
+                break;
+            case SELECT:
+                if (element.isJsonPrimitive() && element.getAsJsonPrimitive().isNumber())
+                    setSelection(element.getAsInt());
+                break;
+            case KEYBINDING:
+                if (element.isJsonPrimitive() && element.getAsJsonPrimitive().isNumber())
+                    setValue(element.getAsInt());
+                break;
+        }
+    }
+
+    // ---------- Utility ----------
     @Override
     public String toString() {
         return String.valueOf(value);
-    }
-
-    public boolean isNamespace(Object obj) {
-        return type == PropertyType.NAMESPACE && value instanceof Map;
     }
 
     public static boolean valueIsNamespace(Object obj) {
@@ -200,59 +237,44 @@ public class Property<T> {
         return new NamedProperty<>(name, this);
     }
 
+    // ---------- Keybindings ----------
     public boolean isKeyPressed() {
-        return (Integer) value == -1 ? false
-                : GLFW.glfwGetKey(SaturnClient.client.getWindow().getHandle(),
-                        (Integer) (Object) value) == GLFW.GLFW_PRESS && SaturnClient.client.currentScreen == null;
+        return (Integer) value != -1 &&
+                GLFW.glfwGetKey(SaturnClient.client.getWindow().getHandle(), (Integer) value) == GLFW.GLFW_PRESS &&
+                SaturnClient.client.currentScreen == null;
     }
 
     public boolean wasKeyPressed() {
-        boolean isPressed = this.isKeyPressed();
-        wasPressedLastTick = isPressed && !wasPressedLastTick;
-        return wasPressedLastTick;
+        boolean pressed = isKeyPressed();
+        boolean result = pressed && !wasPressedLastTick;
+        wasPressedLastTick = pressed;
+        return result;
     }
 
-    @SuppressWarnings("unchecked")
+    // ---------- HEX ----------
+    public static int parseHexToInt(String hex) {
+        hex = hex.replace("#", "");
+        if (hex.length() == 6)
+            hex = "FF" + hex;
+        if (hex.length() != 8)
+            throw new IllegalArgumentException("Hex must be 6 or 8 chars long, got \'" + hex + "\'");
+        return (int) Long.parseLong(hex, 16);
+    }
+
+    // Misc
+    public Property<T> copy() {
+        return new Property<>(this.value, this.type);
+    }
+
     public void load(String name, JsonElement element) {
         if (element != null && element.isJsonObject()) {
-            JsonElement value = element.getAsJsonObject().get(name);
-            if (value != null) {
-                switch (this.getType()) {
-                    case BOOLEAN:
-                        ((Property<Boolean>) this).setValue(value.getAsBoolean());
-                        break;
-                    case INTEGER:
-                        JsonPrimitive primitive = value.getAsJsonPrimitive();
-                        if (primitive.isNumber())
-                            ((Property<Integer>) this).setValue(value.getAsInt());
-                        else if (primitive.isString())
-                            ((Property<Integer>) this).setValue(parseHexToInt(value.getAsString()));
-                        break;
-                    case FLOAT:
-                        ((Property<Float>) this).setValue(value.getAsFloat());
-                        break;
-                    case STRING:
-                        ((Property<String>) this).setValue(value.getAsString());
-                        break;
-                    case HEX:
-                        ((Property<Integer>) this).setValue(parseHexToInt(value.getAsString()));
-                        break;
-                    default:
-                        break;
-                }
-            }
+            load(name, element.getAsJsonObject());
         }
     }
 
-    public static int parseHexToInt(String hex) {
-        hex = hex.replaceAll("#", "");
-
-        if (hex.length() == 6) {
-            hex = "FF" + hex;
-        } else if (hex.length() != 8) {
-            throw new IllegalArgumentException("Hex string must be 6 or 8 characters long");
-        }
-
-        return (int) Long.parseLong(hex, 16);
+    public void load(String name, JsonObject element) {
+        JsonElement value = element.get(name);
+        if (value != null)
+            this.loadFromJson(value);
     }
 }
