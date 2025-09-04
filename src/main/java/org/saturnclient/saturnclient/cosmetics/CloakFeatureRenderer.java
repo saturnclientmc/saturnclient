@@ -301,11 +301,6 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         VertexConsumer vertexConsumer = vertexConsumerProvider
                 .getBuffer(RenderLayer.getEntityAlpha(customCape));
 
-        if (this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack,
-                LayerType.HUMANOID)) {
-            matrixStack.translate(0.0F, -0.053125F, 0.06875F);
-        }
-
         if (SaturnClientConfig.bendyCloaks.value) {
             float targetVelocity = ((6.0F
                     + playerEntityRenderState.field_53537 / 2.0F
@@ -331,6 +326,10 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
                     OverlayTexture.DEFAULT_UV,
                     Math.min(rotation, 60.0f), Math.min(curve, 0.5f));
         } else {
+            if (this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack,
+                    LayerType.HUMANOID)) {
+                matrixStack.translate(0.0F, -0.053125F, 0.06875F);
+            }
             ((PlayerEntityModel) this.getContextModel()).copyTransforms(this.model);
             this.model.setAngles(playerEntityRenderState);
             this.model.render(matrixStack, vertexConsumer, light, OverlayTexture.DEFAULT_UV);
