@@ -22,6 +22,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.equipment.EquipmentAsset;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.RotationAxis;
 
 public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState, PlayerEntityModel> {
     private final EquipmentModelLoader equipmentModelLoader;
@@ -120,19 +121,18 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
     }
 
     private void renderCape(MatrixStack matrixStack, VertexConsumer vertexConsumer,
-            PlayerEntityRenderState playerState, int light, int overlay) {
-        // Cape dimensions (similar to vanilla cape model)
+            PlayerEntityRenderState playerState, int light, int overlay, float rotation) {
         float capeWidth = 10.0f / 16.0f; // 10 pixels wide
         float capeHeight = 16.0f / 16.0f; // 16 pixels tall
         float capeDepth = 1.0f / 16.0f; // 1 pixel deep
 
-        // Position the cape behind the player
         matrixStack.push();
+        matrixStack.translate(0.0f, 1.25, 0.125f);
 
-        // Apply player body rotation
-        matrixStack.translate(0.0f, 0, 0.125f); // Move cape slightly behind player
+        matrixStack.translate(0, -capeHeight, 0);
+        matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(rotation));
+        matrixStack.translate(0, capeHeight, 0);
 
-        // Render the main cape body
         float x1 = -capeWidth / 2.0f;
         float x2 = capeWidth / 2.0f;
         float y1 = 0.0f;
@@ -140,8 +140,6 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         float z1 = 0.0f;
         float z2 = capeDepth;
 
-        // UV coordinates for cape texture (assuming 64x32 texture)
-        // Front face UV (outside of cape)
         float frontU1 = 1.0f / 64.0f; // Start at pixel 1
         float frontU2 = 11.0f / 64.0f; // End at pixel 11 (10 pixels wide)
         float frontV1 = 1.0f / 32.0f; // Start at pixel 1
@@ -235,32 +233,27 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
 
                 if (customCape != null
                         && !this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack, LayerType.WINGS)) {
-                    matrixStack.push();
 
-                    // Position cape at player's shoulders
-                    matrixStack.translate(0.0f, -0.25f, 0.0f);
-
-                    if (this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack, LayerType.HUMANOID)) {
-                        matrixStack.translate(0.0F, -0.053125F, 0.06875F);
-                    }
+                    float rotation = ((6.0F + playerEntityRenderState.field_53537 / 2.0F
+                            + playerEntityRenderState.field_53536) * 0.02f) * 90.0f;
+                    System.out.println("Rotation: " + rotation);
 
                     int minBrightness = 7;
                     int blockLight = (light >> 4) & 0xF;
                     int skyLight = (light >> 20) & 0xF;
-
-                    // Clamp to minimum
                     blockLight = Math.max(blockLight, minBrightness);
                     skyLight = Math.max(skyLight, minBrightness);
-
-                    // Repack
                     light = (skyLight << 20) | (blockLight << 4);
 
+                    matrixStack.push();
+                    matrixStack.translate(0.0f, -0.25f, 0.0f);
+                    if (this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack, LayerType.HUMANOID)) {
+                        matrixStack.translate(0.0F, -0.053125F, 0.06875F);
+                    }
                     VertexConsumer vertexConsumer = vertexConsumerProvider
                             .getBuffer(RenderLayer.getEntityAlpha(customCape));
-
-                    // Render the cape manually
-                    renderCape(matrixStack, vertexConsumer, playerEntityRenderState, light, OverlayTexture.DEFAULT_UV);
-
+                    renderCape(matrixStack, vertexConsumer, playerEntityRenderState, light, OverlayTexture.DEFAULT_UV,
+                            rotation);
                     matrixStack.pop();
                 }
             }
