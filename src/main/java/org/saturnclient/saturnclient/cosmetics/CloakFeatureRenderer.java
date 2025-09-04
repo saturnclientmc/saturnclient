@@ -130,7 +130,7 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         matrixStack.push();
 
         // Apply player body rotation
-        matrixStack.translate(0.0f, 0.0f, 0.125f); // Move cape slightly behind player
+        matrixStack.translate(0.0f, 0, 0.125f); // Move cape slightly behind player
 
         // Render the main cape body
         float x1 = -capeWidth / 2.0f;
@@ -153,17 +153,17 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         float backV1 = 1.0f / 32.0f;
         float backV2 = 17.0f / 32.0f;
 
-        // Bottom face UV (lower edge of cape)
-        float bottomU1 = 1.0f / 64.0f; // Start at pixel 1
-        float bottomU2 = 11.0f / 64.0f; // End at pixel 11
-        float bottomV1 = 0.0f / 32.0f; // Start at pixel 0
-        float bottomV2 = 1.0f / 32.0f; // End at pixel 1
-
         // Top face UV (edge along shoulders)
         float topU1 = 1.0f / 64.0f; // Start at pixel 1
         float topU2 = 11.0f / 64.0f; // End at pixel 11
-        float topV1 = 17.0f / 32.0f; // Start at pixel 17
-        float topV2 = 18.0f / 32.0f; // End at pixel 18
+        float topV1 = 0.0f / 32.0f; // Start at pixel 0
+        float topV2 = 1.0f / 32.0f; // End at pixel 1
+
+        // Bottom face UV (lower edge of cape)
+        float bottomU1 = 1.0f / 64.0f; // Start at pixel 1
+        float bottomU2 = 11.0f / 64.0f; // End at pixel 11
+        float bottomV1 = 17.0f / 32.0f; // Start at pixel 17
+        float bottomV2 = 18.0f / 32.0f; // End at pixel 18
 
         // FRONT FACE
         renderCapeQuad(vertexConsumer, matrixStack,
@@ -192,6 +192,29 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
                 frontU2, frontV1, frontU2 + 1.0f / 64.0f, frontV2,
                 light, overlay,
                 -1.0f, 0.0f, 0.0f, false);
+
+        // TOP FACE
+        matrixStack.push();
+        matrixStack.translate(0.0f, y2 + capeDepth, 0.0f);
+        matrixStack.multiply(net.minecraft.util.math.RotationAxis.POSITIVE_X.rotationDegrees(90.0f));
+        matrixStack.translate(0.0f, -y2, 0.0f);
+        renderCapeQuad(vertexConsumer, matrixStack,
+                x2, y2, z2, x1, y2 + capeDepth, z2,
+                topU1, topV1, topU2, topV2,
+                light, overlay,
+                0.0f, 1.0f, 0.0f, true);
+        matrixStack.pop();
+
+        // BOTTOM FACE
+        matrixStack.push();
+        matrixStack.multiply(net.minecraft.util.math.RotationAxis.POSITIVE_X.rotationDegrees(-90.0f));
+        matrixStack.translate(0.0f, -z2, -z2);
+        renderCapeQuad(vertexConsumer, matrixStack,
+                x2, y1, z2, x1, y1 + capeDepth, z2,
+                bottomU1, bottomV1, bottomU2, bottomV2,
+                light, overlay,
+                0.0f, -1.0f, 0.0f, false);
+        matrixStack.pop();
 
         matrixStack.pop();
     }
@@ -233,7 +256,7 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
                     light = (skyLight << 20) | (blockLight << 4);
 
                     VertexConsumer vertexConsumer = vertexConsumerProvider
-                            .getBuffer(RenderLayer.getEntitySolid(customCape));
+                            .getBuffer(RenderLayer.getEntityAlpha(customCape));
 
                     // Render the cape manually
                     renderCape(matrixStack, vertexConsumer, playerEntityRenderState, light, OverlayTexture.DEFAULT_UV);
