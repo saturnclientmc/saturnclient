@@ -17,15 +17,17 @@ import org.saturnclient.ui2.elements.Text;
 import org.saturnclient.ui2.resources.Fonts;
 import org.saturnclient.ui2.resources.Textures;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+
 public class CloakStore extends SaturnScreen {
     private long lastPurchaseTime = 0;
 
     public CloakStore() {
-        super("Hat Store");
+        super("Cloak Store");
     }
 
     public CloakStore(long lastPurchaseTime) {
-        super("Hat Store");
+        super("Cloak Store");
         this.lastPurchaseTime = lastPurchaseTime;
     }
 
@@ -51,15 +53,21 @@ public class CloakStore extends SaturnScreen {
                     scroll.draw(new CosmeticPreview(cloak == player.cloak, Textures.getCloakPreview(cloak), () -> {
                         long now = System.currentTimeMillis();
                         if (now - lastPurchaseTime >= 3000) {
-                            Utils.notify(NotificationKind.Info, "Purchase processing", "Please wait 3 seconds");
+                            Utils.notify(NotificationKind.Info, "Purchase processing", "Please wait");
                             Auth.buyCloak(cloak);
                             lastPurchaseTime = now;
-                            try {
-                                Thread.sleep(3000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            SaturnClient.client.setScreen(new CloakStore(now));
+                            new Thread(() -> {
+                                try {
+                                    Thread.sleep(5000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                RenderSystem.recordRenderCall(() -> {
+                                    SaturnClient.client.setScreen(new CloakStore(now));
+                                    Utils.notify(NotificationKind.Success, "Purchase complete",
+                                            "Congrats, enjoy your new cloak!");
+                                });
+                            }).start();
                         } else {
                             Utils.notify(NotificationKind.Error, "Timeout error", "Please wait 3 seconds");
                         }

@@ -17,6 +17,8 @@ import org.saturnclient.ui2.elements.Text;
 import org.saturnclient.ui2.resources.Fonts;
 import org.saturnclient.ui2.resources.Textures;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+
 public class HatStore extends SaturnScreen {
     private long lastPurchaseTime = 0;
 
@@ -51,15 +53,21 @@ public class HatStore extends SaturnScreen {
                     scroll.draw(new CosmeticPreview(hat == player.hat, Textures.getHatPreview(hat), () -> {
                         long now = System.currentTimeMillis();
                         if (now - lastPurchaseTime >= 3000) {
-                            Utils.notify(NotificationKind.Info, "Purchase processing", "Please wait 3 seconds");
+                            Utils.notify(NotificationKind.Info, "Purchase processing", "Please wait");
                             Auth.buyHat(hat);
                             lastPurchaseTime = now;
-                            try {
-                                Thread.sleep(3000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            SaturnClient.client.setScreen(new HatStore(now));
+                            new Thread(() -> {
+                                try {
+                                    Thread.sleep(5000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                RenderSystem.recordRenderCall(() -> {
+                                    SaturnClient.client.setScreen(new HatStore(now));
+                                    Utils.notify(NotificationKind.Success, "Purchase complete",
+                                            "Congrats, enjoy your new hat!");
+                                });
+                            }).start();
                         } else {
                             Utils.notify(NotificationKind.Error, "Timeout error", "Please wait 3 seconds");
                         }
