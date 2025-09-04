@@ -196,27 +196,46 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
             float totalVHeight = frontV2 - frontV1;
             float partVHeight = totalVHeight / PARTS;
 
-            float v1 = frontV2 - (partVHeight * i);
-            float v2 = frontV2 - (partVHeight * (i + 1));
-
-            float u1 = frontU1;
-            float u2 = frontU2;
-
             // Calculate the curve offset
             float curveOffsetTop = (float) Math.sin((double) i / PARTS * Math.PI) * curveMagnitude;
             float curveOffsetBottom = (float) Math.sin((double) (i + 1) / PARTS * Math.PI) * curveMagnitude;
 
-            // Adjust the x and z coordinates
-            Vec3d topLeft = new Vec3d(x1, y3, z1 + curveOffsetTop);
-            Vec3d topRight = new Vec3d(x2, y3, z2 + curveOffsetTop);
-            Vec3d bottomLeft = new Vec3d(x1, y4, z1 + curveOffsetBottom);
-            Vec3d bottomRight = new Vec3d(x2, y4, z2 + curveOffsetBottom);
+            // float curveOffsetTop = 0.0f;
+            // float curveOffsetBottom = 0.0f;
 
             this.renderCapeQuad(vertexConsumer, matrixStack,
-                    bottomLeft, bottomRight, topRight, topLeft,
-                    u1, v1, u2, v2,
+                    new Vec3d(x2, y4, z2 + curveOffsetBottom), new Vec3d(x1, y4, z2 + curveOffsetBottom),
+                    new Vec3d(x1, y3, z2 + curveOffsetTop), new Vec3d(x2, y3, z2 + curveOffsetTop),
+                    frontU1, frontV2 - (partVHeight * i), frontU2, frontV2 - (partVHeight * (i + 1)),
                     light, overlay,
                     0.0f, 0.0f, 1.0f, false);
+
+            this.renderCapeQuad(vertexConsumer, matrixStack,
+                    new Vec3d(x1, y4, z1 + curveOffsetBottom), new Vec3d(x2, y4, z1 + curveOffsetBottom),
+                    new Vec3d(x2, y3, z1 + curveOffsetTop), new Vec3d(x1, y3, z1 + curveOffsetTop),
+                    backU1, backV2 - (partVHeight * i), backU2, backV2 - (partVHeight * (i + 1)),
+                    light, overlay,
+                    0.0f, 0.0f, 1.0f, false);
+
+            // LEFT FACE
+            this.renderCapeQuad(vertexConsumer, matrixStack,
+                    new Vec3d(x2, y4, z1 + curveOffsetBottom), new Vec3d(x2, y4, z2 + curveOffsetBottom),
+                    new Vec3d(x2, y3, z2 + curveOffsetTop), new Vec3d(x2, y3, z1 + curveOffsetTop),
+                    0.0f, frontV2 - (partVHeight * i), 1.0f / 64.0f, frontV2 - (partVHeight * (i + 1)),
+                    light, overlay,
+                    1.0f, 0.0f, 0.0f, false);
+
+            // RIGHT FACE
+            this.renderCapeQuad(vertexConsumer, matrixStack,
+                    // new Vec3d(x1, y4, z2 + curveOffsetBottom), new Vec3d(x1, y1, z1 +
+                    // curveOffsetBottom),
+                    // new Vec3d(x1, y4, z2 + curveOffsetBottom),
+                    // new Vec3d(x1, y2, z2 + curveOffsetBottom),
+                    new Vec3d(x1, y4, z2 + curveOffsetBottom), new Vec3d(x1, y4, z1 + curveOffsetBottom),
+                    new Vec3d(x1, y3, z1 + curveOffsetTop), new Vec3d(x1, y3, z2 + curveOffsetTop),
+                    frontU2, frontV2 - (partVHeight * i), frontU2 + 1.0f / 64.0f, frontV2 - (partVHeight * (i + 1)),
+                    light, overlay,
+                    -1.0f, 0.0f, 0.0f, false);
         }
 
         // // BACK FACE
@@ -227,7 +246,7 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         // light, overlay,
         // 0.0f, 0.0f, 1.0f, false);
 
-        // // LEFT SIDE
+        // LEFT SIDE
         // this.renderCapeQuad(vertexConsumer, matrixStack,
         // new Vec3d(x2, y1, z1), new Vec3d(x2, y1, z2), new Vec3d(x2, y2, z2), new
         // Vec3d(x2, y2, z1),
