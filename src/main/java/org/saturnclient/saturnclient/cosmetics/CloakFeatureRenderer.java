@@ -28,6 +28,7 @@ import net.minecraft.util.math.Vec3d;
 public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState, PlayerEntityModel> {
     private final EquipmentModelLoader equipmentModelLoader;
     private static final int PARTS = 16;
+    private float currentVelocity = 0.0f;
 
     public CloakFeatureRenderer(FeatureRendererContext<PlayerEntityRenderState, PlayerEntityModel> context,
             EquipmentModelLoader equipmentModelLoader) {
@@ -46,22 +47,23 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         }
     }
 
-    private void renderCapeQuad(VertexConsumer vertexConsumer, MatrixStack matrixStack,
-            float x1, float y1, float z1, float x2, float y2, float z2,
-            float u1, float v1, float u2, float v2, int light, int overlay,
-            float normalX, float normalY, float normalZ, boolean flipWinding) {
-        // Create the four corner vectors from the provided x, y, z coordinates
-        Vec3d bottomLeft = new Vec3d(x1, y2, z1);
-        Vec3d bottomRight = new Vec3d(x2, y2, z2);
-        Vec3d topRight = new Vec3d(x2, y1, z2);
-        Vec3d topLeft = new Vec3d(x1, y1, z1);
+    // private void renderCapeQuad(VertexConsumer vertexConsumer, MatrixStack
+    // matrixStack,
+    // float x1, float y1, float z1, float x2, float y2, float z2,
+    // float u1, float v1, float u2, float v2, int light, int overlay,
+    // float normalX, float normalY, float normalZ, boolean flipWinding) {
+    // // Create the four corner vectors from the provided x, y, z coordinates
+    // Vec3d bottomLeft = new Vec3d(x1, y2, z1);
+    // Vec3d bottomRight = new Vec3d(x2, y2, z2);
+    // Vec3d topRight = new Vec3d(x2, y1, z2);
+    // Vec3d topLeft = new Vec3d(x1, y1, z1);
 
-        // Call the more detailed render method with the newly created vectors
-        renderCapeQuad(vertexConsumer, matrixStack,
-                bottomLeft, bottomRight, topRight, topLeft,
-                u1, v1, u2, v2, light, overlay,
-                normalX, normalY, normalZ, flipWinding);
-    }
+    // // Call the more detailed render method with the newly created vectors
+    // renderCapeQuad(vertexConsumer, matrixStack,
+    // bottomLeft, bottomRight, topRight, topLeft,
+    // u1, v1, u2, v2, light, overlay,
+    // normalX, normalY, normalZ, flipWinding);
+    // }
 
     private void renderCapeQuad(VertexConsumer vertexConsumer, MatrixStack matrixStack,
             Vec3d bottomLeft, Vec3d bottomRight, Vec3d topRight, Vec3d topLeft,
@@ -145,7 +147,7 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
     }
 
     private void renderCape(MatrixStack matrixStack, VertexConsumer vertexConsumer,
-            PlayerEntityRenderState playerState, int light, int overlay, float curveMagnitude) {
+            PlayerEntityRenderState playerState, int light, int overlay, float rotation, float curveMagnitude) {
         float capeWidth = 10.0f / 16.0f; // 10 pixels wide
         float capeHeight = 16.0f / 16.0f; // 16 pixels tall
         float capeDepth = 1.0f / 16.0f; // 1 pixel deep
@@ -154,9 +156,9 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         matrixStack.push();
         matrixStack.translate(0.0f, 1.25, 0.125f);
 
-        // matrixStack.translate(0, -capeHeight, 0);
-        // matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(rotation));
-        // matrixStack.translate(0, capeHeight, 0);
+        matrixStack.translate(0, -capeHeight, 0);
+        matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(rotation));
+        matrixStack.translate(0, capeHeight, 0);
 
         float x1 = -capeWidth / 2.0f;
         float x2 = capeWidth / 2.0f;
@@ -275,10 +277,17 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
 
                 if (customCape != null
                         && !this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack, LayerType.WINGS)) {
+                    float targetVelocity = ((6.0F + playerEntityRenderState.field_53537 / 2.0F
+                            + playerEntityRenderState.field_53536) * 0.02f);
 
-                    float rotation = ((6.0F + playerEntityRenderState.field_53537 / 2.0F
-                            + playerEntityRenderState.field_53536) * 0.02f) * 0.8f;
-                    System.out.println("Rotation: " + rotation);
+                    targetVelocity = Math.max(0.0f, targetVelocity - 0.3f);
+
+                    float accelerationRate = 0.03f;
+                    this.currentVelocity = this.currentVelocity
+                            + (targetVelocity - this.currentVelocity) * accelerationRate;
+
+                    float rotation = this.currentVelocity * 80.0f;
+                    float curve = this.currentVelocity * 0.8f;
 
                     int minBrightness = 7;
                     int blockLight = (light >> 4) & 0xF;
@@ -295,7 +304,7 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
                     VertexConsumer vertexConsumer = vertexConsumerProvider
                             .getBuffer(RenderLayer.getEntityAlpha(customCape));
                     renderCape(matrixStack, vertexConsumer, playerEntityRenderState, light, OverlayTexture.DEFAULT_UV,
-                            rotation);
+                            Math.min(rotation, 70.0f), Math.min(curve, 0.46f));
                     matrixStack.pop();
                 }
             }
