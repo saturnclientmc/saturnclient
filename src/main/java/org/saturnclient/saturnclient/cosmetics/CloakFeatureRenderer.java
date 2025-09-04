@@ -162,7 +162,6 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
 
         float x1 = -capeWidth / 2.0f;
         float x2 = capeWidth / 2.0f;
-        float y1 = 0.0f;
         float y2 = -capeHeight;
         float z1 = 0.0f;
         float z2 = capeDepth;
@@ -175,7 +174,6 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         // Back face UV (inside of cape) - typically offset in cape texture
         float backU1 = 12.0f / 64.0f; // Back texture starts after front
         float backU2 = 22.0f / 64.0f; // 10 pixels wide
-        float backV1 = 1.0f / 32.0f;
         float backV2 = 17.0f / 32.0f;
 
         // Top face UV (edge along shoulders)
@@ -185,10 +183,10 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         float topV2 = 1.0f / 32.0f; // End at pixel 1
 
         // Bottom face UV (lower edge of cape)
-        float bottomU1 = 1.0f / 64.0f; // Start at pixel 1
-        float bottomU2 = 11.0f / 64.0f; // End at pixel 11
-        float bottomV1 = 17.0f / 32.0f; // Start at pixel 17
-        float bottomV2 = 18.0f / 32.0f; // End at pixel 18
+        float bottomU1 = 11.0f / 64.0f; // Start at pixel 11
+        float bottomU2 = 22.0f / 64.0f; // End at pixel 22
+        float bottomV1 = 0.0f / 32.0f; // Start at pixel 0
+        float bottomV2 = 1.0f / 32.0f; // End at pixel 1
 
         for (int i = 0; i < PARTS; i++) {
             float y3 = -(capePartHeight * i);
@@ -201,9 +199,12 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
 
             // FRONT FACE
             this.renderCapeQuad(vertexConsumer, matrixStack,
-                    new Vec3d(x2, y4, z2 + curveOffsetBottom), new Vec3d(x1, y4, z2 + curveOffsetBottom),
-                    new Vec3d(x1, y3, z2 + curveOffsetTop), new Vec3d(x2, y3, z2 + curveOffsetTop),
-                    frontU1, frontV2 - (partVHeight * i), frontU2, frontV2 - (partVHeight * (i + 1)),
+                    new Vec3d(x2, y4, z2 + curveOffsetBottom), new Vec3d(x1, y4, z2 +
+                            curveOffsetBottom),
+                    new Vec3d(x1, y3, z2 + curveOffsetTop), new Vec3d(x2, y3, z2 +
+                            curveOffsetTop),
+                    frontU1, frontV2 - (partVHeight * i), frontU2, frontV2 - (partVHeight * (i +
+                            1)),
                     light, overlay,
                     0.0f, 0.0f, 1.0f, false);
 
@@ -245,18 +246,16 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
                 0.0f, 1.0f, 0.0f, true);
         matrixStack.pop();
 
-        // // BOTTOM FACE
-        // matrixStack.push();
-        // matrixStack.multiply(net.minecraft.util.math.RotationAxis.POSITIVE_X.rotationDegrees(-90.0f));
-        // matrixStack.translate(0.0f, -z2, -z2);
-        // this.renderCapeQuad(vertexConsumer, matrixStack,
-        // new Vec3d(x2, y1 + capeDepth, z2), new Vec3d(x1, y1 + capeDepth, z2), new
-        // Vec3d(x1, y1, z2),
-        // new Vec3d(x2, y1, z2),
-        // bottomU1, bottomV1, bottomU2, bottomV2,
-        // light, overlay,
-        // 0.0f, -1.0f, 0.0f, false);
-        // matrixStack.pop();
+        // BOTTOM FACE
+        float curveOffsetTop = (float) Math.pow(1.0f, 2) * curveMagnitude;
+        float curveOffsetBottom = (float) Math.pow(1.0f, 2) * curveMagnitude;
+
+        this.renderCapeQuad(vertexConsumer, matrixStack,
+                new Vec3d(x2, 0.0f, z2 + curveOffsetBottom), new Vec3d(x1, 0.0f, z2 + curveOffsetBottom),
+                new Vec3d(x1, 0.0f, z1 + curveOffsetTop), new Vec3d(x2, 0.0f, z1 + curveOffsetTop),
+                bottomU1, bottomV1, bottomU2, bottomV2,
+                light, overlay,
+                0.0f, 0.0f, 1.0f, false);
 
         matrixStack.pop();
     }
@@ -280,13 +279,13 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
                     float targetVelocity = ((6.0F + playerEntityRenderState.field_53537 / 2.0F
                             + playerEntityRenderState.field_53536) * 0.02f);
 
-                    targetVelocity = Math.max(0.0f, targetVelocity - 0.3f);
+                    targetVelocity = Math.max(0.0f, targetVelocity - 0.1f);
 
-                    float accelerationRate = 0.03f;
+                    float accelerationRate = 0.02f;
                     this.currentVelocity = this.currentVelocity
                             + (targetVelocity - this.currentVelocity) * accelerationRate;
 
-                    float rotation = this.currentVelocity * 80.0f;
+                    float rotation = this.currentVelocity * 82.0f;
                     float curve = this.currentVelocity * 0.8f;
 
                     int minBrightness = 7;
