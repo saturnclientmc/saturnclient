@@ -143,6 +143,23 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         }
     }
 
+    private float getCurve(int i, float curveMagnitude, PlayerEntityRenderState playerState) {
+        float powCurve = (float) Math.pow((double) (PARTS - i) / PARTS, 2) * curveMagnitude;
+
+        float waveFreq = 0.6f;
+        float phase = (playerState.age + playerState.handSwingProgress) * 0.4f;
+
+        // Sine wave independent of curveMagnitude
+        float sineAmplitude = 0.02f; // fixed wiggle strength
+        float sineCurve = (float) Math.sin(i * waveFreq + phase) * sineAmplitude;
+
+        // Blend between them
+        float t = Math.min(1.0f, Math.max(0.0f, (curveMagnitude - 0.3f) / 0.2f));
+        t = t * t * (3 - 2 * t); // smoothstep
+
+        return (1.0f - t) * powCurve + t * (powCurve + sineCurve);
+    }
+
     private void renderCape(MatrixStack matrixStack, VertexConsumer vertexConsumer,
             PlayerEntityRenderState playerState, int light, int overlay, float rotation,
             float curveMagnitude) {
@@ -192,11 +209,8 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
             float totalVHeight = frontV2 - frontV1;
             float partVHeight = totalVHeight / PARTS;
 
-            float curveOffsetTop = (float) Math.pow((double) (PARTS - i) / PARTS, 2) *
-                    curveMagnitude;
-            float curveOffsetBottom = (float) Math.pow((double) (PARTS - i - 1) / PARTS,
-                    2)
-                    * curveMagnitude;
+            float curveOffsetTop = getCurve(i, curveMagnitude, playerState);
+            float curveOffsetBottom = getCurve(i + 1, curveMagnitude, playerState);
 
             // FRONT FACE
             this.renderCapeQuad(vertexConsumer, matrixStack,
@@ -254,13 +268,12 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         matrixStack.pop();
 
         // BOTTOM FACE
-        float curveOffsetTop = (float) Math.pow(1.0f, 2) * curveMagnitude;
-        float curveOffsetBottom = (float) Math.pow(1.0f, 2) * curveMagnitude;
+        float curveOffset = getCurve(0, curveMagnitude, playerState);
 
         this.renderCapeQuad(vertexConsumer, matrixStack,
-                new Vec3d(x2, 0.0f, z2 + curveOffsetBottom),
-                new Vec3d(x1, 0.0f, z2 + curveOffsetBottom),
-                new Vec3d(x1, 0.0f, z1 + curveOffsetTop), new Vec3d(x2, 0.0f, z1 + curveOffsetTop),
+                new Vec3d(x2, 0.0f, z2 + curveOffset),
+                new Vec3d(x1, 0.0f, z2 + curveOffset),
+                new Vec3d(x1, 0.0f, z1 + curveOffset), new Vec3d(x2, 0.0f, z1 + curveOffset),
                 bottomU1, bottomV1, bottomU2, bottomV2,
                 light, overlay,
                 0.0f, 0.0f, 1.0f, false);
