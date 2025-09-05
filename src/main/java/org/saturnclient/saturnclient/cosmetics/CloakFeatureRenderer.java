@@ -330,6 +330,12 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
             float rotation = this.currentVelocity * 72.0f;
             float curve = this.currentVelocity * 0.4f;
 
+            if (playerEntityRenderState.sneaking && playerEntityRenderState.isInSneakingPose) {
+                matrixStack.translate(0, 0.24f, 0);
+                matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(27.0f));
+                curve += 0.2f;
+            }
+
             matrixStack.translate(0.0f, -0.25f, 0.0f);
             if (this.hasCustomModelForLayer(
                     playerEntityRenderState.equippedChestStack,
