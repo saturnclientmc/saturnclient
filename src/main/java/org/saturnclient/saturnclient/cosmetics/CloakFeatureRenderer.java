@@ -192,8 +192,10 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
             float totalVHeight = frontV2 - frontV1;
             float partVHeight = totalVHeight / PARTS;
 
-            float curveOffsetTop = (float) Math.pow((double) (PARTS - i) / PARTS, 2) * curveMagnitude;
-            float curveOffsetBottom = (float) Math.pow((double) (PARTS - i - 1) / PARTS, 2)
+            float curveOffsetTop = (float) Math.pow((double) (PARTS - i) / PARTS, 2) *
+                    curveMagnitude;
+            float curveOffsetBottom = (float) Math.pow((double) (PARTS - i - 1) / PARTS,
+                    2)
                     * curveMagnitude;
 
             // FRONT FACE
@@ -301,7 +303,7 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         VertexConsumer vertexConsumer = vertexConsumerProvider
                 .getBuffer(RenderLayer.getEntityAlpha(customCape));
 
-        if (SaturnClientConfig.bendyCloaks.value) {
+        if (!playerEntityRenderState.isSwimming && SaturnClientConfig.bendyCloaks.value) {
             float targetVelocity = ((6.0F
                     + playerEntityRenderState.field_53537 / 2.0F
                     + playerEntityRenderState.field_53536) * 0.02f);
