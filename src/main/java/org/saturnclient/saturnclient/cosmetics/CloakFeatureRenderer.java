@@ -13,10 +13,6 @@ import net.minecraft.client.render.entity.equipment.EquipmentModelLoader;
 import net.minecraft.client.render.entity.equipment.EquipmentModel.LayerType;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
-import net.minecraft.client.render.entity.model.BipedEntityModel;
-import net.minecraft.client.render.entity.model.EntityModelLayers;
-import net.minecraft.client.render.entity.model.LoadedEntityModels;
-import net.minecraft.client.render.entity.model.PlayerCapeModel;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
@@ -38,7 +34,6 @@ import net.minecraft.util.math.Vec3d;
  */
 public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState, PlayerEntityModel> {
     private final EquipmentModelLoader equipmentModelLoader;
-    private final BipedEntityModel<PlayerEntityRenderState> model;
     private static final int PARTS = 16;
     private float currentVelocity = 0.0f;
 
@@ -80,11 +75,8 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
     private static final PxRect BOTTOM_RECT = new PxRect(88, 0, 80, 8);
 
     public CloakFeatureRenderer(FeatureRendererContext<PlayerEntityRenderState, PlayerEntityModel> context,
-            LoadedEntityModels modelLoader,
             EquipmentModelLoader equipmentModelLoader) {
         super(context);
-        this.model = new PlayerCapeModel<PlayerEntityRenderState>(
-                modelLoader.getModelPart(EntityModelLayers.PLAYER_CAPE));
         this.equipmentModelLoader = equipmentModelLoader;
     }
 
@@ -321,41 +313,40 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         VertexConsumer vertexConsumer = vertexConsumerProvider
                 .getBuffer(RenderLayer.getEntityAlpha(customCape));
 
-        if (!playerEntityRenderState.isSwimming && SaturnClientConfig.bendyCloaks.value) {
-            float targetVelocity = ((6.0F + playerEntityRenderState.field_53537 / 2.0F
-                    + playerEntityRenderState.field_53536) * 0.02f);
-            targetVelocity = Math.max(0.0f, targetVelocity - 0.1f);
+        float targetVelocity = ((6.0F + playerEntityRenderState.field_53537 / 2.0F
+                + playerEntityRenderState.field_53536) * 0.02f);
+        targetVelocity = Math.max(0.0f, targetVelocity - 0.1f);
 
-            float accelerationRate = 0.02f;
-            this.currentVelocity = this.currentVelocity
-                    + (targetVelocity - this.currentVelocity) * accelerationRate;
+        float accelerationRate = 0.02f;
+        this.currentVelocity = this.currentVelocity
+                + (targetVelocity - this.currentVelocity) * accelerationRate;
 
-            float rotation = this.currentVelocity * 72.0f;
-            float curve = this.currentVelocity * 0.4f;
+        float rotation = this.currentVelocity * 72.0f;
+        float curve = this.currentVelocity * 0.4f;
 
-            if (playerEntityRenderState.sneaking && playerEntityRenderState.isInSneakingPose) {
-                matrixStack.translate(0, 0.24f, 0);
-                matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(27.0f));
-                curve += 0.2f;
-            }
-
-            matrixStack.translate(0.0f, -0.25f, 0.0f);
-            if (this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack,
-                    LayerType.HUMANOID)) {
-                matrixStack.translate(0.0F, -0.053125F, 0.06875F);
-            }
-
-            renderCape(matrixStack, vertexConsumer, playerEntityRenderState, light,
-                    OverlayTexture.DEFAULT_UV, Math.min(rotation, 60.0f), Math.min(curve, 0.5f));
-        } else {
-            if (this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack,
-                    LayerType.HUMANOID)) {
-                matrixStack.translate(0.0F, -0.053125F, 0.06875F);
-            }
-            ((PlayerEntityModel) this.getContextModel()).copyTransforms(this.model);
-            this.model.setAngles(playerEntityRenderState);
-            this.model.render(matrixStack, vertexConsumer, light, OverlayTexture.DEFAULT_UV);
+        if (playerEntityRenderState.sneaking && playerEntityRenderState.isInSneakingPose) {
+            matrixStack.translate(0, 0.24f, 0);
+            matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(27.0f));
+            curve += 0.2f;
         }
+
+        matrixStack.translate(0.0f, -0.25f, 0.0f);
+        if (this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack,
+                LayerType.HUMANOID)) {
+            matrixStack.translate(0.0F, -0.053125F, 0.06875F);
+        }
+
+        if (playerEntityRenderState.isSwimming) {
+            curve = 0.0f;
+            rotation = 0.0f;
+        }
+
+        if (!SaturnClientConfig.bendyCloaks.value) {
+            curve = 0.0f;
+        }
+
+        renderCape(matrixStack, vertexConsumer, playerEntityRenderState, light,
+                OverlayTexture.DEFAULT_UV, Math.min(rotation, 60.0f), Math.min(curve, 0.5f));
 
         matrixStack.pop();
     }
