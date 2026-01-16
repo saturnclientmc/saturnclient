@@ -24,8 +24,12 @@ public class AutoSprint extends Module {
         if (SaturnClient.client.player == null || SaturnClient.client.getNetworkHandler() == null) {
             return;
         }
-        if (SaturnClient.client.options.forwardKey.isPressed() && !SaturnClient.client.options.backKey.isPressed() && !SaturnClient.client.player.isSneaking() &&
-            !SaturnClient.client.player.horizontalCollision) {
+        if (SaturnClient.client.options.forwardKey.isPressed() 
+            && !SaturnClient.client.options.backKey.isPressed() 
+            && !SaturnClient.client.player.isSneaking() 
+            && !SaturnClient.client.player.horizontalCollision 
+            && !SaturnClient.client.player.isUsingItem()) {
+                
             Objects.requireNonNull(SaturnClient.client.player).setSprinting(true);
         }
     }
