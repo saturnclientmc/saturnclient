@@ -29,7 +29,7 @@ public class AutoSprint extends Module {
             && !SaturnClient.client.player.isSneaking() 
             && !SaturnClient.client.player.horizontalCollision 
             && !SaturnClient.client.player.isUsingItem()) {
-                
+
             Objects.requireNonNull(SaturnClient.client.player).setSprinting(true);
         }
     }
@@ -40,7 +40,7 @@ public class AutoSprint extends Module {
     }
 
     @Override
-    public void setEnabled(boolean e) {
+    public void onEnabled(boolean e) {
         enabled.value = e;
     }
 }

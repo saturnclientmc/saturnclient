@@ -24,7 +24,12 @@ public abstract class Module {
 
     public abstract boolean isEnabled();
 
-    public abstract void setEnabled(boolean e);
+    public final void setEnabled(boolean e) {
+        onEnabled(e);
+        ModManager.updateEnabledModules();
+    }
+
+    public abstract void onEnabled(boolean e);
 
     public final String getName() {
         return details.name;
