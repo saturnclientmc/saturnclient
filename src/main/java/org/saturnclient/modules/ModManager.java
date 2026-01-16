@@ -31,7 +31,7 @@ public class ModManager {
         });
     }
 
-    public static void updateEnabledModules() {
+    public static synchronized void updateEnabledModules() {
         ENABLED_MODS.clear();
         for (Module m : ALL_MODS) {
             if (m.isEnabled()) {
