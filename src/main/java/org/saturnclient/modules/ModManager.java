@@ -16,7 +16,8 @@ public class ModManager {
             new PotionDisplay(),
             new Coordinates(),
             new Freelook(),
-            new Keystrokes()
+            new Keystrokes(),
+            new Fullbright()
     };
 
     public static void init() {
