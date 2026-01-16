@@ -15,6 +15,9 @@ public class Network {
     static BufferedReader in;
     static byte[] key = new byte[32];
 
+    private static final int CONNECTION_TIMEOUT = 5000;
+    private static final int READ_TIMEOUT = 5000;
+
     public static class AES {
         public static byte[] encryptAES256(String message, byte[] key) throws Exception {
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
@@ -37,7 +40,11 @@ public class Network {
         // Generate AES key
         new SecureRandom().nextBytes(key);
 
-        socket = new Socket("77.247.92.168", 8080);
+        socket = new Socket();
+        socket.connect(new InetSocketAddress("77.247.92.168", 8080), CONNECTION_TIMEOUT);
+        
+        socket.setSoTimeout(READ_TIMEOUT);
+
         // out = new DataOutputStream(socket.getOutputStream());
         out = new PrintWriter(socket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
