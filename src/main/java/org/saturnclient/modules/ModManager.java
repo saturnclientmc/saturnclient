@@ -13,7 +13,7 @@ public class ModManager {
             new AutoSprint(),
             new ArmorDisplay(),
             new Fps(),
-            new PotionDisplay(),
+            new StatusEffects(),
             new Coordinates(),
             new Freelook(),
             new Keystrokes(),
