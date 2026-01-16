@@ -20,7 +20,7 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
-public class PotionDisplay extends Module implements HudMod {
+public class StatusEffects extends Module implements HudMod {
     public static Property<Boolean> enabled = Property.bool(false);
     private static ModDimensions dimensions = new ModDimensions(60, 0);
 
@@ -30,9 +30,9 @@ public class PotionDisplay extends Module implements HudMod {
         new StatusEffectInstance(Registries.STATUS_EFFECT.getEntry(Identifier.ofVanilla("fire_resistance")).get(), 12000, 2),
     };
 
-    public PotionDisplay() {
-        super(new ModuleDetails("Potion Display", "potion")
-            .description("Displays potion effects")
+    public StatusEffects() {
+        super(new ModuleDetails("Status effects", "effect")
+            .description("Displays status effects")
             .version("v0.1.0")
             .tags("Utility"),
         
@@ -99,7 +99,7 @@ public class PotionDisplay extends Module implements HudMod {
     }
 
     @Override
-    public void setEnabled(boolean e) {
+    public void onEnabled(boolean e) {
         enabled.value = e;
     }
 }

@@ -6,7 +6,8 @@
   "client": [
     "CameraMixin",
     "EntityMixin",
-    "RenderMixin"
+    "RenderMixin",
+    "LightmapTextureManagerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

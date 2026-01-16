@@ -42,7 +42,7 @@ public class Crosshair extends Module {
     }
 
     @Override
-    public void setEnabled(boolean e) {
+    public void onEnabled(boolean e) {
         enabled.value = e;
     }
 }

@@ -13,10 +13,11 @@ public class ModManager {
             new AutoSprint(),
             new ArmorDisplay(),
             new Fps(),
-            new PotionDisplay(),
+            new StatusEffects(),
             new Coordinates(),
             new Freelook(),
-            new Keystrokes()
+            new Keystrokes(),
+            new Fullbright()
     };
 
     public static void init() {
@@ -31,7 +32,7 @@ public class ModManager {
         });
     }
 
-    public static void updateEnabledModules() {
+    public static synchronized void updateEnabledModules() {
         ENABLED_MODS.clear();
         for (Module m : ALL_MODS) {
             if (m.isEnabled()) {

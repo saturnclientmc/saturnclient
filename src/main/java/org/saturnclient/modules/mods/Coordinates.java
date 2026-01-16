@@ -69,7 +69,7 @@ public class Coordinates extends Module implements HudMod {
     }
 
     @Override
-    public void setEnabled(boolean e) {
+    public void onEnabled(boolean e) {
         enabled.value = e;
     }
 }
