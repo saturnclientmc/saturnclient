@@ -15,7 +15,7 @@ public class BackgroundRendererMixin {
     @ModifyVariable(method = "applyFog", at = @At("HEAD"), ordinal = 0, argsOnly = true)
     private static float modifyFogStart(float viewDistance) {
         if (NoFog.isActive()) {
-            return Float.MAX_VALUE;
+            return Float.MAX_VALUE; // this could be customised
         }
         return viewDistance;
     }

@@ -18,7 +18,8 @@ public class ModManager {
             new Freelook(),
             new Keystrokes(),
             new Fullbright(),
-            new NoFog()
+            new NoFog(),
+            new DayCounter()
     };
 
     public static void init() {
