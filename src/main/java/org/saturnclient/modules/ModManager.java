@@ -17,7 +17,10 @@ public class ModManager {
             new Coordinates(),
             new Freelook(),
             new Keystrokes(),
-            new Fullbright()
+            new Fullbright(),
+            new NoFog(),
+            new DayCounter(),
+            new Speedometer()
     };
 
     public static void init() {
