@@ -50,10 +50,10 @@ public class Speedometer extends Module implements HudMod {
                 break;
             
             case 2: // y axis
-                speed = (Math.sqrt(Math.pow(velocity.y, 2)));
+                speed = (Math.abs(velocity.y));
                 break;
         }
-        renderSpeed(speed, scope);
+        renderSpeed(speed * 20, scope); // blocks/tick to blocks/s
     }
 
     public void renderSpeed(double speed, RenderScope scope) {
