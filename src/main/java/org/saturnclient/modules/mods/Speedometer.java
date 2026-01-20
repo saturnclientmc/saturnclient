@@ -10,6 +10,7 @@ import org.saturnclient.ui2.RenderScope;
 import org.saturnclient.ui2.resources.Fonts;
 
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.entity.Entity;
 
 public class Speedometer extends Module implements HudMod {
     private static Property<Boolean> enabled = Property.bool(false);
@@ -18,6 +19,7 @@ public class Speedometer extends Module implements HudMod {
     private static Property<Boolean> speedText = Property.bool(true);
     private static ModDimensions dimensions = new ModDimensions(40, 18);
     double speed = 0.;
+    Vec3d velocity;
 
     public Speedometer() {
         super(new ModuleDetails("Speedometer", "coords")
@@ -39,7 +41,14 @@ public class Speedometer extends Module implements HudMod {
 
     @Override
     public void renderHud(RenderScope scope) {
-        Vec3d velocity = SaturnClient.client.player.getVelocity();
+        Entity vehicle = SaturnClient.client.player.getVehicle();
+
+        if (vehicle == null) {
+            velocity = SaturnClient.client.player.getVelocity();
+        } else {
+            velocity = vehicle.getVelocity();
+        }
+
         switch (axis.value) {
             case 0: // Absolute
                 speed = (Math.sqrt(Math.pow(velocity.x, 2) + Math.pow(velocity.y, 2) + Math.pow(velocity.z, 2)));
