@@ -13,7 +13,7 @@ import net.minecraft.util.math.Vec3d;
 
 public class Speedometer extends Module implements HudMod {
     private static Property<Boolean> enabled = Property.bool(false);
-    private static Property<Integer> axis = Property.select(0, "Absolute", "X axis", "Y axis");
+    private static Property<Integer> axis = Property.select(1, "Absolute", "X axis", "Y axis");
     private static Property<Integer> unitText = Property.select(0, "None", "Blocks/s", "blocks/s", "b/s");
     private static Property<Boolean> speedText = Property.bool(true);
     private static ModDimensions dimensions = new ModDimensions(40, 18);
