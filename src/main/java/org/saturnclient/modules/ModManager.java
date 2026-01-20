@@ -19,7 +19,8 @@ public class ModManager {
             new Keystrokes(),
             new Fullbright(),
             new NoFog(),
-            new DayCounter()
+            new DayCounter(),
+            new Speedometer()
     };
 
     public static void init() {
