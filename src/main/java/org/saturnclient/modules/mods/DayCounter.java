@@ -12,6 +12,7 @@ import org.saturnclient.ui2.resources.Fonts;
 public class DayCounter extends Module implements HudMod {
     private static Property<Boolean> enabled = Property.bool(false);
     private static ModDimensions dimensions = new ModDimensions(40, 18);
+    long day = 0;
 
     public DayCounter() {
         super(new ModuleDetails("DayCounter", "day")
@@ -30,7 +31,7 @@ public class DayCounter extends Module implements HudMod {
 
     @Override
     public void renderHud(RenderScope scope) {
-        long day = (SaturnClient.client.world.getTimeOfDay() / 24000L);
+        day = (SaturnClient.client.world.getTimeOfDay() / 24000L);
         renderDay(day, scope);
     }
 
