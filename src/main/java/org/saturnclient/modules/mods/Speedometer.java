@@ -20,9 +20,10 @@ public class Speedometer extends Module implements HudMod {
     private static ModDimensions dimensions = new ModDimensions(40, 18);
     double speed = 0.;
     Vec3d velocity;
+    double y = 0.;
 
     public Speedometer() {
-        super(new ModuleDetails("Speedometer", "coords")
+        super(new ModuleDetails("Speedometer", "speed")
             .description("Displays your current speed")
             .version("v0.1.0")
             .tags("Utility"),
@@ -42,16 +43,19 @@ public class Speedometer extends Module implements HudMod {
     @Override
     public void renderHud(RenderScope scope) {
         Entity vehicle = SaturnClient.client.player.getVehicle();
+        Entity player = SaturnClient.client.player;
 
         if (vehicle == null) {
-            velocity = SaturnClient.client.player.getVelocity();
+            velocity = player.getVelocity();
+            y = player.isOnGround() ? 0. : velocity.y;
         } else {
             velocity = vehicle.getVelocity();
+            y = vehicle.isOnGround() ? 0. : velocity.y;
         }
 
         switch (axis.value) {
             case 0: // Absolute
-                speed = (Math.sqrt(Math.pow(velocity.x, 2) + Math.pow(velocity.y, 2) + Math.pow(velocity.z, 2)));
+                speed = (Math.sqrt(Math.pow(velocity.x, 2) + Math.pow(y, 2) + Math.pow(velocity.z, 2)));
                 break;
 
             case 1: // x axis
@@ -59,7 +63,7 @@ public class Speedometer extends Module implements HudMod {
                 break;
             
             case 2: // y axis
-                speed = (Math.abs(velocity.y));
+                speed = (Math.abs(y));
                 break;
         }
         renderSpeed(speed * 20, scope); // blocks/tick to blocks/s
