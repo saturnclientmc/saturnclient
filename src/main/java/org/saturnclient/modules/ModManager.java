@@ -20,7 +20,8 @@ public class ModManager {
             new Fullbright(),
             new NoFog(),
             new DayCounter(),
-            new Speedometer()
+            new Speedometer(),
+            new Zoom()
     };
 
     public static void init() {
