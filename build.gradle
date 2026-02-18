@@ -76,6 +76,7 @@ jar {
     from("NOTICE") {
         rename { "${it}_${project.archivesBaseName}"}
     }
+    sourcesJar.enabled = false
 }
 
 publishing {
