@@ -31,6 +31,11 @@ jobs:
 
       - name: Build (release)
         run: ./gradlew clean build -x test --no-daemon --stacktrace
+    
+      - name: Remove sources JARs
+        run: |
+          rm -f build/libs/*sources*.jar
+          echo "Removed sources JARs from build/libs"
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
