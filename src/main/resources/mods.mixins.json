@@ -9,7 +9,10 @@
     "RenderMixin",
     "LightmapTextureManagerMixin",
     "BackgroundRendererMixin",
-    "GameRendererMixin"
+    "GameRendererMixin",
+    "NametagsMixin",
+    "LivingEntityRenderStateMixin",
+    "LivingEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

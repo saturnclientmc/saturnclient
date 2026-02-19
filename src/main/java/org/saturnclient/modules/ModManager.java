@@ -22,7 +22,8 @@ public class ModManager {
             new DayCounter(),
             new Speedometer(),
             new Zoom(),
-            new HealthDisplay()
+            new HealthDisplay(),
+            new Nametags()
     };
 
     public static void init() {
