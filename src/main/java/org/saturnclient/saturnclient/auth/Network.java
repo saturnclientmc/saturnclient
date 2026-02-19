@@ -10,6 +10,7 @@ import java.security.interfaces.*;
 import java.security.spec.X509EncodedKeySpec;
 
 public class Network {
+    // static Session session;
     static Socket socket;
     static PrintWriter out;
     static BufferedReader in;
@@ -42,7 +43,7 @@ public class Network {
 
         socket = new Socket();
         socket.connect(new InetSocketAddress("77.247.92.168", 8080), CONNECTION_TIMEOUT);
-        
+
         socket.setSoTimeout(READ_TIMEOUT);
 
         // out = new DataOutputStream(socket.getOutputStream());
