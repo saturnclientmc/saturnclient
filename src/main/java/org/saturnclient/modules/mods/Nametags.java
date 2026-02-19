@@ -32,10 +32,16 @@ public class Nametags extends Module {
         if (state.customName == null) return null;
         if (!healthDisplay.value) return state.customName.getString(); // name only
         if (!(state instanceof HealthRenderState hrs)) return null;
+        
+        float health = hrs.saturn$getHealth();
+        float maxHealth = hrs.saturn$getMaxHealth();
 
+        if (health <= 0f || maxHealth <= 0f || health > maxHealth) return null;
+        
         return state.customName.getString()
             + " §c" + String.format("%.1f", hrs.saturn$getHealth())
             + " / " + String.format("%.1f", hrs.saturn$getMaxHealth()) + " ❤";
+            
     }
 
     public static boolean shouldReplaceName() { 
