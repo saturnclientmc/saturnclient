@@ -2,9 +2,9 @@ package org.saturnclient.saturnclient.cosmetics.cloaks;
 
 import net.minecraft.util.Identifier;
 import org.saturnclient.saturnclient.auth.Auth;
+import org.saturnclient.saturnclient.client.player.SaturnPlayer;
 import org.saturnclient.saturnclient.cosmetics.cloaks.utils.AnimatedCloakData;
 import org.saturnclient.saturnclient.cosmetics.cloaks.utils.IdentifierUtils;
-import org.saturnclient.saturnclient.auth.SaturnPlayer;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

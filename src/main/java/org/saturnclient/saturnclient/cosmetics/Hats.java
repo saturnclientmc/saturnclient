@@ -2,8 +2,9 @@ package org.saturnclient.saturnclient.cosmetics;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.saturnclient.saturnclient.auth.SaturnPlayer;
+
 import org.saturnclient.saturnclient.auth.Auth;
+import org.saturnclient.saturnclient.client.player.SaturnPlayer;
 
 public class Hats {
     public static final String[] ALL_HATS = { "horns_black", "horns_white", "halo", "halo_black" };

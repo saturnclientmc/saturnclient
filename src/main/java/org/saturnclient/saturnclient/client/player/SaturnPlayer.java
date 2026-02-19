@@ -1,4 +1,4 @@
-package org.saturnclient.saturnclient.auth;
+package org.saturnclient.saturnclient.client.player;
 
 public class SaturnPlayer {
     public String cloak = "";

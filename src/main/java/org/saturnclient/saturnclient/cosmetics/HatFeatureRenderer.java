@@ -1,8 +1,7 @@
 package org.saturnclient.saturnclient.cosmetics;
 
-import org.saturnclient.saturnclient.auth.SaturnPlayer;
 import org.saturnclient.saturnclient.auth.Auth;
-
+import org.saturnclient.saturnclient.client.player.SaturnPlayer;
 import org.saturnclient.saturnclient.SaturnClient;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
