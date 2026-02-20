@@ -20,4 +20,8 @@ public class ServiceMethods {
             String.class, String.class, String.class);
     public static final Method<String, String, String> BuyHat = new Method<>("buy_hat",
             String.class, String.class, String.class);
+
+    // Emote
+    public static final Method<String, String, String> Emote = new Method<>("emote",
+            String.class, String.class, String.class);
 }

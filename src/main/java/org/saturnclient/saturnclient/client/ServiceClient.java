@@ -104,4 +104,12 @@ public class ServiceClient {
             SaturnClient.LOGGER.error("Failed to buy hat (service): ", e);
         }
     }
+
+    public static void emote(String emote) {
+        try {
+            session.request(ServiceMethods.Emote, emote).get();
+        } catch (Exception e) {
+            SaturnClient.LOGGER.error("Failed to emote (service): ", e);
+        }
+    }
 }
