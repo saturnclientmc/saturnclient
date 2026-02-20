@@ -51,71 +51,96 @@ public abstract class SplashOverlayMixin {
     }
 
     /**
-     * @author SaturnClient
      * @reason Replace vanilla splash rendering completely but keep exit logic
      */
     @Overwrite
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        int width = context.getScaledWindowWidth();
-        int height = context.getScaledWindowHeight();
+        int screenWidth = context.getScaledWindowWidth();
+        int screenHeight = context.getScaledWindowHeight();
         long currentTime = Util.getMeasuringTimeMs();
 
-        // Handle reload start timing (vanilla uses 500ms fade-in)
-        if (this.reloadStartTime == -1L) {
-            this.reloadStartTime = currentTime;
+        // Initialize reload start time if not set
+        if (reloadStartTime == -1L) {
+            reloadStartTime = currentTime;
         }
 
-        // Compute fade-out timing
-        float f = this.reloadCompleteTime > -1L ? (float) (currentTime - this.reloadCompleteTime) / 1000f : -1f;
+        // Compute fade-out progress after reload completes
+        float fadeOutProgress = reloadCompleteTime > -1L
+                ? (float) (currentTime - reloadCompleteTime) / 1000f
+                : -1f;
 
-        int alpha = f >= 0f
-                ? MathHelper.ceil((1.0f - MathHelper.clamp(f - 1f, 0f, 1f)) * 255f)
+        int logoAlpha = fadeOutProgress >= 0f
+                ? MathHelper.ceil((1.0f - MathHelper.clamp(fadeOutProgress - 1f, 0f, 1f)) * 255f)
                 : 255;
 
-        long l = Util.getMeasuringTimeMs();
-        float g = this.reloadStartTime > -1L ? (float) (l - this.reloadStartTime) / 500.0F : -1.0F;
+        // Compute fade-in progress while reloading
+        float reloadProgress = reloadStartTime > -1L
+                ? (float) (currentTime - reloadStartTime) / 500f
+                : -1f;
 
-        int k;
-
-        if (f >= 1.0F) {
-            if (this.client.currentScreen != null) {
-                this.client.currentScreen.render(context, 0, 0, delta);
+        // Draw background overlay
+        if (fadeOutProgress >= 1.0F) {
+            renderCurrentScreen(context, mouseX, mouseY, delta);
+            int overlayAlpha = computeOverlayAlpha(fadeOutProgress - 1f);
+            context.fill(RenderLayer.getGuiOverlay(), 0, 0, screenWidth, screenHeight,
+                    withAlpha(0x28282B, overlayAlpha));
+        } else if (reloading) {
+            if (reloadProgress < 1.0F) {
+                renderCurrentScreen(context, mouseX, mouseY, delta);
             }
-
-            k = MathHelper.ceil((1.0F - MathHelper.clamp(f - 1.0F, 0.0F, 1.0F)) *
-                    255.0F);
-            context.fill(RenderLayer.getGuiOverlay(), 0, 0, width, height,
-                    withAlpha(0x28282B, k));
-        } else if (this.reloading) {
-            if (this.client.currentScreen != null && g < 1.0F) {
-                this.client.currentScreen.render(context, mouseX, mouseY, delta);
-            }
-
-            k = MathHelper.ceil(MathHelper.clamp((double) g, 0.15, 1.0) * 255.0);
-            context.fill(RenderLayer.getGuiOverlay(), 0, 0, width, height,
-                    withAlpha(0x28282B, k));
+            int overlayAlpha = MathHelper.ceil(MathHelper.clamp(reloadProgress, 0.15, 1.0) * 255.0);
+            context.fill(RenderLayer.getGuiOverlay(), 0, 0, screenWidth, screenHeight,
+                    withAlpha(0x28282B, overlayAlpha));
         }
 
+        // Draw central logo
+        drawLogo(context, screenWidth, screenHeight, logoAlpha);
+
+        // Remove overlay after fade-out completes
+        if (fadeOutProgress >= 2.0F) {
+            client.setOverlay(null);
+        }
+
+        // Handle reload completion and exceptions
+        handleReloadCompletion(context);
+    }
+
+    private void renderCurrentScreen(DrawContext context, int mouseX, int mouseY, float delta) {
+        if (client.currentScreen != null) {
+            client.currentScreen.render(context, mouseX, mouseY, delta);
+        }
+    }
+
+    /** Draw the main logo centered */
+    private void drawLogo(DrawContext context, int screenWidth, int screenHeight, int alpha) {
         RenderScope scope = new RenderScope(context);
         scope.setRenderLayer(RenderLayer::getGuiTextured);
-        scope.drawTexture(Textures.LOGO, width / 2 - 49, height / 2 - 49, 0, 0, 98, 98, withAlpha(0xFFFFFF, alpha));
+        scope.drawTexture(Textures.LOGO, screenWidth / 2 - 49, screenHeight / 2 - 49, 0, 0, 98, 98,
+                withAlpha(0xFFFFFF, alpha));
+    }
 
-        if (f >= 2.0F) {
-            this.client.setOverlay(null);
-        }
+    /** Compute overlay alpha from fade progress */
+    private int computeOverlayAlpha(float progress) {
+        return MathHelper.ceil((1.0F - MathHelper.clamp(progress, 0.0F, 1.0F)) * 255.0F);
+    }
 
-        if (this.reloadCompleteTime == -1L && this.reload.isComplete() && (!this.reloading || g >= 2.0F)) {
+    /** Handle reload completion logic */
+    private void handleReloadCompletion(DrawContext context) {
+        float reloadProgress = reloadStartTime > -1L ? (float) (Util.getMeasuringTimeMs() - reloadStartTime) / 500f
+                : -1f;
+
+        if (reloadCompleteTime == -1L && reload.isComplete() && (!reloading || reloadProgress >= 2.0F)) {
             try {
-                this.reload.throwException();
-                this.exceptionHandler.accept(Optional.empty());
-            } catch (Throwable var24) {
-                this.exceptionHandler.accept(Optional.of(var24));
+                reload.throwException();
+                exceptionHandler.accept(Optional.empty());
+            } catch (Throwable ex) {
+                exceptionHandler.accept(Optional.of(ex));
             }
 
-            this.reloadCompleteTime = Util.getMeasuringTimeMs();
-            if (this.client.currentScreen != null) {
-                this.client.currentScreen.init(this.client, context.getScaledWindowWidth(),
-                        context.getScaledWindowHeight());
+            reloadCompleteTime = Util.getMeasuringTimeMs();
+
+            if (client.currentScreen != null) {
+                client.currentScreen.init(client, context.getScaledWindowWidth(), context.getScaledWindowHeight());
             }
         }
     }
