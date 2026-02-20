@@ -83,9 +83,25 @@ public class ServiceClient {
 
     public static void setHat(String hat) {
         try {
-            session.request(ServiceMethods.SetCloak, hat).get();
+            session.request(ServiceMethods.SetHat, hat).get();
         } catch (Exception e) {
             SaturnClient.LOGGER.error("Failed to set hat (service): ", e);
+        }
+    }
+
+    public static void buyCloak(String cloak) {
+        try {
+            session.request(ServiceMethods.BuyCloak, cloak).get();
+        } catch (Exception e) {
+            SaturnClient.LOGGER.error("Failed to buy cloak (service): ", e);
+        }
+    }
+
+    public static void buyHat(String hat) {
+        try {
+            session.request(ServiceMethods.BuyHat, hat).get();
+        } catch (Exception e) {
+            SaturnClient.LOGGER.error("Failed to buy hat (service): ", e);
         }
     }
 }
