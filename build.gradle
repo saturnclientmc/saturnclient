@@ -20,7 +20,7 @@ dependencies {
     modApi "dev.felnull:special-model-loader:1.4.0+pre.1"
     include "dev.felnull:special-model-loader:1.4.0+pre.1"
 
-    implementation 'com.github.selimaj-dev:session-java:v0.1.0'
+    implementation 'com.github.selimaj-dev:session-java:0.1.3'
 
     include modImplementation("dev.kosmx.player-anim:player-animation-lib-fabric:${project.player_anim}")
     //You might want bendy-lib. playerAnimator will wrap it.
