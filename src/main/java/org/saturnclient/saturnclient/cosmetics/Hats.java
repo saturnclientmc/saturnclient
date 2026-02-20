@@ -2,8 +2,9 @@ package org.saturnclient.saturnclient.cosmetics;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-import org.saturnclient.saturnclient.auth.Auth;
+import org.saturnclient.saturnclient.client.ServiceClient;
 import org.saturnclient.saturnclient.client.player.SaturnPlayer;
 
 public class Hats {
@@ -14,15 +15,16 @@ public class Hats {
         availableHats.add(0, "");
     }
 
-    public static void setHat(String uuid, String hatName) {
+    public static void setHat(UUID uuid, String hatName) {
         setHatSilent(uuid, hatName);
-        Auth.setHat(hatName);
+        ServiceClient.setHat(hatName);
     }
 
-    public static void setHatSilent(String uuid, String hatName) {
-        SaturnPlayer player = Auth.players.get(uuid);
+    public static void setHatSilent(UUID uuid, String hatName) {
+        SaturnPlayer player = SaturnPlayer.get(uuid);
         if (player == null) {
-            Auth.players.put(uuid, new SaturnPlayer("", hatName));
+            // Auth.players.put(uuid, new SaturnPlayer("", hatName));
+            // TODO: address this behaviour
         } else {
             player.hat = hatName;
         }
