@@ -1,6 +1,7 @@
 package org.saturnclient.saturnclient.client;
 
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.client.player.SaturnPlayer;
@@ -16,7 +17,7 @@ public class ServiceClient {
 
     public static boolean connectTimeout() {
         try {
-            session = Session.connect("ws://localhost:3000", 0, null);
+            session = Session.connect("ws://127.0.0.1:8080", 10, TimeUnit.SECONDS);
             return true;
         } catch (Exception e) {
             return false;

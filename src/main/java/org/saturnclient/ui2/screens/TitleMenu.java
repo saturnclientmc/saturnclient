@@ -20,7 +20,6 @@ import net.minecraft.client.gui.screen.world.SelectWorldScreen;
 public class TitleMenu extends SaturnScreen {
     public TitleMenu() {
         super("Tile Menu");
-        this.backgroundOpacity = 0.0f;
     }
 
     @Override
