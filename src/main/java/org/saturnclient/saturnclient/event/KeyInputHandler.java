@@ -39,7 +39,7 @@ public class KeyInputHandler {
                 client.setScreen(new ShiftMenu());
             }
 
-            if (SaturnClientConfig.openEmoteWheel.wasKeyPressed() && client.currentScreen == null) {
+            if (SaturnClientConfig.openEmoteWheel.wasKeyPressed() && client.currentScreen == null && !InputUtil.isKeyPressed(client.getWindow().getHandle(), GLFW.GLFW_KEY_F3)) {
                 client.setScreen(new EmoteWheel());
             }
 
