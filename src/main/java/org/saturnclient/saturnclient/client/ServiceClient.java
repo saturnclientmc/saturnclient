@@ -9,6 +9,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.saturnclient.client.player.SaturnPlayer;
+import org.saturnclient.saturnclient.cosmetics.Hats;
+import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 
 import dev.selimaj.session.Session;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
@@ -18,25 +21,11 @@ public class ServiceClient {
     public static UUID uuid;
 
     public static boolean connectTimeout() {
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-
-        Callable<Session> task = () -> Session.connect("ws://localhost:3000");
-
-        Future<Session> future = executor.submit(task);
-
         try {
-            session = future.get(10, TimeUnit.SECONDS);
-            System.out.println("Connected!");
+            session = Session.connect("ws://localhost:3000", 0, null);
             return true;
-        } catch (TimeoutException e) {
-            System.out.println("Connection timed out!");
-            future.cancel(true);
-            return false;
         } catch (Exception e) {
-            e.printStackTrace();
             return false;
-        } finally {
-            executor.shutdown();
         }
     }
 
@@ -64,23 +53,23 @@ public class ServiceClient {
             SaturnClient.LOGGER.info("Authenticating with UUID: " + accessToken);
 
             if (!connectTimeout()) {
+                SaturnClient.LOGGER.error("Unable to authenticate: Session Server Timeout");
                 return false;
             }
 
-            // String cloak = parser.getString("cloak");
-            // String hat = parser.getString("hat");
+            ServiceMethods.AuthResponse response = session.request(ServiceMethods.Authenticate, accessToken).get();
 
-            // for (String availableCloak : parser.getArray("cloaks")) {
-            // Cloaks.availableCloaks.add(availableCloak);
-            // }
+            for (String availableCloak : response.cloaks()) {
+                Cloaks.availableCloaks.add(availableCloak);
+            }
 
-            // for (String availableHat : parser.getArray("hats")) {
-            // Hats.availableHats.add(availableHat);
-            // }
+            for (String availableHat : response.hats()) {
+                Hats.availableHats.add(availableHat);
+            }
 
-            // players.put(uuid, new SaturnPlayer(cloak, hat));
+            SaturnPlayer.set(uuid, new SaturnPlayer(response.cloak(), response.hat()));
 
-            // Cloaks.loadCloak(uuid);
+            Cloaks.loadCloak(uuid);
 
             return true;
         } catch (Exception e) {

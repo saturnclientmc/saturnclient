@@ -32,7 +32,7 @@ public class Cloaks {
     private static final String CLOAKS_RESOURCE_PATH = "assets/saturnclient/textures/cloaks/";
     public static final List<String> availableCloaks = new ArrayList<>();
     public static Identifier cloakCacheIdentifier = null;
-    public static final Map<String, List<AnimatedCloakData>> animatedCloaks = new ConcurrentHashMap<>();
+    public static final Map<UUID, List<AnimatedCloakData>> animatedCloaks = new ConcurrentHashMap<>();
     private static final Map<String, Long> lastFrameTime = new ConcurrentHashMap<>();
 
     private static final ExecutorService CLOAK_LOADER_EXECUTOR = Executors.newFixedThreadPool(
@@ -99,8 +99,9 @@ public class Cloaks {
      * 
      * @param cloakName Name of the cloak file to load
      */
-    public static void loadCloak(String uuid) {
-        SaturnPlayer player = Auth.players.get(uuid);
+    public static void loadCloak(UUID uuid) {
+        SaturnPlayer player = SaturnPlayer.get(uuid);
+
         if (player != null && player.cloak != null) {
             if (!player.cloak.isEmpty()) {
                 if (Arrays.asList(ANIMATED_CLOAKS).contains(player.cloak)) {
@@ -146,7 +147,7 @@ public class Cloaks {
         }
     }
 
-    public static CompletableFuture<Void> loadAnimatedCloakAsync(String uuid, String cloakName) {
+    public static CompletableFuture<Void> loadAnimatedCloakAsync(UUID uuid, String cloakName) {
         return CompletableFuture.runAsync(() -> {
             String fileName = cloakName + ".gif";
 
@@ -196,7 +197,7 @@ public class Cloaks {
                         } else {
                             // Queue for main thread execution
                             // SaturnClient.client.execute(
-                            //         () -> IdentifierUtils.registerBufferedImageTexture(frameIdentifier, frame));
+                            // () -> IdentifierUtils.registerBufferedImageTexture(frameIdentifier, frame));
                         }
 
                         animatedFrames.add(new AnimatedCloakData(frameIdentifier, delay));

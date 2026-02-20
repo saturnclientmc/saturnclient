@@ -1,15 +1,11 @@
 package org.saturnclient.saturnclient.client;
 
-import com.fasterxml.jackson.databind.node.TextNode;
-
 import dev.selimaj.session.types.Method;
 
 public class ServiceMethods {
-        public record AuthResponse(
-                        String username,
-                        String password) {
-        }
+    public record AuthResponse(String cloak, String hat, String[] cloaks, String[] hats) {
+    }
 
-        public static final Method<TextNode, AuthResponse, TextNode> Authenticate = new Method<>("auth",
-                        TextNode.class, AuthResponse.class, TextNode.class);
+    public static final Method<String, AuthResponse, String> Authenticate = new Method<>("auth",
+            String.class, AuthResponse.class, String.class);
 }
