@@ -1,6 +1,7 @@
 package org.saturnclient.saturnclient.cosmetics;
 
 import org.saturnclient.saturnclient.SaturnClientConfig;
+import org.saturnclient.saturnclient.client.player.SaturnPlayer;
 import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 
 import net.minecraft.client.render.OverlayTexture;
@@ -289,13 +290,9 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         if (playerEntityRenderState.skinTextures.capeTexture() != null) {
             return;
         }
-        String name = playerEntityRenderState.name;
-        String uuid = Auth.playerNames.get(name);
-        if (uuid == null || !Auth.players.containsKey(uuid)) {
-            return;
-        }
+        SaturnPlayer player = SaturnPlayer.get(playerEntityRenderState.name);
 
-        Identifier customCape = Cloaks.getCurrentCloakTexture(uuid);
+        Identifier customCape = Cloaks.getCurrentCloakTexture(player.uuid);
         if (customCape == null || this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack,
                 LayerType.WINGS)) {
             return;

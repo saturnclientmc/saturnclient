@@ -1,7 +1,8 @@
 package org.saturnclient.saturnclient.cosmetics.cloaks;
 
 import net.minecraft.util.Identifier;
-import org.saturnclient.saturnclient.auth.Auth;
+
+import org.saturnclient.saturnclient.client.ServiceClient;
 import org.saturnclient.saturnclient.client.player.SaturnPlayer;
 import org.saturnclient.saturnclient.cosmetics.cloaks.utils.AnimatedCloakData;
 import org.saturnclient.saturnclient.cosmetics.cloaks.utils.IdentifierUtils;
@@ -33,7 +34,7 @@ public class Cloaks {
     public static final List<String> availableCloaks = new ArrayList<>();
     public static Identifier cloakCacheIdentifier = null;
     public static final Map<UUID, List<AnimatedCloakData>> animatedCloaks = new ConcurrentHashMap<>();
-    private static final Map<String, Long> lastFrameTime = new ConcurrentHashMap<>();
+    private static final Map<UUID, Long> lastFrameTime = new ConcurrentHashMap<>();
 
     private static final ExecutorService CLOAK_LOADER_EXECUTOR = Executors.newFixedThreadPool(
             Math.min(4, Runtime.getRuntime().availableProcessors()),
@@ -59,8 +60,7 @@ public class Cloaks {
      * 
      * @param cloakName Name of the cloak file to load
      */
-    public static void setCloak(String uuid, String cloakName) {
-        Auth.setCloak(cloakName);
+    public static void setCloak(UUID uuid, String cloakName) {
         setCloakSilent(uuid, cloakName);
         SaturnClient.LOGGER.info("Cloak set to " + cloakName);
     }
@@ -71,8 +71,9 @@ public class Cloaks {
      * @param cloakName Name of the cloak file to load
      */
     public static void setCloak(String cloakName) {
+        ServiceClient.setCloak(cloakName);
         if (availableCloaks.contains(cloakName)) {
-            setCloak(Auth.uuid, cloakName);
+            setCloak(ServiceClient.uuid, cloakName);
         }
     }
 
@@ -82,10 +83,12 @@ public class Cloaks {
      * 
      * @param cloakName Name of the cloak file to load
      */
-    public static void setCloakSilent(String uuid, String cloakName) {
-        SaturnPlayer player = Auth.players.get(uuid);
+    public static void setCloakSilent(UUID uuid, String cloakName) {
+        SaturnPlayer player = SaturnPlayer.get(uuid);
+
         if (player == null) {
-            Auth.players.put(uuid, new SaturnPlayer(cloakName, null));
+            // Auth.players.put(uuid, new SaturnPlayer(cloakName, null));
+            // TODO: Address this functionality
         } else {
             player.cloak = cloakName;
         }
@@ -227,16 +230,14 @@ public class Cloaks {
         }, CLOAK_LOADER_EXECUTOR);
     }
 
-    public static Identifier getCurrentCloakTexture(String uuid) {
-        if (!Auth.players.containsKey(uuid)) {
+    public static Identifier getCurrentCloakTexture(UUID uuid) {
+        SaturnPlayer player = SaturnPlayer.get(uuid);
+
+        if (player == null || player.cloak.isEmpty()) {
             return null;
         }
 
-        String cloakName = Auth.players.get(uuid).cloak;
-
-        if (cloakName.isEmpty()) {
-            return null;
-        }
+        String cloakName = player.cloak;
 
         if (Arrays.asList(ANIMATED_CLOAKS).contains(cloakName)) {
             List<AnimatedCloakData> frames = animatedCloaks.get(uuid);

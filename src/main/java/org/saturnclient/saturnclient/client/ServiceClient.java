@@ -1,12 +1,6 @@
 package org.saturnclient.saturnclient.client;
 
 import java.util.UUID;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.client.player.SaturnPlayer;
@@ -49,6 +43,7 @@ public class ServiceClient {
 
             String accessToken = mcSession.getAccessToken();
             uuid = mcSession.getUuidOrNull();
+            String username = mcSession.getUsername();
 
             SaturnClient.LOGGER.info("Authenticating with UUID: " + accessToken);
 
@@ -67,7 +62,7 @@ public class ServiceClient {
                 Hats.availableHats.add(availableHat);
             }
 
-            SaturnPlayer.set(uuid, new SaturnPlayer(response.cloak(), response.hat()));
+            SaturnPlayer.set(uuid, username, new SaturnPlayer(uuid, username, response.cloak(), response.hat()));
 
             Cloaks.loadCloak(uuid);
 
@@ -75,6 +70,22 @@ public class ServiceClient {
         } catch (Exception e) {
             SaturnClient.LOGGER.error("Authentication failed", e);
             return false;
+        }
+    }
+
+    public static void setCloak(String cloak) {
+        try {
+            session.request(ServiceMethods.SetCloak, cloak).get();
+        } catch (Exception e) {
+            SaturnClient.LOGGER.error("Failed to set cloak (service): ", e);
+        }
+    }
+
+    public static void setHat(String hat) {
+        try {
+            session.request(ServiceMethods.SetCloak, hat).get();
+        } catch (Exception e) {
+            SaturnClient.LOGGER.error("Failed to set hat (service): ", e);
         }
     }
 }

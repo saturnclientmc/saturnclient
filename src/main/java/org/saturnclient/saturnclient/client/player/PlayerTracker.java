@@ -3,6 +3,7 @@ package org.saturnclient.saturnclient.client.player;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import org.saturnclient.saturnclient.SaturnClient;
+
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.MinecraftClient;
 
@@ -46,7 +47,6 @@ public class PlayerTracker {
     private static void onPlayerJoin(MinecraftClient client, PlayerListEntry player) {
         GameProfile profile = player.getProfile();
         UUID uuid = profile.getId();
-        // if (uuid != ServiceClient.uuid)
-        //     ServiceClient.player(profile.getName(), uuid);
+        SaturnPlayer.player(uuid);
     }
 }

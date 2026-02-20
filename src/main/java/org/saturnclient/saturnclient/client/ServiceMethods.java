@@ -8,4 +8,7 @@ public class ServiceMethods {
 
     public static final Method<String, AuthResponse, String> Authenticate = new Method<>("auth",
             String.class, AuthResponse.class, String.class);
+
+    public static final Method<String, String, String> SetCloak = new Method<>("set_cloak",
+            String.class, String.class, String.class);
 }
