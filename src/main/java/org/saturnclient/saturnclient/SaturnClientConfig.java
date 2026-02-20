@@ -51,6 +51,10 @@ public class SaturnClientConfig {
     public static Formatting getIconColor(UUID uuid) {
         Role role = ROLES.get(uuid);
 
+        if (role == null) {
+            return Formatting.WHITE;
+        }
+
         switch (role) {
             case OWNER:
                 return Formatting.DARK_RED;
