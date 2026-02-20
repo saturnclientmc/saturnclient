@@ -41,6 +41,9 @@ public abstract class SplashOverlayMixin {
     @Shadow(remap = false)
     private Consumer<Optional<Throwable>> exceptionHandler;
 
+    @Shadow(remap = false)
+    private float progress;
+
     private static int withAlpha(int color, int alpha) {
         return color & 0xFFFFFF | alpha << 24;
     }
@@ -93,8 +96,15 @@ public abstract class SplashOverlayMixin {
                     withAlpha(0x28282B, overlayAlpha));
         }
 
+        float u = this.reload.getProgress();
+        this.progress = MathHelper.clamp(this.progress * 0.95F + u * 0.050000012F, 0.0F, 1.0F);
+
+        // Get render scope for better UI
+        RenderScope scope = new RenderScope(context);
+
         // Draw central logo
-        drawLogo(context, screenWidth, screenHeight, logoAlpha);
+        drawLogo(scope, screenWidth, screenHeight, logoAlpha);
+        renderProgressBar(scope, context, screenWidth, screenHeight, logoAlpha);
 
         // Remove overlay after fade-out completes
         if (fadeOutProgress >= 2.0F) {
@@ -112,11 +122,21 @@ public abstract class SplashOverlayMixin {
     }
 
     /** Draw the main logo centered */
-    private void drawLogo(DrawContext context, int screenWidth, int screenHeight, int alpha) {
-        RenderScope scope = new RenderScope(context);
+    private void drawLogo(RenderScope scope, int screenWidth, int screenHeight, int alpha) {
         scope.setRenderLayer(RenderLayer::getGuiTextured);
-        scope.drawTexture(Textures.LOGO, screenWidth / 2 - 49, screenHeight / 2 - 49, 0, 0, 98, 98,
+        scope.drawTexture(Textures.LOGO, (screenWidth - 60) / 2, ((screenHeight - 60) / 2) - 20, 0, 0, 60, 60,
                 withAlpha(0xFFFFFF, alpha));
+    }
+
+    private void renderProgressBar(RenderScope scope, DrawContext context, int screenWidth, int screenHeight,
+            int alpha) {
+        int progressY = ((screenHeight - 5) / 2) + 25;
+        context.drawBorder((screenWidth - 120) / 2, progressY, 120, 5, withAlpha(0xFFFFFF, alpha));
+
+        int progressWidth = Math.min((int) (progress * 120), 120);
+        int progressX = (screenWidth - 120) / 2;
+
+        context.fill(progressX, progressY, progressX + progressWidth, progressY + 5, withAlpha(0xFFFFFF, alpha));
     }
 
     /** Compute overlay alpha from fade progress */
