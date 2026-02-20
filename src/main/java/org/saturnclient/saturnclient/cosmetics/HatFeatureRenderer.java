@@ -1,6 +1,5 @@
 package org.saturnclient.saturnclient.cosmetics;
 
-import org.saturnclient.saturnclient.auth.Auth;
 import org.saturnclient.saturnclient.client.player.SaturnPlayer;
 import org.saturnclient.saturnclient.SaturnClient;
 import net.minecraft.client.render.OverlayTexture;
@@ -28,38 +27,35 @@ public class HatFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState,
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light,
             PlayerEntityRenderState state, float limbAngle, float limbDistance) {
         ItemStack headItem = state.equippedHeadStack;
-        String uuid = Auth.playerNames.get(state.name);
-        if (headItem.isEmpty() && uuid != null && !state.invisible) {
-            SaturnPlayer player = Auth.players.get(uuid);
-            if (player == null || player.hat == null || player.hat.isEmpty()) {
-                return;
-            }
-
-            matrices.push();
-
-            this.getContextModel().head.rotate(matrices);
-            matrices.multiply(net.minecraft.util.math.RotationAxis.POSITIVE_X.rotationDegrees(180.0f));
-            matrices.multiply(net.minecraft.util.math.RotationAxis.POSITIVE_Y.rotationDegrees(180.0f));
-
-            ItemStack customHat = new ItemStack(Items.STICK);
-            customHat.set(DataComponentTypes.ITEM_MODEL,
-                    Identifier.of("saturnclient:hat_" + player.hat));
-            customHat.set(DataComponentTypes.EQUIPPABLE,
-                    EquippableComponent.builder(EquipmentSlot.HEAD).build());
-
-            ItemRenderer itemRenderer = SaturnClient.client.getItemRenderer();
-
-            itemRenderer.renderItem(
-                    customHat,
-                    ModelTransformationMode.THIRD_PERSON_RIGHT_HAND,
-                    light,
-                    OverlayTexture.DEFAULT_UV,
-                    matrices,
-                    vertexConsumers,
-                    null,
-                    0);
-
-            matrices.pop();
+        SaturnPlayer player = SaturnPlayer.get(state.name);
+        if (headItem.isEmpty() || state.invisible || player == null || player.hat.isEmpty()) {
+            return;
         }
+
+        matrices.push();
+
+        this.getContextModel().head.rotate(matrices);
+        matrices.multiply(net.minecraft.util.math.RotationAxis.POSITIVE_X.rotationDegrees(180.0f));
+        matrices.multiply(net.minecraft.util.math.RotationAxis.POSITIVE_Y.rotationDegrees(180.0f));
+
+        ItemStack customHat = new ItemStack(Items.STICK);
+        customHat.set(DataComponentTypes.ITEM_MODEL,
+                Identifier.of("saturnclient:hat_" + player.hat));
+        customHat.set(DataComponentTypes.EQUIPPABLE,
+                EquippableComponent.builder(EquipmentSlot.HEAD).build());
+
+        ItemRenderer itemRenderer = SaturnClient.client.getItemRenderer();
+
+        itemRenderer.renderItem(
+                customHat,
+                ModelTransformationMode.THIRD_PERSON_RIGHT_HAND,
+                light,
+                OverlayTexture.DEFAULT_UV,
+                matrices,
+                vertexConsumers,
+                null,
+                0);
+
+        matrices.pop();
     }
 }
