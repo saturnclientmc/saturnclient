@@ -8,15 +8,11 @@ import org.saturnclient.ui2.resources.Textures;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.SplashOverlay;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.texture.TextureManager;
 import net.minecraft.resource.ResourceReload;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
@@ -48,11 +44,6 @@ public abstract class SplashOverlayMixin {
         return color & 0xFFFFFF | alpha << 24;
     }
 
-    @Inject(method = "init(Lnet/minecraft/client/texture/TextureManager;)V", at = @At("HEAD"))
-    private static void onInit(TextureManager textureManager, CallbackInfo ci) {
-        textureManager.registerTexture(Textures.LOGO_TEXT);
-    }
-
     /**
      * @reason Replace vanilla splash rendering completely but keep exit logic
      */
@@ -72,7 +63,7 @@ public abstract class SplashOverlayMixin {
                 ? (float) (currentTime - reloadCompleteTime) / 1000f
                 : -1f;
 
-        int logoAlpha = fadeOutProgress >= 0f
+        int alpha = fadeOutProgress >= 0f
                 ? MathHelper.ceil((1.0f - MathHelper.clamp(fadeOutProgress - 1f, 0f, 1f)) * 255f)
                 : 255;
 
@@ -81,30 +72,35 @@ public abstract class SplashOverlayMixin {
                 ? (float) (currentTime - reloadStartTime) / 500f
                 : -1f;
 
+        // Get render scope for better UI
+        RenderScope scope = new RenderScope(context);
+        scope.setRenderLayer(RenderLayer::getGuiTextured);
+
         // Draw background overlay
         if (fadeOutProgress >= 1.0F) {
             renderCurrentScreen(context, mouseX, mouseY, delta);
             int overlayAlpha = computeOverlayAlpha(fadeOutProgress - 1f);
-            context.fill(RenderLayer.getGuiOverlay(), 0, 0, screenWidth, screenHeight,
-                    withAlpha(0x28282B, overlayAlpha));
+            // context.fill(0, 0, screenWidth, screenHeight,
+            // withAlpha(0x53389E, overlayAlpha));
+            scope.drawTexture(Textures.SPLASH, 0, 0, 0, 0, screenWidth, screenHeight,
+                    withAlpha(0xFFFFFF, overlayAlpha));
         } else if (reloading) {
             if (reloadProgress < 1.0F) {
                 renderCurrentScreen(context, mouseX, mouseY, delta);
             }
-            int overlayAlpha = MathHelper.ceil(MathHelper.clamp(reloadProgress, 0.15, 1.0) * 255.0);
-            context.fill(RenderLayer.getGuiOverlay(), 0, 0, screenWidth, screenHeight,
-                    withAlpha(0x28282B, overlayAlpha));
+            scope.drawTexture(Textures.SPLASH, 0, 0, 0, 0, screenWidth, screenHeight,
+                    withAlpha(0xFFFFFF, alpha));
+        } else {
+            scope.drawTexture(Textures.SPLASH, 0, 0, 0, 0, screenWidth, screenHeight,
+                    withAlpha(0xFFFFFF, alpha));
         }
 
         float u = this.reload.getProgress();
         this.progress = MathHelper.clamp(this.progress * 0.95F + u * 0.050000012F, 0.0F, 1.0F);
 
-        // Get render scope for better UI
-        RenderScope scope = new RenderScope(context);
-
         // Draw central logo
-        drawLogo(scope, screenWidth, screenHeight, logoAlpha);
-        renderProgressBar(scope, context, screenWidth, screenHeight, logoAlpha);
+        drawLogo(scope, screenWidth, screenHeight, alpha);
+        renderProgressBar(scope, context, screenWidth, screenHeight, alpha);
 
         // Remove overlay after fade-out completes
         if (fadeOutProgress >= 2.0F) {
@@ -123,7 +119,6 @@ public abstract class SplashOverlayMixin {
 
     /** Draw the main logo centered */
     private void drawLogo(RenderScope scope, int screenWidth, int screenHeight, int alpha) {
-        scope.setRenderLayer(RenderLayer::getGuiTextured);
         scope.drawTexture(Textures.LOGO, (screenWidth - 60) / 2, ((screenHeight - 60) / 2) - 20, 0, 0, 60, 60,
                 withAlpha(0xFFFFFF, alpha));
     }

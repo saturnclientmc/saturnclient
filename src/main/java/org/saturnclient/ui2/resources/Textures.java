@@ -28,6 +28,7 @@ public class Textures {
     public static final Identifier REALISTIC_LOGO = Identifier.of("saturnclient", "textures/logo/realistic.png");
     public static final Identifier LOGO_TEXT = Identifier.of("saturnclient", "textures/logo/text.png");
     public static final Identifier LOGO_TEXT_BIG = Identifier.of("saturnclient", "textures/logo/text_big.png");
+    public static final Identifier SPLASH = Identifier.of("saturnclient", "textures/gui/splash.png");
 
     // Widgets
     public static final Identifier BUTTON_BORDER = Identifier.of("saturnclient", "button_border");
