@@ -1,11 +1,14 @@
 package org.saturnclient.saturnclient.client;
 
-import java.net.http.WebSocket;
 import java.util.UUID;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.cosmetics.Hats;
-import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 
 import dev.selimaj.session.Session;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
@@ -13,6 +16,29 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 public class ServiceClient {
     private static Session session;
     public static UUID uuid;
+
+    public static boolean connectTimeout() {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+
+        Callable<Session> task = () -> Session.connect("ws://localhost:3000");
+
+        Future<Session> future = executor.submit(task);
+
+        try {
+            session = future.get(10, TimeUnit.SECONDS);
+            System.out.println("Connected!");
+            return true;
+        } catch (TimeoutException e) {
+            System.out.println("Connection timed out!");
+            future.cancel(true);
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            executor.shutdown();
+        }
+    }
 
     public static boolean authenticate() {
         ClientLifecycleEvents.CLIENT_STOPPING.register(_o -> {
@@ -37,6 +63,10 @@ public class ServiceClient {
 
             SaturnClient.LOGGER.info("Authenticating with UUID: " + accessToken);
 
+            if (!connectTimeout()) {
+                return false;
+            }
+
             // String cloak = parser.getString("cloak");
             // String hat = parser.getString("hat");
 
@@ -51,13 +81,6 @@ public class ServiceClient {
             // players.put(uuid, new SaturnPlayer(cloak, hat));
 
             // Cloaks.loadCloak(uuid);
-
-            // playerNames.put(SaturnClient.client.getSession().getUsername(), uuid);
-
-            // afterAuth();
-
-            // startListenerThread();
-            // startPingThread();
 
             return true;
         } catch (Exception e) {
