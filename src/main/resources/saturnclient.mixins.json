@@ -9,7 +9,8 @@
     "PlayerEntityRendererMixin",
     "WhoAmI",
     "DrawContextAccessor",
-    "TitleScreenMixin"
+    "TitleScreenMixin",
+    "SplashOverlayMixin"
   ],
   "injectors": {
     "defaultRequire": 1
