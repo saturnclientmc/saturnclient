@@ -22,6 +22,7 @@ import net.minecraft.util.Identifier;
 public abstract class SaturnScreen extends Screen {
     private final Pool pool = new Pool(3);
     protected List<Element> elements = new ArrayList<>();
+    protected float backgroundOpacity = 1.0f;
     public int blurDuration = 700;
     public float blurProgress = 0.0f;
     public int backgroundBlur = 10;
@@ -43,7 +44,7 @@ public abstract class SaturnScreen extends Screen {
         synchronized (elements) {
             elements.add(element);
         }
-        
+
         if (element.animation != null) {
             element.animation.init(element);
 
@@ -93,16 +94,16 @@ public abstract class SaturnScreen extends Screen {
         mouseY *= 2;
 
         if (client.world == null && client.getCurrentServerEntry() == null) {
-            ROTATING_PANORAMA_RENDERER.render(context, this.width, this.height, 1.0F, delta);
+            ROTATING_PANORAMA_RENDERER.render(context, this.width, this.height, backgroundOpacity, delta);
         }
 
         PostEffectProcessor postEffectProcessor = this.client.getShaderLoader().loadPostEffect(
-                    Identifier.ofVanilla("blur"),
-                    DefaultFramebufferSet.MAIN_ONLY);
-            if (postEffectProcessor != null) {
-                postEffectProcessor.setUniforms("Radius", backgroundBlur * blurProgress);
-                postEffectProcessor.render(this.client.getFramebuffer(), this.pool);
-            }
+                Identifier.ofVanilla("blur"),
+                DefaultFramebufferSet.MAIN_ONLY);
+        if (postEffectProcessor != null) {
+            postEffectProcessor.setUniforms("Radius", backgroundBlur * blurProgress);
+            postEffectProcessor.render(this.client.getFramebuffer(), this.pool);
+        }
 
         // We are using a Abstracted RenderScope because older minecraft versions don't
         // use DrawContext

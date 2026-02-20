@@ -1,8 +1,8 @@
 package org.saturnclient.ui2.screens.store;
 
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.auth.Auth;
-import org.saturnclient.saturnclient.auth.SaturnPlayer;
+import org.saturnclient.saturnclient.client.ServiceClient;
+import org.saturnclient.saturnclient.client.player.SaturnPlayer;
 import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 import org.saturnclient.ui2.SaturnScreen;
 import org.saturnclient.ui2.Utils;
@@ -42,7 +42,7 @@ public class CloakStore extends SaturnScreen {
         int row = 0;
         int col = 0;
 
-        SaturnPlayer player = Auth.players.get(Auth.uuid);
+        SaturnPlayer player = SaturnPlayer.get();
 
         if (player != null) {
             for (String cloak : Cloaks.ALL_CLOAKS) {
@@ -54,7 +54,7 @@ public class CloakStore extends SaturnScreen {
                         long now = System.currentTimeMillis();
                         if (now - lastPurchaseTime >= 3000) {
                             Utils.notify(NotificationKind.Info, "Purchase processing", "Please wait");
-                            Auth.buyCloak(cloak);
+                            ServiceClient.buyCloak(cloak);
                             lastPurchaseTime = now;
                             new Thread(() -> {
                                 try {

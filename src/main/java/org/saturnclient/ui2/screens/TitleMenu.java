@@ -26,8 +26,10 @@ public class TitleMenu extends SaturnScreen {
     public void ui() {
         backgroundBlur = 0;
 
-        draw(new ImageTexture(Textures.LOGO_TEXT).dimensions(98, 10).centerOffset(width, height, 0, -36).animation(new Fade(700)));
-        draw(new ImageTexture(SaturnClientConfig.getLogo()).dimensions(98, 98).centerOffset(width, height, 0, -82).animation(new SlideY(700, -20)));
+        draw(new ImageTexture(Textures.LOGO_TEXT).dimensions(98, 10).centerOffset(width, height, 0, -36)
+                .animation(new Fade(700)));
+        draw(new ImageTexture(SaturnClientConfig.getLogo()).dimensions(98, 98).centerOffset(width, height, 0, -82)
+                .animation(new SlideY(700, -20)));
 
         draw(new Button("SINGLEPLAYER", () -> {
             client.setScreen(new SelectWorldScreen(new TitleMenu()));

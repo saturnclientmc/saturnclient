@@ -12,8 +12,11 @@ import org.saturnclient.ui2.resources.Fonts;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
+
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.font.TextRenderer.TextLayerType;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.ScreenRect;
 import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.OverlayTexture;
@@ -41,6 +44,10 @@ public class RenderScope {
     private ScissorStack scissorStack = new ScissorStack();
     private int opacity = 255 << 24;
     private final ItemRenderState itemRenderState;
+
+    public RenderScope(DrawContext context) {
+        this(context.getMatrices(), ((DrawContextAccessor) context).getVertexConsumers());
+    }
 
     public RenderScope(MatrixStack matrices, VertexConsumerProvider.Immediate vertexConsumers) {
         this.matrices = matrices;
