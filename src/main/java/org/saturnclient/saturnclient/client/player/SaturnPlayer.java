@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import org.saturnclient.saturnclient.client.ServiceClient;
+
 public class SaturnPlayer {
     private static Map<UUID, SaturnPlayer> PLAYERS = new HashMap<>();
     private static Map<String, UUID> PLAYER_NAMES = new HashMap<>();
@@ -18,6 +20,10 @@ public class SaturnPlayer {
         this.hat = hat;
         this.uuid = uuid;
         this.name = name;
+    }
+
+    public static SaturnPlayer get() {
+        return PLAYERS.get(ServiceClient.uuid);
     }
 
     public static SaturnPlayer get(UUID uuid) {

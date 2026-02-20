@@ -56,24 +56,14 @@ public class Cloaks {
     }
 
     /**
-     * Handles loading and caching of a new cloak texture.
-     * 
-     * @param cloakName Name of the cloak file to load
-     */
-    public static void setCloak(UUID uuid, String cloakName) {
-        setCloakSilent(uuid, cloakName);
-        SaturnClient.LOGGER.info("Cloak set to " + cloakName);
-    }
-
-    /**
      * Sets cloak of the current player
      * 
      * @param cloakName Name of the cloak file to load
      */
     public static void setCloak(String cloakName) {
-        ServiceClient.setCloak(cloakName);
         if (availableCloaks.contains(cloakName)) {
             setCloak(ServiceClient.uuid, cloakName);
+            ServiceClient.setCloak(cloakName);
         }
     }
 
@@ -83,7 +73,7 @@ public class Cloaks {
      * 
      * @param cloakName Name of the cloak file to load
      */
-    public static void setCloakSilent(UUID uuid, String cloakName) {
+    public static void setCloak(UUID uuid, String cloakName) {
         SaturnPlayer player = SaturnPlayer.get(uuid);
 
         if (player == null) {

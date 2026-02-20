@@ -15,12 +15,14 @@ public class Hats {
         availableHats.add(0, "");
     }
 
-    public static void setHat(UUID uuid, String hatName) {
-        setHatSilent(uuid, hatName);
-        ServiceClient.setHat(hatName);
+    public static void setHat(String hatName) {
+        if (availableHats.contains(hatName)) {
+            setHat(ServiceClient.uuid, hatName);
+            ServiceClient.setHat(hatName);
+        }
     }
 
-    public static void setHatSilent(UUID uuid, String hatName) {
+    public static void setHat(UUID uuid, String hatName) {
         SaturnPlayer player = SaturnPlayer.get(uuid);
         if (player == null) {
             // Auth.players.put(uuid, new SaturnPlayer("", hatName));
