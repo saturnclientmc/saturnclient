@@ -25,7 +25,6 @@ public class Theme {
     // UI metrics
     public static Property<Integer> BG_RADIUS = Property.integer(12);
     public static Property<Integer> WIDGET_RADIUS = Property.integer(10);
-    public static Property<Integer> PADDING = Property.integer(14);
 
     // Font (keeping your current system)
     public static Property<Integer> FONT = Property.font(1);

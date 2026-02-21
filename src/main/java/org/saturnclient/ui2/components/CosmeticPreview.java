@@ -9,8 +9,7 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
 
 public class CosmeticPreview extends Element {
-    static {
-    }
+    static int padding = 14;
 
     Identifier sprite;
     private Runnable onClick;
@@ -32,10 +31,10 @@ public class CosmeticPreview extends Element {
 
         renderScope.setRenderLayer(RenderLayer::getGuiTextured);
 
-        int texWidth = width - Theme.PADDING.value;
-        int texHeight = height - Theme.PADDING.value;
+        int texWidth = width - padding;
+        int texHeight = height - padding;
 
-        renderScope.drawTexture(sprite, Theme.PADDING.value / 2, Theme.PADDING.value / 2, 0, 0, texWidth, texHeight,
+        renderScope.drawTexture(sprite, padding / 2, padding / 2, 0, 0, texWidth, texHeight,
                 Theme.FOREGROUND.value);
     }
 

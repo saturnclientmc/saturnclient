@@ -25,7 +25,7 @@ public class ShiftMenu extends SaturnScreen {
 
         Element button = new Button("Settings", () -> {
             SaturnClient.client.setScreen(new ModMenu());
-        }).center(width, height);   
+        }).center(width, height);
 
         draw(button);
 

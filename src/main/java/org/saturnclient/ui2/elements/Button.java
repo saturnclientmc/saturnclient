@@ -13,6 +13,7 @@ public class Button extends Element {
     public Button(String text, Runnable onClick) {
         this.text = text;
         this.onClick = onClick;
+        this.dimensions(Fonts.getWidth(text, Theme.FONT.value) + 50, 38);
     }
 
     @Override
