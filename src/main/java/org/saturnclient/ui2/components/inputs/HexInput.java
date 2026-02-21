@@ -20,9 +20,9 @@ public class HexInput extends Element {
     private boolean draggingOpacity = false;
 
     // Dimensions
-    private static final int PICKER_WIDTH = 200;
-    private static final int PICKER_HEIGHT = 200;
-    private static final int SLIDER_WIDTH = 200;
+    private static final int PICKER_WIDTH = 100;
+    private static final int PICKER_HEIGHT = 100;
+    private static final int SLIDER_WIDTH = 100;
     private static final int SLIDER_HEIGHT = 10;
     private static final int HUE_SLIDER_HEIGHT = 10;
 
