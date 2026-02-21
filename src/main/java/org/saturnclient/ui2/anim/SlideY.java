@@ -26,7 +26,7 @@ public class SlideY extends Animation {
     }
     
     @Override
-    public void tick(float progress, Element element) {
+    public void tick(double progress, Element element) {
         element.y = elementY + (int) (offset * progress);
     }
 

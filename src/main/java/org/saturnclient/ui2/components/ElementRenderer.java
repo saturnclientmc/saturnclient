@@ -7,7 +7,6 @@ import org.saturnclient.ui2.Element;
 import org.saturnclient.ui2.ElementContext;
 import org.saturnclient.ui2.RenderScope;
 import org.saturnclient.ui2.Utils;
-import org.saturnclient.ui2.anim.Animation;
 
 public class ElementRenderer {
     public static void draw(List<Element> elements, Element element) {
@@ -17,20 +16,18 @@ public class ElementRenderer {
 
         if (element.animation != null) {
             element.animation.init(element);
-
-            Animation.execute((Float progress) -> {
-                element.animation.tick(progress, element);
-            }, element.animation.duration);
         }
     }
 
-    public static void render(List<Element> elements, RenderScope renderScope, int mouseX, int mouseY) {
+    public static void render(List<Element> elements, long elapsed, RenderScope renderScope, int mouseX, int mouseY) {
         for (Element element : elements) {
+            element.playAnimationFrame(elapsed);
+
             renderScope.matrices.push();
             renderScope.setOpacity(element.opacity);
             renderScope.matrices.translate(element.x, element.y, 0);
             renderScope.matrices.scale(element.scale, element.scale, 1.0f);
-            element.render(renderScope, new ElementContext(mouseX, mouseY, element));
+            element.render(renderScope, new ElementContext(elapsed, mouseX, mouseY, element));
             renderScope.matrices.pop();
             renderScope.setRenderLayer(null);
         }

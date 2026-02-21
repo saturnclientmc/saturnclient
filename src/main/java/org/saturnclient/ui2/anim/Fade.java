@@ -10,8 +10,8 @@ public class Fade extends Animation {
     }
 
     @Override
-    public void tick(float progress, Element element) {
-        element.opacity = targetOpacity * progress;
+    public void tick(double progress, Element element) {
+        element.opacity = targetOpacity * (float) progress;
     }
 
     @Override

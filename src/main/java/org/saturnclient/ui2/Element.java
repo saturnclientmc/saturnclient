@@ -41,6 +41,12 @@ public class Element {
     public void mouseReleased(double mouseX, double mouseY, int button) {
     }
 
+    public void playAnimationFrame(long elapsed) {
+        if (this.animation != null) {
+            this.animation.tick(this.curve.apply(Math.min(1.0, (double) elapsed / this.animation.duration)), this);
+        }
+    }
+
     public Element dimensions(int width, int height) {
         this.width = width;
         this.height = height;

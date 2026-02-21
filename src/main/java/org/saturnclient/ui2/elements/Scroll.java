@@ -36,7 +36,7 @@ public class Scroll extends Element {
         renderScope.matrices.push();
         renderScope.matrices.translate(padding, -scroll + padding, 0);
 
-        ElementRenderer.render(children, renderScope,
+        ElementRenderer.render(children, ctx.elapsed, renderScope,
                 ctx.mouseX - padding,
                 ctx.mouseY - padding + scroll);
 
