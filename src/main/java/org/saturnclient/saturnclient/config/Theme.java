@@ -5,7 +5,7 @@ public class Theme {
     public static Property<Integer> FOREGROUND = Property.color(0x00000000);
     public static Property<Integer> PRIMARY = Property.color(0x00000000);
     public static Property<Integer> PRIMARY_FG = Property.color(0x00000000);
-    public static Property<Integer> ACCENT = Property.color(0x00000000);
+    public static Property<Integer> ACCENT = Property.color(0xFF845eee);
     public static Property<Integer> ACCENT_FG = Property.color(0x00000000);
     public static Property<Integer> BG_RADIUS = Property.integer(10);
     public static Property<Integer> WIDGET_RADIUS = Property.integer(10);
