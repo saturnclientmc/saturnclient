@@ -45,11 +45,33 @@ public class Theme {
         config.property("Font", FONT);
     }
 
+    /**
+     * primary by default, accent if true
+     */
     public static int getBg(boolean hover) {
         return hover ? ACCENT.value : PRIMARY.value;
     }
 
+    /**
+     * (Foreground) primary by default, accent if true
+     */
     public static int getFg(boolean hover) {
         return hover ? ACCENT_FG.value : PRIMARY_FG.value;
+    }
+
+    /**
+     * Sets alpha using 0–255 range.
+     */
+    public static int withAlpha(int alpha, int color) {
+        alpha = Math.max(0, Math.min(255, alpha));
+        return (color & 0x00FFFFFF) | (alpha << 24);
+    }
+
+    /**
+     * Sets alpha using 0.0–1.0 range.
+     */
+    public static int withAlpha(float alpha, int color) {
+        alpha = Math.max(0f, Math.min(1f, alpha));
+        return withAlpha((int) (alpha * 255f), color);
     }
 }
