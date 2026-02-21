@@ -1,7 +1,7 @@
 package org.saturnclient.ui2.elements;
 
 import org.saturnclient.saturnclient.config.Property;
-import org.saturnclient.saturnclient.config.ThemeManager;
+import org.saturnclient.saturnclient.config.Theme;
 import org.saturnclient.ui2.Element;
 import org.saturnclient.ui2.ElementContext;
 import org.saturnclient.ui2.RenderScope;
@@ -10,11 +10,9 @@ import org.saturnclient.ui2.resources.Fonts;
 import org.saturnclient.ui2.resources.Textures;
 
 public class Notification extends Element {
-    private static ThemeManager theme = new ThemeManager("Notification");
-    private static Property<Integer> bgColor = theme.property("bg-color", Property.color(0xFF000000));
-    private static Property<Integer> error = theme.property("error", Property.color(0xFFbf212f));
-    private static Property<Integer> info = theme.property("info", Property.color(0xFF264b96));
-    private static Property<Integer> success = theme.property("success", Property.color(0xFF27b376));
+    private static Property<Integer> error = Property.color(0xFFbf212f);
+    private static Property<Integer> info = Property.color(0xFF264b96);
+    private static Property<Integer> success = Property.color(0xFF27b376);
 
     public static enum NotificationKind {
         Error,
@@ -40,7 +38,7 @@ public class Notification extends Element {
 
     @Override
     public void render(RenderScope renderScope, ElementContext ctx) {
-        renderScope.drawRoundedRectangle(0, 0, width, height, 10, bgColor.value);
+        renderScope.drawRoundedRectangle(0, 0, width, height, 10, Theme.PRIMARY.value);
         switch (kind) {
             case Error:
                 renderScope.drawTexture(Textures.CIRCLE_X, 9, 9, 0, 0, 15, 15, error.value);
