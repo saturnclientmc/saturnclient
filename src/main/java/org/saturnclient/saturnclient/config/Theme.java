@@ -10,6 +10,7 @@ public class Theme {
     public static Property<Integer> BG_RADIUS = Property.integer(10);
     public static Property<Integer> WIDGET_RADIUS = Property.integer(10);
     public static Property<Integer> PADDING = Property.integer(15);
+    public static Property<Integer> FONT = Property.font(1);
 
     public static void init(ConfigManager parent) {
         ConfigManager config = new ConfigManager(parent, "UI Style");
@@ -21,5 +22,6 @@ public class Theme {
         config.property("Accent Foreground", ACCENT_FG);
         config.property("Background Radius", BG_RADIUS);
         config.property("Widget Radius", WIDGET_RADIUS);
+        config.property("Font", WIDGET_RADIUS);
     }
 }
