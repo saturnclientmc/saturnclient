@@ -11,8 +11,6 @@ import org.saturnclient.ui2.RenderScope;
 import org.saturnclient.ui2.components.ElementRenderer;
 
 public class Scroll extends Element {
-    private static Property<Integer> scrollBarColor = Property.color(-7643914);
-
     private static Property<Integer> scrollBarRadius = Property.integer(10);
     private static Property<Integer> scrollBarWidth = Property.integer(5);
     private static Property<Integer> scrollBarPadding = Property.integer(5);
@@ -39,7 +37,7 @@ public class Scroll extends Element {
         renderScope.disableScissor();
 
         renderScope.drawRoundedRectangle(width - scrollBarWidth.value - scrollBarPadding.value, calculateScrollBarY(),
-                scrollBarWidth.value, calculateScrollBarHeight(), scrollBarRadius.value, scrollBarColor.value);
+                scrollBarWidth.value, calculateScrollBarHeight(), scrollBarRadius.value, Theme.SCROLL.value);
     }
 
     @Override

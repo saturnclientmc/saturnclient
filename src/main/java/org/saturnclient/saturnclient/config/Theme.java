@@ -19,6 +19,9 @@ public class Theme {
     // Text/icons shown on accent background
     public static Property<Integer> ACCENT_FG = Property.color(0xFF1A140A);
 
+    // Misc colors
+    public static Property<Integer> SCROLL = Property.color(0xFFE2BF7D);
+
     // UI metrics
     public static Property<Integer> BG_RADIUS = Property.integer(12);
     public static Property<Integer> WIDGET_RADIUS = Property.integer(10);
@@ -35,8 +38,11 @@ public class Theme {
         config.property("Primary Foreground", PRIMARY_FG);
         config.property("Accent", ACCENT);
         config.property("Accent Foreground", ACCENT_FG);
+        config.property("Scrollbar Color", SCROLL);
+
         config.property("Background Radius", BG_RADIUS);
         config.property("Widget Radius", WIDGET_RADIUS);
+
         config.property("Font", WIDGET_RADIUS);
     }
 }
