@@ -42,6 +42,7 @@ public abstract class SplashOverlayMixin {
     private float progress;
 
     /**
+     * @author SaturnClient
      * @reason Replace vanilla splash rendering completely but keep exit logic
      */
     @Overwrite

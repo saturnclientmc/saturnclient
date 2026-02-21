@@ -21,9 +21,12 @@ public class KeybindingSelector extends Element {
     public void render(RenderScope renderScope, ElementContext ctx) {
         int textColor = focused ? 0xFFFFFF : 0xAAAAAA;
         renderScope.drawRoundedRectangle(0, 0, width, height, 10, 0xFF000000);
-        renderScope.drawText(0.6f, prop.value == -1 ? "<NONE>" :
-            GLFW.glfwGetKeyName(prop.value, GLFW.glfwGetKeyScancode(prop.value)).toUpperCase(),
-            4, 4, Theme.FONT.value, textColor);
+        String name = GLFW.glfwGetKeyName(prop.value, GLFW.glfwGetKeyScancode(prop.value));
+
+        renderScope.drawText(0.6f,
+                prop.value == -1 ? "<NONE>"
+                        : name != null ? name.toUpperCase() : "<Invalid-Key>",
+                4, 4, Theme.FONT.value, textColor);
     }
 
     @Override
