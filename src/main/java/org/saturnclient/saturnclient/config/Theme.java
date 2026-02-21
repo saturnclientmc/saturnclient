@@ -60,18 +60,29 @@ public class Theme {
     }
 
     /**
-     * Sets alpha using 0–255 range.
+     * Multiplies existing alpha with 0–255 alpha.
      */
     public static int withAlpha(int alpha, int color) {
         alpha = Math.max(0, Math.min(255, alpha));
-        return (color & 0x00FFFFFF) | (alpha << 24);
+
+        int originalAlpha = (color >>> 24) & 0xFF;
+
+        // Merge (multiply) alphas
+        int merged = (originalAlpha * alpha) / 255;
+
+        return (color & 0x00FFFFFF) | (merged << 24);
     }
 
     /**
-     * Sets alpha using 0.0–1.0 range.
+     * Multiplies existing alpha with 0.0–1.0 alpha.
      */
     public static int withAlpha(float alpha, int color) {
         alpha = Math.max(0f, Math.min(1f, alpha));
-        return withAlpha((int) (alpha * 255f), color);
+
+        int originalAlpha = (color >>> 24) & 0xFF;
+
+        int merged = (int) (originalAlpha * alpha);
+
+        return (color & 0x00FFFFFF) | (merged << 24);
     }
 }

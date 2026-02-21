@@ -78,16 +78,16 @@ public abstract class SplashOverlayMixin {
             renderCurrentScreen(context, mouseX, mouseY, delta);
             int overlayAlpha = computeOverlayAlpha(fadeOutProgress - 1f);
             scope.drawTexture(Textures.SPLASH, 0, 0, 0, 0, screenWidth, screenHeight,
-                    Theme.withAlpha(0xFFFFFFFF, overlayAlpha));
+                    Theme.withAlpha(overlayAlpha, 0xFFFFFFFF));
         } else if (reloading) {
             if (reloadProgress < 1.0F) {
                 renderCurrentScreen(context, mouseX, mouseY, delta);
             }
             scope.drawTexture(Textures.SPLASH, 0, 0, 0, 0, screenWidth, screenHeight,
-                    Theme.withAlpha(0xFFFFFFFF, alpha));
+                    Theme.withAlpha(alpha, 0xFFFFFFFF));
         } else {
             scope.drawTexture(Textures.SPLASH, 0, 0, 0, 0, screenWidth, screenHeight,
-                    Theme.withAlpha(0xFFFFFFFF, alpha));
+                    Theme.withAlpha(alpha, 0xFFFFFFFF));
         }
 
         float u = this.reload.getProgress();
@@ -115,19 +115,19 @@ public abstract class SplashOverlayMixin {
     /** Draw the main logo centered */
     private void drawLogo(RenderScope scope, int screenWidth, int screenHeight, int alpha) {
         scope.drawTexture(Textures.LOGO, (screenWidth - 60) / 2, ((screenHeight - 60) / 2) - 20, 0, 0, 60, 60,
-                Theme.withAlpha(0xFFFFFFFF, alpha));
+                Theme.withAlpha(alpha, 0xFFFFFFFF));
     }
 
     private void renderProgressBar(RenderScope scope, DrawContext context, int screenWidth, int screenHeight,
             int alpha) {
         int progressY = ((screenHeight - 5) / 2) + 25;
-        context.drawBorder((screenWidth - 120) / 2, progressY, 120, 5, Theme.withAlpha(0xFFFFFFFF, alpha));
+        context.drawBorder((screenWidth - 120) / 2, progressY, 120, 5, Theme.withAlpha(alpha, 0xFFFFFFFF));
 
         int progressWidth = Math.min((int) (progress * 120), 120);
         int progressX = (screenWidth - 120) / 2;
 
         context.fill(progressX, progressY, progressX + progressWidth, progressY + 5,
-                Theme.withAlpha(0xFFFFFFFF, alpha));
+                Theme.withAlpha(alpha, 0xFFFFFFFF));
     }
 
     /** Compute overlay alpha from fade progress */
