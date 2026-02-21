@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.saturnclient.config.Property;
+import org.saturnclient.saturnclient.config.Theme;
 import org.saturnclient.ui2.SaturnScreen;
 import org.saturnclient.ui2.components.Sidebar;
 import org.saturnclient.ui2.components.inputs.FloatInput;
@@ -59,14 +60,13 @@ public class ConfigEditor extends SaturnScreen {
 
             if (prop.getType() == Property.PropertyType.NAMESPACE) {
                 configScroll.draw(
-                            new Text(
-                                    propName
-                            ).position(Fonts.centerX(520, propName, Text.font.value), modY + 1).scale(0.7f));
+                        new Text(
+                                propName).position(Fonts.centerX(520, propName, Theme.FONT.value), modY + 1)
+                                .scale(0.7f));
             } else {
                 configScroll.draw(
-                                new Text(
-                                        propName
-                                ).position(modX, modY + 1).scale(0.7f));
+                        new Text(
+                                propName).position(modX, modY + 1).scale(0.7f));
             }
 
             switch (prop.getType()) {
@@ -76,7 +76,7 @@ public class ConfigEditor extends SaturnScreen {
                                     .position(modX + (w / 2) - 40, modY)
                                     .scale(0.5f));
                     break;
-                
+
                 case HEX:
                     configScroll.draw(new HexInput((Property<Integer>) prop, this).position(w / 2, modY));
                     break;
