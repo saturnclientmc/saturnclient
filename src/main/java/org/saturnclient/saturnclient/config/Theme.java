@@ -44,4 +44,12 @@ public class Theme {
 
         config.property("Font", WIDGET_RADIUS);
     }
+
+    public static int getBg(boolean hover) {
+        return hover ? ACCENT.value : PRIMARY.value;
+    }
+
+    public static int getFg(boolean hover) {
+        return hover ? ACCENT_FG.value : PRIMARY_FG.value;
+    }
 }

@@ -77,21 +77,17 @@ public class Sidebar extends Element {
         int i = 0;
 
         for (SidebarComponent component : components) {
+            int y = component.end ? ((height - (sp * bottomRow)) - (s * 2)) : (padding + (sp * topRow));
+            boolean selected = ctx.isHovering(0, y - (padding / 2), s2, s2) || active == i;
+
+            renderScope.drawRoundedRectangle(padding / 2, y - (padding / 2), s + padding,
+                    s + padding, Theme.WIDGET_RADIUS.value, Theme.getBg(selected));
+
+            renderScope.drawTexture(component.sprite, padding, y, 0, 0, s, s, Theme.getFg(selected));
+
             if (component.end) {
-                int y = (height - (sp * bottomRow)) - (s * 2);
-                if (ctx.isHovering(0, y - (padding / 2), s2, s2) || active == i) {
-                }
-                renderScope.drawRoundedRectangle(padding / 2, y - (padding / 2), s + padding,
-                        s + padding, Theme.WIDGET_RADIUS.value, Theme.PRIMARY.value);
-                renderScope.drawTexture(component.sprite, padding, y, 0, 0, s, s, Theme.PRIMARY_FG.value);
                 bottomRow += 1;
             } else {
-                int y = padding + (sp * topRow);
-                if (ctx.isHovering(0, y - (padding / 2), s2, s2) || active == i) {
-                }
-                renderScope.drawRoundedRectangle(padding / 2, y - (padding / 2), s + padding,
-                        s + padding, Theme.WIDGET_RADIUS.value, Theme.PRIMARY.value);
-                renderScope.drawTexture(component.sprite, padding, y, 0, 0, s, s, Theme.PRIMARY_FG.value);
                 topRow += 1;
             }
 
@@ -104,26 +100,24 @@ public class Sidebar extends Element {
         int topRow = 0;
         int bottomRow = 0;
 
-        int gap = 5; // same 5px gap here
+        int gap = 5;
         int padding = 10;
         int sp = 30 - padding + gap;
         int s = 30 - (padding * 2);
         int s2 = s + padding;
 
         for (SidebarComponent component : components) {
+            int y = component.end ? ((height - (sp * bottomRow)) - (s * 2)) : (padding + (sp * topRow));
+            boolean hovering = Utils.isHovering(mouseX - (padding / 2), mouseY - (y - (padding / 2)), s2, s2, scale);
+
+            if (hovering) {
+                component.onClick.run();
+                break;
+            }
+
             if (component.end) {
-                int y = (height - (sp * bottomRow)) - (s * 2);
-                if (Utils.isHovering(mouseX - (padding / 2), mouseY - (y - (padding / 2)), s2, s2, scale)) {
-                    component.onClick.run();
-                    break;
-                }
                 bottomRow += 1;
             } else {
-                int y = padding + (sp * topRow);
-                if (Utils.isHovering(mouseX - (padding / 2), mouseY - (y - (padding / 2)), s2, s2, scale)) {
-                    component.onClick.run();
-                    break;
-                }
                 topRow += 1;
             }
         }
