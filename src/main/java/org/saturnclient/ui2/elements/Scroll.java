@@ -117,4 +117,14 @@ public class Scroll extends Element {
     public void keyPressed(int keyCode, int scanCode, int modifiers) {
         ElementRenderer.keyPressed(children, keyCode, scanCode, modifiers);
     }
+
+    @Override
+    public void mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
+        ElementRenderer.mouseDragged(children, mouseX - padding, mouseY - padding + scroll, button, deltaX, deltaY);
+    }
+
+    @Override
+    public void mouseReleased(double mouseX, double mouseY, int button) {
+        ElementRenderer.mouseReleased(children, mouseX - padding, mouseY - padding + scroll, button);
+    }
 }

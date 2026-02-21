@@ -40,15 +40,16 @@ public class HexInput extends Element {
 
     @Override
     public void mouseClicked(double mouseX, double mouseY, int button) {
-        if (open && mouseX >= width + 8 && mouseX <= width && mouseY >= 0 && mouseY <= height) {
-            handlePickerClick(mouseX - width, mouseY);
+        if (open) {
+            handlePickerClick(mouseX - width - 8, mouseY);
         }
     }
 
     @Override
     public void mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-        if (open)
-            handlePickerDrag(mouseX - width, mouseY);
+        if (open) {
+            handlePickerDrag(mouseX - width - 8, mouseY);
+        }
     }
 
     @Override

@@ -130,6 +130,26 @@ public abstract class SaturnScreen extends Screen {
     }
 
     @Override
+    public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
+        mouseX *= 2;
+        mouseY *= 2;
+
+        ElementRenderer.mouseDragged(elements, mouseX, mouseY, button, deltaX, deltaY);
+
+        return super.mouseReleased(mouseX, mouseY, button);
+    }
+
+    @Override
+    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+        mouseX *= 2;
+        mouseY *= 2;
+
+        ElementRenderer.mouseReleased(elements, mouseX, mouseY, button);
+
+        return super.mouseReleased(mouseX, mouseY, button);
+    }
+
+    @Override
     public boolean mouseScrolled(
             double mouseX,
             double mouseY,
