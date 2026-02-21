@@ -2,29 +2,29 @@ package org.saturnclient.saturnclient.config;
 
 public class Theme {
     // Main UI background (slightly warm dark to match Saturn tone)
-    public static Property<Integer> BACKGROUND = Property.color(0xFF12100D);
+    public static final Property<Integer> BACKGROUND = Property.color(0xFF12100D);
 
     // Default text color
-    public static Property<Integer> FOREGROUND = Property.color(0xFFF2E6D2);
+    public static final Property<Integer> FOREGROUND = Property.color(0xFFF2E6D2);
 
     // Widget default background (normal state)
-    public static Property<Integer> PRIMARY = Property.color(0xFF1C1915);
+    public static final Property<Integer> PRIMARY = Property.color(0xFF1C1915);
 
     // Widget text color
-    public static Property<Integer> PRIMARY_FG = Property.color(0xFFEAD9B8);
+    public static final Property<Integer> PRIMARY_FG = Property.color(0xFFEAD9B8);
 
     // Saturn brand color (hovered / enabled / selected)
-    public static Property<Integer> ACCENT = Property.color(0xFFE2BF7D);
+    public static final Property<Integer> ACCENT = Property.color(0xFFE2BF7D);
 
     // Text/icons shown on accent background
-    public static Property<Integer> ACCENT_FG = Property.color(0xFF1A140A);
+    public static final Property<Integer> ACCENT_FG = Property.color(0xFF1A140A);
 
     // Misc colors
-    public static Property<Integer> SCROLL = Property.color(0xFFE2BF7D);
+    public static final Property<Integer> SCROLL = Property.color(0xFFE2BF7D);
 
     // UI metrics
-    public static Property<Integer> BG_RADIUS = Property.integer(12);
-    public static Property<Integer> WIDGET_RADIUS = Property.integer(10);
+    public static final Property<Integer> BG_RADIUS = Property.integer(12);
+    public static final Property<Integer> WIDGET_RADIUS = Property.integer(10);
 
     // Font (keeping your current system)
     public static Property<Integer> FONT = Property.font(1);
@@ -42,7 +42,7 @@ public class Theme {
         config.property("Background Radius", BG_RADIUS);
         config.property("Widget Radius", WIDGET_RADIUS);
 
-        config.property("Font", WIDGET_RADIUS);
+        config.property("Font", FONT);
     }
 
     public static int getBg(boolean hover) {
