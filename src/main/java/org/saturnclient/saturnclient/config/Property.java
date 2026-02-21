@@ -286,4 +286,13 @@ public class Property<T> {
         if (value != null)
             this.loadFromJson(value);
     }
+
+    public boolean isNamespace() {
+        return type == PropertyType.NAMESPACE;
+    }
+
+    @SuppressWarnings("unchecked")
+    public Map<String, Property<?>> getNamespaceMap() {
+        return isNamespace() ? (Map<String, Property<?>>) (Object) value : null;
+    }
 }
