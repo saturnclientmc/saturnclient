@@ -27,17 +27,31 @@ public class Scroll extends Element {
 
     @Override
     public void render(RenderScope renderScope, ElementContext ctx) {
-        renderScope.drawRoundedRectangle(0, 0, width, height, Theme.BG_RADIUS.value, Theme.BACKGROUND.value);
+        calculateMaxScroll();
+
+        renderScope.drawRoundedRectangle(0, 0, width, height,
+                Theme.BG_RADIUS.value, Theme.BACKGROUND.value);
 
         renderScope.enableScissor(padding, padding, width - padding, height - padding);
         renderScope.matrices.push();
-        renderScope.matrices.translate(padding, (-scroll) + padding, 0);
-        ElementRenderer.render(children, renderScope, ctx.mouseX - padding, ctx.mouseY - padding + scroll);
+        renderScope.matrices.translate(padding, -scroll + padding, 0);
+
+        ElementRenderer.render(children, renderScope,
+                ctx.mouseX - padding,
+                ctx.mouseY - padding + scroll);
+
         renderScope.matrices.pop();
         renderScope.disableScissor();
 
-        renderScope.drawRoundedRectangle(width - scrollBarWidth.value - scrollBarPadding.value, calculateScrollBarY(),
-                scrollBarWidth.value, calculateScrollBarHeight(), scrollBarRadius.value, Theme.SCROLL.value);
+        if (maxScroll > 0) {
+            renderScope.drawRoundedRectangle(
+                    width - scrollBarWidth.value - scrollBarPadding.value,
+                    calculateScrollBarY(),
+                    scrollBarWidth.value,
+                    calculateScrollBarHeight(),
+                    scrollBarRadius.value,
+                    Theme.SCROLL.value);
+        }
     }
 
     @Override
@@ -61,9 +75,13 @@ public class Scroll extends Element {
 
     @Override
     public Element dimensions(int width, int height) {
+        maxScroll = 0;
+
         for (Element element : children) {
             maxScroll = Math.max(maxScroll, element.y + element.height - height);
         }
+
+        maxScroll = Math.max(0, maxScroll); // never negative
         return super.dimensions(width, height);
     }
 
@@ -78,6 +96,21 @@ public class Scroll extends Element {
         if (maxScroll <= 0)
             return scrollBarPadding.value;
         return (scroll * (height - scrollBarHeight)) / maxScroll + scrollBarPadding.value;
+    }
+
+    private void calculateMaxScroll() {
+        maxScroll = 0;
+
+        for (Element element : children) {
+            int bottom = element.y + element.height;
+            maxScroll = Math.max(maxScroll, bottom - height + padding);
+        }
+
+        if (maxScroll > 0) {
+            maxScroll = maxScroll + 10;
+        } else {
+            maxScroll = 0;
+        }
     }
 
     @Override
