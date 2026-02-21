@@ -32,6 +32,15 @@ public class Element {
     public void charTyped(char typedChar) {
     }
 
+    public void mouseClicked(double mouseX, double mouseY, int button) {
+    }
+
+    public void mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
+    }
+
+    public void mouseReleased(double mouseX, double mouseY, int button) {
+    }
+
     public Element dimensions(int width, int height) {
         this.width = width;
         this.height = height;

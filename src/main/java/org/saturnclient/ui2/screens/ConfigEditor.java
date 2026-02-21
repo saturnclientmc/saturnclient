@@ -78,7 +78,7 @@ public class ConfigEditor extends SaturnScreen {
                     break;
 
                 case HEX:
-                    configScroll.draw(new HexInput((Property<Integer>) prop, this).position(w / 2, modY));
+                    configScroll.draw(new HexInput((Property<Integer>) prop).position(w / 2, modY));
                     break;
 
                 case INTEGER:
