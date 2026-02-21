@@ -1,7 +1,7 @@
 package org.saturnclient.ui2.screens;
 
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.SaturnClientConfig;
+import org.saturnclient.saturnclient.config.SaturnClientConfig;
 import org.saturnclient.saturnclient.menus.HudEditor;
 import org.saturnclient.ui2.resources.Textures;
 import org.saturnclient.ui2.screens.cosmetics.CloakMenu;

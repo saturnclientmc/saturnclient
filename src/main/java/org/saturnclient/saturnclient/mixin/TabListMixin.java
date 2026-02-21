@@ -7,8 +7,8 @@ import net.minecraft.util.Formatting;
 import java.util.UUID;
 
 import org.jetbrains.annotations.Nullable;
-import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.saturnclient.client.player.SaturnPlayer;
+import org.saturnclient.saturnclient.config.SaturnClientConfig;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;

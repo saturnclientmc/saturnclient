@@ -1,8 +1,8 @@
 package org.saturnclient.ui2.components;
 
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.saturnclient.config.Property;
+import org.saturnclient.saturnclient.config.SaturnClientConfig;
 import org.saturnclient.saturnclient.config.ThemeManager;
 import org.saturnclient.ui2.resources.Textures;
 import org.saturnclient.ui2.Element;

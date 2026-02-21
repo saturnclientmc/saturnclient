@@ -1,6 +1,6 @@
 package org.saturnclient.saturnclient.mixin;
 
-import org.saturnclient.saturnclient.SaturnClientConfig;
+import org.saturnclient.saturnclient.config.SaturnClientConfig;
 import org.saturnclient.ui2.screens.TitleMenu;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

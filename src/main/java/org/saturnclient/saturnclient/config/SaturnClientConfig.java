@@ -1,12 +1,9 @@
-package org.saturnclient.saturnclient;
-
-import org.saturnclient.saturnclient.config.Property;
+package org.saturnclient.saturnclient.config;
 
 import java.util.Map;
 import java.util.UUID;
 
 import org.lwjgl.glfw.GLFW;
-import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.ui2.resources.Textures;
 
 import net.minecraft.util.Formatting;
@@ -79,5 +76,8 @@ public class SaturnClientConfig {
         config.property("Saturn client title screen", saturnTitleScreen);
         config.property("Open Emote Wheel", openEmoteWheel);
         config.property("Bendy Cloaks", bendyCloaks);
+
+        // Initialize a sub namespace for theme
+        Theme.init(config);
     }
 }
