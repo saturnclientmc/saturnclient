@@ -4,22 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.saturnclient.saturnclient.config.Property;
-import org.saturnclient.saturnclient.config.ThemeManager;
+import org.saturnclient.saturnclient.config.Theme;
 import org.saturnclient.ui2.Element;
 import org.saturnclient.ui2.ElementContext;
 import org.saturnclient.ui2.RenderScope;
 import org.saturnclient.ui2.components.ElementRenderer;
 
 public class Scroll extends Element {
-    private static ThemeManager theme = new ThemeManager("Scroll");
-    private static Property<Integer> bgColor = theme.property("bg-color", Property.color(0x90000000));
-    private static Property<Integer> scrollBarColor = theme.property("scrollbar-color", Property.color(-7643914));
+    private static Property<Integer> scrollBarColor = Property.color(-7643914);
 
-    private static Property<Integer> scrollBarRadius = theme.property("scrollbar-radius", Property.integer(10));
-    private static Property<Integer> scrollBarWidth = theme.property("scrollbar-width", Property.integer(5));
-    private static Property<Integer> scrollBarPadding = theme.property("scrollbar-padding", Property.integer(5));
-    private static Property<Integer> cornerRadius = theme.property("corner-radius", Property.integer(10));
-    
+    private static Property<Integer> scrollBarRadius = Property.integer(10);
+    private static Property<Integer> scrollBarWidth = Property.integer(5);
+    private static Property<Integer> scrollBarPadding = Property.integer(5);
+
     int padding = 0;
 
     protected List<Element> children = new ArrayList<>();
@@ -32,7 +29,7 @@ public class Scroll extends Element {
 
     @Override
     public void render(RenderScope renderScope, ElementContext ctx) {
-        renderScope.drawRoundedRectangle(0, 0, width, height, cornerRadius.value, bgColor.value);
+        renderScope.drawRoundedRectangle(0, 0, width, height, Theme.BG_RADIUS.value, Theme.BACKGROUND.value);
 
         renderScope.enableScissor(padding, padding, width - padding, height - padding);
         renderScope.matrices.push();
@@ -41,7 +38,8 @@ public class Scroll extends Element {
         renderScope.matrices.pop();
         renderScope.disableScissor();
 
-        renderScope.drawRoundedRectangle(width - scrollBarWidth.value - scrollBarPadding.value, calculateScrollBarY(), scrollBarWidth.value, calculateScrollBarHeight(), scrollBarRadius.value, scrollBarColor.value);
+        renderScope.drawRoundedRectangle(width - scrollBarWidth.value - scrollBarPadding.value, calculateScrollBarY(),
+                scrollBarWidth.value, calculateScrollBarHeight(), scrollBarRadius.value, scrollBarColor.value);
     }
 
     @Override
@@ -72,13 +70,16 @@ public class Scroll extends Element {
     }
 
     int calculateScrollBarHeight() {
-        if (maxScroll <= 0) return height - (scrollBarPadding.value * 2); // No scrolling needed
-        return Math.max(20, (height * height) / (height + maxScroll)) - (scrollBarPadding.value * 2); // At least 20px tall
+        if (maxScroll <= 0)
+            return height - (scrollBarPadding.value * 2); // No scrolling needed
+        return Math.max(20, (height * height) / (height + maxScroll)) - (scrollBarPadding.value * 2); // At least 20px
+                                                                                                      // tall
     }
 
     int calculateScrollBarY() {
         int scrollBarHeight = calculateScrollBarHeight();
-        if (maxScroll <= 0) return scrollBarPadding.value;
+        if (maxScroll <= 0)
+            return scrollBarPadding.value;
         return (scroll * (height - scrollBarHeight)) / maxScroll + scrollBarPadding.value;
     }
 
