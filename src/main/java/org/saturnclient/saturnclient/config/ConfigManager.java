@@ -11,8 +11,7 @@ import java.util.Map;
 
 public class ConfigManager {
 
-    private static final File configFile =
-            new File(SaturnClient.client.runDirectory, "saturn.json");
+    private static final File configFile = new File(SaturnClient.client.runDirectory, "saturn.json");
 
     // SINGLE ROOT TREE
     private static final Map<String, Property<?>> ROOT = new LinkedHashMap<>();
@@ -21,11 +20,14 @@ public class ConfigManager {
 
     private final Map<String, Property<?>> currentMap;
 
+    private final String[] path;
+
     /**
      * Creates a root namespace
      */
     public ConfigManager(String namespace) {
         this.currentMap = new LinkedHashMap<>();
+        this.path = new String[] { namespace }; // Path is just ["namespace"]
         ROOT.put(namespace, Property.namespace(currentMap));
     }
 
@@ -34,6 +36,12 @@ public class ConfigManager {
      */
     public ConfigManager(ConfigManager parent, String namespace) {
         this.currentMap = new LinkedHashMap<>();
+
+        // Build new path: parent path + current namespace
+        this.path = new String[parent.path.length + 1];
+        System.arraycopy(parent.path, 0, this.path, 0, parent.path.length);
+        this.path[this.path.length - 1] = namespace;
+
         parent.property(namespace, Property.namespace(currentMap));
     }
 
@@ -121,16 +129,30 @@ public class ConfigManager {
     }
 
     /**
-     * Load only a single property immediately after creation
+     * Load only a single property immediately after creation,
+     * traversing the JSON tree based on this manager's path.
      */
     private void loadSingleProperty(String name, Property<?> prop) {
         JsonObject source = cachedJson != null ? cachedJson : loadAndCache();
         if (source == null)
             return;
 
-        JsonElement element = source.get(name);
-        if (element != null)
+        // Traverse the tree to the correct namespace
+        JsonObject currentScope = source;
+        for (String segment : path) {
+            JsonElement next = currentScope.get(segment);
+            if (next != null && next.isJsonObject()) {
+                currentScope = next.getAsJsonObject();
+            } else {
+                return; // Path doesn't exist in config yet
+            }
+        }
+
+        // Now look for the property inside the correctly nested object
+        JsonElement element = currentScope.get(name);
+        if (element != null) {
             prop.loadFromJson(element);
+        }
     }
 
     /**
