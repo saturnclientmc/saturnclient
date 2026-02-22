@@ -32,6 +32,22 @@ public class Element {
     public void charTyped(char typedChar) {
     }
 
+    public void mouseClicked(double mouseX, double mouseY, int button) {
+    }
+
+    public void mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
+    }
+
+    public void mouseReleased(double mouseX, double mouseY, int button) {
+    }
+
+    public void playAnimationFrame(long elapsed) {
+        if (this.animation != null && elapsed >= this.animation.delay) {
+            this.animation.tick(this.curve
+                    .apply(Math.min(1.0, (double) (elapsed - this.animation.delay) / this.animation.duration)), this);
+        }
+    }
+
     public Element dimensions(int width, int height) {
         this.width = width;
         this.height = height;

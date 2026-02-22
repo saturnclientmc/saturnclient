@@ -1,11 +1,11 @@
 package org.saturnclient.ui2;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
-import org.saturnclient.ui2.anim.Animation;
-import org.saturnclient.ui2.anim.SlideXAbsolute;
 import org.saturnclient.ui2.components.ElementRenderer;
 
 import net.minecraft.client.MinecraftClient;
@@ -15,6 +15,8 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.RotatingCubeMapRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.render.DefaultFramebufferSet;
+import net.minecraft.client.texture.ResourceTexture;
+import net.minecraft.client.texture.TextureManager;
 import net.minecraft.client.util.Pool;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -23,12 +25,12 @@ public abstract class SaturnScreen extends Screen {
     private final Pool pool = new Pool(3);
     protected List<Element> elements = new ArrayList<>();
     protected float backgroundOpacity = 1.0f;
-    public int blurDuration = 700;
-    public float blurProgress = 0.0f;
+    protected Instant start = null;
     public int backgroundBlur = 10;
 
-    protected static final CubeMapRenderer PANORAMA_RENDERER = new CubeMapRenderer(
-            Identifier.of("saturnclient", "textures/gui/title/background/panorama"));
+    protected static final Identifier PANORAMA = Identifier.of("saturnclient",
+            "textures/gui/title/background/panorama");
+    protected static final CubeMapRenderer PANORAMA_RENDERER = new CubeMapRenderer(PANORAMA);
 
     public static final RotatingCubeMapRenderer ROTATING_PANORAMA_RENDERER;
 
@@ -36,41 +38,24 @@ public abstract class SaturnScreen extends Screen {
         ROTATING_PANORAMA_RENDERER = new RotatingCubeMapRenderer(PANORAMA_RENDERER);
     }
 
+    public static void preload(MinecraftClient client) {
+        TextureManager textureManager = client.getTextureManager();
+
+        // Force upload each texture to GPU
+        for (int i = 0; i < 6; i++) {
+            String var10001 = PANORAMA.getPath();
+            Identifier tex = PANORAMA.withPath(var10001 + "_" + i + ".png");
+            ResourceTexture resourceTexture = new ResourceTexture(tex);
+            textureManager.registerTexture(tex, resourceTexture);
+        }
+    }
+
     public SaturnScreen(String title) {
         super(Text.literal(title));
     }
 
     public void draw(Element element) {
-        synchronized (elements) {
-            elements.add(element);
-        }
-
-        if (element.animation != null) {
-            element.animation.init(element);
-
-            Animation.execute((Float progress) -> {
-                element.animation.tick(progress, element);
-            }, element.animation.duration);
-        }
-
-        if (element.duration != null) {
-            new Thread(() -> {
-                try {
-                    Animation fadeOut = new SlideXAbsolute(700, -(width - element.x));
-                    Thread.sleep(element.duration);
-                    fadeOut.init(element);
-                    Animation.executeSync((Float progress) -> {
-                        fadeOut.tick(progress, element);
-                    }, fadeOut.duration);
-                    synchronized (elements) {
-                        elements.remove(element);
-                    }
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }).start();
-        }
+        ElementRenderer.draw(elements, element);
     }
 
     @Override
@@ -79,10 +64,6 @@ public abstract class SaturnScreen extends Screen {
         width *= 2;
         height *= 2;
         ui(); // abstraction to render the saturn ui and also render extra stuff here
-
-        Animation.execute((Float progress) -> {
-            blurProgress = progress;
-        }, blurDuration);
     }
 
     public abstract void ui();
@@ -90,6 +71,11 @@ public abstract class SaturnScreen extends Screen {
     @SuppressWarnings("deprecation")
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        if (start == null) {
+            start = Instant.now();
+        }
+        long elapsed = Duration.between(start, Instant.now()).toMillis();
+
         mouseX *= 2;
         mouseY *= 2;
 
@@ -100,8 +86,9 @@ public abstract class SaturnScreen extends Screen {
         PostEffectProcessor postEffectProcessor = this.client.getShaderLoader().loadPostEffect(
                 Identifier.ofVanilla("blur"),
                 DefaultFramebufferSet.MAIN_ONLY);
+
         if (postEffectProcessor != null) {
-            postEffectProcessor.setUniforms("Radius", backgroundBlur * blurProgress);
+            postEffectProcessor.setUniforms("Radius", backgroundBlur * Math.min((float) elapsed / 700, 1.0f));
             postEffectProcessor.render(this.client.getFramebuffer(), this.pool);
         }
 
@@ -114,7 +101,7 @@ public abstract class SaturnScreen extends Screen {
 
         renderScope.matrices.scale(0.5f, 0.5f, 0.5f);
 
-        ElementRenderer.render(new ArrayList<>(elements), renderScope, mouseX, mouseY);
+        ElementRenderer.render(new ArrayList<>(elements), elapsed, renderScope, mouseX, mouseY);
 
         renderScope.matrices.pop();
     }
@@ -127,6 +114,26 @@ public abstract class SaturnScreen extends Screen {
         ElementRenderer.mouseClicked(elements, mouseX, mouseY, button);
 
         return false;
+    }
+
+    @Override
+    public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
+        mouseX *= 2;
+        mouseY *= 2;
+
+        ElementRenderer.mouseDragged(elements, mouseX, mouseY, button, deltaX, deltaY);
+
+        return super.mouseReleased(mouseX, mouseY, button);
+    }
+
+    @Override
+    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+        mouseX *= 2;
+        mouseY *= 2;
+
+        ElementRenderer.mouseReleased(elements, mouseX, mouseY, button);
+
+        return super.mouseReleased(mouseX, mouseY, button);
     }
 
     @Override

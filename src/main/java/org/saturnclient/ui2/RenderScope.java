@@ -398,4 +398,45 @@ public class RenderScope {
                     sprite.getMinV(), sprite.getMaxV(), color);
         }
     }
+
+    public void fill(int x1, int y1, int x2, int y2, int color) {
+        this.fill(x1, y1, x2, y2, 0, color);
+    }
+
+    public void fill(int x1, int y1, int x2, int y2, int z, int color) {
+        this.fill(RenderLayer.getGui(), x1, y1, x2, y2, z, color);
+    }
+
+    public void fill(RenderLayer layer, int x1, int y1, int x2, int y2, int color) {
+        this.fill(layer, x1, y1, x2, y2, 0, color);
+    }
+
+    public void fill(RenderLayer layer, int x1, int y1, int x2, int y2, int z, int color) {
+        Matrix4f matrix4f = this.matrices.peek().getPositionMatrix();
+        int i;
+        if (x1 < x2) {
+            i = x1;
+            x1 = x2;
+            x2 = i;
+        }
+
+        if (y1 < y2) {
+            i = y1;
+            y1 = y2;
+            y2 = i;
+        }
+
+        VertexConsumer vertexConsumer = this.vertexConsumers.getBuffer(layer);
+        vertexConsumer.vertex(matrix4f, (float) x1, (float) y1, (float) z).color(color);
+        vertexConsumer.vertex(matrix4f, (float) x1, (float) y2, (float) z).color(color);
+        vertexConsumer.vertex(matrix4f, (float) x2, (float) y2, (float) z).color(color);
+        vertexConsumer.vertex(matrix4f, (float) x2, (float) y1, (float) z).color(color);
+    }
+
+    public void drawBorder(int x, int y, int width, int height, int color) {
+        this.fill(x, y, x + width, y + 1, color);
+        this.fill(x, y + height - 1, x + width, y + height, color);
+        this.fill(x, y + 1, x + 1, y + height - 1, color);
+        this.fill(x + width - 1, y + 1, x + width, y + height - 1, color);
+    }
 }

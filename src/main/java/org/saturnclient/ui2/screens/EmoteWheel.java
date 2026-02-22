@@ -1,8 +1,8 @@
 package org.saturnclient.ui2.screens;
 
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.saturnclient.client.ServiceClient;
+import org.saturnclient.saturnclient.config.SaturnClientConfig;
 import org.saturnclient.saturnclient.cosmetics.Emotes;
 import org.saturnclient.ui2.SaturnScreen;
 import org.saturnclient.ui2.Utils;

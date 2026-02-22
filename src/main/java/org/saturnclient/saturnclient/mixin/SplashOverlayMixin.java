@@ -3,6 +3,7 @@ package org.saturnclient.saturnclient.mixin;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+import org.saturnclient.saturnclient.config.Theme;
 import org.saturnclient.ui2.RenderScope;
 import org.saturnclient.ui2.resources.Textures;
 import org.spongepowered.asm.mixin.Mixin;
@@ -40,11 +41,8 @@ public abstract class SplashOverlayMixin {
     @Shadow(remap = false)
     private float progress;
 
-    private static int withAlpha(int color, int alpha) {
-        return color & 0xFFFFFF | alpha << 24;
-    }
-
     /**
+     * @author SaturnClient
      * @reason Replace vanilla splash rendering completely but keep exit logic
      */
     @Overwrite
@@ -80,19 +78,17 @@ public abstract class SplashOverlayMixin {
         if (fadeOutProgress >= 1.0F) {
             renderCurrentScreen(context, mouseX, mouseY, delta);
             int overlayAlpha = computeOverlayAlpha(fadeOutProgress - 1f);
-            // context.fill(0, 0, screenWidth, screenHeight,
-            // withAlpha(0x53389E, overlayAlpha));
             scope.drawTexture(Textures.SPLASH, 0, 0, 0, 0, screenWidth, screenHeight,
-                    withAlpha(0xFFFFFF, overlayAlpha));
+                    Theme.withAlpha(overlayAlpha, 0xFFFFFFFF));
         } else if (reloading) {
             if (reloadProgress < 1.0F) {
                 renderCurrentScreen(context, mouseX, mouseY, delta);
             }
             scope.drawTexture(Textures.SPLASH, 0, 0, 0, 0, screenWidth, screenHeight,
-                    withAlpha(0xFFFFFF, alpha));
+                    Theme.withAlpha(alpha, 0xFFFFFFFF));
         } else {
             scope.drawTexture(Textures.SPLASH, 0, 0, 0, 0, screenWidth, screenHeight,
-                    withAlpha(0xFFFFFF, alpha));
+                    Theme.withAlpha(alpha, 0xFFFFFFFF));
         }
 
         float u = this.reload.getProgress();
@@ -120,18 +116,19 @@ public abstract class SplashOverlayMixin {
     /** Draw the main logo centered */
     private void drawLogo(RenderScope scope, int screenWidth, int screenHeight, int alpha) {
         scope.drawTexture(Textures.LOGO, (screenWidth - 60) / 2, ((screenHeight - 60) / 2) - 20, 0, 0, 60, 60,
-                withAlpha(0xFFFFFF, alpha));
+                Theme.withAlpha(alpha, 0xFFFFFFFF));
     }
 
     private void renderProgressBar(RenderScope scope, DrawContext context, int screenWidth, int screenHeight,
             int alpha) {
         int progressY = ((screenHeight - 5) / 2) + 25;
-        context.drawBorder((screenWidth - 120) / 2, progressY, 120, 5, withAlpha(0xFFFFFF, alpha));
+        context.drawBorder((screenWidth - 120) / 2, progressY, 120, 5, Theme.withAlpha(alpha, 0xFFFFFFFF));
 
         int progressWidth = Math.min((int) (progress * 120), 120);
         int progressX = (screenWidth - 120) / 2;
 
-        context.fill(progressX, progressY, progressX + progressWidth, progressY + 5, withAlpha(0xFFFFFF, alpha));
+        context.fill(progressX, progressY, progressX + progressWidth, progressY + 5,
+                Theme.withAlpha(alpha, 0xFFFFFFFF));
     }
 
     /** Compute overlay alpha from fade progress */

@@ -10,6 +10,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 public class Property<T> {
+    public static class NamedProperty<T> {
+        public String name;
+        public Property<T> prop;
+
+        public NamedProperty(String name, Property<T> value) {
+            this.name = name;
+            this.prop = value;
+        }
+    }
 
     public enum PropertyType {
         BOOLEAN,
@@ -276,5 +285,14 @@ public class Property<T> {
         JsonElement value = element.get(name);
         if (value != null)
             this.loadFromJson(value);
+    }
+
+    public boolean isNamespace() {
+        return type == PropertyType.NAMESPACE;
+    }
+
+    @SuppressWarnings("unchecked")
+    public Map<String, Property<?>> getNamespaceMap() {
+        return isNamespace() ? (Map<String, Property<?>>) (Object) value : null;
     }
 }

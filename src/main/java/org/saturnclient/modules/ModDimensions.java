@@ -2,7 +2,7 @@ package org.saturnclient.modules;
 
 import java.util.Map;
 
-import org.saturnclient.saturnclient.config.NamedProperty;
+import org.saturnclient.saturnclient.config.Property.NamedProperty;
 import org.saturnclient.saturnclient.config.Property;
 
 public class ModDimensions {
@@ -20,17 +20,17 @@ public class ModDimensions {
 
     public NamedProperty<Map<String, Property<?>>> prop() {
         return Property.namespace(Map.of(
-            "X", x,
-            "Y", y,
-            "Scale", scale,
-            "Background Color", bgColor,
-            "Foreground Color", fgColor,
-            "Corner Radius", radius,
-            "Font", font
-        )).named("In-Game Display"); 
+                "X", x,
+                "Y", y,
+                "Scale", scale,
+                "Background Color", bgColor,
+                "Foreground Color", fgColor,
+                "Corner Radius", radius,
+                "Font", font)).named("In-Game Display");
     }
 
-    public ModDimensions() {}
+    public ModDimensions() {
+    }
 
     public ModDimensions(int width, int height) {
         this.width = width;

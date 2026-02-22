@@ -7,7 +7,7 @@ import net.minecraft.util.Formatting;
 import java.util.UUID;
 
 import org.jetbrains.annotations.Nullable;
-import org.saturnclient.saturnclient.SaturnClientConfig;
+import org.saturnclient.saturnclient.client.player.Roles;
 import org.saturnclient.saturnclient.client.player.SaturnPlayer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -34,8 +34,8 @@ public abstract class TabListMixin {
         UUID uuid = profile.getId();
 
         if (SaturnPlayer.get(uuid) != null) {
-            return Text.literal(SaturnClientConfig.getSaturnIndicator())
-                    .styled(style -> style.withColor(SaturnClientConfig.getIconColor(uuid)))
+            return Text.literal(Roles.getSaturnIndicator())
+                    .styled(style -> style.withColor(Roles.getIconColor(uuid)))
                     .append(Text.literal(name).styled(style -> style.withColor(Formatting.WHITE)));
         }
         return Text.literal(name);

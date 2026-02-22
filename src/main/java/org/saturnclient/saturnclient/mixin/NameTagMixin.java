@@ -14,7 +14,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.Vec3d;
 
-import org.saturnclient.saturnclient.SaturnClientConfig;
+import org.saturnclient.saturnclient.client.player.Roles;
 import org.saturnclient.saturnclient.client.player.SaturnPlayer;
 
 import java.util.UUID;
@@ -43,8 +43,8 @@ public abstract class NameTagMixin<S extends EntityRenderState> {
         UUID uuid = isSaturn(state);
 
         if (uuid != null) {
-            MutableText iconText = Text.literal(SaturnClientConfig.getSaturnIndicator())
-                    .styled(style -> style.withColor(SaturnClientConfig.getIconColor(uuid)));
+            MutableText iconText = Text.literal(Roles.getSaturnIndicator())
+                    .styled(style -> style.withColor(Roles.getIconColor(uuid)));
 
             Text nameText = text.copy().styled(style -> style.withColor(Formatting.WHITE));
 
@@ -59,7 +59,9 @@ public abstract class NameTagMixin<S extends EntityRenderState> {
         if (state instanceof PlayerEntityRenderState) {
             String name = ((PlayerEntityRenderState) state).name;
             SaturnPlayer player = SaturnPlayer.get(name);
-            return player.uuid;
+            if (player != null) {
+                return player.uuid;
+            }
         }
 
         return null;

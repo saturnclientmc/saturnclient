@@ -6,8 +6,8 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.SaturnClientConfig;
 import org.saturnclient.saturnclient.client.ServiceClient;
+import org.saturnclient.saturnclient.config.SaturnClientConfig;
 import org.saturnclient.ui2.screens.EmoteWheel;
 import org.saturnclient.ui2.screens.ShiftMenu;
 
