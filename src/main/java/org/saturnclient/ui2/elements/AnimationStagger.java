@@ -16,6 +16,13 @@ public class AnimationStagger extends Element {
         this.delay = delay;
     }
 
+    public void draw(Element element) {
+        if (element.animation != null) {
+            element.animation.delay = delay * children.size();
+        }
+        ElementRenderer.draw(children, element);
+    }
+
     @Override
     public void render(RenderScope renderScope, ElementContext ctx) {
         ElementRenderer.render(children, ctx.elapsed, renderScope,
@@ -24,15 +31,8 @@ public class AnimationStagger extends Element {
     }
 
     @Override
-    public void click(int mouseX, int mouseY) {
-        ElementRenderer.mouseClicked(children, mouseX, mouseY, 0);
-    }
-
-    public void draw(Element element) {
-        if (element.animation != null) {
-            element.animation.delay = delay * children.size();
-        }
-        ElementRenderer.draw(children, element);
+    public void mouseClicked(double mouseX, double mouseY, int button) {
+        ElementRenderer.mouseClicked(children, mouseX, mouseY, button);
     }
 
     @Override

@@ -25,6 +25,10 @@ public class Scroll extends Element {
         this.padding = padding;
     }
 
+    public void draw(Element element) {
+        ElementRenderer.draw(children, element);
+    }
+
     @Override
     public void render(RenderScope renderScope, ElementContext ctx) {
         calculateMaxScroll();
@@ -62,15 +66,6 @@ public class Scroll extends Element {
         } else if (scroll > maxScroll) {
             scroll = maxScroll;
         }
-    }
-
-    @Override
-    public void click(int mouseX, int mouseY) {
-        ElementRenderer.mouseClicked(children, mouseX - padding, mouseY - padding + scroll, 0);
-    }
-
-    public void draw(Element element) {
-        children.add(element);
     }
 
     @Override
@@ -116,6 +111,11 @@ public class Scroll extends Element {
     @Override
     public void keyPressed(int keyCode, int scanCode, int modifiers) {
         ElementRenderer.keyPressed(children, keyCode, scanCode, modifiers);
+    }
+
+    @Override
+    public void mouseClicked(double mouseX, double mouseY, int button) {
+        ElementRenderer.mouseClicked(children, mouseX, mouseY, button);
     }
 
     @Override
