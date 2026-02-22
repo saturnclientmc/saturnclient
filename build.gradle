@@ -22,6 +22,9 @@ dependencies {
 
     implementation 'com.github.selimaj-dev:session-java:0.1.4'
 
+    modImplementation "org.apache.xmlgraphics:batik-transcoder:1.19"
+    modImplementation "org.apache.xmlgraphics:batik-codec:1.19"
+
     include modImplementation("dev.kosmx.player-anim:player-animation-lib-fabric:${project.player_anim}")
     //You might want bendy-lib. playerAnimator will wrap it.
     // include modRuntimeOnly("io.github.kosmx.bendy-lib:bendy-lib-fabric:${project.bendylib_version}")
