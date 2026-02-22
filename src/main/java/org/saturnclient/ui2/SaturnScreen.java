@@ -15,6 +15,8 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.RotatingCubeMapRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.render.DefaultFramebufferSet;
+import net.minecraft.client.texture.ResourceTexture;
+import net.minecraft.client.texture.TextureManager;
 import net.minecraft.client.util.Pool;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -28,13 +30,26 @@ public abstract class SaturnScreen extends Screen {
     public float blurProgress = 0.0f;
     public int backgroundBlur = 10;
 
-    protected static final CubeMapRenderer PANORAMA_RENDERER = new CubeMapRenderer(
-            Identifier.of("saturnclient", "textures/gui/title/background/panorama"));
+    protected static final Identifier PANORAMA = Identifier.of("saturnclient",
+            "textures/gui/title/background/panorama");
+    protected static final CubeMapRenderer PANORAMA_RENDERER = new CubeMapRenderer(PANORAMA);
 
     public static final RotatingCubeMapRenderer ROTATING_PANORAMA_RENDERER;
 
     static {
         ROTATING_PANORAMA_RENDERER = new RotatingCubeMapRenderer(PANORAMA_RENDERER);
+    }
+
+    public static void preload(MinecraftClient client) {
+        TextureManager textureManager = client.getTextureManager();
+
+        // Force upload each texture to GPU
+        for (int i = 0; i < 6; i++) {
+            String var10001 = PANORAMA.getPath();
+            Identifier tex = PANORAMA.withPath(var10001 + "_" + i + ".png");
+            ResourceTexture resourceTexture = new ResourceTexture(tex);
+            textureManager.registerTexture(tex, resourceTexture);
+        }
     }
 
     public SaturnScreen(String title) {
@@ -73,6 +88,7 @@ public abstract class SaturnScreen extends Screen {
         PostEffectProcessor postEffectProcessor = this.client.getShaderLoader().loadPostEffect(
                 Identifier.ofVanilla("blur"),
                 DefaultFramebufferSet.MAIN_ONLY);
+
         if (postEffectProcessor != null) {
             postEffectProcessor.setUniforms("Radius", backgroundBlur * blurProgress);
             postEffectProcessor.render(this.client.getFramebuffer(), this.pool);

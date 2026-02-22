@@ -41,6 +41,10 @@ public class SaturnClient implements ModInitializer {
         SaturnClientConfig.init();
         ModManager.init();
 
+        client.execute(() -> {
+            SaturnScreen.preload(client);
+        });
+
         ClientLifecycleEvents.CLIENT_STOPPING.register(_o -> ConfigManager.save());
 
         SpecialModelLoaderEvents.LOAD_SCOPE.register(() -> {
