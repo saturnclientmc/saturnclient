@@ -83,7 +83,7 @@ public class Scroll extends Element {
     int calculateScrollBarHeight() {
         if (maxScroll <= 0)
             return height - (scrollBarPadding.value * 2);
-        return Math.max(20, (height * height) / (height + maxScroll)) - (scrollBarPadding.value * 2);
+        return Math.max(20, (height * height) / (height + maxScroll + 10)) - (scrollBarPadding.value * 2);
     }
 
     int calculateScrollBarY() {
