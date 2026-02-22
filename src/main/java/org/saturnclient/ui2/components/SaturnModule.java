@@ -17,6 +17,10 @@ public class SaturnModule extends Element {
 
     private final Module mod;
 
+    static int p = 10; // padding
+    static int s = 14; // settings icon size
+    static int expand = 5; // settings icon click area
+
     public SaturnModule(Module mod) {
         this.mod = mod;
         this.width = 160;
@@ -25,18 +29,17 @@ public class SaturnModule extends Element {
 
     @Override
     public void render(RenderScope renderScope, ElementContext ctx) {
-        int p = 10; // padding
-        int s = 14; // settings icon size
-
         boolean hovered = ctx.isHovering();
         boolean enabled = mod.isEnabled();
 
-        boolean settingsHover = Utils.isHovering(
-                ctx.mouseX - (width - s - p - 5),
-                ctx.mouseY - (height - s - p - 5),
-                s + 10,
-                s + 10,
-                1.0f);
+        int iconX = width - s - p;
+        int iconY = height - s - p;
+
+        boolean settingsHover = ctx.isHovering(
+                getSettingsX(),
+                getSettingsY(),
+                getSettingsHitBox(),
+                getSettingsHitBox());
 
         renderScope.setRenderLayer(RenderLayer::getGuiTextured);
 
@@ -125,8 +128,8 @@ public class SaturnModule extends Element {
         // Settings icon
         renderScope.drawTexture(
                 Textures.SETTINGS,
-                width - s - p,
-                height - s - p,
+                iconX,
+                iconY,
                 0, 0,
                 s, s,
                 settingsColor);
@@ -134,14 +137,11 @@ public class SaturnModule extends Element {
 
     @Override
     public void click(int mouseX, int mouseY) {
-        int p = 10;
-        int s = 14;
-
         boolean settingsHover = Utils.isHovering(
-                mouseX - (width - s - p - 5),
-                mouseY - (height - s - p - 5),
-                s + 10,
-                s + 10,
+                mouseX - getSettingsX(),
+                mouseY - getSettingsY(),
+                getSettingsHitBox(),
+                getSettingsHitBox(),
                 1.0f);
 
         if (settingsHover) {
@@ -149,5 +149,17 @@ public class SaturnModule extends Element {
         } else {
             mod.setEnabled(!mod.isEnabled());
         }
+    }
+
+    private int getSettingsX() {
+        return width - s - p - expand;
+    }
+
+    private int getSettingsY() {
+        return height - s - p - expand;
+    }
+
+    private int getSettingsHitBox() {
+        return s + expand * 2;
     }
 }

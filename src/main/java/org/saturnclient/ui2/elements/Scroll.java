@@ -115,7 +115,7 @@ public class Scroll extends Element {
 
     @Override
     public void mouseClicked(double mouseX, double mouseY, int button) {
-        ElementRenderer.mouseClicked(children, mouseX, mouseY, button);
+        ElementRenderer.mouseClicked(children, mouseX - padding, mouseY - padding + scroll, button);
     }
 
     @Override
