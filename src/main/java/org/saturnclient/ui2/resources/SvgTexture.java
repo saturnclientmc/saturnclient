@@ -4,18 +4,21 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.kitfox.svg.SVGDiagram;
 import com.kitfox.svg.SVGUniverse;
 
 import org.jetbrains.annotations.Nullable;
-import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.cosmetics.cloaks.utils.IdentifierUtils;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;
 
 public class SvgTexture {
+
+    private static List<Identifier> svgCache = new ArrayList<>();
 
     private static BufferedImage renderSvg(InputStream svgStream, int width, int height) throws Exception {
         // Load SVG
@@ -52,6 +55,13 @@ public class SvgTexture {
     @Nullable
     @SuppressWarnings("resource")
     public static Identifier getSvg(MinecraftClient client, Identifier svgImage, int width, int height) {
+        Identifier id = Identifier
+                .of(svgImage.toString().replaceAll("\\.svg$", (width + "_" + height).toString() + ".png"));
+
+        if (svgCache.contains(id)) {
+            return id;
+        }
+
         try (InputStream svgStream = client
                 .getResourceManager()
                 .getResource(svgImage).get()
@@ -59,9 +69,6 @@ public class SvgTexture {
 
             BufferedImage image = renderSvg(svgStream, width, height);
 
-            System.out.println(svgImage.toString());
-
-            Identifier id = Identifier.of(SaturnClient.MOD_ID, "img_svg_render_" + (int) (Math.random() * 30));
             IdentifierUtils.registerBufferedImageTexture(id, image);
 
             return id;
