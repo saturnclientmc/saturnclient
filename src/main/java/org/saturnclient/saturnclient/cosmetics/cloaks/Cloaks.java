@@ -76,10 +76,7 @@ public class Cloaks {
     public static void setCloak(UUID uuid, String cloakName) {
         SaturnPlayer player = SaturnPlayer.get(uuid);
 
-        if (player == null) {
-            // Auth.players.put(uuid, new SaturnPlayer(cloakName, null));
-            // TODO: Address this functionality
-        } else {
+        if (player != null) {
             player.cloak = cloakName;
         }
 
