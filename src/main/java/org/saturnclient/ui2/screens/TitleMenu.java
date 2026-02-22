@@ -14,12 +14,10 @@ import org.saturnclient.ui2.elements.Button;
 import org.saturnclient.ui2.elements.ImageTexture;
 import org.saturnclient.ui2.elements.TextureButton;
 import org.saturnclient.ui2.resources.Fonts;
-import org.saturnclient.ui2.resources.SvgTexture;
 
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
 import net.minecraft.client.gui.screen.world.SelectWorldScreen;
-import net.minecraft.util.Identifier;
 
 public class TitleMenu extends SaturnScreen {
     public TitleMenu() {
@@ -72,9 +70,5 @@ public class TitleMenu extends SaturnScreen {
         }).dimensions(s, s).position((s + 2) * 2, 0).animation(new SlideFade(1000, s + 8)));
 
         draw(saturnStagger.dimensions(((s + 2) * 2) + s, s).centerHorizontal(width, height, 0, 8));
-
-        draw(new ImageTexture(
-                SvgTexture.getSvg(client, Identifier.of("saturnclient", "textures/gui/test.svg"), 98, 98, 1.0f))
-                .dimensions(98, 98));
     }
 }
