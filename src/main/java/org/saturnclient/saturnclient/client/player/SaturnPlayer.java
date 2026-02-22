@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import org.jetbrains.annotations.Nullable;
 import org.saturnclient.saturnclient.client.ServiceClient;
 
 public class SaturnPlayer {
@@ -22,14 +23,17 @@ public class SaturnPlayer {
         this.name = name;
     }
 
+    @Nullable
     public static SaturnPlayer get() {
         return PLAYERS.get(ServiceClient.uuid);
     }
 
+    @Nullable
     public static SaturnPlayer get(UUID uuid) {
         return PLAYERS.get(uuid);
     }
 
+    @Nullable
     public static SaturnPlayer get(String name) {
         UUID uuid = PLAYER_NAMES.get(name);
         if (uuid == null)

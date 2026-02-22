@@ -283,14 +283,16 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
 
     public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light,
             PlayerEntityRenderState playerEntityRenderState, float f, float g) {
-        if (playerEntityRenderState.invisible || !playerEntityRenderState.capeVisible) {
+        if (playerEntityRenderState.invisible || !playerEntityRenderState.capeVisible
+                || playerEntityRenderState.skinTextures.capeTexture() != null) {
             return;
         }
 
-        if (playerEntityRenderState.skinTextures.capeTexture() != null) {
+        SaturnPlayer player = SaturnPlayer.get(playerEntityRenderState.name);
+
+        if (player == null) {
             return;
         }
-        SaturnPlayer player = SaturnPlayer.get(playerEntityRenderState.name);
 
         Identifier customCape = Cloaks.getCurrentCloakTexture(player.uuid);
         if (customCape == null || this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack,
