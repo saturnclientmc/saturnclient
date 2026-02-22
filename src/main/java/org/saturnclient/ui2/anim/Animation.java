@@ -4,6 +4,7 @@ import org.saturnclient.ui2.Element;
 
 public abstract class Animation {
     public int duration;
+    public int delay = 0;
 
     Animation(int duration) {
         this.duration = duration;

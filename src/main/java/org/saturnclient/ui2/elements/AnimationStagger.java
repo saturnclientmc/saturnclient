@@ -10,10 +10,10 @@ import org.saturnclient.ui2.components.ElementRenderer;
 
 public class AnimationStagger extends Element {
     protected List<Element> children = new ArrayList<>();
-    public int duration;
+    public int delay;
 
-    public AnimationStagger(int duration) {
-        this.duration = duration;
+    public AnimationStagger(int delay) {
+        this.delay = delay;
     }
 
     @Override
@@ -30,7 +30,7 @@ public class AnimationStagger extends Element {
 
     public void draw(Element element) {
         if (element.animation != null) {
-            element.animation.duration = duration * (children.size() + 1);
+            element.animation.delay = delay * (children.size() + 1);
         }
         children.add(element);
     }
