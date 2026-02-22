@@ -30,9 +30,9 @@ public class AnimationStagger extends Element {
 
     public void draw(Element element) {
         if (element.animation != null) {
-            element.animation.delay = delay * (children.size() + 1);
+            element.animation.delay = delay * children.size();
         }
-        children.add(element);
+        ElementRenderer.draw(children, element);
     }
 
     @Override

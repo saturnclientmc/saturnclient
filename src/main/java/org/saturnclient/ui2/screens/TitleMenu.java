@@ -7,7 +7,9 @@ import org.saturnclient.ui2.resources.Textures;
 import org.saturnclient.ui2.screens.cosmetics.CloakMenu;
 import org.saturnclient.ui2.SaturnScreen;
 import org.saturnclient.ui2.anim.Fade;
+import org.saturnclient.ui2.anim.SlideFade;
 import org.saturnclient.ui2.anim.SlideY;
+import org.saturnclient.ui2.elements.AnimationStagger;
 import org.saturnclient.ui2.elements.Button;
 import org.saturnclient.ui2.elements.ImageTexture;
 import org.saturnclient.ui2.elements.TextureButton;
@@ -19,7 +21,7 @@ import net.minecraft.client.gui.screen.world.SelectWorldScreen;
 
 public class TitleMenu extends SaturnScreen {
     public TitleMenu() {
-        super("Tile Menu");
+        super("Title Menu");
     }
 
     @Override
@@ -31,21 +33,25 @@ public class TitleMenu extends SaturnScreen {
         draw(new ImageTexture(SaturnClientConfig.getLogo()).dimensions(98, 98).centerOffset(width, height, 0, -82)
                 .animation(new SlideY(700, -20)));
 
-        draw(new Button("SINGLEPLAYER", () -> {
+        AnimationStagger stagger = new AnimationStagger(120);
+
+        stagger.draw(new Button("SINGLEPLAYER", () -> {
             client.setScreen(new SelectWorldScreen(new TitleMenu()));
-        }).scale(0.69f).dimensions(420, 52).centerOffset(width, height, 0, 0));
+        }).scale(0.69f).dimensions(420, 52).position(0, 0).animation(new SlideFade(1000, -10)));
 
-        draw(new Button("MULTIPLAYER", () -> {
+        stagger.draw(new Button("MULTIPLAYER", () -> {
             client.setScreen(new MultiplayerScreen(new TitleMenu()));
-        }).scale(0.69f).dimensions(420, 52).centerOffset(width, height, 0, 40));
+        }).scale(0.69f).dimensions(420, 52).position(0, 40).animation(new SlideFade(1000, -10)));
 
-        draw(new Button("OPTIONS", () -> {
+        stagger.draw(new Button("OPTIONS", () -> {
             client.setScreen(new OptionsScreen(new TitleMenu(), SaturnClient.client.options));
-        }).scale(0.69f).dimensions(206, 52).centerOffset(width, height, -73, 80));
+        }).scale(0.69f).dimensions(206, 52).position(0, 80).animation(new SlideFade(1000, -10)));
 
-        draw(new Button("QUIT", () -> {
+        stagger.draw(new Button("QUIT", () -> {
             client.scheduleStop();
-        }).scale(0.69f).dimensions(206, 52).centerOffset(width, height, 73, 80));
+        }).scale(0.69f).dimensions(206, 52).position(146, 80).animation(new SlideFade(1000, -10)));
+
+        draw(stagger.dimensions(289, 143).centerOffset(width, height, 0, 60));
 
         int s = Fonts.getHeight() + 20;
 

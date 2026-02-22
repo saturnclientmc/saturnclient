@@ -5,7 +5,7 @@ import org.saturnclient.ui2.Element;
 public class SlideY extends Animation {
     int offset = 20;
     int maxOffset = 20;
-    int elementY;
+    double startY;
 
     public SlideY(int duration) {
         super(duration);
@@ -24,15 +24,16 @@ public class SlideY extends Animation {
         this.offset = offset;
         this.maxOffset = offset;
     }
-    
-    @Override
-    public void tick(double progress, Element element) {
-        element.y = elementY + (int) (offset * progress);
-    }
 
     @Override
     public void init(Element element) {
-        element.y -= offset;
-        elementY = element.y;
+        startY = element.y - offset;
+        element.y = (int) startY;
+    }
+
+    @Override
+    public void tick(double progress, Element element) {
+        double currentY = startY + offset * progress;
+        element.y = (int) currentY;
     }
 }

@@ -43,7 +43,8 @@ public class Element {
 
     public void playAnimationFrame(long elapsed) {
         if (this.animation != null && elapsed >= this.animation.delay) {
-            this.animation.tick(this.curve.apply(Math.min(1.0, (double) elapsed / this.animation.duration)), this);
+            this.animation.tick(this.curve
+                    .apply(Math.min(1.0, (double) (elapsed - this.animation.delay) / this.animation.duration)), this);
         }
     }
 
