@@ -110,13 +110,13 @@ public class Keystrokes extends Module implements HudMod {
         renderKey(scope, s, 'S', 27, 27); // Bottom center
         renderKey(scope, d, 'D', 54, 27); // Bottom right
 
-        if (showMouse.value) {
-            renderKeyM(scope, lmb, "LMB", 0, 54); // Below A/S/D
-            renderKeyM(scope, rmb, "RMB", 40, 54); // With 3px between
+        if (showSpace.value) {
+            renderKeySpace(scope, space, 0, 37);
         }
 
-        if (showSpace.value) {
-            renderKeySpace(scope, space, 0, cachedHeight - (showSpace.value ? 22 : 0));
+        if (showMouse.value) {
+            renderKeyM(scope, lmb, "LMB", 0, showSpace.value ? 73 : 54); // Below A/S/D
+            renderKeyM(scope, rmb, "RMB", 40, showSpace.value ? 73 : 54); // With 3px between
         }
     }
 
