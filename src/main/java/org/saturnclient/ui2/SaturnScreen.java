@@ -26,8 +26,6 @@ public abstract class SaturnScreen extends Screen {
     protected List<Element> elements = new ArrayList<>();
     protected float backgroundOpacity = 1.0f;
     protected Instant start = null;
-    public int blurDuration = 700;
-    public float blurProgress = 0.0f;
     public int backgroundBlur = 10;
 
     protected static final Identifier PANORAMA = Identifier.of("saturnclient",
@@ -90,7 +88,7 @@ public abstract class SaturnScreen extends Screen {
                 DefaultFramebufferSet.MAIN_ONLY);
 
         if (postEffectProcessor != null) {
-            postEffectProcessor.setUniforms("Radius", backgroundBlur * blurProgress);
+            postEffectProcessor.setUniforms("Radius", backgroundBlur * Math.min((float) elapsed / 700, 1.0f));
             postEffectProcessor.render(this.client.getFramebuffer(), this.pool);
         }
 
