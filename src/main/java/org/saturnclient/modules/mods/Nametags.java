@@ -7,12 +7,16 @@ import org.saturnclient.saturnclient.config.Property;
 
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 
-// todo: rendering modes, player check
+// todo: rendering modes, custom names
 
 public class Nametags extends Module {
     private static Property<Boolean> enabled = Property.bool(false);
     private static Property<Boolean> healthDisplay = Property.bool(false);
-    
+    private static Property<Boolean> players = Property.bool(true);
+    private static Property<Boolean> hostile = Property.bool(false);
+    private static Property<Boolean> passive = Property.bool(false);
+
+
     public Nametags() {
         super(
             new ModuleDetails("Nametags", "nametags")
@@ -20,7 +24,10 @@ public class Nametags extends Module {
                 .tags("Camera", "Utility")
                 .version("0.1.0"),
             enabled.named("Enabled"),
-            healthDisplay.named("Display health")
+            healthDisplay.named("Display health"),
+            players.named("Players"),
+            hostile.named("Hostile"),
+            passive.named("Passive")
         );
     }
     
@@ -37,6 +44,12 @@ public class Nametags extends Module {
         
         float health = hrs.saturn$getHealth();
         float maxHealth = hrs.saturn$getMaxHealth();
+
+        HealthRenderState.EntityType type = hrs.saturn$getEntityType();
+        if (type == HealthRenderState.EntityType.PASSIVE && !passive.value) return null;
+        if (type == HealthRenderState.EntityType.HOSTILE && !hostile.value) return null;
+        if (type == HealthRenderState.EntityType.PLAYER && !players.value) return null;
+        if (type == HealthRenderState.EntityType.OTHER) return null;
 
         if (health < 0f || maxHealth < 0f || health > maxHealth) return null;
 
