@@ -22,7 +22,7 @@ public class ServiceClient {
 
     public static boolean connectTimeout() {
         try {
-            session = Session.connect("ws://127.0.0.1:8080", 10, TimeUnit.SECONDS);
+            session = Session.connect("wss://saturn-server.selimaj.dev", 10, TimeUnit.SECONDS);
             return true;
         } catch (Exception e) {
             return false;
