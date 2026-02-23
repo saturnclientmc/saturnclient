@@ -1,21 +1,28 @@
 package org.saturnclient.saturnclient.client;
 
+import java.util.UUID;
+
+import org.saturnclient.saturnclient.client.player.SaturnPlayer;
+
 import dev.selimaj.session.types.Method;
 
 public class ServiceMethods {
     public class Types {
-        public record AuthResponse(String cloak, String hat, String[] cloaks, String[] hats) {
-        }
-
         public record EmoteRequest(String emote, String[] targets) {
         }
 
         public record EmoteEvent(String emote, String from) {
         }
+
+        public record Player(String cloak, String hat, String[] cloaks, String[] hats) {
+            public SaturnPlayer toSaturnPlayer(UUID uuid, String name) {
+                return new SaturnPlayer(uuid, name, cloak, hat);
+            }
+        }
     }
 
-    public static final Method<String, Types.AuthResponse, String> Authenticate = new Method<>("auth",
-            String.class, Types.AuthResponse.class, String.class);
+    public static final Method<String, Types.Player, String> Authenticate = new Method<>("auth",
+            String.class, Types.Player.class, String.class);
 
     // Equip
     public static final Method<String, String, String> SetCloak = new Method<>("set_cloak",
@@ -35,4 +42,7 @@ public class ServiceMethods {
 
     public static final Method<Types.EmoteEvent, String, String> EmoteEvent = new Method<>("emote_event",
             Types.EmoteEvent.class, String.class, String.class);
+
+    public static final Method<String, Types.Player, String> Player = new Method<>("player",
+            String.class, Types.Player.class, String.class);
 }

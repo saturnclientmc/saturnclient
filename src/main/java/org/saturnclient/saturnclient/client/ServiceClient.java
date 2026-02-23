@@ -58,7 +58,7 @@ public class ServiceClient {
                 return false;
             }
 
-            ServiceMethods.Types.AuthResponse response = session.request(ServiceMethods.Authenticate, accessToken)
+            ServiceMethods.Types.Player response = session.request(ServiceMethods.Authenticate, accessToken)
                     .get();
 
             for (String availableCloak : response.cloaks()) {
@@ -71,7 +71,7 @@ public class ServiceClient {
 
             eventHandlers();
 
-            SaturnPlayer.set(uuid, username, new SaturnPlayer(uuid, username, response.cloak(), response.hat()));
+            player(uuid, username);
 
             Cloaks.loadCloak(uuid);
 
@@ -167,5 +167,20 @@ public class ServiceClient {
                 }
             }
         });
+    }
+
+    public static void player(UUID uuid, String name) {
+        try {
+            session.request(ServiceMethods.Player, uuid.toString().replaceAll("-", ""))
+                    .whenComplete((user, throwable) -> {
+                        if (throwable != null) {
+                            throwable.printStackTrace();
+                        } else {
+                            SaturnPlayer.set(user.toSaturnPlayer(uuid, name));
+                        }
+                    });
+        } catch (Exception e) {
+            SaturnClient.LOGGER.error("Failed to get player", e);
+        }
     }
 }
