@@ -18,6 +18,7 @@ public class Nametags extends Module {
     private static Property<Boolean> heartEmoji = Property.bool(true);
     private static Property<Boolean> obfuscate = Property.bool(false);
     private static Property<Integer> unit = Property.select(0, "Health", "Hearts");
+    private static Property<Integer> format = Property.select(0, "Value", "Value / Total", "%");
     private static Property<Integer> nameColor = Property.select(15,
         "Black",
         "Dark Blue",
@@ -74,6 +75,7 @@ public class Nametags extends Module {
             heartEmoji.named("Heart emoji"),
             obfuscate.named("Obfuscate enemy names"),
             unit.named("Unit"),
+            format.named("Format"),
             nameColor.named("Name color"),
             healthColor.named("Health color")
         );
@@ -84,6 +86,25 @@ public class Nametags extends Module {
        
     }
     
+    public static String getHealthString(LivingEntityRenderState state, HealthRenderState hrs, float health, float maxHealth) {
+        String ret = "";
+
+        switch (format.value){
+            case 0: // value
+                ret = String.format("%.1f", health / (unit.value + 1));
+                break;
+            
+            case 1: // value / total
+                ret = String.format("%.1f", health / (unit.value + 1)) + " / " + String.format("%.1f", maxHealth / (unit.value + 1));
+                break;
+            
+            case 2: // %
+                ret = String.format("%.0f%%", (health / maxHealth) * 100);
+                break;
+        }
+        return ret;
+    }
+
     public static String getNametagString(LivingEntityRenderState state) {
         if (state.customName == null) return null;
         if (!healthDisplay.value) return state.customName.getString(); // name only
@@ -106,9 +127,7 @@ public class Nametags extends Module {
         String obf = obfuscate.value ? "§k" : "";
         String reset = "§r";
 
-        String ret = color + obf + state.customName.getString()
-            + reset +  " " + hpColor + String.format("%.1f", hrs.saturn$getHealth() / (unit.value + 1))
-            + " / " + String.format("%.1f", hrs.saturn$getMaxHealth() / (unit.value + 1)) + heart;
+        String ret = color + obf + state.customName.getString() + reset +  " " + hpColor + getHealthString(state, hrs, health, maxHealth) + heart;
         
         return ret;
     }
