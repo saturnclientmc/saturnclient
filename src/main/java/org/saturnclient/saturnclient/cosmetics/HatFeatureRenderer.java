@@ -29,7 +29,7 @@ public class HatFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState,
         ItemStack headItem = state.equippedHeadStack;
         SaturnPlayer player = SaturnPlayer.get(state.name);
         System.out.println(state.name + "hat" + player.hat);
-        if (headItem.isEmpty() || state.invisible || player == null || player.hat.isEmpty()) {
+        if (!headItem.isEmpty() || state.invisible || player == null || player.hat.isEmpty()) {
             return;
         }
 
