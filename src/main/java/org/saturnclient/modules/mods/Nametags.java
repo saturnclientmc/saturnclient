@@ -17,6 +17,7 @@ public class Nametags extends Module {
     private static Property<Boolean> passive = Property.bool(false);
     private static Property<Boolean> heartEmoji = Property.bool(true);
     private static Property<Boolean> obfuscate = Property.bool(false);
+    private static Property<Integer> unit = Property.select(0, "Health", "Hearts");
     private static Property<Integer> nameColor = Property.select(15,
         "Black",
         "Dark Blue",
@@ -72,6 +73,7 @@ public class Nametags extends Module {
             passive.named("Passive"),
             heartEmoji.named("Heart emoji"),
             obfuscate.named("Obfuscate enemy names"),
+            unit.named("Unit"),
             nameColor.named("Name color"),
             healthColor.named("Health color")
         );
@@ -105,8 +107,8 @@ public class Nametags extends Module {
         String reset = "§r";
 
         String ret = color + obf + state.customName.getString()
-            + reset +  " " + hpColor + String.format("%.1f", hrs.saturn$getHealth())
-            + " / " + String.format("%.1f", hrs.saturn$getMaxHealth()) + heart;
+            + reset +  " " + hpColor + String.format("%.1f", hrs.saturn$getHealth() / (unit.value + 1))
+            + " / " + String.format("%.1f", hrs.saturn$getMaxHealth() / (unit.value + 1)) + heart;
         
         return ret;
     }
