@@ -23,7 +23,8 @@ public class ModManager {
             new Speedometer(),
             new Zoom(),
             new HealthDisplay(),
-            new Nametags()
+            new Nametags(),
+            new Ping()
     };
 
     public static void init() {
