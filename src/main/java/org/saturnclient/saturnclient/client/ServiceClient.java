@@ -1,7 +1,6 @@
 package org.saturnclient.saturnclient.client;
 
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 import org.saturnclient.saturnclient.SaturnClient;
@@ -13,7 +12,6 @@ import dev.kosmx.playerAnim.api.layered.AnimationStack;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
 import dev.selimaj.session.Session;
-import dev.selimaj.session.types.SessionResult;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.util.Identifier;
@@ -138,10 +136,8 @@ public class ServiceClient {
 
     public static void emote(String emote) {
         try {
-            String[] targets = { uuid.toString().replaceAll("-", "") };
-
             session.request(ServiceMethods.Emote,
-                    new ServiceMethods.Types.EmoteRequest(emote, targets))
+                    new ServiceMethods.Types.EmoteRequest(emote, SaturnPlayer.getExternalUUIDAsString()))
                     .whenComplete((msg, throwable) -> {
                         if (throwable != null) {
                             throwable.printStackTrace();
@@ -153,27 +149,23 @@ public class ServiceClient {
     }
 
     public static void eventHandlers() {
-        session.onNotification(ServiceMethods.EmoteEvent, (l, data) -> {
-            return CompletableFuture.supplyAsync(() -> {
-                for (AbstractClientPlayerEntity player : SaturnClient.client.world.getPlayers()) {
-                    if (player.getUuidAsString().replace("-", "").equals(data.from())) {
-                        AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(player);
-                        if (data.emote() != null && !data.emote().isEmpty()) {
-                            if (animationStack.isActive() && animationStack.getPriority() == 1000) {
-                                animationStack.removeLayer(1000);
-                            }
-                            animationStack.addAnimLayer(1000,
-                                    PlayerAnimationRegistry
-                                            .getAnimation(Identifier.of("saturnclient", data.emote()))
-                                            .playAnimation());
-                        } else {
+        session.onNotification(ServiceMethods.EmoteEvent, (data) -> {
+            for (AbstractClientPlayerEntity player : SaturnClient.client.world.getPlayers()) {
+                if (player.getUuidAsString().replace("-", "").equals(data.from())) {
+                    AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(player);
+                    if (data.emote() != null && !data.emote().isEmpty()) {
+                        if (animationStack.isActive() && animationStack.getPriority() == 1000) {
                             animationStack.removeLayer(1000);
                         }
+                        animationStack.addAnimLayer(1000,
+                                PlayerAnimationRegistry
+                                        .getAnimation(Identifier.of("saturnclient", data.emote()))
+                                        .playAnimation());
+                    } else {
+                        animationStack.removeLayer(1000);
                     }
                 }
-
-                return SessionResult.ok("");
-            });
+            }
         });
     }
 }

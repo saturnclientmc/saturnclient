@@ -55,4 +55,10 @@ public class SaturnPlayer {
 
         PLAYERS.put(uuid, null);
     }
+
+    public static String[] getExternalUUIDAsString() {
+        return PLAYERS.keySet().stream().filter(id -> !id.equals(ServiceClient.uuid)).map(UUID::toString)
+                .toArray(String[]::new);
+    }
+
 }

@@ -111,7 +111,7 @@ dependencies {
     // ─────────────────────────────────────────────
 
     // Session Java (auth/session handling)
-    implementation "com.github.selimaj-dev:session-java:0.1.5"
+    implementation "com.github.selimaj-dev:session-java:0.1.6"
 }
 
 
