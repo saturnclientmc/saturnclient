@@ -71,7 +71,7 @@ public class ServiceClient {
 
             eventHandlers();
 
-            player(uuid, username);
+            SaturnPlayer.set(new SaturnPlayer(uuid, username, response.cloak(), response.hat()));
 
             Cloaks.loadCloak(uuid);
 
@@ -165,7 +165,7 @@ public class ServiceClient {
     public static void eventHandlers() {
         session.onNotification(ServiceMethods.EmoteEvent, (data) -> {
             for (AbstractClientPlayerEntity player : SaturnClient.client.world.getPlayers()) {
-                if (player.getUuidAsString().replace("-", "").equals(data.from())) {
+                if (player.getUuidAsString().equals(data.from())) {
                     AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(player);
                     if (data.emote() != null && !data.emote().isEmpty()) {
                         if (animationStack.isActive() && animationStack.getPriority() == 1000) {
@@ -190,7 +190,7 @@ public class ServiceClient {
 
     public static void player(UUID uuid, String name) {
         try {
-            session.request(ServiceMethods.GetPlayer, uuid.toString().replaceAll("-", ""))
+            session.request(ServiceMethods.GetPlayer, uuid.toString())
                     .whenComplete((user, throwable) -> {
                         if (throwable != null) {
                             throwable.printStackTrace();
