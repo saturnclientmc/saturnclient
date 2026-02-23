@@ -47,7 +47,7 @@ public class SaturnPlayer {
     }
 
     public static String[] getExternalUUIDAsString() {
-        return PLAYERS.keySet().stream().filter(id -> !id.equals(ServiceClient.uuid)).map(UUID::toString)
+        return PLAYERS.keySet().stream().filter(id -> id.equals(ServiceClient.uuid)).map(UUID::toString)
                 .toArray(String[]::new);
     }
 

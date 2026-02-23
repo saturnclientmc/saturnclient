@@ -87,6 +87,13 @@ public class ServiceClient {
             session.request(ServiceMethods.SetCloak, itemId).whenComplete((msg, throwable) -> {
                 if (throwable != null) {
                     throwable.printStackTrace();
+                } else {
+                    try {
+                        session.request(ServiceMethods.SendPlayer,
+                                new ServiceMethods.Types.SendPlayerRequest(SaturnPlayer.getExternalUUIDAsString()));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         } catch (Exception e) {
@@ -99,6 +106,13 @@ public class ServiceClient {
             session.request(ServiceMethods.SetHat, itemId).whenComplete((msg, throwable) -> {
                 if (throwable != null) {
                     throwable.printStackTrace();
+                } else {
+                    try {
+                        session.request(ServiceMethods.SendPlayer,
+                                new ServiceMethods.Types.SendPlayerRequest(SaturnPlayer.getExternalUUIDAsString()));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         } catch (Exception e) {
@@ -167,15 +181,20 @@ public class ServiceClient {
                 }
             }
         });
+
+        session.onNotification(ServiceMethods.Player, (player) -> {
+            System.out.println(player);
+            SaturnPlayer.set(player.toSaturnPlayer());
+        });
     }
 
     public static void player(UUID uuid, String name) {
         try {
-            session.request(ServiceMethods.Player, uuid.toString().replaceAll("-", ""))
+            session.request(ServiceMethods.GetPlayer, uuid.toString().replaceAll("-", ""))
                     .whenComplete((user, throwable) -> {
                         if (throwable != null) {
                             throwable.printStackTrace();
-                        } else {
+                        } else if (user != null) {
                             SaturnPlayer.set(user.toSaturnPlayer(uuid, name));
                         }
                     });

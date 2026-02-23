@@ -62,7 +62,7 @@ public class Cloaks {
      */
     public static void setCloak(String cloakName) {
         if (availableCloaks.contains(cloakName)) {
-            setCloak(ServiceClient.uuid, cloakName);
+            // setCloak(ServiceClient.uuid, cloakName);
             ServiceClient.setCloak(cloakName);
         }
     }
