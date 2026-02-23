@@ -74,9 +74,9 @@ public class ServiceClient {
         }
     }
 
-    public static void setCloak(String cloak) {
+    public static void setCloak(String itemId) {
         try {
-            session.request(ServiceMethods.SetCloak, cloak).whenComplete((msg, throwable) -> {
+            session.request(ServiceMethods.SetCloak, itemId).whenComplete((msg, throwable) -> {
                 if (throwable != null) {
                     throwable.printStackTrace();
                 }
@@ -86,9 +86,9 @@ public class ServiceClient {
         }
     }
 
-    public static void setHat(String hat) {
+    public static void setHat(String itemId) {
         try {
-            session.request(ServiceMethods.SetHat, hat).whenComplete((msg, throwable) -> {
+            session.request(ServiceMethods.SetHat, itemId).whenComplete((msg, throwable) -> {
                 if (throwable != null) {
                     throwable.printStackTrace();
                 }
@@ -98,13 +98,13 @@ public class ServiceClient {
         }
     }
 
-    public static void buyCloak(String cloak) {
+    public static void buyCloak(String itemId) {
         try {
-            session.request(ServiceMethods.BuyCloak, cloak).whenComplete((msg, throwable) -> {
+            session.request(ServiceMethods.BuyCloak, itemId).whenComplete((msg, throwable) -> {
                 if (throwable != null) {
                     throwable.printStackTrace();
                 } else {
-                    Cloaks.availableCloaks.add(cloak);
+                    Cloaks.availableCloaks.add(itemId);
                 }
             });
         } catch (Exception e) {
@@ -112,13 +112,13 @@ public class ServiceClient {
         }
     }
 
-    public static void buyHat(String hat) {
+    public static void buyHat(String itemId) {
         try {
-            session.request(ServiceMethods.BuyHat, hat).whenComplete((msg, throwable) -> {
+            session.request(ServiceMethods.BuyHat, itemId).whenComplete((msg, throwable) -> {
                 if (throwable != null) {
                     throwable.printStackTrace();
                 } else {
-                    Hats.availableHats.add(hat);
+                    Hats.availableHats.add(itemId);
                 }
             });
         } catch (Exception e) {
