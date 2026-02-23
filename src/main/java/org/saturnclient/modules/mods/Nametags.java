@@ -7,7 +7,7 @@ import org.saturnclient.saturnclient.config.Property;
 
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 
-// todo: rendering modes, custom names, hide enemy nametags with §k
+// todo: rendering modes, custom names
 
 public class Nametags extends Module {
     private static Property<Boolean> enabled = Property.bool(false);
@@ -16,6 +16,25 @@ public class Nametags extends Module {
     private static Property<Boolean> hostile = Property.bool(false);
     private static Property<Boolean> passive = Property.bool(false);
     private static Property<Boolean> heartEmoji = Property.bool(true);
+    private static Property<Boolean> obfuscate = Property.bool(false);
+    private static Property<Integer> nameColor = Property.select(15,
+        "Black",
+        "Dark Blue",
+        "Dark Green",
+        "Dark Aqua",
+        "Dark Red",
+        "Dark Purple",
+        "Gold",
+        "Gray",
+        "Dark Gray",
+        "Blue",
+        "Green",
+        "Aqua",
+        "Red",
+        "Light Purple",
+        "Yellow",
+        "White"
+    );
     private static Property<Integer> healthColor = Property.select(12,
         "Black",
         "Dark Blue",
@@ -52,7 +71,9 @@ public class Nametags extends Module {
             hostile.named("Hostile"),
             passive.named("Passive"),
             heartEmoji.named("Heart emoji"),
-            healthColor.named("Color")
+            obfuscate.named("Obfuscate enemy names"),
+            nameColor.named("Name color"),
+            healthColor.named("Health color")
         );
     }
     
@@ -77,12 +98,17 @@ public class Nametags extends Module {
 
         if (health < 0f || maxHealth < 0f || health > maxHealth) return null;
 
-        String color = COLOR_CODES[healthColor.value];
-        String heart = heartEmoji.value? " ❤" : "";
-        return state.customName.getString()
-            + " " + color + String.format("%.1f", hrs.saturn$getHealth())
+        String hpColor = COLOR_CODES[healthColor.value];
+        String color = COLOR_CODES[nameColor.value];
+        String heart = heartEmoji.value ? " ❤" : "";
+        String obf = obfuscate.value ? "§k" : "";
+        String reset = "§r";
+
+        String ret = color + obf + state.customName.getString()
+            + reset +  " " + hpColor + String.format("%.1f", hrs.saturn$getHealth())
             + " / " + String.format("%.1f", hrs.saturn$getMaxHealth()) + heart;
-            
+        
+        return ret;
     }
 
     public static boolean shouldReplaceName() { 
