@@ -1,6 +1,7 @@
 package org.saturnclient.saturnclient.client;
 
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 import org.saturnclient.saturnclient.SaturnClient;
@@ -8,8 +9,14 @@ import org.saturnclient.saturnclient.client.player.SaturnPlayer;
 import org.saturnclient.saturnclient.cosmetics.Hats;
 import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 
+import dev.kosmx.playerAnim.api.layered.AnimationStack;
+import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
+import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
 import dev.selimaj.session.Session;
+import dev.selimaj.session.types.SessionResult;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.util.Identifier;
 
 public class ServiceClient {
     private static Session session;
@@ -53,7 +60,8 @@ public class ServiceClient {
                 return false;
             }
 
-            ServiceMethods.AuthResponse response = session.request(ServiceMethods.Authenticate, accessToken).get();
+            ServiceMethods.Types.AuthResponse response = session.request(ServiceMethods.Authenticate, accessToken)
+                    .get();
 
             for (String availableCloak : response.cloaks()) {
                 Cloaks.availableCloaks.add(availableCloak);
@@ -62,6 +70,8 @@ public class ServiceClient {
             for (String availableHat : response.hats()) {
                 Hats.availableHats.add(availableHat);
             }
+
+            eventHandlers();
 
             SaturnPlayer.set(uuid, username, new SaturnPlayer(uuid, username, response.cloak(), response.hat()));
 
@@ -128,13 +138,42 @@ public class ServiceClient {
 
     public static void emote(String emote) {
         try {
-            session.request(ServiceMethods.Emote, emote).whenComplete((msg, throwable) -> {
-                if (throwable != null) {
-                    throwable.printStackTrace();
-                }
-            });
+            String[] targets = { uuid.toString().replaceAll("-", "") };
+
+            session.request(ServiceMethods.Emote,
+                    new ServiceMethods.Types.EmoteRequest(emote, targets))
+                    .whenComplete((msg, throwable) -> {
+                        if (throwable != null) {
+                            throwable.printStackTrace();
+                        }
+                    });
         } catch (Exception e) {
             SaturnClient.LOGGER.error("Failed to emote (service): ", e);
         }
+    }
+
+    public static void eventHandlers() {
+        session.onNotification(ServiceMethods.EmoteEvent, (l, data) -> {
+            return CompletableFuture.supplyAsync(() -> {
+                for (AbstractClientPlayerEntity player : SaturnClient.client.world.getPlayers()) {
+                    if (player.getUuidAsString().replace("-", "").equals(data.from())) {
+                        AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(player);
+                        if (data.emote() != null && !data.emote().isEmpty()) {
+                            if (animationStack.isActive() && animationStack.getPriority() == 1000) {
+                                animationStack.removeLayer(1000);
+                            }
+                            animationStack.addAnimLayer(1000,
+                                    PlayerAnimationRegistry
+                                            .getAnimation(Identifier.of("saturnclient", data.emote()))
+                                            .playAnimation());
+                        } else {
+                            animationStack.removeLayer(1000);
+                        }
+                    }
+                }
+
+                return SessionResult.ok("");
+            });
+        });
     }
 }

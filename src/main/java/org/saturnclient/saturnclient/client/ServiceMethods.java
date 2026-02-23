@@ -3,11 +3,19 @@ package org.saturnclient.saturnclient.client;
 import dev.selimaj.session.types.Method;
 
 public class ServiceMethods {
-    public record AuthResponse(String cloak, String hat, String[] cloaks, String[] hats) {
+    public class Types {
+        public record AuthResponse(String cloak, String hat, String[] cloaks, String[] hats) {
+        }
+
+        public record EmoteRequest(String emote, String[] targets) {
+        }
+
+        public record EmoteEvent(String emote, String from) {
+        }
     }
 
-    public static final Method<String, AuthResponse, String> Authenticate = new Method<>("auth",
-            String.class, AuthResponse.class, String.class);
+    public static final Method<String, Types.AuthResponse, String> Authenticate = new Method<>("auth",
+            String.class, Types.AuthResponse.class, String.class);
 
     // Equip
     public static final Method<String, String, String> SetCloak = new Method<>("set_cloak",
@@ -22,6 +30,9 @@ public class ServiceMethods {
             String.class, String.class, String.class);
 
     // Emote
-    public static final Method<String, String, String> Emote = new Method<>("emote",
-            String.class, String.class, String.class);
+    public static final Method<Types.EmoteRequest, String, String> Emote = new Method<>("emote",
+            Types.EmoteRequest.class, String.class, String.class);
+
+    public static final Method<Types.EmoteEvent, String, String> EmoteEvent = new Method<>("emote_event",
+            Types.EmoteEvent.class, String.class, String.class);
 }

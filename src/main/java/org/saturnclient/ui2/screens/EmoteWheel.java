@@ -63,13 +63,13 @@ public class EmoteWheel extends SaturnScreen {
                 if (emote == null) {
                     return;
                 }
-                AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(SaturnClient.client.player);
-                if (animationStack.isActive() && animationStack.getPriority() == 1000) {
-                    animationStack.removeLayer(1000);
-                }
-                animationStack.addAnimLayer(1000,
-                        PlayerAnimationRegistry.getAnimation(Identifier.of("saturnclient",
-                                emote)).playAnimation());
+                // AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(SaturnClient.client.player);
+                // if (animationStack.isActive() && animationStack.getPriority() == 1000) {
+                //     animationStack.removeLayer(1000);
+                // }
+                // animationStack.addAnimLayer(1000,
+                //         PlayerAnimationRegistry.getAnimation(Identifier.of("saturnclient",
+                //                 emote)).playAnimation());
                 ServiceClient.emote(emote);
                 close();
             }).dimensions(70, 70).centerOffset(width, height, -80 + (col * 80), -35 + (row * 80))
