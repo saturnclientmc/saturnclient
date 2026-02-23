@@ -51,7 +51,6 @@ public class Utils {
     }
 
     public static <T> T getOrNull(List<T> list, int index) {
-        SaturnClient.LOGGER.info("Accessing index {} in list of size {}", index, list.size());
         return (index >= 0 && index < list.size()) ? list.get(index) : null;
     }
 

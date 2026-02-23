@@ -53,7 +53,7 @@ public class Textures {
     }
 
     public static Identifier getModIcon(String modId) {
-        return Identifier.of("saturnclient", "textures/gui/mod/" + modId + ".png");
+        return Identifier.of("saturnclient", "textures/gui/mod/" + modId + ".svg");
     }
 
 }

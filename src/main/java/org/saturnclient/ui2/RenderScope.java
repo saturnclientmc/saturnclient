@@ -9,11 +9,14 @@ import java.util.function.Function;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.saturnclient.ui2.resources.Fonts;
+import org.saturnclient.ui2.resources.SvgTexture;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.font.TextRenderer.TextLayerType;
 import net.minecraft.client.gui.DrawContext;
@@ -224,6 +227,11 @@ public class RenderScope {
 
     private void drawTexturedQuad(Identifier sprite, int x1, int x2, int y1, int y2, float u1, float u2, float v1,
             float v2, int color) {
+
+        if (sprite.toString().endsWith(".svg")) {
+            sprite = SvgTexture.getSvg(MinecraftClient.getInstance(), sprite, (x2 - x1) * 2, (y2 - y1) * 2);
+        }
+
         if (color == 0)
             return;
         x1 *= 4;

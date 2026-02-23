@@ -24,10 +24,7 @@ public class Hats {
 
     public static void setHat(UUID uuid, String hatName) {
         SaturnPlayer player = SaturnPlayer.get(uuid);
-        if (player == null) {
-            // Auth.players.put(uuid, new SaturnPlayer("", hatName));
-            // TODO: address this behaviour
-        } else {
+        if (player != null) {
             player.hat = hatName;
         }
     }

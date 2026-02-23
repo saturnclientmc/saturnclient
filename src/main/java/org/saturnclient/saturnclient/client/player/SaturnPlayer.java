@@ -41,18 +41,14 @@ public class SaturnPlayer {
         return PLAYERS.get(uuid);
     }
 
-    public static void set(UUID uuid, String name, SaturnPlayer player) {
-        PLAYER_NAMES.put(name, uuid);
-        PLAYERS.put(uuid, player);
+    public static void set(SaturnPlayer player) {
+        PLAYER_NAMES.put(player.name, player.uuid);
+        PLAYERS.put(player.uuid, player);
     }
 
-    public static void player(UUID uuid) {
-        if (PLAYERS.containsKey(uuid)) {
-            return;
-        }
-
-        // If offline then leave
-
-        PLAYERS.put(uuid, null);
+    public static String[] getExternalUUIDAsString() {
+        return PLAYERS.keySet().stream().filter(id -> !id.equals(ServiceClient.uuid)).map(UUID::toString)
+                .toArray(String[]::new);
     }
+
 }
