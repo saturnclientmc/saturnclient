@@ -16,7 +16,7 @@ public class Ping extends Module implements HudMod {
     private static ModDimensions dimensions = new ModDimensions(60, Fonts.getHeight());
     
     public Ping() {
-        super(new ModuleDetails("Ping Display", "fps")
+        super(new ModuleDetails("Ping Display", "ping")
             .description("Displays ping")
             .version("v0.1.0")
             .tags("Utility"),
