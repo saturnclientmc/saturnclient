@@ -46,7 +46,7 @@ public class ServiceClient {
             uuid = mcSession.getUuidOrNull();
             String username = mcSession.getUsername();
 
-            SaturnClient.LOGGER.info("Authenticating with UUID: " + accessToken);
+            SaturnClient.LOGGER.info("Authenticating with UUID: " + uuid);
 
             if (!connectTimeout()) {
                 SaturnClient.LOGGER.error("Unable to authenticate: Session Server Timeout");
@@ -76,7 +76,11 @@ public class ServiceClient {
 
     public static void setCloak(String cloak) {
         try {
-            session.request(ServiceMethods.SetCloak, cloak).get();
+            session.request(ServiceMethods.SetCloak, cloak).whenComplete((msg, throwable) -> {
+                if (throwable != null) {
+                    throwable.printStackTrace();
+                }
+            });
         } catch (Exception e) {
             SaturnClient.LOGGER.error("Failed to set cloak (service): ", e);
         }
@@ -84,7 +88,11 @@ public class ServiceClient {
 
     public static void setHat(String hat) {
         try {
-            session.request(ServiceMethods.SetHat, hat).get();
+            session.request(ServiceMethods.SetHat, hat).whenComplete((msg, throwable) -> {
+                if (throwable != null) {
+                    throwable.printStackTrace();
+                }
+            });
         } catch (Exception e) {
             SaturnClient.LOGGER.error("Failed to set hat (service): ", e);
         }
@@ -92,7 +100,13 @@ public class ServiceClient {
 
     public static void buyCloak(String cloak) {
         try {
-            session.request(ServiceMethods.BuyCloak, cloak).get();
+            session.request(ServiceMethods.BuyCloak, cloak).whenComplete((msg, throwable) -> {
+                if (throwable != null) {
+                    throwable.printStackTrace();
+                } else {
+                    Cloaks.availableCloaks.add(cloak);
+                }
+            });
         } catch (Exception e) {
             SaturnClient.LOGGER.error("Failed to buy cloak (service): ", e);
         }
@@ -100,7 +114,13 @@ public class ServiceClient {
 
     public static void buyHat(String hat) {
         try {
-            session.request(ServiceMethods.BuyHat, hat).get();
+            session.request(ServiceMethods.BuyHat, hat).whenComplete((msg, throwable) -> {
+                if (throwable != null) {
+                    throwable.printStackTrace();
+                } else {
+                    Hats.availableHats.add(hat);
+                }
+            });
         } catch (Exception e) {
             SaturnClient.LOGGER.error("Failed to buy hat (service): ", e);
         }
@@ -108,7 +128,11 @@ public class ServiceClient {
 
     public static void emote(String emote) {
         try {
-            session.request(ServiceMethods.Emote, emote).get();
+            session.request(ServiceMethods.Emote, emote).whenComplete((msg, throwable) -> {
+                if (throwable != null) {
+                    throwable.printStackTrace();
+                }
+            });
         } catch (Exception e) {
             SaturnClient.LOGGER.error("Failed to emote (service): ", e);
         }

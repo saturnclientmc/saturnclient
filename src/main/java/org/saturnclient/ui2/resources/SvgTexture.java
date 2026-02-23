@@ -53,7 +53,6 @@ public class SvgTexture {
     }
 
     @Nullable
-    @SuppressWarnings("resource")
     public static Identifier getSvg(MinecraftClient client, Identifier svgImage, int width, int height) {
         Identifier id = Identifier
                 .of(svgImage.toString().replaceAll("\\.svg$", (width + "_" + height).toString() + ".png"));
