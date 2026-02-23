@@ -7,7 +7,7 @@ import org.saturnclient.saturnclient.config.Property;
 
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 
-// todo: rendering modes, custom names
+// todo: rendering modes, custom names, hide enemy nametags with §k
 
 public class Nametags extends Module {
     private static Property<Boolean> enabled = Property.bool(false);
@@ -15,7 +15,30 @@ public class Nametags extends Module {
     private static Property<Boolean> players = Property.bool(true);
     private static Property<Boolean> hostile = Property.bool(false);
     private static Property<Boolean> passive = Property.bool(false);
+    private static Property<Boolean> heartEmoji = Property.bool(true);
+    private static Property<Integer> healthColor = Property.select(12,
+        "Black",
+        "Dark Blue",
+        "Dark Green",
+        "Dark Aqua",
+        "Dark Red",
+        "Dark Purple",
+        "Gold",
+        "Gray",
+        "Dark Gray",
+        "Blue",
+        "Green",
+        "Aqua",
+        "Red",
+        "Light Purple",
+        "Yellow",
+        "White"
+    );
 
+    private static final String[] COLOR_CODES = {
+        "§0", "§1", "§2", "§3", "§4", "§5", "§6", "§7",
+        "§8", "§9", "§a", "§b", "§c", "§d", "§e", "§f"
+    };
 
     public Nametags() {
         super(
@@ -27,7 +50,9 @@ public class Nametags extends Module {
             healthDisplay.named("Display health"),
             players.named("Players"),
             hostile.named("Hostile"),
-            passive.named("Passive")
+            passive.named("Passive"),
+            heartEmoji.named("Heart emoji"),
+            healthColor.named("Color")
         );
     }
     
@@ -35,7 +60,6 @@ public class Nametags extends Module {
     public void tick() {
        
     }
-
     
     public static String getNametagString(LivingEntityRenderState state) {
         if (state.customName == null) return null;
@@ -53,9 +77,11 @@ public class Nametags extends Module {
 
         if (health < 0f || maxHealth < 0f || health > maxHealth) return null;
 
+        String color = COLOR_CODES[healthColor.value];
+        String heart = heartEmoji.value? " ❤" : "";
         return state.customName.getString()
-            + " §c" + String.format("%.1f", hrs.saturn$getHealth())
-            + " / " + String.format("%.1f", hrs.saturn$getMaxHealth()) + " ❤";
+            + " " + color + String.format("%.1f", hrs.saturn$getHealth())
+            + " / " + String.format("%.1f", hrs.saturn$getMaxHealth()) + heart;
             
     }
 
