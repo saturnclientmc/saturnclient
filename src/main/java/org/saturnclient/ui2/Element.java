@@ -2,6 +2,7 @@ package org.saturnclient.ui2;
 
 import java.util.function.Function;
 
+import org.saturnclient.saturnclient.config.AnimationConfig;
 import org.saturnclient.ui2.anim.Animation;
 import org.saturnclient.ui2.anim.Curve;
 
@@ -83,6 +84,16 @@ public class Element {
 
     public Element animation(Animation animation) {
         this.animation = animation;
+        switch (AnimationConfig.animationCurve.value) {
+            case 0:
+                this.curve = Curve::easeInOutCubic;
+            case 1:
+                this.curve = Curve::easeOutCubic;
+            case 2:
+                this.curve = Curve::easeInOutBack;
+            default:
+                break;
+        }
         return this;
     }
 

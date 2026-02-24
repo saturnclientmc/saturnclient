@@ -9,10 +9,6 @@ public class Curve {
         return (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
     }
 
-    public static double easeInOutCubicReverse(double x) {
-        return -(x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
-    }
-
     public static double easeInOutBack(double x) {
         double c1 = 1.70158;
         double c2 = c1 * 1.525;

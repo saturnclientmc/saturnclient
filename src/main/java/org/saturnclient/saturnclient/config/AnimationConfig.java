@@ -7,19 +7,19 @@ public class AnimationConfig {
     public static ConfigManager config;
 
     // Animation curve
-    public static final Property<Integer> animationCurve = Property.select(1, "Ease In Out", "Ease Out");
+    public static final Property<Integer> animationCurve = Property.select(1, "Ease In Out Cubic", "Ease Out Cubic", "Ease In Out Back");
 
     // Logo duration
     public static final Property<Integer> logoDuration = Property.integer(700);
 
     // Main menu
-    public static final AnimationConfig mainMenu = new AnimationConfig(true, 600, 120);
+    public static final AnimationConfig mainMenu = new AnimationConfig(true, 700, 120);
 
     // Mod menu
-    public static final AnimationConfig modMenu = new AnimationConfig(true, 600, 40);
+    public static final AnimationConfig modMenu = new AnimationConfig(true, 700, 30);
 
     // Shift menu
-    public static final AnimationConfig shiftMenu = new AnimationConfig(true, 300, 50);
+    public static final AnimationConfig shiftMenu = new AnimationConfig(true, 300, 120);
 
     public static void init(ConfigManager parent) {
         config = new ConfigManager(parent, "Animations");
@@ -28,17 +28,15 @@ public class AnimationConfig {
         config.property("Logo Duration", logoDuration);
 
         mainMenu.init("Main Menu");
-        mainMenu.init("Mod Menu");
-        mainMenu.init("Shift Menu");
+        modMenu.init("Mod Menu");
+        shiftMenu.init("Shift Menu");
     }
 
     // Animation properties
-    // public final Property<Boolean> enabled;
     public final Property<Integer> duration;
     public final Property<Integer> stagger;
 
     public AnimationConfig(boolean enabled, int delay, int stagger) {
-        // this.enabled = Property.bool(enabled);
         this.duration = Property.integer(delay);
         this.stagger = Property.integer(stagger);
     }
