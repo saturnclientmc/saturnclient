@@ -26,7 +26,7 @@ public class ModMenu extends SaturnScreen {
         int row = 0;
         int col = 0;
 
-        AnimationStagger moduleStagger = new AnimationStagger(80);
+        AnimationStagger moduleStagger = new AnimationStagger(10);
 
         for (Module mod : ModManager.ALL_MODS) {
             moduleStagger.draw(
