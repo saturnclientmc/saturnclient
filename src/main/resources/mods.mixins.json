@@ -12,7 +12,8 @@
     "GameRendererMixin",
     "NametagsMixin",
     "LivingEntityRenderStateMixin",
-    "LivingEntityRendererMixin"
+    "LivingEntityRendererMixin",
+    "TpsMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -24,7 +24,8 @@ public class ModManager {
             new Zoom(),
             new HealthDisplay(),
             new Nametags(),
-            new Ping()
+            new Ping(),
+            new Tps()
     };
 
     public static void init() {
