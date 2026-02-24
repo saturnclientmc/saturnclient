@@ -13,7 +13,7 @@ public class AnimationConfig {
     public static final Property<Integer> logoDuration = Property.integer(700);
 
     // Main menu
-    public static final AnimationConfig mainMenu = new AnimationConfig(true, 1000, 120);
+    public static final AnimationConfig mainMenu = new AnimationConfig(true, 600, 120);
 
     // Mod menu
     public static final AnimationConfig modMenu = new AnimationConfig(true, 600, 40);
@@ -22,7 +22,8 @@ public class AnimationConfig {
     public static final AnimationConfig shiftMenu = new AnimationConfig(true, 300, 50);
 
     public static void init(ConfigManager parent) {
-        ConfigManager config = new ConfigManager(parent, "Animations");
+        config = new ConfigManager(parent, "Animations");
+
         config.property("Animation Curve", animationCurve);
         config.property("Logo Duration", logoDuration);
 
@@ -44,7 +45,7 @@ public class AnimationConfig {
 
     public void init(String name) {
         // config.property("Enable " + name + " Animations", this.enabled);
-        config.property(name + " Duration", this.stagger);
+        config.property(name + " Duration", this.duration);
         config.property(name + " Stagger", this.stagger);
     }
 }

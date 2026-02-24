@@ -2,6 +2,7 @@ package org.saturnclient.ui2.screens;
 
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.client.ServiceClient;
+import org.saturnclient.saturnclient.config.AnimationConfig;
 import org.saturnclient.saturnclient.config.Config;
 import org.saturnclient.saturnclient.cosmetics.Emotes;
 import org.saturnclient.ui2.SaturnScreen;
@@ -30,9 +31,9 @@ public class EmoteWheel extends SaturnScreen {
         int col = 0;
 
         draw(new ImageTexture(Textures.LOGO_TEXT).dimensions(98, 10).centerOffset(width, height, 0, -105)
-                .animation(new Fade(700)));
+                .animation(new Fade(AnimationConfig.logoDuration.value)));
         draw(new ImageTexture(Config.getLogo()).dimensions(98, 98).centerOffset(width, height, 0, -149)
-                .animation(new SlideY(700, -20)));
+                .animation(new SlideY(AnimationConfig.logoDuration.value, -20)));
 
         draw(new TextureButton(Textures.LEFT, () -> {
             if (page > 1) {
