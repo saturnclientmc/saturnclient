@@ -1,5 +1,6 @@
 package org.saturnclient.ui2.anim;
 
+import org.saturnclient.saturnclient.config.AnimationConfig;
 import org.saturnclient.ui2.Element;
 
 public class Fade extends Animation {
@@ -7,6 +8,10 @@ public class Fade extends Animation {
 
     public Fade(int duration) {
         super(duration);
+    }
+
+    public Fade(AnimationConfig config) {
+        super(config);
     }
 
     @Override

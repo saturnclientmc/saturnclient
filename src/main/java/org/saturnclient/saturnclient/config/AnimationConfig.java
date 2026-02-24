@@ -6,9 +6,6 @@ import org.saturnclient.saturnclient.config.manager.Property;
 public class AnimationConfig {
     public static ConfigManager config;
 
-    // Animation curve
-    public static final Property<Integer> animationCurve = Property.select(1, "Ease In Out Cubic", "Ease Out Cubic", "Ease In Out Back");
-
     // Logo duration
     public static final Property<Integer> logoDuration = Property.integer(700);
 
@@ -23,8 +20,6 @@ public class AnimationConfig {
 
     public static void init(ConfigManager parent) {
         config = new ConfigManager(parent, "Animations");
-
-        config.property("Animation Curve", animationCurve);
         config.property("Logo Duration", logoDuration);
 
         mainMenu.init("Main Menu");
@@ -35,10 +30,12 @@ public class AnimationConfig {
     // Animation properties
     public final Property<Integer> duration;
     public final Property<Integer> stagger;
+    public final Property<Integer> curve;
 
     public AnimationConfig(boolean enabled, int delay, int stagger) {
         this.duration = Property.integer(delay);
         this.stagger = Property.integer(stagger);
+        this.curve = Property.select(1, "Ease In Out Cubic", "Ease Out Cubic", "Ease In Out Back");
     }
 
     public void init(String name) {

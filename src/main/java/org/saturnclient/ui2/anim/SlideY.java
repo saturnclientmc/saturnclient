@@ -1,11 +1,20 @@
 package org.saturnclient.ui2.anim;
 
+import org.saturnclient.saturnclient.config.AnimationConfig;
 import org.saturnclient.ui2.Element;
 
 public class SlideY extends Animation {
     int offset = 20;
-    int maxOffset = 20;
     double startY;
+
+    public SlideY(AnimationConfig config) {
+        super(config);
+    }
+
+    public SlideY(AnimationConfig config, int offset) {
+        super(config);
+        this.offset = offset;
+    }
 
     public SlideY(int duration) {
         super(duration);
@@ -13,16 +22,7 @@ public class SlideY extends Animation {
 
     public SlideY(int duration, int offset) {
         super(duration);
-
         this.offset = offset;
-        this.maxOffset = offset;
-    }
-
-    public SlideY(int duration, int offset, int maxOffset) {
-        super(duration);
-
-        this.offset = offset;
-        this.maxOffset = offset;
     }
 
     @Override
