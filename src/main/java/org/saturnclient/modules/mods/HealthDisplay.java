@@ -34,7 +34,7 @@ public class HealthDisplay extends Module implements HudMod {
 
     @Override
     public void renderDummy(RenderScope scope) {
-        renderSpeed(10, scope);
+        renderHealth(10, scope);
     }
 
     @Override
@@ -44,10 +44,10 @@ public class HealthDisplay extends Module implements HudMod {
             case 1:
                 health = health / 2;
         }
-        renderSpeed(health, scope);
+        renderHealth(health, scope);
     }
 
-    public void renderSpeed(float health, RenderScope scope) {
+    public void renderHealth(float health, RenderScope scope) {
         String text = "";
 
         switch (decimals.value) {
