@@ -1,64 +1,56 @@
 package org.saturnclient.modules.mods;
 
+import java.time.format.DateTimeFormatter;
+import java.time.LocalTime;
+
 import org.saturnclient.modules.HudMod;
 import org.saturnclient.modules.ModDimensions;
 import org.saturnclient.modules.Module;
 import org.saturnclient.modules.ModuleDetails;
-import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.config.Property;
 import org.saturnclient.ui2.RenderScope;
 import org.saturnclient.ui2.resources.Fonts;
 
-import net.minecraft.util.math.Vec3d;
-
-public class HealthDisplay extends Module implements HudMod {
+public class Clock extends Module implements HudMod {
     private static Property<Boolean> enabled = Property.bool(false);
-    private static Property<Integer> displayMode = Property.select(0, "Health", "Hearts");
-    private static Property<Integer> decimals = Property.select(0, "0", "1", "2");
-    private static ModDimensions dimensions = new ModDimensions(40, 18);
-    double speed = 0.;
-    Vec3d velocity;
-    double y = 0.;
+    private static Property<Integer> format = Property.select(0, "24 hour", "12 hour");
+    private static Property<Boolean> seconds = Property.bool(false);
+    private static ModDimensions dimensions = new ModDimensions(60, Fonts.getHeight());
 
-    public HealthDisplay() {
-        super(new ModuleDetails("Health display", "health")
-            .description("Displays your current health")
+    public Clock() {
+        super(new ModuleDetails("Clock", "clock")
+            .description("Displays the current real-world time")
             .version("v0.1.0")
             .tags("Utility"),
             enabled.named("Enabled"),
-            displayMode.named("Display mode"),
-            decimals.named("Decimals"),
+            format.named("Format"),
+            seconds.named("Show seconds"),
             dimensions.prop()
         );
     }
 
     @Override
     public void renderDummy(RenderScope scope) {
-        renderHealth(10, scope);
+        renderClock(scope);
     }
 
     @Override
     public void renderHud(RenderScope scope) {
-        float health = SaturnClient.client.player.getHealth();
-        switch (displayMode.value) {
-            case 1:
-                health = health / 2;
-        }
-        renderHealth(health, scope);
+        renderClock(scope);
     }
 
-    public void renderHealth(float health, RenderScope scope) {
+    public void renderClock(RenderScope scope) {
         String text = "";
+        LocalTime currentTime = LocalTime.now();
 
-        switch (decimals.value) {
-            case 0: 
-                text = String.format("%.0f ", health);
+        switch (format.value) {
+            case 0:
+                if (seconds.value) { text = currentTime.format(DateTimeFormatter.ofPattern("HH:mm:ss")); }
+                else { text = currentTime.format(DateTimeFormatter.ofPattern("HH:mm")); }
                 break;
             case 1: 
-                text = String.format("%.1f ", health);
-                break;
-            case 2: 
-                text = String.format("%.2f ", health);
+                if (seconds.value) { text = currentTime.format(DateTimeFormatter.ofPattern("hh:mm:ss a")); }
+                else { text = currentTime.format(DateTimeFormatter.ofPattern("hh:mm a")); }
                 break;
         }
 
