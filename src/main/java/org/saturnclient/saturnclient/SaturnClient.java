@@ -7,8 +7,9 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 
 import org.saturnclient.modules.ModManager;
-import org.saturnclient.saturnclient.auth.Auth;
+import org.saturnclient.saturnclient.client.ServiceClient;
 import org.saturnclient.saturnclient.config.ConfigManager;
+import org.saturnclient.saturnclient.config.SaturnClientConfig;
 import org.saturnclient.saturnclient.cosmetics.Emotes;
 import org.saturnclient.saturnclient.cosmetics.Hats;
 import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
@@ -39,6 +40,10 @@ public class SaturnClient implements ModInitializer {
         client = MinecraftClient.getInstance();
         SaturnClientConfig.init();
         ModManager.init();
+
+        client.execute(() -> {
+            SaturnScreen.preload(client);
+        });
 
         ClientLifecycleEvents.CLIENT_STOPPING.register(_o -> ConfigManager.save());
 
@@ -75,7 +80,7 @@ public class SaturnClient implements ModInitializer {
 
         KeyInputHandler.register();
         Emotes.initialize();
-        if (Auth.authenticate()) {
+        if (ServiceClient.authenticate()) {
             Cloaks.initialize();
             Hats.initialize();
             LOGGER.info(MOD_ID + " initialization complete");

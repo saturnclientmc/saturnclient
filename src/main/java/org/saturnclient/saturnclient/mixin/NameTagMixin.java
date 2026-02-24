@@ -14,8 +14,11 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.Vec3d;
 
-import org.saturnclient.saturnclient.SaturnClientConfig;
-import org.saturnclient.saturnclient.auth.Auth;
+import org.saturnclient.saturnclient.client.player.Roles;
+import org.saturnclient.saturnclient.client.player.SaturnPlayer;
+
+import java.util.UUID;
+
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -37,12 +40,12 @@ public abstract class NameTagMixin<S extends EntityRenderState> {
     private void onRenderLabelIfPresent(S state, Text text, MatrixStack matrices,
             VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci) {
 
-        String uuid = isSaturn(state);
+        UUID uuid = isSaturn(state);
 
         if (uuid != null) {
-            MutableText iconText = Text.literal(SaturnClientConfig.getSaturnIndicator())
-            .styled(style -> style.withColor(SaturnClientConfig.getIconColor(uuid)));
-        
+            MutableText iconText = Text.literal(Roles.getSaturnIndicator())
+                    .styled(style -> style.withColor(Roles.getIconColor(uuid)));
+
             Text nameText = text.copy().styled(style -> style.withColor(Formatting.WHITE));
 
             renderLabel(state, iconText.append(nameText), matrices,
@@ -52,12 +55,12 @@ public abstract class NameTagMixin<S extends EntityRenderState> {
         }
     }
 
-    private String isSaturn(S state) {
+    private UUID isSaturn(S state) {
         if (state instanceof PlayerEntityRenderState) {
             String name = ((PlayerEntityRenderState) state).name;
-            String uuid = Auth.playerNames.get(name);
-            if (Auth.players.containsKey(uuid)) {
-                return uuid;
+            SaturnPlayer player = SaturnPlayer.get(name);
+            if (player != null) {
+                return player.uuid;
             }
         }
 

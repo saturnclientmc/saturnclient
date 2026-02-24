@@ -9,46 +9,45 @@ import org.saturnclient.ui2.RenderScope;
 import org.saturnclient.modules.ModuleDetails;
 
 public class Keystrokes extends Module implements HudMod {
-    public static Property<Boolean> enabled = Property.bool(false);
-    public static Property<Boolean> showMouse = Property.bool(true);
-    public static Property<Boolean> showSpace = Property.bool(false);
-    public static ModDimensions dimensions = new ModDimensions(78, 46);
 
-    // Cache key states to avoid repeated calls
-    private boolean w = false;
-    private boolean a = false;
-    private boolean s = false;
-    private boolean d = false;
-    private boolean lmb = false;
-    private boolean rmb = false;
-    private boolean space = false;
+    private static final Property<Boolean> enabled = Property.bool(false);
+    private static final Property<Boolean> showMouse = Property.bool(true);
+    private static final Property<Boolean> showSpace = Property.bool(false);
 
-    // Cache dimensions to avoid recalculation
-    private int cachedHeight = 54;
-    private boolean dimensionsDirty = true;
+    private static final Property<Integer> clickBg = Property.color(0xFFCCCCCC);
+    private static final Property<Integer> clickFg = Property.color(0xFFFFFFFF);
 
-    private static Property<Integer> clickBg = Property.color(0xFFCCCCCC);
-    private static Property<Integer> clickFg = Property.color(0xFFFFFFFF);
+    private static final ModDimensions dimensions = new ModDimensions(78, 54);
+
+    // Key states
+    private boolean w, a, s, d, lmb, rmb, space;
+
+    // Layout constants
+    private static final int KEY_SIZE = 24;
+    private static final int KEY_SPACING = 3;
+    private static final int MOUSE_WIDTH = 38;
+    private static final int MOUSE_HEIGHT = 24;
+    private static final int SPACE_HEIGHT = 19;
 
     public Keystrokes() {
         super(new ModuleDetails("Keystrokes", "keystrokes")
-                .description("Displays the keystrokes for movement")
-                .version("v0.1.0")
+                .description("Displays movement keystrokes")
+                .version("v0.2.0")
                 .tags("Utility"),
 
                 enabled.named("Enabled"),
                 showMouse.named("Show mouse clicks"),
-                showSpace.named("Show space clicks"),
+                showSpace.named("Show space"),
                 dimensions.prop(),
                 clickFg.named("Clicked fg"),
-                clickBg.named("Clicked bg"));
+                clickBg.named("Clicked bg")
+        );
 
         dimensions.renderBackground = false;
     }
 
     @Override
     public void tick() {
-        // Cache key states to reduce method calls
         w = SaturnClient.client.options.forwardKey.isPressed();
         a = SaturnClient.client.options.leftKey.isPressed();
         s = SaturnClient.client.options.backKey.isPressed();
@@ -57,103 +56,84 @@ public class Keystrokes extends Module implements HudMod {
         rmb = SaturnClient.client.options.useKey.isPressed();
         space = SaturnClient.client.options.jumpKey.isPressed();
 
-        // Mark dimensions as dirty if mouse or space visibility changed
-        if (dimensionsDirty) {
-            updateDimensions();
-            dimensionsDirty = false;
-        }
+        updateHeight();
     }
 
-    private void updateDimensions() {
-        cachedHeight = 54; // base height with padding considered
+    private void updateHeight() {
+        int height = KEY_SIZE * 2 + KEY_SPACING;
 
-        if (showMouse.value) {
-            cachedHeight += 27;
-        }
+        if (showSpace.value)
+            height += SPACE_HEIGHT + KEY_SPACING;
 
-        if (showSpace.value) {
-            cachedHeight += 22;
-        }
+        if (showMouse.value)
+            height += MOUSE_HEIGHT + KEY_SPACING;
 
-        dimensions.height = cachedHeight;
+        dimensions.height = height;
     }
 
     @Override
     public void renderDummy(RenderScope scope) {
-        // Use cached dimensions
-        dimensions.height = cachedHeight;
-
-        // WASD keys (3px padding between each key)
-        renderKey(scope, false, 'W', 27, 0); // Top center
-        renderKey(scope, false, 'A', 0, 27); // Bottom left
-        renderKey(scope, false, 'S', 27, 27); // Bottom center
-        renderKey(scope, false, 'D', 54, 27); // Bottom right
-
-        if (showMouse.value) {
-            renderKeyM(scope, false, "LMB", 0, 54); // Below A/S/D
-            renderKeyM(scope, false, "RMB", 40, 54); // With 3px between
-        }
-
-        if (showSpace.value) {
-            renderKeySpace(scope, false, 0, cachedHeight - (showSpace.value ? 22 : 0));
-        }
+        render(scope, false);
     }
 
     @Override
     public void renderHud(RenderScope scope) {
-        // Use cached dimensions
-        dimensions.height = cachedHeight;
+        render(scope, true);
+    }
 
-        // WASD keys (3px padding between each key)
-        renderKey(scope, w, 'W', 27, 0); // Top center
-        renderKey(scope, a, 'A', 0, 27); // Bottom left
-        renderKey(scope, s, 'S', 27, 27); // Bottom center
-        renderKey(scope, d, 'D', 54, 27); // Bottom right
+    private void render(RenderScope scope, boolean live) {
 
-        if (showMouse.value) {
-            renderKeyM(scope, lmb, "LMB", 0, 54); // Below A/S/D
-            renderKeyM(scope, rmb, "RMB", 40, 54); // With 3px between
-        }
+        int yOffset = 0;
 
+        // --- W ---
+        renderKey(scope, live && w, 'W', KEY_SIZE + KEY_SPACING, yOffset);
+
+        // --- A S D ---
+        yOffset += KEY_SIZE + KEY_SPACING;
+
+        renderKey(scope, live && a, 'A', 0, yOffset);
+        renderKey(scope, live && s, 'S', KEY_SIZE + KEY_SPACING, yOffset);
+        renderKey(scope, live && d, 'D', (KEY_SIZE + KEY_SPACING) * 2, yOffset);
+
+        yOffset += KEY_SIZE + KEY_SPACING;
+
+        // --- SPACE ---
         if (showSpace.value) {
-            renderKeySpace(scope, space, 0, cachedHeight - (showSpace.value ? 22 : 0));
+            renderKeySpace(scope, live && space, 0, yOffset);
+            yOffset += SPACE_HEIGHT + KEY_SPACING;
+        }
+
+        // --- MOUSE ---
+        if (showMouse.value) {
+            renderKeyMouse(scope, live && lmb, "LMB", 0, yOffset);
+            renderKeyMouse(scope, live && rmb, "RMB", MOUSE_WIDTH + KEY_SPACING, yOffset);
         }
     }
 
-    // Consistent 3px padding applied below:
+    private void renderKey(RenderScope scope, boolean pressed, char c, int x, int y) {
+        int bg = pressed ? clickBg.value : dimensions.bgColor.value;
+        int fg = pressed ? clickFg.value : dimensions.fgColor.value;
 
-    private void renderKeySpace(RenderScope scope, boolean isPressed, int x, int y) {
-        int height = 19;
-        int bgColor = isPressed ? clickBg.value : dimensions.bgColor.value;
-        int fgColor = isPressed ? clickFg.value : dimensions.fgColor.value;
-
-        scope.drawRoundedRectangle(x, y, dimensions.width, height, dimensions.radius.value, bgColor);
-
-        // A 30-pixel line centered vertically with 3px top padding
-        int lineY = y + (height - 1) / 2;
-        scope.drawRect(x + (dimensions.width - 30) / 2, lineY, 30, 1, fgColor);
+        scope.drawRoundedRectangle(x, y, KEY_SIZE, KEY_SIZE, dimensions.radius.value, bg);
+        scope.drawText(0.6f, String.valueOf(c), x + 9, y + 7, dimensions.font.value, fg);
     }
 
-    private void renderKeyM(RenderScope scope, boolean isPressed, String c, int x, int y) {
-        int width = 38, height = 24;
-        int bgColor = isPressed ? clickBg.value : dimensions.bgColor.value;
-        int fgColor = isPressed ? clickFg.value : dimensions.fgColor.value;
+    private void renderKeyMouse(RenderScope scope, boolean pressed, String text, int x, int y) {
+        int bg = pressed ? clickBg.value : dimensions.bgColor.value;
+        int fg = pressed ? clickFg.value : dimensions.fgColor.value;
 
-        scope.drawRoundedRectangle(x, y, width, height, dimensions.radius.value, bgColor);
-
-        // Apply padding: 3px top and left -> add slight offset to x/y
-        scope.drawText(0.6f, c, x + 9, y + 7, dimensions.font.value, fgColor);
+        scope.drawRoundedRectangle(x, y, MOUSE_WIDTH, MOUSE_HEIGHT, dimensions.radius.value, bg);
+        scope.drawText(0.6f, text, x + 9, y + 7, dimensions.font.value, fg);
     }
 
-    private void renderKey(RenderScope scope, boolean isPressed, char c, int x, int y) {
-        int size = 24;
-        int bgColor = isPressed ? clickBg.value : dimensions.bgColor.value;
-        int fgColor = isPressed ? clickFg.value : dimensions.fgColor.value;
+    private void renderKeySpace(RenderScope scope, boolean pressed, int x, int y) {
+        int bg = pressed ? clickBg.value : dimensions.bgColor.value;
+        int fg = pressed ? clickFg.value : dimensions.fgColor.value;
 
-        scope.drawRoundedRectangle(x, y, size, size, dimensions.radius.value, bgColor);
+        scope.drawRoundedRectangle(x, y, dimensions.width, SPACE_HEIGHT, dimensions.radius.value, bg);
 
-        // Center the character with 3px top padding
-        scope.drawText(0.6f, String.valueOf(c), x + 9, y + 7, dimensions.font.value, fgColor);
+        int lineY = y + SPACE_HEIGHT / 2;
+        scope.drawRect(x + (dimensions.width - 30) / 2, lineY, 30, 1, fg);
     }
 
     @Override
@@ -169,6 +149,5 @@ public class Keystrokes extends Module implements HudMod {
     @Override
     public void onEnabled(boolean e) {
         enabled.value = e;
-        dimensionsDirty = true;
     }
 }

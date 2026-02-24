@@ -1,12 +1,12 @@
 package org.saturnclient.ui2.screens;
 
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.SaturnClientConfig;
+import org.saturnclient.saturnclient.config.SaturnClientConfig;
 import org.saturnclient.saturnclient.menus.HudEditor;
 import org.saturnclient.ui2.resources.Textures;
 import org.saturnclient.ui2.screens.cosmetics.CloakMenu;
-import org.saturnclient.ui2.Element;
 import org.saturnclient.ui2.SaturnScreen;
+import org.saturnclient.ui2.elements.AnimationStagger;
 import org.saturnclient.ui2.elements.Button;
 import org.saturnclient.ui2.elements.ImageTexture;
 import org.saturnclient.ui2.elements.TextureButton;
@@ -20,21 +20,42 @@ public class ShiftMenu extends SaturnScreen {
 
     @Override
     public void ui() {
-        draw(new ImageTexture(Textures.LOGO_TEXT).dimensions(98, 10).centerOffset(width, height, 0, -36).animation(new Fade(700)));
-        draw(new ImageTexture(SaturnClientConfig.getLogo()).dimensions(98, 98).centerOffset(width, height, 0, -80).animation(new SlideY(700, -20)));
+        // Logo animations (unchanged)
+        draw(new ImageTexture(Textures.LOGO_TEXT)
+                .dimensions(98, 10)
+                .centerOffset(width, height, 0, -36)
+                .animation(new Fade(700)));
 
-        Element button = new Button("Settings", () -> {
-            SaturnClient.client.setScreen(new ModMenu());
-        }).center(width, height);   
+        draw(new ImageTexture(SaturnClientConfig.getLogo())
+                .dimensions(98, 98)
+                .centerOffset(width, height, 0, -80)
+                .animation(new SlideY(700, -20)));
 
-        draw(button);
+        // Spacing and sizes
+        int btnWidth = 120;
+        int btnHeight = 40;
+        int spacing = 4;
 
-        draw(new TextureButton(Textures.COSMETICS, () -> {
-            client.setScreen(new CloakMenu());
-        }).dimensions(button.height, button.height).centerOffset(width, height, (button.width / 2) + (button.height / 2) + 4, 0));
+        // Create stagger
+        AnimationStagger stagger = new AnimationStagger(120);
 
-        draw(new TextureButton(Textures.HUD_ICON, () -> {
+        stagger.draw(new TextureButton(Textures.HUD_ICON, () -> {
             client.setScreen(new HudEditor());
-        }).dimensions(button.height, button.height).centerOffset(width, height, -((button.width / 2) + (button.height / 2) + 4), 0));
+        }).dimensions(btnHeight, btnHeight).position(0, 0)
+                .animation(new Fade(300)));
+
+        stagger.draw(new Button("Settings", () -> {
+            SaturnClient.client.setScreen(new ModMenu());
+        }).dimensions(btnWidth, btnHeight).position(btnHeight + spacing, 0)
+                .animation(new Fade(300)));
+
+        stagger.draw(new TextureButton(Textures.COSMETICS, () -> {
+            client.setScreen(new CloakMenu());
+        }).dimensions(btnHeight, btnHeight).position(btnWidth + btnHeight + (spacing * 2), 0)
+                .animation(new Fade(300)));
+
+        // Draw the stagger at the absolute center of the screen
+        draw(stagger.dimensions(btnWidth + (btnHeight * 2) + (spacing * 2), btnHeight).centerOffset(width, height, 0,
+                0));
     }
 }

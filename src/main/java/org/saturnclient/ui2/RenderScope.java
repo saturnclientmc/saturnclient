@@ -9,11 +9,17 @@ import java.util.function.Function;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.saturnclient.ui2.resources.Fonts;
+import org.saturnclient.ui2.resources.SvgTexture;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
+
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.font.TextRenderer.TextLayerType;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.ScreenRect;
 import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.OverlayTexture;
@@ -41,6 +47,10 @@ public class RenderScope {
     private ScissorStack scissorStack = new ScissorStack();
     private int opacity = 255 << 24;
     private final ItemRenderState itemRenderState;
+
+    public RenderScope(DrawContext context) {
+        this(context.getMatrices(), ((DrawContextAccessor) context).getVertexConsumers());
+    }
 
     public RenderScope(MatrixStack matrices, VertexConsumerProvider.Immediate vertexConsumers) {
         this.matrices = matrices;
@@ -217,6 +227,11 @@ public class RenderScope {
 
     private void drawTexturedQuad(Identifier sprite, int x1, int x2, int y1, int y2, float u1, float u2, float v1,
             float v2, int color) {
+
+        if (sprite.toString().endsWith(".svg")) {
+            sprite = SvgTexture.getSvg(MinecraftClient.getInstance(), sprite, (x2 - x1) * 2, (y2 - y1) * 2);
+        }
+
         if (color == 0)
             return;
         x1 *= 4;
@@ -390,5 +405,46 @@ public class RenderScope {
             this.drawTexturedQuad(sprite.getAtlasId(), x, x + width, y, y + height, sprite.getMinU(), sprite.getMaxU(),
                     sprite.getMinV(), sprite.getMaxV(), color);
         }
+    }
+
+    public void fill(int x1, int y1, int x2, int y2, int color) {
+        this.fill(x1, y1, x2, y2, 0, color);
+    }
+
+    public void fill(int x1, int y1, int x2, int y2, int z, int color) {
+        this.fill(RenderLayer.getGui(), x1, y1, x2, y2, z, color);
+    }
+
+    public void fill(RenderLayer layer, int x1, int y1, int x2, int y2, int color) {
+        this.fill(layer, x1, y1, x2, y2, 0, color);
+    }
+
+    public void fill(RenderLayer layer, int x1, int y1, int x2, int y2, int z, int color) {
+        Matrix4f matrix4f = this.matrices.peek().getPositionMatrix();
+        int i;
+        if (x1 < x2) {
+            i = x1;
+            x1 = x2;
+            x2 = i;
+        }
+
+        if (y1 < y2) {
+            i = y1;
+            y1 = y2;
+            y2 = i;
+        }
+
+        VertexConsumer vertexConsumer = this.vertexConsumers.getBuffer(layer);
+        vertexConsumer.vertex(matrix4f, (float) x1, (float) y1, (float) z).color(color);
+        vertexConsumer.vertex(matrix4f, (float) x1, (float) y2, (float) z).color(color);
+        vertexConsumer.vertex(matrix4f, (float) x2, (float) y2, (float) z).color(color);
+        vertexConsumer.vertex(matrix4f, (float) x2, (float) y1, (float) z).color(color);
+    }
+
+    public void drawBorder(int x, int y, int width, int height, int color) {
+        this.fill(x, y, x + width, y + 1, color);
+        this.fill(x, y + height - 1, x + width, y + height, color);
+        this.fill(x, y + 1, x + 1, y + height - 1, color);
+        this.fill(x + width - 1, y + 1, x + width, y + height - 1, color);
     }
 }

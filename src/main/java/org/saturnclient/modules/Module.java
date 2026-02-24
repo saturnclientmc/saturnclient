@@ -1,9 +1,9 @@
 package org.saturnclient.modules;
 
 import org.saturnclient.saturnclient.config.ConfigManager;
-import org.saturnclient.saturnclient.config.NamedProperty;
 import org.saturnclient.ui2.resources.Textures;
 import org.saturnclient.ui2.RenderScope;
+import org.saturnclient.saturnclient.config.Property.NamedProperty;
 
 import net.minecraft.util.Identifier;
 
@@ -19,8 +19,11 @@ public abstract class Module {
         }
     }
 
-    public void render(RenderScope scope) {}
-    public void tick() {}
+    public void render(RenderScope scope) {
+    }
+
+    public void tick() {
+    }
 
     public abstract boolean isEnabled();
 
@@ -34,7 +37,7 @@ public abstract class Module {
     public final String getName() {
         return details.name;
     }
-    
+
     public Identifier getIconTexture() {
         return Textures.getModIcon(details.namespace);
     }
@@ -46,11 +49,11 @@ public abstract class Module {
     public String getDescription() {
         return details.description;
     }
-    
+
     public String[] getTags() {
         return details.tags;
     }
-    
+
     public String getVersion() {
         return details.version;
     }

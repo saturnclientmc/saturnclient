@@ -1,8 +1,9 @@
 package org.saturnclient.ui2.screens.store;
 
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.auth.Auth;
-import org.saturnclient.saturnclient.auth.SaturnPlayer;
+import org.saturnclient.saturnclient.client.ServiceClient;
+import org.saturnclient.saturnclient.client.player.SaturnPlayer;
+import org.saturnclient.saturnclient.config.Theme;
 import org.saturnclient.saturnclient.cosmetics.Hats;
 import org.saturnclient.ui2.SaturnScreen;
 import org.saturnclient.ui2.Utils;
@@ -42,7 +43,7 @@ public class HatStore extends SaturnScreen {
         int row = 0;
         int col = 0;
 
-        SaturnPlayer player = Auth.players.get(Auth.uuid);
+        SaturnPlayer player = SaturnPlayer.get();
 
         if (player != null) {
             for (String hat : Hats.ALL_HATS) {
@@ -54,7 +55,7 @@ public class HatStore extends SaturnScreen {
                         long now = System.currentTimeMillis();
                         if (now - lastPurchaseTime >= 3000) {
                             Utils.notify(NotificationKind.Info, "Purchase processing", "Please wait");
-                            Auth.buyHat(hat);
+                            ServiceClient.buyHat(hat);
                             lastPurchaseTime = now;
                             new Thread(() -> {
                                 try {
@@ -75,10 +76,10 @@ public class HatStore extends SaturnScreen {
 
                     String t = "50";
 
-                    scroll.draw(new Text(t).position(x + Fonts.centerX(50, t, Text.font.value), y + 53).scale(0.5f));
+                    scroll.draw(new Text(t).position(x + Fonts.centerX(50, t, Theme.FONT.value), y + 53).scale(0.5f));
 
                     scroll.draw(new ImageTexture(Textures.COINS).dimensions(16, 16)
-                            .position(x + Fonts.getWidth(t, Text.font.value) + 4, y + 52).scale(0.5f));
+                            .position(x + Fonts.getWidth(t, Theme.FONT.value) + 4, y + 52).scale(0.5f));
 
                     if (col == 8) {
                         col = 0;

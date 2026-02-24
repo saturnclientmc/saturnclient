@@ -1,7 +1,7 @@
 package org.saturnclient.saturnclient.cosmetics;
 
-import org.saturnclient.saturnclient.SaturnClientConfig;
-import org.saturnclient.saturnclient.auth.Auth;
+import org.saturnclient.saturnclient.client.player.SaturnPlayer;
+import org.saturnclient.saturnclient.config.SaturnClientConfig;
 import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 
 import net.minecraft.client.render.OverlayTexture;
@@ -283,20 +283,18 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
 
     public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light,
             PlayerEntityRenderState playerEntityRenderState, float f, float g) {
-        if (playerEntityRenderState.invisible || !playerEntityRenderState.capeVisible) {
+        if (playerEntityRenderState.invisible || !playerEntityRenderState.capeVisible
+                || playerEntityRenderState.skinTextures.capeTexture() != null) {
             return;
         }
 
-        if (playerEntityRenderState.skinTextures.capeTexture() != null) {
-            return;
-        }
-        String name = playerEntityRenderState.name;
-        String uuid = Auth.playerNames.get(name);
-        if (uuid == null || !Auth.players.containsKey(uuid)) {
+        SaturnPlayer player = SaturnPlayer.get(playerEntityRenderState.name);
+
+        if (player == null) {
             return;
         }
 
-        Identifier customCape = Cloaks.getCurrentCloakTexture(uuid);
+        Identifier customCape = Cloaks.getCurrentCloakTexture(player.uuid);
         if (customCape == null || this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack,
                 LayerType.WINGS)) {
             return;

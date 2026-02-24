@@ -2,8 +2,7 @@ package org.saturnclient.ui2.components;
 
 import org.saturnclient.modules.Module;
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.config.Property;
-import org.saturnclient.saturnclient.config.ThemeManager;
+import org.saturnclient.saturnclient.config.Theme;
 import org.saturnclient.ui2.resources.Fonts;
 import org.saturnclient.ui2.resources.Textures;
 import org.saturnclient.ui2.Element;
@@ -15,23 +14,12 @@ import org.saturnclient.ui2.screens.ConfigEditor;
 import net.minecraft.client.render.RenderLayer;
 
 public class SaturnModule extends Element {
-    private static ThemeManager theme = new ThemeManager("Module", "enabled", "hovering");
-    private static Property<Integer> bgColor = theme.property("bg", Property.color(0xFF1d202d));
-    private static Property<Integer> fgColor = theme.property("fg", Property.color(0xFFA1A2B8));
-    private static Property<Integer> iconFg = theme.property("icon-fg", Property.color(0xFFA1A2B8));
-    private static Property<Integer> iconBg = theme.property("icon-bg", Property.color(0xFF2e3248));
-    private static Property<Integer> tagBg = theme.property("tag-bg", Property.color(0xFF2e3248));
-    private static Property<Integer> iconRadius = theme.property("icon-radius", Property.color(10));
-    private static Property<Integer> font = theme.property("font", Property.font(1));
-    private static Property<Integer> radius = theme.property("radius", Property.color(10));
 
-    static {
-        theme.propertyStateDefault("enabled", "bg", 0xFF1d202d);
-        theme.propertyStateDefault("enabled", "icon-bg", 0xFF845eee);
-        theme.propertyStateDefault("hovering", "fg", 0xFF845eee);
-    }
+    private final Module mod;
 
-    private Module mod;
+    static int p = 10; // padding
+    static int s = 14; // settings icon size
+    static int expand = 5; // settings icon click area
 
     public SaturnModule(Module mod) {
         this.mod = mod;
@@ -41,60 +29,137 @@ public class SaturnModule extends Element {
 
     @Override
     public void render(RenderScope renderScope, ElementContext ctx) {
-        int p = 10;
-        int s = 14;
-        boolean settingsHover = false;
+        boolean hovered = ctx.isHovering();
+        boolean enabled = mod.isEnabled();
+
+        int iconX = width - s - p;
+        int iconY = height - s - p;
+
+        boolean settingsHover = ctx.isHovering(
+                getSettingsX(),
+                getSettingsY(),
+                getSettingsHitBox(),
+                getSettingsHitBox());
 
         renderScope.setRenderLayer(RenderLayer::getGuiTextured);
 
-        if (mod.isEnabled()) {
-            theme.setState("enabled");
-        }
+        // Resolve theme colors
+        int bgColor = Theme.PRIMARY.value;
+        int fgColor = hovered && !settingsHover ? Theme.ACCENT.value : Theme.PRIMARY_FG.value;
 
-        if (ctx.isHovering(width - s - p - 5, height - s - p - 5, s + 10, s + 10)) {
-            settingsHover = true;
-        } else if (ctx.isHovering()) {
-            theme.applyState("hovering");
-        }
+        int iconBg = enabled ? Theme.ACCENT.value : Theme.PRIMARY.value;
+        int iconFg = enabled ? Theme.ACCENT_FG.value : fgColor;
 
-        renderScope.drawRoundedRectangle(0, 0, width, height, radius.value, bgColor.value);
+        int settingsColor = settingsHover
+                ? Theme.ACCENT.value
+                : Theme.withAlpha(160, fgColor);
 
-        int h = height-(p * 2);
+        int h = height - (p * 2);
 
-        renderScope.drawRoundedRectangle(p, p, h, h, iconRadius.value, iconBg.value);
+        // Main background
+        renderScope.drawRoundedRectangle(
+                0, 0,
+                width, height,
+                Theme.WIDGET_RADIUS.value,
+                bgColor);
 
-        renderScope.drawTexture(mod.getIconTexture(), p + (p / 2), p + (p / 2), 0, 0, h - p, h - p, iconFg.value);
+        // Icon background
+        renderScope.drawRoundedRectangle(
+                p, p,
+                h, h,
+                Theme.WIDGET_RADIUS.value,
+                iconBg);
 
-        renderScope.drawText(0.6f, mod.getName(), p+h+4, p + 1, font.value, fgColor.value);
+        // Icon
+        renderScope.drawTexture(
+                mod.getIconTexture(),
+                p + (p / 2),
+                p + (p / 2),
+                0, 0,
+                h - p,
+                h - p,
+                iconFg);
 
-        renderScope.drawText(0.35f, mod.getVersion(), width - p - (int) (Fonts.getWidth(mod.getVersion(), font.value) * 0.35f), p + 1, font.value, fgColor.value);
+        // Module name
+        renderScope.drawText(
+                0.6f,
+                mod.getName(),
+                p + h + 4,
+                p + 1,
+                Theme.FONT.value,
+                fgColor);
 
+        // Version (right aligned)
+        String version = mod.getVersion();
+        int versionWidth = (int) (Fonts.getWidth(version, Theme.FONT.value) * 0.35f);
+
+        renderScope.drawText(
+                0.35f,
+                version,
+                width - p - versionWidth,
+                p + 1,
+                Theme.FONT.value,
+                fgColor);
+
+        // Tags
         int xt = p + h + 4;
         for (String tag : mod.getTags()) {
-            int xtb = (int) (Fonts.getWidth(tag, font.value) * 0.4f);
-            renderScope.drawRoundedRectangle(xt, p + (h/2), xtb + 6, 12, 5, tagBg.value);
-            renderScope.drawText(0.4f, tag, xt+2, p + (h/2) + 3, font.value, fgColor.value);
-            xt += xtb + 9;
+            int tagWidth = (int) (Fonts.getWidth(tag, Theme.FONT.value) * 0.4f);
+
+            renderScope.drawRoundedRectangle(
+                    xt,
+                    p + (h / 2),
+                    tagWidth + 6,
+                    12,
+                    5,
+                    Theme.ACCENT.value);
+
+            renderScope.drawText(
+                    0.4f,
+                    tag,
+                    xt + 2,
+                    p + (h / 2) + 3,
+                    Theme.FONT.value,
+                    Theme.ACCENT_FG.value);
+
+            xt += tagWidth + 9;
         }
 
-        if (settingsHover) {
-            theme.setState("hovering");
-        }
-
-        renderScope.drawTexture(Textures.SETTINGS, width - s - p, height - s - p, 0, 0, s, s, fgColor.value);
-
-        theme.setState(null);
+        // Settings icon
+        renderScope.drawTexture(
+                Textures.SETTINGS,
+                iconX,
+                iconY,
+                0, 0,
+                s, s,
+                settingsColor);
     }
 
     @Override
     public void click(int mouseX, int mouseY) {
-        int p = 10;
-        int s = 14;
+        boolean settingsHover = Utils.isHovering(
+                mouseX - getSettingsX(),
+                mouseY - getSettingsY(),
+                getSettingsHitBox(),
+                getSettingsHitBox(),
+                1.0f);
 
-        if (Utils.isHovering(mouseX - (width - s - p - 5), mouseY - (height - s - p - 5), s + 10, s + 10, 1.0f)) {
+        if (settingsHover) {
             SaturnClient.client.setScreen(new ConfigEditor(mod.getConfig()));
         } else {
             mod.setEnabled(!mod.isEnabled());
         }
+    }
+
+    private int getSettingsX() {
+        return width - s - p - expand;
+    }
+
+    private int getSettingsY() {
+        return height - s - p - expand;
+    }
+
+    private int getSettingsHitBox() {
+        return s + expand * 2;
     }
 }
