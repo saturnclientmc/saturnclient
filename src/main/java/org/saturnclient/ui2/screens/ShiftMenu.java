@@ -37,7 +37,7 @@ public class ShiftMenu extends SaturnScreen {
         int spacing = 4;
 
         // Create stagger
-        AnimationStagger stagger = new AnimationStagger(120);
+        AnimationStagger stagger = new AnimationStagger(50);
 
         stagger.draw(new TextureButton(Textures.HUD_ICON, () -> {
             client.setScreen(new HudEditor());

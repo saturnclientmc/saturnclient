@@ -2,6 +2,7 @@ package org.saturnclient.ui2.screens;
 
 import org.saturnclient.modules.ModManager;
 import org.saturnclient.modules.Module;
+import org.saturnclient.saturnclient.config.SaturnClientConfig;
 import org.saturnclient.ui2.SaturnScreen;
 import org.saturnclient.ui2.anim.SlideFade;
 import org.saturnclient.ui2.components.SaturnModule;
@@ -26,11 +27,13 @@ public class ModMenu extends SaturnScreen {
         int row = 0;
         int col = 0;
 
-        AnimationStagger moduleStagger = new AnimationStagger(80);
+        AnimationStagger moduleStagger = new AnimationStagger(20);
 
         for (Module mod : ModManager.ALL_MODS) {
             moduleStagger.draw(
-                    new SaturnModule(mod).position((160 + g) * col, (50 + g) * row).animation(new SlideFade(600, -12)));
+                    new SaturnModule(mod)
+                            .position((160 + g) * col, (50 + g) * row)
+                            .animation(new SlideFade(600, -12), SaturnClientConfig.getAnimationCurve()));
 
             if (col == 2) {
                 col = 0;
