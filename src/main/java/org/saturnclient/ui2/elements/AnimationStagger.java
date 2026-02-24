@@ -3,7 +3,7 @@ package org.saturnclient.ui2.elements;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.saturnclient.saturnclient.config.SaturnClientConfig;
+import org.saturnclient.saturnclient.config.Config;
 import org.saturnclient.ui2.Element;
 import org.saturnclient.ui2.ElementContext;
 import org.saturnclient.ui2.RenderScope;
@@ -18,7 +18,7 @@ public class AnimationStagger extends Element {
     }
 
     public void draw(Element element) {
-        if (!SaturnClientConfig.stagger.value) {
+        if (!Config.stagger.value) {
             element.animation = null;
         }
 

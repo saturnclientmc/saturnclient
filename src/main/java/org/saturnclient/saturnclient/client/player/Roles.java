@@ -3,7 +3,7 @@ package org.saturnclient.saturnclient.client.player;
 import java.util.Map;
 import java.util.UUID;
 
-import org.saturnclient.saturnclient.config.SaturnClientConfig;
+import org.saturnclient.saturnclient.config.Config;
 
 import net.minecraft.util.Formatting;
 
@@ -54,6 +54,6 @@ public class Roles {
     }
 
     public static String getSaturnIndicator() {
-        return SaturnClientConfig.realisticLogo.value ? "" : "";
+        return Config.realisticLogo.value ? "" : "";
     }
 }

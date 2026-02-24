@@ -1,7 +1,7 @@
 package org.saturnclient.ui2.components;
 
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.config.SaturnClientConfig;
+import org.saturnclient.saturnclient.config.Config;
 import org.saturnclient.saturnclient.config.Theme;
 import org.saturnclient.ui2.resources.Textures;
 import org.saturnclient.ui2.Element;
@@ -35,7 +35,7 @@ public class Sidebar extends Element {
                 SaturnClient.client.setScreen(new ModMenu());
             }, false),
             new Sidebar.SidebarComponent(Textures.SETTINGS, () -> {
-                SaturnClient.client.setScreen(new ConfigEditor(SaturnClientConfig.config));
+                SaturnClient.client.setScreen(new ConfigEditor(Config.config));
             }, false),
 
             new Sidebar.SidebarComponent(Textures.SHIRT, () -> {

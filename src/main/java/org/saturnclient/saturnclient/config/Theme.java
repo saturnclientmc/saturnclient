@@ -1,5 +1,8 @@
 package org.saturnclient.saturnclient.config;
 
+import org.saturnclient.saturnclient.config.manager.ConfigManager;
+import org.saturnclient.saturnclient.config.manager.Property;
+
 public class Theme {
     // Main UI background (slightly warm dark to match Saturn tone)
     public static final Property<Integer> BACKGROUND = Property.color(0xFF12100D);
@@ -26,8 +29,8 @@ public class Theme {
     public static final Property<Integer> BG_RADIUS = Property.integer(12);
     public static final Property<Integer> WIDGET_RADIUS = Property.integer(10);
 
-    // Font (keeping your current system)
-    public static Property<Integer> FONT = Property.font(1);
+    // Font
+    public static final Property<Integer> FONT = Property.font(1);
 
     public static void init(ConfigManager parent) {
         ConfigManager config = new ConfigManager(parent, "UI Style");

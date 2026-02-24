@@ -2,8 +2,8 @@ package org.saturnclient.modules;
 
 import java.util.Map;
 
-import org.saturnclient.saturnclient.config.Property.NamedProperty;
-import org.saturnclient.saturnclient.config.Property;
+import org.saturnclient.saturnclient.config.manager.Property;
+import org.saturnclient.saturnclient.config.manager.Property.NamedProperty;
 
 public class ModDimensions {
     public Property<Integer> x = Property.integer(0);

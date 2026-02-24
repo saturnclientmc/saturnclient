@@ -2,7 +2,7 @@ package org.saturnclient.ui2.components.inputs;
 
 import java.awt.Color;
 
-import org.saturnclient.saturnclient.config.Property;
+import org.saturnclient.saturnclient.config.manager.Property;
 import org.saturnclient.ui2.Element;
 import org.saturnclient.ui2.ElementContext;
 import org.saturnclient.ui2.RenderScope;
