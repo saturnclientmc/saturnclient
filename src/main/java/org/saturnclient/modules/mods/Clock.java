@@ -18,7 +18,7 @@ public class Clock extends Module implements HudMod {
     private static ModDimensions dimensions = new ModDimensions(60, Fonts.getHeight());
 
     public Clock() {
-        super(new ModuleDetails("Clock", "ping") // todo: change this
+        super(new ModuleDetails("Clock", "clock")
             .description("Displays the current real-world time")
             .version("v0.1.0")
             .tags("Utility"),

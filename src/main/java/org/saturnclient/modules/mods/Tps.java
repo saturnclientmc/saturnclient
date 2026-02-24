@@ -25,7 +25,7 @@ public class Tps extends Module implements HudMod {
     private static int samplesFilled = 0;
 
     public Tps() {
-        super(new ModuleDetails("TPS Display", "ping") // todo: change this
+        super(new ModuleDetails("TPS Display", "tps")
             .description("Displays the TPS")
             .version("v0.1.0")
             .tags("Utility"),
