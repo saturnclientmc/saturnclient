@@ -27,7 +27,11 @@ public class AnimationStagger extends Element {
         }
 
         ElementRenderer.draw(children, element);
+
+        this.height = Math.max(this.height, element.y + element.height);
+        this.width  = Math.max(this.width,  element.x + element.width);
     }
+
 
     @Override
     public void render(RenderScope renderScope, ElementContext ctx) {
