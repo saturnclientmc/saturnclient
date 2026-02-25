@@ -10,7 +10,7 @@ public class AnimationConfig {
     public static final AnimationConfig logo = new AnimationConfig(true, 700, 0);
 
     // Main menu
-    public static final AnimationConfig mainMenu = new AnimationConfig(true, 300, 120);
+    public static final AnimationConfig mainMenu = new AnimationConfig(true, 700, 120);
 
     // Mod menu
     public static final AnimationConfig modMenu = new AnimationConfig(true, 100, 20);
