@@ -78,7 +78,7 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
             EquipmentModelLoader equipmentModelLoader) {
         super(context);
         this.equipmentModelLoader = equipmentModelLoader;
-        Arrays.fill(segmentValues, 1.0f);
+        Arrays.fill(segmentValues, 0.0f);
     }
 
     private boolean hasCustomModelForLayer(ItemStack stack, EquipmentModel.LayerType layerType) {
@@ -288,6 +288,10 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         if (this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack, LayerType.HUMANOID)) {
             matrixStack.translate(0.0F, -0.053125F, 0.06875F);
         }
+
+        Arrays.fill(segmentValues, playerEntityRenderState.field_53537 / 150);
+
+        matrixStack.translate(0f, 0f, -0.07f * segmentValues[PARTS - 1]);
 
         renderCape(matrixStack, vertexConsumer, playerEntityRenderState, light, OverlayTexture.DEFAULT_UV);
 
