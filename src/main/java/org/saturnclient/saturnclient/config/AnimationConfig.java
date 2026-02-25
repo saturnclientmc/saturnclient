@@ -18,6 +18,9 @@ public class AnimationConfig {
     // Shift menu
     public static final AnimationConfig shiftMenu = new AnimationConfig(true, 300, 120);
 
+    // Emote wheel
+    public static final AnimationConfig emoteWheel = new AnimationConfig(true, 500, 80);
+
     public static void init(ConfigManager parent) {
         config = new ConfigManager(parent, "Animations");
 
@@ -25,6 +28,7 @@ public class AnimationConfig {
         mainMenu.init("Main Menu");
         modMenu.init("Mod Menu");
         shiftMenu.init("Shift Menu");
+        emoteWheel.init("Emote Wheel");
     }
 
     // Animation properties
