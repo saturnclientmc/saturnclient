@@ -29,9 +29,9 @@ public class TitleMenu extends SaturnScreen {
     public void ui() {
         backgroundBlur = 0;
 
-        draw(new ImageTexture(Textures.LOGO_TEXT).dimensions(98, 10).centerOffset(width, height, 0, -105)
+        draw(new ImageTexture(Textures.LOGO_TEXT).dimensions(98, 10).centerOffset(width, height, 0, -40)
                 .animation(new Fade(AnimationConfig.logo.duration.value)));
-        draw(new ImageTexture(Config.getLogo()).dimensions(98, 98).centerOffset(width, height, 0, -149)
+        draw(new ImageTexture(Config.getLogo()).dimensions(98, 98).centerOffset(width, height, 0, -84)
                 .animation(new SlideY(AnimationConfig.logo, -20)));
 
         AnimationStagger mainButtonStagger = new AnimationStagger(AnimationConfig.mainMenu);
@@ -56,7 +56,7 @@ public class TitleMenu extends SaturnScreen {
         }).scale(0.69f).dimensions(206, 52).position(146, 80)
                 .animation(new SlideFade(AnimationConfig.mainMenu, -10)));
 
-        draw(mainButtonStagger.dimensions(289, 143).centerOffset(width, height, 0, 60));
+        draw(mainButtonStagger.dimensions(289, 143).centerOffset(width, height, 0, 50));
 
         int s = Fonts.getHeight() + 20;
 
