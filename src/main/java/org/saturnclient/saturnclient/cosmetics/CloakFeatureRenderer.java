@@ -1,5 +1,7 @@
 package org.saturnclient.saturnclient.cosmetics;
 
+import java.util.Arrays;
+
 import org.saturnclient.saturnclient.client.player.SaturnPlayer;
 import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 
@@ -26,11 +28,14 @@ import net.minecraft.util.math.Vec3d;
 public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState, PlayerEntityModel> {
     private final EquipmentModelLoader equipmentModelLoader;
     private static final int PARTS = 16;
+    private final float[] segmentValues = new float[PARTS];
 
     public CloakFeatureRenderer(FeatureRendererContext<PlayerEntityRenderState, PlayerEntityModel> context,
             EquipmentModelLoader equipmentModelLoader) {
         super(context);
         this.equipmentModelLoader = equipmentModelLoader;
+
+        Arrays.fill(segmentValues, 0.0f);
     }
 
     private void renderCapeQuad(VertexConsumer vertexConsumer, MatrixStack matrixStack,
@@ -93,21 +98,20 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
 
         matrices.push();
 
-        // 🔥 Shoulder anchor (this is the important fix)
-        matrices.translate(0.0f, 1.25f, 0.125f);
+        // Proper shoulder anchor
+        matrices.translate(0.0f, 1.5f, 0.2f);
 
         float accumulatedY = 0.0f;
         float accumulatedZ = 0.0f;
 
         for (int i = 0; i < PARTS; i++) {
 
-            // 0 → 1 per segment
-            float progress = (float) ((PARTS - 1) - i) / PARTS;
+            float value = segmentValues[i]; // 0 → 1
 
-            float angle = progress * ((float) Math.PI / 2f);
+            float angle = value * ((float) Math.PI / 2f);
 
-            double offsetY = -Math.cos(angle) * segmentLength;
-            double offsetZ = Math.sin(angle) * segmentLength;
+            float offsetY = -(float) Math.cos(angle) * segmentLength;
+            float offsetZ = (float) Math.sin(angle) * segmentLength;
 
             float topY = accumulatedY;
             float topZ = accumulatedZ;
@@ -159,6 +163,8 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
             return;
 
         VertexConsumer consumer = providers.getBuffer(RenderLayer.getEntityTranslucent(cape));
+
+        Arrays.fill(segmentValues, 0.5f);
 
         renderCape(
                 matrices,
