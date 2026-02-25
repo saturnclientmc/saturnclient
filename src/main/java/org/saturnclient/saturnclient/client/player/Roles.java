@@ -17,7 +17,9 @@ public class Roles {
 
     private static final Map<UUID, Role> ROLES = Map.of(
             UUID.fromString("d362a042-28bd-49e1-a807-ae74dbe8aba9"),
-            Role.OWNER);
+            Role.OWNER,
+            UUID.fromString("d8dc7023-179b-4460-bcf6-493fbf1289a6"),
+            Role.CONTRIBUTOR);
 
     /*
      * Gets the icon color of a specific individual, here are the different colors
