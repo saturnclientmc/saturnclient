@@ -181,33 +181,36 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         float curZ = 0.0f;
 
         for (int i = 0; i < PARTS; i++) {
-            float value = 2.0f - segmentValues[i];
-            float angle = value * ((float) Math.PI / 2f);
-
-            // Direction of the segment length
+            float angle = (2.0f - segmentValues[i]) * ((float) Math.PI / 2f);
             float dirY = -(float) Math.cos(angle);
             float dirZ = (float) Math.sin(angle);
 
-            // Direction of the segment THICKNESS (perpendicular to length)
-            // This ensures thickness is always "outward" from the curve
-            float thickY = (float) Math.sin(angle) * capeDepth;
-            float thickZ = (float) Math.cos(angle) * capeDepth;
+            // 1. Thickness at the START of this segment (Must match PREVIOUS segment's end)
+            float prevAngle = (i > 0) ? (2.0f - segmentValues[i - 1]) * ((float) Math.PI / 2f) : angle;
+            float startAvgAngle = (angle + prevAngle) / 2.0f;
+            float thickYStart = (float) Math.sin(startAvgAngle) * capeDepth;
+            float thickZStart = (float) Math.cos(startAvgAngle) * capeDepth;
+
+            // 2. Thickness at the END of this segment (Must match NEXT segment's start)
+            float nextAngle = (i < PARTS - 1) ? (2.0f - segmentValues[i + 1]) * ((float) Math.PI / 2f) : angle;
+            float endAvgAngle = (angle + nextAngle) / 2.0f;
+            float thickYEnd = (float) Math.sin(endAvgAngle) * capeDepth;
+            float thickZEnd = (float) Math.cos(endAvgAngle) * capeDepth;
 
             float nextY = curY + dirY * capePartHeight;
             float nextZ = curZ + dirZ * capePartHeight;
 
-            // Vertices for the "Inner" face (Front - facing player)
+            // Inner Vertices (The spine of the cape)
             Vec3d innerTopLeft = new Vec3d(x2, curY, curZ);
             Vec3d innerTopRight = new Vec3d(x1, curY, curZ);
             Vec3d innerBotLeft = new Vec3d(x2, nextY, nextZ);
             Vec3d innerBotRight = new Vec3d(x1, nextY, nextZ);
 
-            // Vertices for the "Outer" face (Back - facing world)
-            // We offset these by the thickness vector
-            Vec3d outerTopLeft = new Vec3d(x2, curY + thickY, curZ + thickZ);
-            Vec3d outerTopRight = new Vec3d(x1, curY + thickY, curZ + thickZ);
-            Vec3d outerBotLeft = new Vec3d(x2, nextY + thickY, nextZ + thickZ);
-            Vec3d outerBotRight = new Vec3d(x1, nextY + thickY, nextZ + thickZ);
+            // Outer Vertices (Offset by the specific joint thickness)
+            Vec3d outerTopLeft = new Vec3d(x2, curY + thickYStart, curZ + thickZStart);
+            Vec3d outerTopRight = new Vec3d(x1, curY + thickYStart, curZ + thickZStart);
+            Vec3d outerBotLeft = new Vec3d(x2, nextY + thickYEnd, nextZ + thickZEnd);
+            Vec3d outerBotRight = new Vec3d(x1, nextY + thickYEnd, nextZ + thickZEnd);
 
             // FRONT (Inner) - Changed winding/order to fix flipping
             this.renderCapeQuad(vertexConsumer, matrixStack,
