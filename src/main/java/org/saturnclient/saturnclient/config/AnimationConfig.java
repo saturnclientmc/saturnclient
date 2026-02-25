@@ -13,16 +13,16 @@ public class AnimationConfig {
     public static final AnimationConfig mainMenu = new AnimationConfig(true, 700, 120);
 
     // Mod menu
-    public static final AnimationConfig modMenu = new AnimationConfig(true, 100, 20);
+    public static final AnimationConfig modMenu = new AnimationConfig(true, 700, 20);
 
     // Shift menu
-    public static final AnimationConfig shiftMenu = new AnimationConfig(true, 100, 100);
+    public static final AnimationConfig shiftMenu = new AnimationConfig(true, 700, 100);
 
     // Cosmetics menu
     public static final AnimationConfig cosmeticsMenu = new AnimationConfig(true, 700, 40);
 
     // Emote wheel
-    public static final AnimationConfig emoteWheel = new AnimationConfig(true, 200, 40);
+    public static final AnimationConfig emoteWheel = new AnimationConfig(true, 700, 40);
 
     public static void init(ConfigManager parent) {
         config = new ConfigManager(parent, "Animations");
