@@ -30,7 +30,7 @@ public class Theme {
     public static final Property<Integer> WIDGET_RADIUS = Property.integer(10);
 
     // Font
-    public static final Property<Integer> FONT = Property.font(1);
+    public static final Property<Integer> FONT = Property.font(2);
 
     public static void init(ConfigManager parent) {
         ConfigManager config = new ConfigManager(parent, "UI Style");
