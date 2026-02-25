@@ -35,7 +35,6 @@ import net.minecraft.util.math.Vec3d;
 public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState, PlayerEntityModel> {
     private final EquipmentModelLoader equipmentModelLoader;
     private static final int PARTS = 16;
-    private float currentVelocity = 0.0f;
     private final float[] segmentValues = new float[PARTS];
 
     private static final float TEX_W = 176f;
@@ -151,7 +150,6 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
 
         float x1 = -capeWidth / 2.0f;
         float x2 = capeWidth / 2.0f;
-        // float y2 = -capeHeight;
         float z1 = 0.0f;
         float z2 = capeDepth;
 
@@ -193,13 +191,12 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         float accumulatedZ = 0.0f;
 
         for (int i = 0; i < PARTS; i++) {
-
-            float value = segmentValues[i]; // 0 → 1 per segment
+            float value = segmentValues[i];
 
             float angle = value * ((float) Math.PI / 2f);
 
             float offsetY = -(float) Math.cos(angle) * capePartHeight;
-            float offsetZ = (float) Math.sin(angle) * capePartHeight;
+            float offsetZ = -(float) Math.sin(angle) * capePartHeight;
 
             float topY = accumulatedY;
             float topZ = accumulatedZ;
@@ -313,16 +310,9 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         VertexConsumer vertexConsumer = vertexConsumerProvider
                 .getBuffer(RenderLayer.getEntityAlpha(customCape));
 
-        float base = Math.min(currentVelocity, 1.0f);
-
-        for (int i = 0; i < PARTS; i++) {
-            float falloff = i / (float) (PARTS - 1);
-            segmentValues[i] = base * falloff;
-        }
-
         matrixStack.push();
 
-        matrixStack.translate(0.0f, -0.25f, 0.0f);
+        matrixStack.translate(0.0f, -0.5f, 0.7f);
 
         if (this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack, LayerType.HUMANOID)) {
             matrixStack.translate(0.0F, -0.053125F, 0.06875F);
