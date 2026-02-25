@@ -9,6 +9,7 @@ import org.saturnclient.ui2.resources.Textures;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Final;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -26,19 +27,19 @@ public abstract class SplashOverlayMixin {
     @Shadow
     private ResourceReload reload;
 
-    @Shadow(remap = false)
+    @Shadow
     private long reloadCompleteTime;
 
-    @Shadow(remap = false)
+    @Shadow
     private long reloadStartTime;
 
-    @Shadow(remap = false)
+    @Shadow @Final
     private boolean reloading;
 
-    @Shadow(remap = false)
+    @Shadow @Final
     private Consumer<Optional<Throwable>> exceptionHandler;
 
-    @Shadow(remap = false)
+    @Shadow
     private float progress;
 
     /**
