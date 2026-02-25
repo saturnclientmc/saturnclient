@@ -29,32 +29,32 @@ public class TitleMenu extends SaturnScreen {
     public void ui() {
         backgroundBlur = 0;
 
-        draw(new ImageTexture(Textures.LOGO_TEXT).dimensions(98, 10).centerOffset(width, height, 0, -36)
-                .animation(new Fade(700)));
-        draw(new ImageTexture(Config.getLogo()).dimensions(98, 98).centerOffset(width, height, 0, -82)
-                .animation(new SlideY(700, -20)));
+        draw(new ImageTexture(Textures.LOGO_TEXT).dimensions(98, 10).centerOffset(width, height, 0, -105)
+                .animation(new Fade(AnimationConfig.logo.duration.value)));
+        draw(new ImageTexture(Config.getLogo()).dimensions(98, 98).centerOffset(width, height, 0, -149)
+                .animation(new SlideY(AnimationConfig.logo, -20)));
 
-        AnimationStagger mainButtonStagger = new AnimationStagger(AnimationConfig.mainMenu.stagger.value);
+        AnimationStagger mainButtonStagger = new AnimationStagger(AnimationConfig.mainMenu);
 
         mainButtonStagger.draw(new Button("SINGLEPLAYER", () -> {
             client.setScreen(new SelectWorldScreen(new TitleMenu()));
         }).scale(0.69f).dimensions(420, 52).position(0, 0)
-                .animation(new SlideFade(AnimationConfig.mainMenu.duration.value, -10)));
+                .animation(new SlideFade(AnimationConfig.mainMenu, -10)));
 
         mainButtonStagger.draw(new Button("MULTIPLAYER", () -> {
             client.setScreen(new MultiplayerScreen(new TitleMenu()));
         }).scale(0.69f).dimensions(420, 52).position(0, 40)
-                .animation(new SlideFade(AnimationConfig.mainMenu.duration.value, -10)));
+                .animation(new SlideFade(AnimationConfig.mainMenu, -10)));
 
         mainButtonStagger.draw(new Button("OPTIONS", () -> {
             client.setScreen(new OptionsScreen(new TitleMenu(), SaturnClient.client.options));
         }).scale(0.69f).dimensions(206, 52).position(0, 80)
-                .animation(new SlideFade(AnimationConfig.mainMenu.duration.value, -10)));
+                .animation(new SlideFade(AnimationConfig.mainMenu, -10)));
 
         mainButtonStagger.draw(new Button("QUIT", () -> {
             client.scheduleStop();
         }).scale(0.69f).dimensions(206, 52).position(146, 80)
-                .animation(new SlideFade(AnimationConfig.mainMenu.duration.value, -10)));
+                .animation(new SlideFade(AnimationConfig.mainMenu, -10)));
 
         draw(mainButtonStagger.dimensions(289, 143).centerOffset(width, height, 0, 60));
 
@@ -64,17 +64,17 @@ public class TitleMenu extends SaturnScreen {
 
         saturnStagger.draw(new TextureButton(Textures.HUD_ICON, () -> {
             client.setScreen(new HudEditor());
-        }).dimensions(s, s).position(0, 0).animation(new SlideFade(AnimationConfig.mainMenu.duration.value, s + 8)));
+        }).dimensions(s, s).position(0, 0).animation(new SlideFade(AnimationConfig.mainMenu, s + 8)));
 
         saturnStagger.draw(new TextureButton(Textures.SETTINGS, () -> {
             SaturnClient.client.setScreen(new ModMenu());
         }).dimensions(s, s).position(s + 2, 0)
-                .animation(new SlideFade(AnimationConfig.mainMenu.duration.value, s + 8)));
+                .animation(new SlideFade(AnimationConfig.mainMenu, s + 8)));
 
         saturnStagger.draw(new TextureButton(Textures.CLOAK, () -> {
             client.setScreen(new CloakMenu());
         }).dimensions(s, s).position((s + 2) * 2, 0)
-                .animation(new SlideFade(AnimationConfig.mainMenu.duration.value, s + 8)));
+                .animation(new SlideFade(AnimationConfig.mainMenu, s + 8)));
 
         draw(saturnStagger.dimensions(((s + 2) * 2) + s, s).centerHorizontal(width, height, 0, 8));
     }

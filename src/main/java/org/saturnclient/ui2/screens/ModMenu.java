@@ -27,13 +27,13 @@ public class ModMenu extends SaturnScreen {
         int row = 0;
         int col = 0;
 
-        AnimationStagger moduleStagger = new AnimationStagger(AnimationConfig.modMenu.stagger.value);
+        AnimationStagger moduleStagger = new AnimationStagger(AnimationConfig.modMenu);
 
         for (Module mod : ModManager.ALL_MODS) {
             moduleStagger.draw(
                     new SaturnModule(mod)
                             .position((160 + g) * col, (50 + g) * row)
-                            .animation(new SlideFade(AnimationConfig.modMenu.duration.value, -12)));
+                            .animation(new SlideFade(AnimationConfig.modMenu, -12)));
 
             if (col == 2) {
                 col = 0;

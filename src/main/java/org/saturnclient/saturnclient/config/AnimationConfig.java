@@ -6,8 +6,8 @@ import org.saturnclient.saturnclient.config.manager.Property;
 public class AnimationConfig {
     public static ConfigManager config;
 
-    // Logo duration
-    public static final Property<Integer> logoDuration = Property.integer(700);
+    // Logo
+    public static final AnimationConfig logo = new AnimationConfig(true, 700, 0);
 
     // Main menu
     public static final AnimationConfig mainMenu = new AnimationConfig(true, 700, 120);
@@ -20,8 +20,8 @@ public class AnimationConfig {
 
     public static void init(ConfigManager parent) {
         config = new ConfigManager(parent, "Animations");
-        config.property("Logo Duration", logoDuration);
 
+        logo.init("Logo");
         mainMenu.init("Main Menu");
         modMenu.init("Mod Menu");
         shiftMenu.init("Shift Menu");
@@ -42,5 +42,6 @@ public class AnimationConfig {
         // config.property("Enable " + name + " Animations", this.enabled);
         config.property(name + " Duration", this.duration);
         config.property(name + " Stagger", this.stagger);
+        config.property(name + " Curve", this.curve);
     }
 }

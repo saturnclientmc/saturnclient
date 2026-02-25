@@ -10,7 +10,7 @@ public class Curve {
     }
 
     public static double easeInOutBack(double x) {
-        double c1 = 1.70158;
+        double c1 = 2.5;
         double c2 = c1 * 1.525;
 
         if (x < 0.5) {

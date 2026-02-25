@@ -3,6 +3,7 @@ package org.saturnclient.ui2.elements;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.saturnclient.saturnclient.config.AnimationConfig;
 import org.saturnclient.saturnclient.config.Config;
 import org.saturnclient.ui2.Element;
 import org.saturnclient.ui2.ElementContext;
@@ -17,6 +18,10 @@ public class AnimationStagger extends Element {
         this.delay = delay;
     }
 
+    public AnimationStagger(AnimationConfig config) {
+        this.delay = config.stagger.value;
+    }
+
     public void draw(Element element) {
         if (!Config.stagger.value) {
             element.animation = null;
@@ -29,9 +34,8 @@ public class AnimationStagger extends Element {
         ElementRenderer.draw(children, element);
 
         this.height = Math.max(this.height, element.y + element.height);
-        this.width  = Math.max(this.width,  element.x + element.width);
+        this.width = Math.max(this.width, element.x + element.width);
     }
-
 
     @Override
     public void render(RenderScope renderScope, ElementContext ctx) {

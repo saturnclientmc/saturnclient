@@ -13,8 +13,10 @@ public class SlideFade extends Animation {
         this.slideY = new SlideY(duration, offset);
     }
 
-    public SlideFade(AnimationConfig config) {
+    public SlideFade(AnimationConfig config, int offset) {
         super(config);
+        this.fade = new Fade(duration);
+        this.slideY = new SlideY(duration, offset);
     }
 
     @Override
