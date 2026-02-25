@@ -1,19 +1,70 @@
 <p align="center">
-  <img src="src/main/resources/assets/saturnclient/icon.png" alt="OSUI" width="150px"/>
+  <img src="src/main/resources/assets/saturnclient/textures/logo/logo.png" alt="Saturn Client Logo" width="150px"/>
 </p>
 
 <h1 align="center">Saturn Client</h1>
 
 <p align="center">
-  <b>Saturn Client is a free and open source Minecraft client</b>
+  <b>A free and open-source Minecraft client.</b><br/>
+  Built with performance, customization, and community in mind.
 </p>
 
-![image](https://github.com/user-attachments/assets/b0b23e72-c2eb-49aa-b49c-4d3cc4d60fcc)
+<p align="center">
+  <img src="screenshot.png" alt="Saturn Client Screenshot"/>
+</p>
 
-# Credits
+---
 
-- Cloak rendering: `IIpho3nix` & `Dhyan Blum`
-- Who Am I: `FokshaWasTaken`
-- Panorama: https://www.planetminecraft.com/texture-pack/minecraft-cavesand-cliffs-part-ii-main-menu-panorama/
+## ✨ About
 
-If any of the code or assets are in your name and you want to remove them, please submit an issue, we are still in alpha to have any artists so we would also appreciate if you could help us make some cosmetics
+Saturn Client is a free, open-source Minecraft client designed to enhance the gameplay experience while staying lightweight and customizable.
+Our goal is to build a clean, optimized client that the community can contribute to and improve together.
+
+This project is currently in **beta**, so features, visuals, and performance are continuously evolving.
+
+---
+
+## 🚀 Features
+
+- Free cosmetics that don't require real money
+- Clean and modern UI with animations
+- Ongoing performance improvements
+- Open-source and community-driven
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions of all kinds:
+
+- Code improvements
+- Bug fixes
+- UI enhancements
+- Cosmetic designs
+- Suggestions and feedback
+
+If you're an artist or designer interested in helping with cosmetics or visual assets, we’d love to collaborate.
+
+---
+
+## 🙌 Credits
+
+- **Cloak Rendering:** `IIpho3nix`
+- **Who Am I:** `FokshaWasTaken`
+- **Panorama:**  
+  https://www.planetminecraft.com/texture-pack/minecraft-cavesand-cliffs-part-ii-main-menu-panorama/
+
+If any code or assets belong to you and you would like them removed, please open an issue.  
+We aim to properly credit all contributors and respect original creators.
+
+---
+
+## 📜 License
+
+Saturn Client is free and open-source using **Apache-2.0**
+
+---
+
+<p align="center">
+  Made with ❤️ by the Saturn Client team
+</p>
