@@ -1,5 +1,7 @@
 package org.saturnclient.saturnclient.cosmetics;
 
+import java.util.Arrays;
+
 import org.saturnclient.saturnclient.client.player.SaturnPlayer;
 import org.saturnclient.saturnclient.config.Config;
 import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
@@ -22,7 +24,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.equipment.EquipmentAsset;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
 
 /**
@@ -35,7 +36,7 @@ import net.minecraft.util.math.Vec3d;
 public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState, PlayerEntityModel> {
     private final EquipmentModelLoader equipmentModelLoader;
     private static final int PARTS = 16;
-    private float currentVelocity = 0.0f;
+    private final float[] segmentValues = new float[PARTS];
 
     private static final float TEX_W = 176f;
     private static final float TEX_H = 138f;
@@ -78,6 +79,7 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
             EquipmentModelLoader equipmentModelLoader) {
         super(context);
         this.equipmentModelLoader = equipmentModelLoader;
+        Arrays.fill(segmentValues, 0.0f);
     }
 
     private boolean hasCustomModelForLayer(ItemStack stack, EquipmentModel.LayerType layerType) {
@@ -137,149 +139,135 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         }
     }
 
-    private float getCurve(int i, float curveMagnitude, PlayerEntityRenderState playerState) {
-        float powCurve = (float) Math.pow((double) (PARTS - i) / PARTS, 2) * curveMagnitude;
-        float waveFreq = 0.6f;
-        float phase = (playerState.age + playerState.handSwingProgress) * 0.4f;
-        float sineAmplitude = 0.02f;
-        float sineCurve = (float) Math.sin(i * waveFreq + phase) * sineAmplitude;
-        float t = Math.min(1.0f, Math.max(0.0f, (curveMagnitude - 0.3f) / 0.2f));
-        t = t * t * (3 - 2 * t);
-        return (1.0f - t) * powCurve + t * (powCurve + sineCurve);
-    }
-
-    private void renderCape(MatrixStack matrixStack, VertexConsumer vertexConsumer,
-            PlayerEntityRenderState playerState, int light, int overlay,
-            float rotation, float curveMagnitude) {
+    private void renderCape(MatrixStack matrixStack, VertexConsumer vertexConsumer, PlayerEntityRenderState playerState,
+            int light, int overlay) {
         float capeWidth = 10.0f / 16.0f;
         float capeHeight = 16.0f / 16.0f;
         float capeDepth = 1.0f / 16.0f;
         float capePartHeight = capeHeight / PARTS;
 
-        matrixStack.push();
-        matrixStack.translate(0.0f, 1.25, 0.125f);
-        matrixStack.translate(0, -capeHeight, 0);
-        matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(rotation));
-        matrixStack.translate(0, capeHeight, 0);
-
         float x1 = -capeWidth / 2.0f;
         float x2 = capeWidth / 2.0f;
-        float y2 = -capeHeight;
-        float z1 = 0.0f;
-        float z2 = capeDepth;
 
         final float frontU1 = FRONT_RECT.u1();
         final float frontU2 = FRONT_RECT.u2();
         final float frontV1 = FRONT_RECT.v1();
         final float frontV2 = FRONT_RECT.v2();
         final float frontPartV = (frontV2 - frontV1) / PARTS;
-
         final float backU1 = BACK_RECT.u1();
         final float backU2 = BACK_RECT.u2();
         final float backV1 = BACK_RECT.v1();
         final float backV2 = BACK_RECT.v2();
         final float backPartV = (backV2 - backV1) / PARTS;
-
         final float leftU1 = LEFT_EDGE_RECT.u1();
         final float leftU2 = LEFT_EDGE_RECT.u2();
         final float leftV1 = LEFT_EDGE_RECT.v1();
         final float leftV2 = LEFT_EDGE_RECT.v2();
         final float leftPartV = (leftV2 - leftV1) / PARTS;
-
         final float rightU1 = RIGHT_EDGE_RECT.u1();
         final float rightU2 = RIGHT_EDGE_RECT.u2();
         final float rightV1 = RIGHT_EDGE_RECT.v1();
         final float rightV2 = RIGHT_EDGE_RECT.v2();
         final float rightPartV = (rightV2 - rightV1) / PARTS;
-
         final float topU1 = TOP_RECT.u1();
         final float topU2 = TOP_RECT.u2();
         final float topV1 = TOP_RECT.v1();
         final float topV2 = TOP_RECT.v2();
-
         final float bottomU1 = BOTTOM_RECT.u1();
         final float bottomU2 = BOTTOM_RECT.u2();
         final float bottomV1 = BOTTOM_RECT.v1();
         final float bottomV2 = BOTTOM_RECT.v2();
 
+        float curY = 0.0f;
+        float curZ = 0.0f;
+
         for (int i = 0; i < PARTS; i++) {
-            float y3 = -(capePartHeight * i);
-            float y4 = -(capePartHeight * (i + 1));
+            float angle = (2.0f - segmentValues[i]) * ((float) Math.PI / 2f);
+            float dirY = -(float) Math.cos(angle);
+            float dirZ = (float) Math.sin(angle);
 
-            float curveOffsetTop = getCurve(i, curveMagnitude, playerState);
-            float curveOffsetBottom = getCurve(i + 1, curveMagnitude, playerState);
+            // 1. Thickness at the START of this segment (Must match PREVIOUS segment's end)
+            float prevAngle = (i > 0) ? (2.0f - segmentValues[i - 1]) * ((float) Math.PI / 2f) : angle;
+            float startAvgAngle = (angle + prevAngle) / 2.0f;
+            float thickYStart = (float) Math.sin(startAvgAngle) * capeDepth;
+            float thickZStart = (float) Math.cos(startAvgAngle) * capeDepth;
 
-            // FRONT FACE (outside)
-            this.renderCapeQuad(
-                    vertexConsumer, matrixStack,
-                    new Vec3d(x2, y4, z2 + curveOffsetBottom),
-                    new Vec3d(x1, y4, z2 + curveOffsetBottom),
-                    new Vec3d(x1, y3, z2 + curveOffsetTop), new Vec3d(x2, y3, z2 + curveOffsetTop),
-                    frontU1, frontV2 - (frontPartV * i),
-                    frontU2, frontV2 - (frontPartV * (i + 1)),
-                    light, overlay,
-                    0.0f, 0.0f, 1.0f, false);
+            // 2. Thickness at the END of this segment (Must match NEXT segment's start)
+            float nextAngle = (i < PARTS - 1) ? (2.0f - segmentValues[i + 1]) * ((float) Math.PI / 2f) : angle;
+            float endAvgAngle = (angle + nextAngle) / 2.0f;
+            float thickYEnd = (float) Math.sin(endAvgAngle) * capeDepth;
+            float thickZEnd = (float) Math.cos(endAvgAngle) * capeDepth;
 
-            // BACK FACE (inside)
-            this.renderCapeQuad(
-                    vertexConsumer, matrixStack,
-                    new Vec3d(x1, y4, z1 + curveOffsetBottom),
-                    new Vec3d(x2, y4, z1 + curveOffsetBottom),
-                    new Vec3d(x2, y3, z1 + curveOffsetTop), new Vec3d(x1, y3, z1 + curveOffsetTop),
-                    backU1, backV2 - (backPartV * i),
-                    backU2, backV2 - (backPartV * (i + 1)),
-                    light, overlay,
-                    0.0f, 0.0f, 1.0f, false);
+            float nextY = curY + dirY * capePartHeight;
+            float nextZ = curZ + dirZ * capePartHeight;
 
-            // LEFT FACE (thickness at x2)
-            this.renderCapeQuad(
-                    vertexConsumer, matrixStack,
-                    new Vec3d(x2, y4, z1 + curveOffsetBottom),
-                    new Vec3d(x2, y4, z2 + curveOffsetBottom),
-                    new Vec3d(x2, y3, z2 + curveOffsetTop), new Vec3d(x2, y3, z1 + curveOffsetTop),
-                    leftU1, leftV2 - (leftPartV * i),
-                    leftU2, leftV2 - (leftPartV * (i + 1)),
-                    light, overlay,
-                    1.0f, 0.0f, 0.0f, false);
+            // Inner Vertices (The spine of the cape)
+            Vec3d innerTopLeft = new Vec3d(x2, curY, curZ);
+            Vec3d innerTopRight = new Vec3d(x1, curY, curZ);
+            Vec3d innerBotLeft = new Vec3d(x2, nextY, nextZ);
+            Vec3d innerBotRight = new Vec3d(x1, nextY, nextZ);
 
-            // RIGHT FACE (thickness at x1)
-            this.renderCapeQuad(
-                    vertexConsumer, matrixStack,
-                    new Vec3d(x1, y4, z2 + curveOffsetBottom),
-                    new Vec3d(x1, y4, z1 + curveOffsetBottom),
-                    new Vec3d(x1, y3, z1 + curveOffsetTop), new Vec3d(x1, y3, z2 + curveOffsetTop),
-                    rightU1, rightV2 - (rightPartV * i),
-                    rightU2, rightV2 - (rightPartV * (i + 1)),
-                    light, overlay,
-                    -1.0f, 0.0f, 0.0f, false);
+            // Outer Vertices (Offset by the specific joint thickness)
+            Vec3d outerTopLeft = new Vec3d(x2, curY + thickYStart, curZ + thickZStart);
+            Vec3d outerTopRight = new Vec3d(x1, curY + thickYStart, curZ + thickZStart);
+            Vec3d outerBotLeft = new Vec3d(x2, nextY + thickYEnd, nextZ + thickZEnd);
+            Vec3d outerBotRight = new Vec3d(x1, nextY + thickYEnd, nextZ + thickZEnd);
+
+            // FRONT (Inner) - Changed winding/order to fix flipping
+            this.renderCapeQuad(vertexConsumer, matrixStack,
+                    innerBotLeft, innerBotRight, innerTopRight, innerTopLeft,
+                    frontU1, frontV1 + (frontPartV * i), frontU2, frontV1 + (frontPartV * (i + 1)),
+                    light, overlay, 0, 0, -1, false);
+
+            // BACK (Outer)
+            this.renderCapeQuad(vertexConsumer, matrixStack,
+                    outerBotRight, outerBotLeft, outerTopLeft, outerTopRight,
+                    backU1, backV1 + (backPartV * i), backU2, backV1 + (backPartV * (i + 1)),
+                    light, overlay, 0, 0, 1, false);
+
+            // LEFT EDGE
+            this.renderCapeQuad(vertexConsumer, matrixStack,
+                    innerBotLeft, outerBotLeft, outerTopLeft, innerTopLeft,
+                    leftU1, leftV1 + (leftPartV * i), leftU2, leftV1 + (leftPartV * (i + 1)),
+                    light, overlay, 1, 0, 0, false);
+
+            // RIGHT EDGE
+            this.renderCapeQuad(vertexConsumer, matrixStack,
+                    outerBotRight, innerBotRight, innerTopRight, outerTopRight,
+                    rightU1, rightV1 + (rightPartV * i), rightU2, rightV1 + (rightPartV * (i + 1)),
+                    light, overlay, -1, 0, 0, false);
+
+            // TOP FACE (Only on first segment)
+            if (i == 0) {
+                this.renderCapeQuad(vertexConsumer, matrixStack,
+                        outerTopLeft, outerTopRight, innerTopRight, innerTopLeft,
+                        topU1, topV1, topU2, topV2, light, overlay, 0, 1, 0, false);
+            }
+
+            // BOTTOM FACE (Only on last segment)
+            if (i == PARTS - 1) {
+                this.renderCapeQuad(vertexConsumer, matrixStack,
+                        innerBotLeft, innerBotRight, outerBotRight, outerBotLeft,
+                        bottomU1, bottomV1, bottomU2, bottomV2, light, overlay, 0, -1, 0, false);
+            }
+
+            curY = nextY;
+            curZ = nextZ;
+        }
+    }
+
+    // Shift array left and insert new value at the start
+    private void updateSegmentValues(float value) {
+        // Shift all elements one position to the right (from end to start)
+        for (int i = segmentValues.length - 1; i > 0; i--) {
+            segmentValues[i] = segmentValues[i - 1];
         }
 
-        // TOP FACE (shoulders edge) – use its dedicated strip
-        matrixStack.push();
-        matrixStack.translate(0.0f, y2 + capeDepth, 0.0f);
-        matrixStack.multiply(net.minecraft.util.math.RotationAxis.POSITIVE_X.rotationDegrees(90.0f));
-        matrixStack.translate(0.0f, -y2, 0.0f);
-        this.renderCapeQuad(
-                vertexConsumer, matrixStack,
-                new Vec3d(x2, y2 + capeDepth, z2), new Vec3d(x1, y2 + capeDepth, z2),
-                new Vec3d(x1, y2, z2), new Vec3d(x2, y2, z2),
-                topU1, topV1, topU2, topV2,
-                light, overlay,
-                0.0f, 1.0f, 0.0f, true);
-        matrixStack.pop();
-
-        // BOTTOM FACE – use bottom strip
-        float curveOffset = getCurve(0, curveMagnitude, playerState);
-        this.renderCapeQuad(
-                vertexConsumer, matrixStack,
-                new Vec3d(x2, 0.0f, z2 + curveOffset), new Vec3d(x1, 0.0f, z2 + curveOffset),
-                new Vec3d(x1, 0.0f, z1 + curveOffset), new Vec3d(x2, 0.0f, z1 + curveOffset),
-                bottomU1, bottomV1, bottomU2, bottomV2,
-                light, overlay,
-                0.0f, 0.0f, 1.0f, false);
-
-        matrixStack.pop();
+        // Insert the new value at index 0
+        segmentValues[0] = value;
     }
+
+    private long lastUpdate = 0;
 
     public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light,
             PlayerEntityRenderState playerEntityRenderState, float f, float g) {
@@ -295,8 +283,8 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         }
 
         Identifier customCape = Cloaks.getCurrentCloakTexture(player.uuid);
-        if (customCape == null || this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack,
-                LayerType.WINGS)) {
+        if (customCape == null
+                || this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack, LayerType.WINGS)) {
             return;
         }
 
@@ -307,44 +295,39 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         skyLight = Math.max(skyLight, minBrightness);
         light = (skyLight << 20) | (blockLight << 4);
 
-        matrixStack.push();
         VertexConsumer vertexConsumer = vertexConsumerProvider
                 .getBuffer(RenderLayer.getEntityAlpha(customCape));
 
-        float targetVelocity = ((6.0F + playerEntityRenderState.field_53537 / 2.0F
-                + playerEntityRenderState.field_53536) * 0.02f);
-        targetVelocity = Math.max(0.0f, targetVelocity - 0.1f);
+        matrixStack.push();
 
-        float accelerationRate = 0.02f;
-        this.currentVelocity = this.currentVelocity
-                + (targetVelocity - this.currentVelocity) * accelerationRate;
+        matrixStack.translate(0.0f, 0.0f, 0.19f);
 
-        float rotation = this.currentVelocity * 72.0f;
-        float curve = this.currentVelocity * 0.4f;
-
-        if (playerEntityRenderState.sneaking && playerEntityRenderState.isInSneakingPose) {
-            matrixStack.translate(0, 0.24f, 0);
-            matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(27.0f));
-            curve += 0.2f;
-        }
-
-        matrixStack.translate(0.0f, -0.25f, 0.0f);
-        if (this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack,
-                LayerType.HUMANOID)) {
+        if (this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack, LayerType.HUMANOID)) {
             matrixStack.translate(0.0F, -0.053125F, 0.06875F);
         }
 
-        if (playerEntityRenderState.isSwimming) {
-            curve = 0.0f;
-            rotation = 0.0f;
+        long now = System.currentTimeMillis();
+        if (now - lastUpdate >= 20) {
+            float value = Math.min(1.0f, playerEntityRenderState.field_53537 / 108.0f)
+                    + (Math.max(0, playerEntityRenderState.field_53536) / 16);
+            if (Config.cloakPhysics.value) {
+                updateSegmentValues(value);
+            } else {
+                float last = segmentValues[0];
+                float maxStep = 0.02f;
+                float next = value;
+
+                if (next > last)
+                    next = Math.min(next, last + maxStep);
+                else if (next < last)
+                    next = Math.max(next, last - maxStep);
+
+                Arrays.fill(segmentValues, next);
+            }
+            lastUpdate = now;
         }
 
-        if (!Config.bendyCloaks.value) {
-            curve = 0.0f;
-        }
-
-        renderCape(matrixStack, vertexConsumer, playerEntityRenderState, light,
-                OverlayTexture.DEFAULT_UV, Math.min(rotation, 60.0f), Math.min(curve, 0.5f));
+        renderCape(matrixStack, vertexConsumer, playerEntityRenderState, light, OverlayTexture.DEFAULT_UV);
 
         matrixStack.pop();
     }
