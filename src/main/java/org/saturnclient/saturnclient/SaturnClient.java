@@ -8,8 +8,8 @@ import net.minecraft.client.util.math.MatrixStack;
 
 import org.saturnclient.modules.ModManager;
 import org.saturnclient.saturnclient.client.ServiceClient;
-import org.saturnclient.saturnclient.config.ConfigManager;
-import org.saturnclient.saturnclient.config.SaturnClientConfig;
+import org.saturnclient.saturnclient.config.Config;
+import org.saturnclient.saturnclient.config.manager.ConfigManager;
 import org.saturnclient.saturnclient.cosmetics.Emotes;
 import org.saturnclient.saturnclient.cosmetics.Hats;
 import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
@@ -38,7 +38,7 @@ public class SaturnClient implements ModInitializer {
     public void onInitialize() {
         LOGGER.info("Initializing " + MOD_ID);
         client = MinecraftClient.getInstance();
-        SaturnClientConfig.init();
+        Config.init();
         ModManager.init();
 
         client.execute(() -> {

@@ -2,12 +2,14 @@ package org.saturnclient.ui2.screens;
 
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.client.ServiceClient;
-import org.saturnclient.saturnclient.config.SaturnClientConfig;
+import org.saturnclient.saturnclient.config.AnimationConfig;
+import org.saturnclient.saturnclient.config.Config;
 import org.saturnclient.saturnclient.cosmetics.Emotes;
 import org.saturnclient.ui2.SaturnScreen;
 import org.saturnclient.ui2.Utils;
 import org.saturnclient.ui2.anim.Fade;
 import org.saturnclient.ui2.anim.SlideY;
+import org.saturnclient.ui2.elements.AnimationStagger;
 import org.saturnclient.ui2.elements.ImageTexture;
 import org.saturnclient.ui2.elements.TextureButton;
 import org.saturnclient.ui2.resources.Textures;
@@ -29,10 +31,23 @@ public class EmoteWheel extends SaturnScreen {
         int row = 0;
         int col = 0;
 
-        draw(new ImageTexture(Textures.LOGO_TEXT).dimensions(98, 10).centerOffset(width, height, 0, -105)
-                .animation(new Fade(700)));
-        draw(new ImageTexture(SaturnClientConfig.getLogo()).dimensions(98, 98).centerOffset(width, height, 0, -149)
-                .animation(new SlideY(700, -20)));
+        // =============================
+        // Logo
+        // =============================
+
+        draw(new ImageTexture(Textures.LOGO_TEXT)
+                .dimensions(98, 10)
+                .centerOffset(width, height, 0, -105)
+                .animation(new Fade(AnimationConfig.logo.duration.value)));
+
+        draw(new ImageTexture(Config.getLogo())
+                .dimensions(98, 98)
+                .centerOffset(width, height, 0, -149)
+                .animation(new SlideY(AnimationConfig.logo, -20)));
+
+        // =============================
+        // Navigation Buttons
+        // =============================
 
         draw(new TextureButton(Textures.LEFT, () -> {
             if (page > 1) {
@@ -40,18 +55,29 @@ public class EmoteWheel extends SaturnScreen {
                 elements.clear();
                 ui();
             }
-        }).dimensions(30, 30).centerOffset(width, height, -20, 45).animation(new Fade(700)));
+        }).dimensions(30, 30)
+                .centerOffset(width, height, -50, 105)
+                .animation(new Fade(500)));
 
         draw(new TextureButton(Textures.RIGHT, () -> {
-            if ((8 * page) < Emotes.availableEmotes.size()) {
+            if ((page * 8) < Emotes.availableEmotes.size()) {
                 page++;
                 elements.clear();
                 ui();
             }
-        }).dimensions(30, 30).centerOffset(width, height, 20, 45).animation(new Fade(700)));
+        }).dimensions(30, 30)
+                .centerOffset(width, height, 50, 105)
+                .animation(new Fade(500)));
+
+        // =============================
+        // Emote Grid (Staggered)
+        // =============================
+
+        AnimationStagger emoteStagger = new AnimationStagger(AnimationConfig.emoteWheel);
 
         while (row < 3) {
-            int idx = (row * 3 + col) * page;
+
+            int idx = (row * 3 + col) + ((page - 1) * 8);
 
             if (row == 1 && col == 1) {
                 col++;
@@ -59,21 +85,35 @@ public class EmoteWheel extends SaturnScreen {
 
             String emote = Utils.getOrNull(Emotes.availableEmotes, idx);
 
-            draw(new TextureButton(Textures.getEmotePreview(emote), () -> {
-                if (emote == null) {
-                    return;
-                }
-                AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(SaturnClient.client.player);
-                if (animationStack.isActive() && animationStack.getPriority() == 1000) {
-                    animationStack.removeLayer(1000);
-                }
-                animationStack.addAnimLayer(1000,
-                        PlayerAnimationRegistry.getAnimation(Identifier.of("saturnclient",
-                                emote)).playAnimation());
-                ServiceClient.emote(emote);
-                close();
-            }).dimensions(70, 70).centerOffset(width, height, -80 + (col * 80), -35 + (row * 80))
-                    .animation(new Fade(700)));
+            emoteStagger.draw(
+                    new TextureButton(Textures.getEmotePreview(emote), () -> {
+
+                        if (emote == null)
+                            return;
+
+                        AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(
+                                SaturnClient.client.player);
+
+                        if (animationStack.isActive()
+                                && animationStack.getPriority() == 1000) {
+                            animationStack.removeLayer(1000);
+                        }
+
+                        animationStack.addAnimLayer(
+                                1000,
+                                PlayerAnimationRegistry
+                                        .getAnimation(
+                                                Identifier.of("saturnclient", emote))
+                                        .playAnimation());
+
+                        ServiceClient.emote(emote);
+                        close();
+                    })
+                            .dimensions(70, 70)
+                            .centerOffset(width, height,
+                                    -80 + (col * 80),
+                                    -35 + (row * 80))
+                            .animation(new SlideY(AnimationConfig.emoteWheel, 12)));
 
             if (col < 2) {
                 col++;
@@ -82,6 +122,8 @@ public class EmoteWheel extends SaturnScreen {
                 row++;
             }
         }
+
+        draw(emoteStagger);
     }
 
     @Override

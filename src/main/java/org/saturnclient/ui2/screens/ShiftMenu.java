@@ -1,7 +1,8 @@
 package org.saturnclient.ui2.screens;
 
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.config.SaturnClientConfig;
+import org.saturnclient.saturnclient.config.AnimationConfig;
+import org.saturnclient.saturnclient.config.Config;
 import org.saturnclient.saturnclient.menus.HudEditor;
 import org.saturnclient.ui2.resources.Textures;
 import org.saturnclient.ui2.screens.cosmetics.CloakMenu;
@@ -24,12 +25,12 @@ public class ShiftMenu extends SaturnScreen {
         draw(new ImageTexture(Textures.LOGO_TEXT)
                 .dimensions(98, 10)
                 .centerOffset(width, height, 0, -36)
-                .animation(new Fade(700)));
+                .animation(new Fade(AnimationConfig.logo.duration.value)));
 
-        draw(new ImageTexture(SaturnClientConfig.getLogo())
+        draw(new ImageTexture(Config.getLogo())
                 .dimensions(98, 98)
                 .centerOffset(width, height, 0, -80)
-                .animation(new SlideY(700, -20)));
+                .animation(new SlideY(AnimationConfig.logo, -20)));
 
         // Spacing and sizes
         int btnWidth = 120;
@@ -37,22 +38,23 @@ public class ShiftMenu extends SaturnScreen {
         int spacing = 4;
 
         // Create stagger
-        AnimationStagger stagger = new AnimationStagger(50);
+
+        AnimationStagger stagger = new AnimationStagger(AnimationConfig.shiftMenu.stagger.value);
 
         stagger.draw(new TextureButton(Textures.HUD_ICON, () -> {
             client.setScreen(new HudEditor());
         }).dimensions(btnHeight, btnHeight).position(0, 0)
-                .animation(new Fade(300)));
+                .animation(new Fade(AnimationConfig.shiftMenu)));
 
         stagger.draw(new Button("Settings", () -> {
             SaturnClient.client.setScreen(new ModMenu());
         }).dimensions(btnWidth, btnHeight).position(btnHeight + spacing, 0)
-                .animation(new Fade(300)));
+                .animation(new Fade(AnimationConfig.shiftMenu)));
 
         stagger.draw(new TextureButton(Textures.COSMETICS, () -> {
             client.setScreen(new CloakMenu());
         }).dimensions(btnHeight, btnHeight).position(btnWidth + btnHeight + (spacing * 2), 0)
-                .animation(new Fade(300)));
+                .animation(new Fade(AnimationConfig.shiftMenu)));
 
         // Draw the stagger at the absolute center of the screen
         draw(stagger.dimensions(btnWidth + (btnHeight * 2) + (spacing * 2), btnHeight).centerOffset(width, height, 0,

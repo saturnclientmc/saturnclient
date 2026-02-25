@@ -1,7 +1,7 @@
 package org.saturnclient.saturnclient.cosmetics;
 
 import org.saturnclient.saturnclient.client.player.SaturnPlayer;
-import org.saturnclient.saturnclient.config.SaturnClientConfig;
+import org.saturnclient.saturnclient.config.Config;
 import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 
 import net.minecraft.client.render.OverlayTexture;
@@ -339,7 +339,7 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
             rotation = 0.0f;
         }
 
-        if (!SaturnClientConfig.bendyCloaks.value) {
+        if (!Config.bendyCloaks.value) {
             curve = 0.0f;
         }
 

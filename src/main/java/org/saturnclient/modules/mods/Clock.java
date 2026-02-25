@@ -7,7 +7,7 @@ import org.saturnclient.modules.HudMod;
 import org.saturnclient.modules.ModDimensions;
 import org.saturnclient.modules.Module;
 import org.saturnclient.modules.ModuleDetails;
-import org.saturnclient.saturnclient.config.Property;
+import org.saturnclient.saturnclient.config.manager.Property;
 import org.saturnclient.ui2.RenderScope;
 import org.saturnclient.ui2.resources.Fonts;
 

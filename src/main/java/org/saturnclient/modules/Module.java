@@ -1,9 +1,9 @@
 package org.saturnclient.modules;
 
-import org.saturnclient.saturnclient.config.ConfigManager;
 import org.saturnclient.ui2.resources.Textures;
+import org.saturnclient.saturnclient.config.manager.ConfigManager;
+import org.saturnclient.saturnclient.config.manager.Property.NamedProperty;
 import org.saturnclient.ui2.RenderScope;
-import org.saturnclient.saturnclient.config.Property.NamedProperty;
 
 import net.minecraft.util.Identifier;
 

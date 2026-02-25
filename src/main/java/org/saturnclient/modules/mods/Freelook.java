@@ -4,7 +4,7 @@ import org.lwjgl.glfw.GLFW;
 import org.saturnclient.modules.Module;
 import org.saturnclient.modules.ModuleDetails;
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.config.Property;
+import org.saturnclient.saturnclient.config.manager.Property;
 
 import net.minecraft.client.option.Perspective;
 

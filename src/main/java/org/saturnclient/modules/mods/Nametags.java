@@ -3,7 +3,7 @@ package org.saturnclient.modules.mods;
 import org.saturnclient.modules.Module;
 import org.saturnclient.modules.ModuleDetails;
 import org.saturnclient.modules.mods.utils.HealthRenderState;
-import org.saturnclient.saturnclient.config.Property;
+import org.saturnclient.saturnclient.config.manager.Property;
 
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 

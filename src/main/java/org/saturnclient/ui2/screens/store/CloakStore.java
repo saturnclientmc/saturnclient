@@ -3,12 +3,16 @@ package org.saturnclient.ui2.screens.store;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.client.ServiceClient;
 import org.saturnclient.saturnclient.client.player.SaturnPlayer;
+import org.saturnclient.saturnclient.config.AnimationConfig;
 import org.saturnclient.saturnclient.config.Theme;
 import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 import org.saturnclient.ui2.SaturnScreen;
 import org.saturnclient.ui2.Utils;
+import org.saturnclient.ui2.anim.Fade;
+import org.saturnclient.ui2.anim.SlideY;
 import org.saturnclient.ui2.components.CosmeticPreview;
 import org.saturnclient.ui2.components.Sidebar;
+import org.saturnclient.ui2.elements.AnimationStagger;
 import org.saturnclient.ui2.elements.ImageTexture;
 import org.saturnclient.ui2.elements.Notification.NotificationKind;
 import org.saturnclient.ui2.elements.Scroll;
@@ -45,41 +49,37 @@ public class CloakStore extends SaturnScreen {
 
         SaturnPlayer player = SaturnPlayer.get();
 
+        AnimationStagger stagger = new AnimationStagger(AnimationConfig.cosmeticsMenu);
+
         if (player != null) {
             for (String cloak : Cloaks.ALL_CLOAKS) {
                 if (!Cloaks.availableCloaks.contains(cloak)) {
+
                     int x = (50 + gx) * col;
                     int y = (111 + gy) * row;
 
-                    scroll.draw(new CosmeticPreview(cloak == player.cloak, Textures.getCloakPreview(cloak), () -> {
-                        long now = System.currentTimeMillis();
-                        if (now - lastPurchaseTime >= 3000) {
-                            Utils.notify(NotificationKind.Info, "Purchase processing", "Please wait");
-                            ServiceClient.buyCloak(cloak);
-                            lastPurchaseTime = now;
-                            new Thread(() -> {
-                                try {
-                                    Thread.sleep(5000);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                                RenderSystem.recordRenderCall(() -> {
-                                    SaturnClient.client.setScreen(new CloakStore(now));
-                                    Utils.notify(NotificationKind.Success, "Purchase complete",
-                                            "Congrats, enjoy your new cloak!");
-                                });
-                            }).start();
-                        } else {
-                            Utils.notify(NotificationKind.Error, "Timeout error", "Please wait 3 seconds");
-                        }
-                    }).position(x, y));
+                    stagger.draw(
+                            new CosmeticPreview(
+                                    cloak == player.cloak,
+                                    Textures.getCloakPreview(cloak),
+                                    () -> handlePurchase(cloak))
+                                    .position(x, y)
+                                    .animation(new SlideY(AnimationConfig.cosmeticsMenu, 16)));
 
                     String t = "100";
 
-                    scroll.draw(new Text(t).position(x + Fonts.centerX(50, t, Theme.FONT.value), y + 113).scale(0.5f));
+                    stagger.draw(
+                            new Text(t)
+                                    .position(x + Fonts.centerX(50, t, Theme.FONT.value), y + 113)
+                                    .scale(0.5f)
+                                    .animation(new Fade(400)));
 
-                    scroll.draw(new ImageTexture(Textures.COINS).dimensions(16, 16)
-                            .position(x + Fonts.getWidth(t, Theme.FONT.value) - 1, y + 112).scale(0.5f));
+                    stagger.draw(
+                            new ImageTexture(Textures.COINS)
+                                    .dimensions(16, 16)
+                                    .position(x + Fonts.getWidth(t, Theme.FONT.value) - 1, y + 112)
+                                    .scale(0.5f)
+                                    .animation(new Fade(400)));
 
                     if (col == 8) {
                         col = 0;
@@ -91,17 +91,54 @@ public class CloakStore extends SaturnScreen {
             }
         }
 
+        scroll.draw(stagger);
+
         int scrollWidth = 480 + 40 + (gx * 2) + (p * 2);
 
-        draw(scroll.dimensions(scrollWidth, 350).centerOffset(width, height, 15, 0));
+        draw(scroll
+                .dimensions(scrollWidth, 350)
+                .centerOffset(width, height, 15, 0));
 
-        draw(new Sidebar(5, this::close).centerOffset(width, height, -((scrollWidth - 30) / 2 + 20), 0));
+        draw(new Sidebar(5, this::close)
+                .centerOffset(width, height, -((scrollWidth - 30) / 2 + 20), 0)
+                .animation(new Fade(400)));
 
         draw(new TabMenu(0,
                 new TabMenuComponent(Textures.CLOAK, () -> {
                 }),
                 new TabMenuComponent(Textures.HAT, () -> {
                     SaturnClient.client.setScreen(new HatStore());
-                })).centerOffset(width, height, 0, -195));
+                }))
+                .centerOffset(width, height, 0, -195));
+    }
+
+    private void handlePurchase(String cloak) {
+        long now = System.currentTimeMillis();
+
+        if (now - lastPurchaseTime >= 3000) {
+            Utils.notify(NotificationKind.Info, "Purchase processing", "Please wait");
+
+            ServiceClient.buyCloak(cloak);
+            lastPurchaseTime = now;
+
+            new Thread(() -> {
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException ignored) {
+                }
+
+                RenderSystem.recordRenderCall(() -> {
+                    SaturnClient.client.setScreen(new CloakStore(now));
+                    Utils.notify(NotificationKind.Success,
+                            "Purchase complete",
+                            "Congrats, enjoy your new cloak!");
+                });
+            }).start();
+
+        } else {
+            Utils.notify(NotificationKind.Error,
+                    "Timeout error",
+                    "Please wait 3 seconds");
+        }
     }
 }

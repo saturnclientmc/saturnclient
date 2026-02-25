@@ -3,7 +3,7 @@ package org.saturnclient.modules.mods;
 import org.lwjgl.glfw.GLFW;
 import org.saturnclient.modules.Module;
 import org.saturnclient.modules.ModuleDetails;
-import org.saturnclient.saturnclient.config.Property;
+import org.saturnclient.saturnclient.config.manager.Property;
 
 public class Zoom extends Module {
     private static Property<Boolean> enabled = Property.bool(false);

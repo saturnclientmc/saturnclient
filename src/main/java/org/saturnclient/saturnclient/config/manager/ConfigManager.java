@@ -1,4 +1,4 @@
-package org.saturnclient.saturnclient.config;
+package org.saturnclient.saturnclient.config.manager;
 
 import com.google.gson.*;
 import org.saturnclient.saturnclient.SaturnClient;

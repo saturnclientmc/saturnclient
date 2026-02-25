@@ -9,7 +9,7 @@ import org.saturnclient.modules.HudMod;
 import org.saturnclient.modules.ModDimensions;
 import org.saturnclient.modules.ModManager;
 import org.saturnclient.modules.Module;
-import org.saturnclient.saturnclient.config.ConfigManager;
+import org.saturnclient.saturnclient.config.manager.ConfigManager;
 import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
 import org.saturnclient.ui2.RenderScope;
 import org.saturnclient.ui2.SaturnScreen;

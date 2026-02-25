@@ -5,7 +5,7 @@ import java.util.Objects;
 import org.saturnclient.modules.Module;
 import org.saturnclient.modules.ModuleDetails;
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.config.Property;
+import org.saturnclient.saturnclient.config.manager.Property;
 
 public class AutoSprint extends Module {
     private static Property<Boolean> enabled = Property.bool(false);

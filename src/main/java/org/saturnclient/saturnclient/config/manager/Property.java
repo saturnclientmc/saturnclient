@@ -1,4 +1,4 @@
-package org.saturnclient.saturnclient.config;
+package org.saturnclient.saturnclient.config.manager;
 
 import java.util.Map;
 

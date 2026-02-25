@@ -1,6 +1,6 @@
 package org.saturnclient.saturnclient.mixin;
 
-import org.saturnclient.saturnclient.config.SaturnClientConfig;
+import org.saturnclient.saturnclient.config.Config;
 import org.saturnclient.ui2.screens.TitleMenu;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -14,7 +14,7 @@ import net.minecraft.client.gui.screen.TitleScreen;
 public class SetScreenMixin {
     @ModifyVariable(method = "setScreen", at = @At("HEAD"), argsOnly = true)
     private Screen replaceTitleScreen(Screen screen) {
-        if (SaturnClientConfig.saturnTitleScreen.value) {
+        if (Config.saturnTitleScreen.value) {
             if (screen instanceof TitleScreen)
                 return new TitleMenu();
             if (screen == null && ((MinecraftClient) (Object) this).world == null)
