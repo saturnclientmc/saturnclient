@@ -3,6 +3,7 @@ package org.saturnclient.saturnclient.cosmetics;
 import java.util.Arrays;
 
 import org.saturnclient.saturnclient.client.player.SaturnPlayer;
+import org.saturnclient.saturnclient.config.Config;
 import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 
 import net.minecraft.client.render.OverlayTexture;
@@ -282,8 +283,8 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         }
 
         Identifier customCape = Cloaks.getCurrentCloakTexture(player.uuid);
-        if (customCape == null || this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack,
-                LayerType.WINGS)) {
+        if (customCape == null
+                || this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack, LayerType.WINGS)) {
             return;
         }
 
@@ -308,7 +309,20 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         long now = System.currentTimeMillis();
         if (now - lastUpdate >= 20) {
             float value = playerEntityRenderState.field_53537 / 108.0f;
-            updateSegmentValues(value);
+            if (Config.cloakPhysics.value) {
+                updateSegmentValues(value);
+            } else {
+                float last = segmentValues[0];
+                float maxStep = 0.02f;
+                float next = value;
+
+                if (next > last)
+                    next = Math.min(next, last + maxStep);
+                else if (next < last)
+                    next = Math.max(next, last - maxStep);
+
+                Arrays.fill(segmentValues, next);
+            }
             lastUpdate = now;
         }
 
