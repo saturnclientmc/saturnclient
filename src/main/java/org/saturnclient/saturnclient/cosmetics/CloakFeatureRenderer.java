@@ -78,7 +78,7 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
             EquipmentModelLoader equipmentModelLoader) {
         super(context);
         this.equipmentModelLoader = equipmentModelLoader;
-        Arrays.fill(segmentValues, 0.5f);
+        Arrays.fill(segmentValues, 1.0f);
     }
 
     private boolean hasCustomModelForLayer(ItemStack stack, EquipmentModel.LayerType layerType) {
@@ -138,147 +138,118 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         }
     }
 
-    private void renderCape(MatrixStack matrixStack, VertexConsumer vertexConsumer,
-            PlayerEntityRenderState playerState, int light, int overlay) {
+    private void renderCape(MatrixStack matrixStack, VertexConsumer vertexConsumer, PlayerEntityRenderState playerState,
+            int light, int overlay) {
         float capeWidth = 10.0f / 16.0f;
         float capeHeight = 16.0f / 16.0f;
         float capeDepth = 1.0f / 16.0f;
         float capePartHeight = capeHeight / PARTS;
 
-        matrixStack.push();
-        matrixStack.translate(0.0f, 1.25, 0.125f);
-
         float x1 = -capeWidth / 2.0f;
         float x2 = capeWidth / 2.0f;
-        float z1 = 0.0f;
-        float z2 = capeDepth;
 
         final float frontU1 = FRONT_RECT.u1();
         final float frontU2 = FRONT_RECT.u2();
         final float frontV1 = FRONT_RECT.v1();
         final float frontV2 = FRONT_RECT.v2();
         final float frontPartV = (frontV2 - frontV1) / PARTS;
-
         final float backU1 = BACK_RECT.u1();
         final float backU2 = BACK_RECT.u2();
         final float backV1 = BACK_RECT.v1();
         final float backV2 = BACK_RECT.v2();
         final float backPartV = (backV2 - backV1) / PARTS;
-
         final float leftU1 = LEFT_EDGE_RECT.u1();
         final float leftU2 = LEFT_EDGE_RECT.u2();
         final float leftV1 = LEFT_EDGE_RECT.v1();
         final float leftV2 = LEFT_EDGE_RECT.v2();
         final float leftPartV = (leftV2 - leftV1) / PARTS;
-
         final float rightU1 = RIGHT_EDGE_RECT.u1();
         final float rightU2 = RIGHT_EDGE_RECT.u2();
         final float rightV1 = RIGHT_EDGE_RECT.v1();
         final float rightV2 = RIGHT_EDGE_RECT.v2();
         final float rightPartV = (rightV2 - rightV1) / PARTS;
-
         final float topU1 = TOP_RECT.u1();
         final float topU2 = TOP_RECT.u2();
         final float topV1 = TOP_RECT.v1();
         final float topV2 = TOP_RECT.v2();
-
         final float bottomU1 = BOTTOM_RECT.u1();
         final float bottomU2 = BOTTOM_RECT.u2();
         final float bottomV1 = BOTTOM_RECT.v1();
         final float bottomV2 = BOTTOM_RECT.v2();
 
-        float accumulatedY = 0.0f;
-        float accumulatedZ = 0.0f;
+        float curY = 0.0f;
+        float curZ = 0.0f;
 
         for (int i = 0; i < PARTS; i++) {
             float value = segmentValues[i];
-
             float angle = value * ((float) Math.PI / 2f);
 
-            float offsetY = -(float) Math.cos(angle) * capePartHeight;
-            float offsetZ = -(float) Math.sin(angle) * capePartHeight;
+            // Direction of the segment length
+            float dirY = -(float) Math.cos(angle);
+            float dirZ = (float) Math.sin(angle);
 
-            float topY = accumulatedY;
-            float topZ = accumulatedZ;
+            // Direction of the segment THICKNESS (perpendicular to length)
+            // This ensures thickness is always "outward" from the curve
+            float thickY = (float) Math.sin(angle) * capeDepth;
+            float thickZ = (float) Math.cos(angle) * capeDepth;
 
-            accumulatedY += offsetY;
-            accumulatedZ += offsetZ;
+            float nextY = curY + dirY * capePartHeight;
+            float nextZ = curZ + dirZ * capePartHeight;
 
-            float bottomY = accumulatedY;
-            float bottomZ = accumulatedZ;
+            // Vertices for the "Inner" face (Front - facing player)
+            Vec3d innerTopLeft = new Vec3d(x2, curY, curZ);
+            Vec3d innerTopRight = new Vec3d(x1, curY, curZ);
+            Vec3d innerBotLeft = new Vec3d(x2, nextY, nextZ);
+            Vec3d innerBotRight = new Vec3d(x1, nextY, nextZ);
 
-            // FRONT
-            this.renderCapeQuad(
-                    vertexConsumer, matrixStack,
-                    new Vec3d(x2, bottomY, z2 + bottomZ),
-                    new Vec3d(x1, bottomY, z2 + bottomZ),
-                    new Vec3d(x1, topY, z2 + topZ),
-                    new Vec3d(x2, topY, z2 + topZ),
-                    frontU1, frontV2 - (frontPartV * i),
-                    frontU2, frontV2 - (frontPartV * (i + 1)),
-                    light, overlay,
-                    0.0f, 0.0f, 1.0f, false);
+            // Vertices for the "Outer" face (Back - facing world)
+            // We offset these by the thickness vector
+            Vec3d outerTopLeft = new Vec3d(x2, curY + thickY, curZ + thickZ);
+            Vec3d outerTopRight = new Vec3d(x1, curY + thickY, curZ + thickZ);
+            Vec3d outerBotLeft = new Vec3d(x2, nextY + thickY, nextZ + thickZ);
+            Vec3d outerBotRight = new Vec3d(x1, nextY + thickY, nextZ + thickZ);
 
-            // BACK
-            this.renderCapeQuad(
-                    vertexConsumer, matrixStack,
-                    new Vec3d(x1, bottomY, z1 + bottomZ),
-                    new Vec3d(x2, bottomY, z1 + bottomZ),
-                    new Vec3d(x2, topY, z1 + topZ),
-                    new Vec3d(x1, topY, z1 + topZ),
-                    backU1, backV2 - (backPartV * i),
-                    backU2, backV2 - (backPartV * (i + 1)),
-                    light, overlay,
-                    0.0f, 0.0f, 1.0f, false);
+            // FRONT (Inner) - Changed winding/order to fix flipping
+            this.renderCapeQuad(vertexConsumer, matrixStack,
+                    innerBotLeft, innerBotRight, innerTopRight, innerTopLeft,
+                    frontU1, frontV1 + (frontPartV * i), frontU2, frontV1 + (frontPartV * (i + 1)),
+                    light, overlay, 0, 0, -1, false);
 
-            // LEFT
-            this.renderCapeQuad(
-                    vertexConsumer, matrixStack,
-                    new Vec3d(x2, bottomY, z1 + bottomZ),
-                    new Vec3d(x2, bottomY, z2 + bottomZ),
-                    new Vec3d(x2, topY, z2 + topZ),
-                    new Vec3d(x2, topY, z1 + topZ),
-                    leftU1, leftV2 - (leftPartV * i),
-                    leftU2, leftV2 - (leftPartV * (i + 1)),
-                    light, overlay,
-                    1.0f, 0.0f, 0.0f, false);
+            // BACK (Outer)
+            this.renderCapeQuad(vertexConsumer, matrixStack,
+                    outerBotRight, outerBotLeft, outerTopLeft, outerTopRight,
+                    backU1, backV1 + (backPartV * i), backU2, backV1 + (backPartV * (i + 1)),
+                    light, overlay, 0, 0, 1, false);
 
-            // RIGHT
-            this.renderCapeQuad(
-                    vertexConsumer, matrixStack,
-                    new Vec3d(x1, bottomY, z2 + bottomZ),
-                    new Vec3d(x1, bottomY, z1 + bottomZ),
-                    new Vec3d(x1, topY, z1 + topZ),
-                    new Vec3d(x1, topY, z2 + topZ),
-                    rightU1, rightV2 - (rightPartV * i),
-                    rightU2, rightV2 - (rightPartV * (i + 1)),
-                    light, overlay,
-                    -1.0f, 0.0f, 0.0f, false);
+            // LEFT EDGE
+            this.renderCapeQuad(vertexConsumer, matrixStack,
+                    innerBotLeft, outerBotLeft, outerTopLeft, innerTopLeft,
+                    leftU1, leftV1 + (leftPartV * i), leftU2, leftV1 + (leftPartV * (i + 1)),
+                    light, overlay, 1, 0, 0, false);
+
+            // RIGHT EDGE
+            this.renderCapeQuad(vertexConsumer, matrixStack,
+                    outerBotRight, innerBotRight, innerTopRight, outerTopRight,
+                    rightU1, rightV1 + (rightPartV * i), rightU2, rightV1 + (rightPartV * (i + 1)),
+                    light, overlay, -1, 0, 0, false);
+
+            // TOP FACE (Only on first segment)
+            if (i == 0) {
+                this.renderCapeQuad(vertexConsumer, matrixStack,
+                        outerTopLeft, outerTopRight, innerTopRight, innerTopLeft,
+                        topU1, topV1, topU2, topV2, light, overlay, 0, 1, 0, false);
+            }
+
+            // BOTTOM FACE (Only on last segment)
+            if (i == PARTS - 1) {
+                this.renderCapeQuad(vertexConsumer, matrixStack,
+                        innerBotLeft, innerBotRight, outerBotRight, outerBotLeft,
+                        bottomU1, bottomV1, bottomU2, bottomV2, light, overlay, 0, -1, 0, false);
+            }
+
+            curY = nextY;
+            curZ = nextZ;
         }
-
-        // TOP FACE
-        this.renderCapeQuad(
-                vertexConsumer, matrixStack,
-                new Vec3d(x2, accumulatedY, z2 + accumulatedZ),
-                new Vec3d(x1, accumulatedY, z2 + accumulatedZ),
-                new Vec3d(x1, accumulatedY, z1 + accumulatedZ),
-                new Vec3d(x2, accumulatedY, z1 + accumulatedZ),
-                topU1, topV1, topU2, topV2,
-                light, overlay,
-                0.0f, 1.0f, 0.0f, true);
-
-        // BOTTOM FACE (last segment bottom)
-        this.renderCapeQuad(
-                vertexConsumer, matrixStack,
-                new Vec3d(x2, 0.0f, z2),
-                new Vec3d(x1, 0.0f, z2),
-                new Vec3d(x1, 0.0f, z1),
-                new Vec3d(x2, 0.0f, z1),
-                bottomU1, bottomV1, bottomU2, bottomV2,
-                light, overlay,
-                0.0f, 0.0f, 1.0f, false);
-
-        matrixStack.pop();
     }
 
     public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light,
@@ -312,7 +283,7 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
 
         matrixStack.push();
 
-        matrixStack.translate(0.0f, -0.5f, 0.7f);
+        matrixStack.translate(0.0f, -0.07f, 0.1f);
 
         if (this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack, LayerType.HUMANOID)) {
             matrixStack.translate(0.0F, -0.053125F, 0.06875F);
