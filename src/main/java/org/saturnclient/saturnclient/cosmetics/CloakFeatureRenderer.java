@@ -252,6 +252,19 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         }
     }
 
+    // Shift array left and insert new value at the start
+    private void updateSegmentValues(float value) {
+        // Shift all elements one position to the right (from end to start)
+        for (int i = segmentValues.length - 1; i > 0; i--) {
+            segmentValues[i] = segmentValues[i - 1];
+        }
+
+        // Insert the new value at index 0
+        segmentValues[0] = value;
+    }
+
+    private long lastUpdate = 0;
+
     public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light,
             PlayerEntityRenderState playerEntityRenderState, float f, float g) {
         if (playerEntityRenderState.invisible || !playerEntityRenderState.capeVisible
@@ -289,9 +302,12 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
             matrixStack.translate(0.0F, -0.053125F, 0.06875F);
         }
 
-        Arrays.fill(segmentValues, playerEntityRenderState.field_53537 / 150);
-
-        matrixStack.translate(0f, 0f, -0.07f * segmentValues[PARTS - 1]);
+        long now = System.currentTimeMillis();
+        if (now - lastUpdate >= 20) {
+            float value = playerEntityRenderState.field_53537 / 108.0f;
+            updateSegmentValues(value);
+            lastUpdate = now;
+        }
 
         renderCape(matrixStack, vertexConsumer, playerEntityRenderState, light, OverlayTexture.DEFAULT_UV);
 
