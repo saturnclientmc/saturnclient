@@ -181,7 +181,7 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         float curZ = 0.0f;
 
         for (int i = 0; i < PARTS; i++) {
-            float value = segmentValues[i];
+            float value = 2.0f - segmentValues[i];
             float angle = value * ((float) Math.PI / 2f);
 
             // Direction of the segment length
@@ -283,7 +283,7 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
 
         matrixStack.push();
 
-        matrixStack.translate(0.0f, -0.07f, 0.1f);
+        matrixStack.translate(0.0f, 0.0f, 0.19f);
 
         if (this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack, LayerType.HUMANOID)) {
             matrixStack.translate(0.0F, -0.053125F, 0.06875F);
