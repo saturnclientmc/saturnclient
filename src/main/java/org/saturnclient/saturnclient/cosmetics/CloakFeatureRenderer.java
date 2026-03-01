@@ -308,8 +308,11 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
 
         long now = System.currentTimeMillis();
         if (now - lastUpdate >= 20) {
-            float value = Math.min(1.0f, playerEntityRenderState.field_53537 / 108.0f)
-                    + (Math.max(0, playerEntityRenderState.field_53536) / 16);
+            float velX = Math.min(1.0f, playerEntityRenderState.field_53537 / 108.0f);
+            float velY = (Math.max(4.0f, playerEntityRenderState.field_53536) - 4.0f) / 16;
+
+            float value = velX + velY;
+
             if (Config.cloakPhysics.value) {
                 updateSegmentValues(value);
             } else {
