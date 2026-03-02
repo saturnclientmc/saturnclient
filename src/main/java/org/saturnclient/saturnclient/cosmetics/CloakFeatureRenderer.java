@@ -24,6 +24,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.equipment.EquipmentAsset;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
 
 /**
@@ -306,13 +307,18 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
             matrixStack.translate(0.0F, -0.053125F, 0.06875F);
         }
 
+        if (playerEntityRenderState.isInSneakingPose) {
+            matrixStack.translate(0, 0.16f, 0.0f);
+            matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(29.0f));
+        }
+
         long now = System.currentTimeMillis();
         if (now - lastUpdate >= 20) {
             float velX = Math.min(1.0f, playerEntityRenderState.field_53537 / 108.0f);
             float rawVelY = playerEntityRenderState.field_53536;
             float velY = (rawVelY > 4.0f ? rawVelY : 0.0f) / 16;
 
-            float value = velX + velY;
+            float value = playerEntityRenderState.isSwimming ? 0.0f : velX + velY;
 
             if (Config.cloakPhysics.value) {
                 updateSegmentValues(value);
