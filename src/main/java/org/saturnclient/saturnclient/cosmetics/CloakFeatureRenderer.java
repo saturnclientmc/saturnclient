@@ -35,7 +35,7 @@ import net.minecraft.util.math.Vec3d;
  */
 public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState, PlayerEntityModel> {
     private final EquipmentModelLoader equipmentModelLoader;
-    private static final int PARTS = 16;
+    private static final int PARTS = 24;
     private final float[] segmentValues = new float[PARTS];
 
     private static final float TEX_W = 176f;
@@ -309,7 +309,8 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         long now = System.currentTimeMillis();
         if (now - lastUpdate >= 20) {
             float velX = Math.min(1.0f, playerEntityRenderState.field_53537 / 108.0f);
-            float velY = (Math.max(4.0f, playerEntityRenderState.field_53536) - 4.0f) / 16;
+            float rawVelY = playerEntityRenderState.field_53536;
+            float velY = (rawVelY > 4.0f ? rawVelY : 0.0f) / 16;
 
             float value = velX + velY;
 
