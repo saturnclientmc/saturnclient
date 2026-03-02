@@ -1,10 +1,10 @@
-package org.saturnclient.saturnclient.cosmetics;
+package org.saturnclient.cosmetics;
 
 import java.util.Arrays;
 
+import org.saturnclient.cosmetics.cloaks.Cloaks;
 import org.saturnclient.saturnclient.client.player.SaturnPlayer;
 import org.saturnclient.saturnclient.config.Config;
-import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;

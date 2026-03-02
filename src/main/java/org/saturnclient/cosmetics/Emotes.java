@@ -1,4 +1,4 @@
-package org.saturnclient.saturnclient.cosmetics;
+package org.saturnclient.cosmetics;
 
 import java.util.ArrayList;
 import java.util.List;

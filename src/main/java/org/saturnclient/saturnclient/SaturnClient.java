@@ -6,13 +6,13 @@ import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 
+import org.saturnclient.cosmetics.Emotes;
+import org.saturnclient.cosmetics.Hats;
+import org.saturnclient.cosmetics.cloaks.Cloaks;
 import org.saturnclient.modules.ModManager;
 import org.saturnclient.saturnclient.client.ServiceClient;
 import org.saturnclient.saturnclient.config.Config;
 import org.saturnclient.saturnclient.config.manager.ConfigManager;
-import org.saturnclient.saturnclient.cosmetics.Emotes;
-import org.saturnclient.saturnclient.cosmetics.Hats;
-import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 import org.saturnclient.saturnclient.event.KeyInputHandler;
 import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
 import org.saturnclient.ui2.RenderScope;

@@ -1,10 +1,10 @@
 package org.saturnclient.ui2.screens;
 
+import org.saturnclient.cosmetics.Emotes;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.client.ServiceClient;
 import org.saturnclient.saturnclient.config.AnimationConfig;
 import org.saturnclient.saturnclient.config.Config;
-import org.saturnclient.saturnclient.cosmetics.Emotes;
 import org.saturnclient.ui2.SaturnScreen;
 import org.saturnclient.ui2.Utils;
 import org.saturnclient.ui2.anim.Fade;

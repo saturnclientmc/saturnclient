@@ -1,4 +1,4 @@
-package org.saturnclient.saturnclient.cosmetics.cloaks.utils;
+package org.saturnclient.cosmetics.cloaks.utils;
 
 import java.util.Random;
 

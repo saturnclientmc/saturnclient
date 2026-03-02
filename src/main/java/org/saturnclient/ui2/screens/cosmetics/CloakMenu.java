@@ -1,9 +1,9 @@
 package org.saturnclient.ui2.screens.cosmetics;
 
+import org.saturnclient.cosmetics.cloaks.Cloaks;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.client.player.SaturnPlayer;
 import org.saturnclient.saturnclient.config.AnimationConfig;
-import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 import org.saturnclient.ui2.resources.Textures;
 import org.saturnclient.ui2.SaturnScreen;
 import org.saturnclient.ui2.anim.Fade;

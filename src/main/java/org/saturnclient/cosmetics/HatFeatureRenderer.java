@@ -1,4 +1,4 @@
-package org.saturnclient.saturnclient.cosmetics;
+package org.saturnclient.cosmetics;
 
 import org.saturnclient.saturnclient.client.player.SaturnPlayer;
 import org.saturnclient.saturnclient.SaturnClient;
