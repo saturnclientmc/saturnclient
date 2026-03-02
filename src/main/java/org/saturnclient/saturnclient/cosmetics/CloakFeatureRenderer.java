@@ -208,22 +208,22 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
             Vec3d innerBotRight = new Vec3d(x1, nextY, nextZ);
 
             // Outer Vertices (Offset by the specific joint thickness)
-            Vec3d outerTopLeft = new Vec3d(x2, curY + thickYStart, curZ + thickZStart);
-            Vec3d outerTopRight = new Vec3d(x1, curY + thickYStart, curZ + thickZStart);
-            Vec3d outerBotLeft = new Vec3d(x2, nextY + thickYEnd, nextZ + thickZEnd);
-            Vec3d outerBotRight = new Vec3d(x1, nextY + thickYEnd, nextZ + thickZEnd);
+            Vec3d outerTopLeft = new Vec3d(x2, curY - thickYStart, curZ - thickZStart);
+            Vec3d outerTopRight = new Vec3d(x1, curY - thickYStart, curZ - thickZStart);
+            Vec3d outerBotLeft = new Vec3d(x2, nextY - thickYEnd, nextZ - thickZEnd);
+            Vec3d outerBotRight = new Vec3d(x1, nextY - thickYEnd, nextZ - thickZEnd);
 
-            // FRONT (Inner) - Changed winding/order to fix flipping
-            this.renderCapeQuad(vertexConsumer, matrixStack,
-                    innerBotLeft, innerBotRight, innerTopRight, innerTopLeft,
-                    frontU1, frontV1 + (frontPartV * i), frontU2, frontV1 + (frontPartV * (i + 1)),
-                    light, overlay, 0, 0, -1, false);
-
-            // BACK (Outer)
+            // FRONT (facing camera)
             this.renderCapeQuad(vertexConsumer, matrixStack,
                     outerBotRight, outerBotLeft, outerTopLeft, outerTopRight,
-                    backU1, backV1 + (backPartV * i), backU2, backV1 + (backPartV * (i + 1)),
+                    frontU2, frontV1 + (frontPartV * i), frontU1, frontV1 + (frontPartV * (i + 1)),
                     light, overlay, 0, 0, 1, false);
+
+            // BACK (Facing player)
+            this.renderCapeQuad(vertexConsumer, matrixStack,
+                    innerBotLeft, innerBotRight, innerTopRight, innerTopLeft,
+                    backU2, backV1 + (backPartV * i), backU1, backV1 + (backPartV * (i + 1)),
+                    light, overlay, 0, 0, -1, false);
 
             // LEFT EDGE
             this.renderCapeQuad(vertexConsumer, matrixStack,
@@ -300,7 +300,7 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
 
         matrixStack.push();
 
-        matrixStack.translate(0.0f, 0.0f, 0.19f);
+        matrixStack.translate(0.0f, 0.0f, 0.12f);
 
         if (this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack, LayerType.HUMANOID)) {
             matrixStack.translate(0.0F, -0.053125F, 0.06875F);
