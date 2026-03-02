@@ -87,6 +87,9 @@ dependencies {
     modApi "dev.felnull:special-model-loader:1.4.0+pre.1"
     include "dev.felnull:special-model-loader:1.4.0+pre.1"
 
+    implementation "de.javagl:obj:0.4.0"
+    include "de.javagl:obj:0.4.0"
+
     // SVG Rendering Library
     include implementation("com.formdev:svgSalamander:1.1.4")
 
