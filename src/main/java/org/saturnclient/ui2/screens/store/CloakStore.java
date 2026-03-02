@@ -1,6 +1,6 @@
 package org.saturnclient.ui2.screens.store;
 
-import org.saturnclient.cosmetics.cloaks.Cloaks;
+import org.saturnclient.cosmetics.cloak.Cloaks;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.client.ServiceClient;
 import org.saturnclient.saturnclient.client.player.SaturnPlayer;
