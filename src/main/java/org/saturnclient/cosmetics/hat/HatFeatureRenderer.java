@@ -3,11 +3,11 @@ package org.saturnclient.cosmetics.hat;
 import java.io.IOException;
 import java.util.Map;
 
+import org.saturnclient.cosmetics.obj.ObjModel;
 import org.saturnclient.cosmetics.obj.ObjRenderer;
 import org.saturnclient.saturnclient.client.player.SaturnPlayer;
 
 import de.javagl.obj.Mtl;
-import de.javagl.obj.Obj;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
@@ -19,15 +19,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 
 public class HatFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState, PlayerEntityModel> {
-    static Identifier HAT = Identifier.of("saturnclient", "models/item/horns/horns.obj");
-    static Identifier BLACK_MTL = Identifier.of("saturnclient", "models/item/black.mtl");
-    Obj obj;
+    static Identifier BLACK_MTL = Identifier.of("saturnclient", "models/cosmetic/black.mtl");
     Map<String, Mtl> mtl;
 
     public HatFeatureRenderer(FeatureRendererContext<PlayerEntityRenderState, PlayerEntityModel> context) {
         super(context);
         try {
-            this.obj = ObjRenderer.loadObj(HAT);
             this.mtl = ObjRenderer.loadMtl(BLACK_MTL);
         } catch (IOException e) {
             e.printStackTrace();
@@ -52,9 +49,9 @@ public class HatFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState,
 
         matrices.scale(0.25f, 0.25f, 0.25f);
         matrices.translate(0.0f, 1.0f, 0.0f);
-
-        // Identifier.of("saturnclient:hat_" + player.hat);
-        ObjRenderer.renderObj(this.obj, this.mtl, matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV);
+        ObjModel.of(Identifier.of("saturnclient", "models/cosmetic/" + player.hat.split("_")[0] + "/model")).render(
+                this.mtl,
+                matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV);
 
         matrices.pop();
     }

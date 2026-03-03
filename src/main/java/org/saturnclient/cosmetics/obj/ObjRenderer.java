@@ -15,7 +15,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 public class ObjRenderer {
-
     public static Obj loadObj(Identifier objId) throws IOException {
         try (InputStream is = MinecraftClient.getInstance().getResourceManager()
                 .getResource(objId).get().getInputStream()) {
@@ -37,7 +36,6 @@ public class ObjRenderer {
 
     public static void renderObj(Obj obj, Map<String, Mtl> mtlMap, MatrixStack matrices,
             VertexConsumerProvider vertexConsumers, int light, int overlay) {
-
         MatrixStack.Entry entry = matrices.peek();
 
         Map<String, Obj> materialGroups = ObjSplitting.splitByMaterialGroups(obj);
