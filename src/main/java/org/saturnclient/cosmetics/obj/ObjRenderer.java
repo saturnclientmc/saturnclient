@@ -2,7 +2,6 @@ package org.saturnclient.cosmetics.obj;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 import java.util.Map;
 
 import de.javagl.obj.*;
@@ -19,18 +18,6 @@ public class ObjRenderer {
         try (InputStream is = MinecraftClient.getInstance().getResourceManager()
                 .getResource(objId).get().getInputStream()) {
             return ObjReader.read(is);
-        }
-    }
-
-    public static Map<String, Mtl> loadMtl(Identifier mtlId) throws IOException {
-        try (InputStream is = MinecraftClient.getInstance().getResourceManager()
-                .getResource(mtlId).get().getInputStream()) {
-            List<Mtl> mtlList = MtlReader.read(is);
-            Map<String, Mtl> mtlMap = new java.util.LinkedHashMap<>();
-            for (Mtl mtl : mtlList) {
-                mtlMap.put(mtl.getName(), mtl);
-            }
-            return mtlMap;
         }
     }
 
