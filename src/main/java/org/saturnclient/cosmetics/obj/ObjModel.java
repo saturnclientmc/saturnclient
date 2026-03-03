@@ -1,26 +1,34 @@
 package org.saturnclient.cosmetics.obj;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.javagl.obj.Mtl;
 import de.javagl.obj.Obj;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.resource.Resource;
+import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 
 public class ObjModel {
+    private static final ObjectMapper MAPPER = new ObjectMapper();
     public static final Map<Identifier, ObjModel> loadedObjModels = new HashMap<>();
 
     public record Config(
-            @JsonProperty("transform") Transform transform) {
+            @JsonProperty("transform") Vec3d transform,
+            @JsonProperty("scale") Vec3d scale) {
 
         @JsonFormat(shape = JsonFormat.Shape.ARRAY)
-        public record Transform(double x, double y, double z) {
+        public record Vec3d(float x, float y, float z) {
         }
     }
 
@@ -37,21 +45,42 @@ public class ObjModel {
     }
 
     ObjModel(Identifier identifier) {
-        Identifier obj = Identifier.of(identifier.getNamespace(), identifier.getPath() + ".obj");
-        System.out.println(obj);
-        // Identifier json = Identifier.of(identifier.getNamespace(), identifier.getPath() + ".json");
+        Identifier objId = Identifier.of(identifier.getNamespace(), identifier.getPath() + ".obj");
+        Identifier jsonId = Identifier.of(identifier.getNamespace(), identifier.getPath() + ".json");
 
         try {
-            this.obj = ObjRenderer.loadObj(obj);
+            this.obj = ObjRenderer.loadObj(objId);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        Identifier.of(obj.toString());
+        // Try loading JSON config if it exists
+        ResourceManager resourceManager = MinecraftClient.getInstance().getResourceManager();
+        Optional<Resource> resource = resourceManager.getResource(jsonId);
+
+        if (resource.isPresent()) {
+            try (InputStream stream = resource.get().getInputStream()) {
+                this.config = MAPPER.readValue(stream, Config.class);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void render(Map<String, Mtl> mtlMap, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light,
             int overlay) {
+        matrices.push();
+
+        matrices.multiply(net.minecraft.util.math.RotationAxis.POSITIVE_X.rotationDegrees(180.0f));
+        matrices.multiply(net.minecraft.util.math.RotationAxis.POSITIVE_Y.rotationDegrees(180.0f));
+
+        if (this.config != null) {
+            matrices.scale(config.scale.x, config.scale.y, config.scale.z);
+            matrices.translate(config.transform.x, config.transform.y, config.transform.z);
+        }
+
         ObjRenderer.renderObj(this.obj, mtlMap, matrices, vertexConsumers, light, overlay);
+
+        matrices.pop();
     }
 }

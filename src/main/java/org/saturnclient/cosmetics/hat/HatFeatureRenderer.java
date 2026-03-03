@@ -44,11 +44,7 @@ public class HatFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState,
         matrices.push();
 
         this.getContextModel().head.rotate(matrices);
-        matrices.multiply(net.minecraft.util.math.RotationAxis.POSITIVE_X.rotationDegrees(180.0f));
-        matrices.multiply(net.minecraft.util.math.RotationAxis.POSITIVE_Y.rotationDegrees(180.0f));
 
-        matrices.scale(0.25f, 0.25f, 0.25f);
-        matrices.translate(0.0f, 1.0f, 0.0f);
         ObjModel.of(Identifier.of("saturnclient", "models/cosmetic/" + player.hat.split("_")[0] + "/model")).render(
                 this.mtl,
                 matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV);
