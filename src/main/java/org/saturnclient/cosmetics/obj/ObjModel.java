@@ -25,7 +25,14 @@ public class ObjModel {
 
     public record Config(
             @JsonProperty("translate") Vec3d transform,
-            @JsonProperty("scale") Vec3d scale) {
+            @JsonProperty("scale") Vec3d scale,
+            @JsonProperty("rotation") Vec3d rotation) {
+
+        public Config {
+            transform = transform == null ? new Vec3d(0, 0, 0) : transform;
+            scale = scale == null ? new Vec3d(1, 1, 1) : scale;
+            rotation = rotation == null ? new Vec3d(0, 0, 0) : rotation;
+        }
 
         @JsonFormat(shape = JsonFormat.Shape.ARRAY)
         public record Vec3d(float x, float y, float z) {
@@ -80,7 +87,12 @@ public class ObjModel {
 
         if (this.config != null) {
             matrices.translate(config.transform.x, config.transform.y, config.transform.z);
+
             matrices.scale(config.scale.x, config.scale.y, config.scale.z);
+
+            matrices.multiply(net.minecraft.util.math.RotationAxis.POSITIVE_X.rotationDegrees(config.rotation.x));
+            matrices.multiply(net.minecraft.util.math.RotationAxis.POSITIVE_Y.rotationDegrees(config.rotation.y));
+            matrices.multiply(net.minecraft.util.math.RotationAxis.POSITIVE_Z.rotationDegrees(config.rotation.z));
         }
 
         ObjRenderer.renderObj(this.obj, mtlMap, matrices, vertexConsumers, light, overlay);
