@@ -6,13 +6,13 @@ import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 
+import org.saturnclient.cosmetics.Emotes;
+import org.saturnclient.cosmetics.cloak.Cloaks;
+import org.saturnclient.cosmetics.hat.Hats;
 import org.saturnclient.modules.ModManager;
 import org.saturnclient.saturnclient.client.ServiceClient;
 import org.saturnclient.saturnclient.config.Config;
 import org.saturnclient.saturnclient.config.manager.ConfigManager;
-import org.saturnclient.saturnclient.cosmetics.Emotes;
-import org.saturnclient.saturnclient.cosmetics.Hats;
-import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 import org.saturnclient.saturnclient.event.KeyInputHandler;
 import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
 import org.saturnclient.ui2.RenderScope;
@@ -22,8 +22,6 @@ import org.saturnclient.ui2.resources.Textures;
 import org.saturnclient.ui2.screens.TitleMenu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import dev.felnull.specialmodelloader.api.event.SpecialModelLoaderEvents;
 
 /**
  * Main class for the Saturn Client mod.
@@ -46,10 +44,6 @@ public class SaturnClient implements ModInitializer {
         });
 
         ClientLifecycleEvents.CLIENT_STOPPING.register(_o -> ConfigManager.save());
-
-        SpecialModelLoaderEvents.LOAD_SCOPE.register(() -> {
-            return (resourceManager, location) -> MOD_ID.equals(location.getNamespace());
-        });
 
         ScreenEvents.AFTER_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
             if (screen != null && !(screen instanceof TitleMenu)) {

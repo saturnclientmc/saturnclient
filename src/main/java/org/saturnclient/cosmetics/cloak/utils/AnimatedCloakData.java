@@ -1,4 +1,4 @@
-package org.saturnclient.saturnclient.cosmetics.cloaks.utils;
+package org.saturnclient.cosmetics.cloak.utils;
 
 import net.minecraft.util.Identifier;
 

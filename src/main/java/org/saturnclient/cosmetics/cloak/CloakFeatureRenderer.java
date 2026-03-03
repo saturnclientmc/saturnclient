@@ -1,10 +1,9 @@
-package org.saturnclient.saturnclient.cosmetics;
+package org.saturnclient.cosmetics.cloak;
 
 import java.util.Arrays;
 
 import org.saturnclient.saturnclient.client.player.SaturnPlayer;
 import org.saturnclient.saturnclient.config.Config;
-import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
@@ -24,6 +23,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.equipment.EquipmentAsset;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
 
 /**
@@ -35,7 +35,7 @@ import net.minecraft.util.math.Vec3d;
  */
 public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState, PlayerEntityModel> {
     private final EquipmentModelLoader equipmentModelLoader;
-    private static final int PARTS = 16;
+    private static final int PARTS = 24;
     private final float[] segmentValues = new float[PARTS];
 
     private static final float TEX_W = 176f;
@@ -208,22 +208,22 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
             Vec3d innerBotRight = new Vec3d(x1, nextY, nextZ);
 
             // Outer Vertices (Offset by the specific joint thickness)
-            Vec3d outerTopLeft = new Vec3d(x2, curY + thickYStart, curZ + thickZStart);
-            Vec3d outerTopRight = new Vec3d(x1, curY + thickYStart, curZ + thickZStart);
-            Vec3d outerBotLeft = new Vec3d(x2, nextY + thickYEnd, nextZ + thickZEnd);
-            Vec3d outerBotRight = new Vec3d(x1, nextY + thickYEnd, nextZ + thickZEnd);
+            Vec3d outerTopLeft = new Vec3d(x2, curY - thickYStart, curZ - thickZStart);
+            Vec3d outerTopRight = new Vec3d(x1, curY - thickYStart, curZ - thickZStart);
+            Vec3d outerBotLeft = new Vec3d(x2, nextY - thickYEnd, nextZ - thickZEnd);
+            Vec3d outerBotRight = new Vec3d(x1, nextY - thickYEnd, nextZ - thickZEnd);
 
-            // FRONT (Inner) - Changed winding/order to fix flipping
-            this.renderCapeQuad(vertexConsumer, matrixStack,
-                    innerBotLeft, innerBotRight, innerTopRight, innerTopLeft,
-                    frontU1, frontV1 + (frontPartV * i), frontU2, frontV1 + (frontPartV * (i + 1)),
-                    light, overlay, 0, 0, -1, false);
-
-            // BACK (Outer)
+            // FRONT (facing camera)
             this.renderCapeQuad(vertexConsumer, matrixStack,
                     outerBotRight, outerBotLeft, outerTopLeft, outerTopRight,
-                    backU1, backV1 + (backPartV * i), backU2, backV1 + (backPartV * (i + 1)),
+                    frontU2, frontV1 + (frontPartV * i), frontU1, frontV1 + (frontPartV * (i + 1)),
                     light, overlay, 0, 0, 1, false);
+
+            // BACK (Facing player)
+            this.renderCapeQuad(vertexConsumer, matrixStack,
+                    innerBotLeft, innerBotRight, innerTopRight, innerTopLeft,
+                    backU2, backV1 + (backPartV * i), backU1, backV1 + (backPartV * (i + 1)),
+                    light, overlay, 0, 0, -1, false);
 
             // LEFT EDGE
             this.renderCapeQuad(vertexConsumer, matrixStack,
@@ -300,16 +300,25 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
 
         matrixStack.push();
 
-        matrixStack.translate(0.0f, 0.0f, 0.19f);
+        matrixStack.translate(0.0f, 0.0f, 0.12f);
 
         if (this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack, LayerType.HUMANOID)) {
             matrixStack.translate(0.0F, -0.053125F, 0.06875F);
         }
 
+        if (playerEntityRenderState.isInSneakingPose) {
+            matrixStack.translate(0, 0.16f, 0.0f);
+            matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(29.0f));
+        }
+
         long now = System.currentTimeMillis();
         if (now - lastUpdate >= 20) {
-            float value = Math.min(1.0f, playerEntityRenderState.field_53537 / 108.0f)
-                    + (Math.max(0, playerEntityRenderState.field_53536) / 16);
+            float velX = Math.min(1.0f, playerEntityRenderState.field_53537 / 108.0f);
+            float rawVelY = playerEntityRenderState.field_53536;
+            float velY = (rawVelY > 4.0f ? rawVelY : 0.0f) / 16;
+
+            float value = playerEntityRenderState.isSwimming ? 0.0f : velX + velY;
+
             if (Config.cloakPhysics.value) {
                 updateSegmentValues(value);
             } else {

@@ -7,8 +7,8 @@ import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
 import net.minecraft.entity.player.PlayerEntity;
 
-import org.saturnclient.saturnclient.cosmetics.CloakFeatureRenderer;
-import org.saturnclient.saturnclient.cosmetics.HatFeatureRenderer;
+import org.saturnclient.cosmetics.cloak.CloakFeatureRenderer;
+import org.saturnclient.cosmetics.hat.HatFeatureRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

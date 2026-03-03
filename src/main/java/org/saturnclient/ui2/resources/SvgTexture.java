@@ -11,7 +11,7 @@ import com.kitfox.svg.SVGDiagram;
 import com.kitfox.svg.SVGUniverse;
 
 import org.jetbrains.annotations.Nullable;
-import org.saturnclient.saturnclient.cosmetics.cloaks.utils.IdentifierUtils;
+import org.saturnclient.cosmetics.cloak.utils.IdentifierUtils;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;

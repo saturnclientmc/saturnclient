@@ -1,11 +1,9 @@
-package org.saturnclient.saturnclient.cosmetics.cloaks;
+package org.saturnclient.cosmetics.cloak;
 
 import net.minecraft.util.Identifier;
 
 import org.saturnclient.saturnclient.client.ServiceClient;
 import org.saturnclient.saturnclient.client.player.SaturnPlayer;
-import org.saturnclient.saturnclient.cosmetics.cloaks.utils.AnimatedCloakData;
-import org.saturnclient.saturnclient.cosmetics.cloaks.utils.IdentifierUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -17,6 +15,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.saturnclient.cosmetics.cloak.utils.AnimatedCloakData;
+import org.saturnclient.cosmetics.cloak.utils.IdentifierUtils;
 import org.saturnclient.saturnclient.SaturnClient;
 
 /**

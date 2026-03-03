@@ -1,4 +1,4 @@
-package org.saturnclient.saturnclient.cosmetics.cloaks;
+package org.saturnclient.cosmetics.cloak;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

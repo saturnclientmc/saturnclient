@@ -3,10 +3,10 @@ package org.saturnclient.saturnclient.client;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import org.saturnclient.cosmetics.cloak.Cloaks;
+import org.saturnclient.cosmetics.hat.Hats;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.client.player.SaturnPlayer;
-import org.saturnclient.saturnclient.cosmetics.Hats;
-import org.saturnclient.saturnclient.cosmetics.cloaks.Cloaks;
 
 import dev.kosmx.playerAnim.api.layered.AnimationStack;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
