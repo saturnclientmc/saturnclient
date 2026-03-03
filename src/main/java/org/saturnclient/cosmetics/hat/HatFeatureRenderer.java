@@ -11,8 +11,6 @@ import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Identifier;
 
 public class HatFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState, PlayerEntityModel> {
     public HatFeatureRenderer(FeatureRendererContext<PlayerEntityRenderState, PlayerEntityModel> context) {
@@ -22,10 +20,9 @@ public class HatFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState,
     @Override
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light,
             PlayerEntityRenderState state, float limbAngle, float limbDistance) {
-        ItemStack headItem = state.equippedHeadStack;
         SaturnPlayer player = SaturnPlayer.get(state.name);
 
-        if (!headItem.isEmpty() || state.invisible || player == null || player.hat.isEmpty()) {
+        if (state.invisible || player == null || player.hat.isEmpty()) {
             return;
         }
 
@@ -33,9 +30,9 @@ public class HatFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState,
 
         this.getContextModel().head.rotate(matrices);
 
-        ObjModel.of(Identifier.of("saturnclient", "models/cosmetic/" + player.hat.split("_")[0] + "/model")).render(
-                MtlLoader.cosmetic(player.hat),
-                matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV);
+        ObjModel.cosmetic("hat", player.hat).render(MtlLoader.cosmetic(player.hat),
+                matrices, vertexConsumers, light,
+                OverlayTexture.DEFAULT_UV);
 
         matrices.pop();
     }

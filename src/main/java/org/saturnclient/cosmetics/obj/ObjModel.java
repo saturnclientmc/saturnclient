@@ -35,6 +35,10 @@ public class ObjModel {
     Obj obj;
     Config config;
 
+    public static ObjModel cosmetic(String cosmeticKind, String id) {
+        return of(Identifier.of("saturnclient", "models/cosmetic/" + cosmeticKind + "/" + id.split("_")[0] + "/model"));
+    }
+
     public static ObjModel of(Identifier obj) {
         if (loadedObjModels.containsKey(obj))
             return loadedObjModels.get(obj);

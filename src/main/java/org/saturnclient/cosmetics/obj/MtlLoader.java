@@ -52,6 +52,6 @@ public class MtlLoader {
         if (mtlId.isEmpty())
             mtlId = "white";
 
-        return of(Identifier.of("saturnclient", "models/cosmetic/" + mtlId + ".mtl"));
+        return of(Identifier.of("saturnclient", "models/cosmetic/materials/" + mtlId + ".mtl"));
     }
 }
