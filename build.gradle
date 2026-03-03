@@ -47,11 +47,8 @@ repositories {
     // Parchment mappings (if needed later)
     maven { url 'https://maven.parchmentmc.org' }
 
-    // Special Model Loader
-    maven { name = "FelNull Maven"; url = "https://maven.felnull.dev" }
-
     // Player Animation Library
-    maven { name = "KosmX Maven"; url = 'https://maven.kosmx.dev/' }
+    maven { name = "KoSmX Maven"; url = 'https://maven.kosmx.dev/' }
 
     // Central repository
     mavenCentral()
@@ -83,10 +80,7 @@ dependencies {
     // Rendering / Model Libraries
     // ─────────────────────────────────────────────
 
-    // Special Model Loader (included inside your mod jar)
-    modApi "dev.felnull:special-model-loader:1.4.0+pre.1"
-    include "dev.felnull:special-model-loader:1.4.0+pre.1"
-
+    // OBJ Reading Library
     implementation "de.javagl:obj:0.4.0"
     include "de.javagl:obj:0.4.0"
 
@@ -98,12 +92,12 @@ dependencies {
     // Animation
     // ─────────────────────────────────────────────
 
-    // Player Animation Library (bundled into your mod)
+    // Player Animation Library
     include modImplementation(
         "dev.kosmx.player-anim:player-animation-lib-fabric:${project.player_anim}"
     )
 
-    // Optional: BendyLib (only if you directly use it)
+    // Optional: BendyLib
     // include modRuntimeOnly(
     //     "io.github.kosmx.bendy-lib:bendy-lib-fabric:${project.bendylib_version}"
     // )
@@ -113,7 +107,7 @@ dependencies {
     // External Libraries
     // ─────────────────────────────────────────────
 
-    // Session Java (auth/session handling)
+    // Session Java (Saturn auth/session handling)
     include implementation("com.github.selimaj-dev:session-java:0.1.6")
 }
 

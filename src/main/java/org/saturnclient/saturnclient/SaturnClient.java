@@ -23,8 +23,6 @@ import org.saturnclient.ui2.screens.TitleMenu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import dev.felnull.specialmodelloader.api.event.SpecialModelLoaderEvents;
-
 /**
  * Main class for the Saturn Client mod.
  */
@@ -46,10 +44,6 @@ public class SaturnClient implements ModInitializer {
         });
 
         ClientLifecycleEvents.CLIENT_STOPPING.register(_o -> ConfigManager.save());
-
-        SpecialModelLoaderEvents.LOAD_SCOPE.register(() -> {
-            return (resourceManager, location) -> MOD_ID.equals(location.getNamespace());
-        });
 
         ScreenEvents.AFTER_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
             if (screen != null && !(screen instanceof TitleMenu)) {
