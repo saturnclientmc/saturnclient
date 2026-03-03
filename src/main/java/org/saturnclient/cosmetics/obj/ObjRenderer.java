@@ -7,7 +7,6 @@ import de.javagl.obj.FloatTuple;
 import de.javagl.obj.Obj;
 import de.javagl.obj.ObjFace;
 import de.javagl.obj.ObjReader;
-import de.javagl.obj.ObjUtils;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
@@ -20,7 +19,7 @@ public class ObjRenderer {
     public static Obj loadObj(Identifier objId) throws IOException {
         try (InputStream is = MinecraftClient.getInstance().getResourceManager()
                 .getResource(objId).get().getInputStream()) {
-            return ObjUtils.convertToRenderable(ObjReader.read(is));
+            return ObjReader.read(is);
         }
     }
 
@@ -33,10 +32,14 @@ public class ObjRenderer {
 
         int faces = obj.getNumFaces();
 
+        System.out.println("Faces " + faces + ", vertices " + obj.getNumVertices());
+
         for (int f = 0; f < faces; f++) {
             ObjFace face = obj.getFace(f);
+            int vertices = face.getNumVertices();
 
-            for (int i = 0; i < 3; i++) {
+            // Reverse winding order: OBJ is CCW, Minecraft expects CW
+            for (int i = vertices - 1; i >= 0; i--) {
                 writeVertex(obj, face, i, consumer, entry, light, overlay);
             }
         }
