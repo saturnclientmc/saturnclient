@@ -27,6 +27,7 @@ public class MtlLoader {
     }
 
     public static Map<String, Mtl> of(Identifier mtlId) {
+        System.out.println(mtlId);
         if (loadedMtls.containsKey(mtlId))
             return loadedMtls.get(mtlId);
 
@@ -44,10 +45,12 @@ public class MtlLoader {
     }
 
     public static Map<String, Mtl> cosmetic(String cosmeticId) {
-        String input = "halo_black";
-        int index = input.indexOf('_');
+        int index = cosmeticId.indexOf('_');
 
-        String mtlId = (index == -1) ? "" : input.substring(index + 1);
+        String mtlId = (index == -1) ? "" : cosmeticId.substring(index + 1);
+
+        if (mtlId.isEmpty())
+            mtlId = "white";
 
         return of(Identifier.of("saturnclient", "models/cosmetic/" + mtlId + ".mtl"));
     }
