@@ -24,24 +24,21 @@ dependencies {
 }
 
 processResources {
-    def compatible_forgemc_versions = "${gradle.ext.compatible_mc_versions}".replaceAll("\"", "").replaceAll("]", ",)")
-
     var expandProps = ['version'                      : mod_version,
                        'group'                        : project.group,
                        'minecraft_version'            : gradle.ext.minecraft_version,
                        'compatible_mc_versions'       : gradle.ext.compatible_mc_versions,
-                       'compatible_forgemc_versions'  : compatible_forgemc_versions,
                        'mod_name'                     : mod_name,
                        'mod_authors'                  : mod_authors,
                        'mod_id'                       : mod_id,
                        'license'                      : license,
                        'description'                  : project.description,
-                       'neoforge_loader'              : gradle.ext.neoforge_loader,
-                       'forge_loader'                 : gradle.ext.forge_loader,
+//                       'neoforge_loader'              : gradle.ext.neoforge_loader,
+//                       'forge_loader'                 : gradle.ext.forge_loader,
                        'credits'                      : credits,
                        'java_version'                 : gradle.ext.java_version]
 
-    filesMatching(['pack.mcmeta', 'fabric.mod.json', 'META-INF/mods.toml', 'META-INF/neoforge.mods.toml', '*.mixins.json']) {
+    filesMatching(['pack.mcmeta', 'fabric.mod.json', 'META-INF/mods.toml', '*.mixins.json']) {
         expand expandProps
     }
     inputs.properties(expandProps)
