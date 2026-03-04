@@ -1,0 +1,59 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id 'xyz.wagyourtail.manifold'
+    id 'xyz.wagyourtail.jvmdowngrader'
+}
+
+version = "${mod_version}-${gradle.ext.minecraft_version}"
+base {
+    archivesName = "${mod_id}-${project == rootProject ? "" : project.name}"
+}
+
+manifold {
+    version = manifold_version
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    annotationProcessor(manifold.module("preprocessor"))
+    annotationProcessor(manifold.module("strings"))
+}
+
+processResources {
+    def compatible_forgemc_versions = "${gradle.ext.compatible_mc_versions}".replaceAll("\"", "").replaceAll("]", ",)")
+
+    var expandProps = ['version'                      : mod_version,
+                       'group'                        : project.group,
+                       'minecraft_version'            : gradle.ext.minecraft_version,
+                       'compatible_mc_versions'       : gradle.ext.compatible_mc_versions,
+                       'compatible_forgemc_versions'  : compatible_forgemc_versions,
+                       'mod_name'                     : mod_name,
+                       'mod_authors'                  : mod_authors,
+                       'mod_id'                       : mod_id,
+                       'license'                      : license,
+                       'description'                  : project.description,
+                       'neoforge_loader'              : gradle.ext.neoforge_loader,
+                       'forge_loader'                 : gradle.ext.forge_loader,
+                       'credits'                      : credits,
+                       'java_version'                 : gradle.ext.java_version]
+
+    filesMatching(['pack.mcmeta', 'fabric.mod.json', 'META-INF/mods.toml', 'META-INF/neoforge.mods.toml', '*.mixins.json']) {
+        expand expandProps
+    }
+    inputs.properties(expandProps)
+}
+
+jvmdg.downgradeTo = JavaVersion.toVersion(gradle.ext.java_version)
+downgradeJar.archiveClassifier.set(null)
+shadeDowngradedApi.archiveClassifier.set(null)
+
+tasks.withType(GenerateModuleMetadata).configureEach {
+    enabled = false
+}
+tasks.withType(Sign).configureEach {
+    enabled = false
+}

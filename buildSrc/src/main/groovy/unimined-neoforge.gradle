@@ -1,0 +1,12 @@
+plugins {
+    id 'minecraft'
+}
+
+unimined.minecraft {
+    neoForged {
+        loader gradle.ext.neoforge_loader
+        useToolchains = false // Disable toolchains so modern java can be used
+    }
+}
+runClient.javaLauncher = null
+runServer.javaLauncher = null

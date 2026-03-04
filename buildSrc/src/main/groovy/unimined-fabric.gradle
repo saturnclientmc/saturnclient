@@ -1,0 +1,11 @@
+plugins {
+    id 'minecraft'
+}
+
+unimined.minecraft {
+    fabric {
+        loader gradle.ext.fabric_loader
+    }
+}
+runClient.javaLauncher = null
+runServer.javaLauncher = null

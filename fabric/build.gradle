@@ -1,0 +1,11 @@
+plugins {
+    id 'unimined-fabric'
+}
+
+repositories {
+
+}
+
+dependencies {
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${gradle.ext.fabric_api_version}"
+}

@@ -1,0 +1,9 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "org.saturnclient.saturnclient.mixins",
+  "compatibilityLevel": "JAVA_${java_version}",
+  "mixins": [
+    "MinecraftMixin"
+  ]
+}

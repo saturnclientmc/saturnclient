@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${version}",
+  "name": "${mod_name}",
+  "description": "${description}",
+  "authors": $mod_authors,
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/fabricmc/"
+  },
+  "license": "${license}",
+  "icon": "assets/${mod_id}/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "org.saturnclient.saturnclient.ExampleModFabric"
+    ]
+  },
+  "mixins": [
+    "saturnclient.mixins.json"
+  ],
+  "depends": {
+    "fabric": "*",
+    "minecraft": $compatible_mc_versions
+  }
+}
