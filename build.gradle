@@ -1,22 +1,15 @@
-plugins {
-    id "fabric-loom" version "1.6-SNAPSHOT" apply false
-}
-
 subprojects {
+    apply plugin: "java"
+
     repositories {
         mavenCentral()
         maven { url "https://maven.fabricmc.net/" }
+        maven { url "https://jitpack.io" }
     }
 
     dependencies {
-    // OBJ Library
-    implementation "de.javagl:obj:0.4.0"
-    include "de.javagl:obj:0.4.0"
-
-    // SVG Library
-    include implementation("com.formdev:svgSalamander:1.1.4")
-
-    // Session (Saturn auth/session handling)
-    include implementation("com.github.selimaj-dev:session-java:0.1.6")
+        implementation "de.javagl:obj:0.4.0"
+        implementation "com.formdev:svgSalamander:1.1.4"
+        implementation "com.github.selimaj-dev:session-java:0.1.6"
     }
 }
