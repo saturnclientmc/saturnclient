@@ -8,4 +8,5 @@ repositories {
 
 dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${gradle.ext.fabric_api_version}"
+    runtimeOnly "ca.weblite:java-objc-bridge:1.1"
 }

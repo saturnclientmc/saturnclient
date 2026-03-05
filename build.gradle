@@ -9,3 +9,14 @@ plugins {
 forgix {
     autoRun = true
 }
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+        vendor = JvmVendorSpec.AZUL
+    }
+}
+
+repositories {
+    mavenCentral()
+}
