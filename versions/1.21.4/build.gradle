@@ -1,0 +1,19 @@
+plugins {
+    id "fabric-loom"
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:1.21.4"
+    mappings "net.fabricmc:yarn:1.21.4+build.7:v2"
+    modImplementation "net.fabricmc:fabric-loader:0.16.9"
+
+    implementation project(":common")
+}
+
+loom {
+    splitEnvironmentSourceSets()
+}
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
+}
