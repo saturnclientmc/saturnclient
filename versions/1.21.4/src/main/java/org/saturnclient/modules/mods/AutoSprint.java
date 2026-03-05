@@ -5,18 +5,18 @@ import java.util.Objects;
 import org.saturnclient.modules.Module;
 import org.saturnclient.modules.ModuleDetails;
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.config.manager.Property;
+import org.saturnclient.config.manager.Property;
 
 public class AutoSprint extends Module {
     private static Property<Boolean> enabled = Property.bool(false);
 
     public AutoSprint() {
         super(
-            new ModuleDetails("Auto Sprint", "sprint")
-            .description("Makes the player always sprint")
-            .tags("Movement")
-            .version("v0.1.0"),
-            enabled.named("Enabled"));
+                new ModuleDetails("Auto Sprint", "sprint")
+                        .description("Makes the player always sprint")
+                        .tags("Movement")
+                        .version("v0.1.0"),
+                enabled.named("Enabled"));
     }
 
     @Override
@@ -24,11 +24,11 @@ public class AutoSprint extends Module {
         if (SaturnClient.client.player == null || SaturnClient.client.getNetworkHandler() == null) {
             return;
         }
-        if (SaturnClient.client.options.forwardKey.isPressed() 
-            && !SaturnClient.client.options.backKey.isPressed() 
-            && !SaturnClient.client.player.isSneaking() 
-            && !SaturnClient.client.player.horizontalCollision 
-            && !SaturnClient.client.player.isUsingItem()) {
+        if (SaturnClient.client.options.forwardKey.isPressed()
+                && !SaturnClient.client.options.backKey.isPressed()
+                && !SaturnClient.client.player.isSneaking()
+                && !SaturnClient.client.player.horizontalCollision
+                && !SaturnClient.client.player.isUsingItem()) {
 
             Objects.requireNonNull(SaturnClient.client.player).setSprinting(true);
         }

@@ -1,7 +1,7 @@
 package org.saturnclient.ui.components.inputs;
 
-import org.saturnclient.saturnclient.config.manager.ConfigManager;
-import org.saturnclient.saturnclient.config.manager.Property;
+import org.saturnclient.config.manager.ConfigManager;
+import org.saturnclient.config.manager.Property;
 import org.saturnclient.ui.resources.Fonts;
 
 public class FloatInput extends Input {

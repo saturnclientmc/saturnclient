@@ -3,7 +3,7 @@ package org.saturnclient.saturnclient.mixin;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-import org.saturnclient.saturnclient.config.Theme;
+import org.saturnclient.config.Theme;
 import org.saturnclient.ui.RenderScope;
 import org.saturnclient.ui.resources.Textures;
 import org.spongepowered.asm.mixin.Mixin;
@@ -33,10 +33,12 @@ public abstract class SplashOverlayMixin {
     @Shadow
     private long reloadStartTime;
 
-    @Shadow @Final
+    @Shadow
+    @Final
     private boolean reloading;
 
-    @Shadow @Final
+    @Shadow
+    @Final
     private Consumer<Optional<Throwable>> exceptionHandler;
 
     @Shadow

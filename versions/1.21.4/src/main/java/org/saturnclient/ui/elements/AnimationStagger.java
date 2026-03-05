@@ -3,8 +3,8 @@ package org.saturnclient.ui.elements;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.saturnclient.saturnclient.config.AnimationConfig;
-import org.saturnclient.saturnclient.config.Config;
+import org.saturnclient.config.AnimationConfig;
+import org.saturnclient.config.Config;
 import org.saturnclient.ui.Element;
 import org.saturnclient.ui.ElementContext;
 import org.saturnclient.ui.RenderScope;

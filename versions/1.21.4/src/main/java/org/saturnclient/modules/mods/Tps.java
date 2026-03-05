@@ -4,7 +4,7 @@ import org.saturnclient.modules.HudMod;
 import org.saturnclient.modules.ModDimensions;
 import org.saturnclient.modules.Module;
 import org.saturnclient.modules.ModuleDetails;
-import org.saturnclient.saturnclient.config.manager.Property;
+import org.saturnclient.config.manager.Property;
 import org.saturnclient.ui.RenderScope;
 import org.saturnclient.ui.resources.Fonts;
 
@@ -26,12 +26,11 @@ public class Tps extends Module implements HudMod {
 
     public Tps() {
         super(new ModuleDetails("TPS Display", "tps")
-            .description("Displays the TPS")
-            .version("v0.1.0")
-            .tags("Utility"),
-            enabled.named("Enabled"),
-            dimensions.prop()
-        );
+                .description("Displays the TPS")
+                .version("v0.1.0")
+                .tags("Utility"),
+                enabled.named("Enabled"),
+                dimensions.prop());
     }
 
     public static void onTimePacket(long worldAge) {
@@ -50,7 +49,8 @@ public class Tps extends Module implements HudMod {
                 samplesFilled = Math.min(samplesFilled + 1, SAMPLE_COUNT);
 
                 double sum = 0;
-                for (int i = 0; i < samplesFilled; i++) sum += samples[i];
+                for (int i = 0; i < samplesFilled; i++)
+                    sum += samples[i];
                 currentTps = sum / samplesFilled;
             }
         }
@@ -64,8 +64,9 @@ public class Tps extends Module implements HudMod {
         lastRealTime = -1;
         currentTps = 20.0;
         sampleIndex = 0;
-        samplesFilled = SAMPLE_COUNT; 
-        for (int i = 0; i < SAMPLE_COUNT; i++) samples[i] = 20.0;
+        samplesFilled = SAMPLE_COUNT;
+        for (int i = 0; i < SAMPLE_COUNT; i++)
+            samples[i] = 20.0;
     }
 
     @Override
@@ -88,12 +89,12 @@ public class Tps extends Module implements HudMod {
     }
 
     @Override
-    public void onEnabled(boolean e) { 
-        enabled.value = e; 
+    public void onEnabled(boolean e) {
+        enabled.value = e;
     }
 
     @Override
-    public ModDimensions getDimensions() { 
-        return dimensions; 
+    public ModDimensions getDimensions() {
+        return dimensions;
     }
 }

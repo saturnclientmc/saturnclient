@@ -5,7 +5,7 @@ import org.saturnclient.modules.ModDimensions;
 import org.saturnclient.modules.Module;
 import org.saturnclient.modules.ModuleDetails;
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.config.manager.Property;
+import org.saturnclient.config.manager.Property;
 import org.saturnclient.ui.RenderScope;
 import org.saturnclient.ui.resources.Fonts;
 
@@ -24,15 +24,14 @@ public class Speedometer extends Module implements HudMod {
 
     public Speedometer() {
         super(new ModuleDetails("Speedometer", "speed")
-            .description("Displays your current speed")
-            .version("v0.1.0")
-            .tags("Utility"),
-            enabled.named("Enabled"),
-            axis.named("Speed type"),
-            unitText.named("Unit text"),
-            speedText.named("Show speed text"),
-            dimensions.prop()
-        );
+                .description("Displays your current speed")
+                .version("v0.1.0")
+                .tags("Utility"),
+                enabled.named("Enabled"),
+                axis.named("Speed type"),
+                unitText.named("Unit text"),
+                speedText.named("Show speed text"),
+                dimensions.prop());
     }
 
     @Override
@@ -61,7 +60,7 @@ public class Speedometer extends Module implements HudMod {
             case 1: // x axis
                 speed = (Math.sqrt(Math.pow(velocity.x, 2) + Math.pow(velocity.z, 2)));
                 break;
-            
+
             case 2: // y axis
                 speed = (Math.abs(y));
                 break;
@@ -73,14 +72,14 @@ public class Speedometer extends Module implements HudMod {
         String f = String.format("%.2f ", speed);
 
         switch (unitText.value) {
-            case 1: 
+            case 1:
                 f += "Blocks/s";
                 break;
-            
-            case 2: 
+
+            case 2:
                 f += "blocks/s";
                 break;
-            case 3: 
+            case 3:
                 f += "b/s";
                 break;
         }
@@ -92,7 +91,7 @@ public class Speedometer extends Module implements HudMod {
         }
 
         scope.drawText(text,
-            0, 0, dimensions.font.value, dimensions.fgColor.value);
+                0, 0, dimensions.font.value, dimensions.fgColor.value);
         dimensions.width = Fonts.getWidth(text, dimensions.font.value);
         dimensions.height = 18 * text.split("\n").length;
     }

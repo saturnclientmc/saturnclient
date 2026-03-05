@@ -1,8 +1,8 @@
 package org.saturnclient.ui.screens;
 
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.config.AnimationConfig;
-import org.saturnclient.saturnclient.config.Config;
+import org.saturnclient.config.AnimationConfig;
+import org.saturnclient.config.Config;
 import org.saturnclient.saturnclient.menus.HudEditor;
 import org.saturnclient.ui.SaturnScreen;
 import org.saturnclient.ui.anim.Fade;

@@ -5,21 +5,21 @@ import org.saturnclient.modules.ModDimensions;
 import org.saturnclient.modules.Module;
 import org.saturnclient.modules.ModuleDetails;
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.config.manager.Property;
+import org.saturnclient.config.manager.Property;
 import org.saturnclient.ui.RenderScope;
 import org.saturnclient.ui.resources.Fonts;
 
 public class Fps extends Module implements HudMod {
     private static Property<Boolean> enabled = Property.bool(false);
     private static ModDimensions dimensions = new ModDimensions(60, Fonts.getHeight());
-    
+
     public Fps() {
         super(new ModuleDetails("FPS Display", "fps")
-            .description("Displays current FPS")
-            .version("v0.1.0")
-            .tags("Utility"),
-            enabled.named("Enabled"),
-            dimensions.prop());
+                .description("Displays current FPS")
+                .version("v0.1.0")
+                .tags("Utility"),
+                enabled.named("Enabled"),
+                dimensions.prop());
     }
 
     @Override

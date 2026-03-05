@@ -2,7 +2,7 @@ package org.saturnclient.ui.screens;
 
 import org.saturnclient.modules.ModManager;
 import org.saturnclient.modules.Module;
-import org.saturnclient.saturnclient.config.AnimationConfig;
+import org.saturnclient.config.AnimationConfig;
 import org.saturnclient.ui.SaturnScreen;
 import org.saturnclient.ui.anim.SlideFade;
 import org.saturnclient.ui.components.SaturnModule;

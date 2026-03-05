@@ -13,6 +13,7 @@ import java.util.Map;
 public class ConfigManager {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
+    private static File configFile;
 
     // SINGLE ROOT TREE
     private static final Map<String, Property<?>> ROOT = new LinkedHashMap<>();
@@ -23,13 +24,21 @@ public class ConfigManager {
 
     private final String[] path;
 
-    private File configFile;
-
     /**
      * Creates a root namespace
      */
     public ConfigManager(File configFile, String namespace) {
-        this.configFile = configFile;
+        ConfigManager.configFile = configFile;
+        this.currentMap = new LinkedHashMap<>();
+        this.path = new String[] { namespace };
+
+        ROOT.put(namespace, Property.namespace(currentMap));
+    }
+
+    /**
+     * Creates a root namespace
+     */
+    public ConfigManager(String namespace) {
         this.currentMap = new LinkedHashMap<>();
         this.path = new String[] { namespace };
 
@@ -40,7 +49,6 @@ public class ConfigManager {
      * Creates a sub-namespace inside a parent
      */
     public ConfigManager(ConfigManager parent, String namespace) {
-        this.configFile = parent.configFile;
         this.currentMap = new LinkedHashMap<>();
 
         this.path = new String[parent.path.length + 1];
@@ -80,7 +88,7 @@ public class ConfigManager {
     /**
      * Save entire config
      */
-    public void save() {
+    public static void save() {
 
         ObjectNode rootJson = MAPPER.createObjectNode();
         saveRecursive(rootJson, ROOT);

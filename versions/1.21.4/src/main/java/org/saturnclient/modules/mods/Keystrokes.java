@@ -4,7 +4,7 @@ import org.saturnclient.modules.Module;
 import org.saturnclient.modules.HudMod;
 import org.saturnclient.modules.ModDimensions;
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.config.manager.Property;
+import org.saturnclient.config.manager.Property;
 import org.saturnclient.ui.RenderScope;
 import org.saturnclient.modules.ModuleDetails;
 
@@ -40,8 +40,7 @@ public class Keystrokes extends Module implements HudMod {
                 showSpace.named("Show space"),
                 dimensions.prop(),
                 clickFg.named("Clicked fg"),
-                clickBg.named("Clicked bg")
-        );
+                clickBg.named("Clicked bg"));
 
         dimensions.renderBackground = false;
     }

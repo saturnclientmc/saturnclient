@@ -2,9 +2,9 @@ package org.saturnclient.ui.screens;
 
 import java.util.Map;
 
-import org.saturnclient.saturnclient.config.Theme;
-import org.saturnclient.saturnclient.config.manager.ConfigManager;
-import org.saturnclient.saturnclient.config.manager.Property;
+import org.saturnclient.config.Theme;
+import org.saturnclient.config.manager.ConfigManager;
+import org.saturnclient.config.manager.Property;
 import org.saturnclient.ui.SaturnScreen;
 import org.saturnclient.ui.components.Sidebar;
 import org.saturnclient.ui.components.inputs.FloatInput;

@@ -7,7 +7,7 @@ import org.saturnclient.modules.ModDimensions;
 import org.saturnclient.modules.Module;
 import org.saturnclient.modules.ModuleDetails;
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.config.manager.Property;
+import org.saturnclient.config.manager.Property;
 import org.saturnclient.ui.RenderScope;
 
 import net.minecraft.client.resource.language.I18n;
@@ -25,19 +25,21 @@ public class StatusEffects extends Module implements HudMod {
     private static ModDimensions dimensions = new ModDimensions(60, 0);
 
     private final StatusEffectInstance[] dummyEffects = {
-        new StatusEffectInstance(Registries.STATUS_EFFECT.getEntry(Identifier.ofVanilla("speed")).get(), 12000, 2),
-        new StatusEffectInstance(Registries.STATUS_EFFECT.getEntry(Identifier.ofVanilla("strength")).get(), 12000, 2),
-        new StatusEffectInstance(Registries.STATUS_EFFECT.getEntry(Identifier.ofVanilla("fire_resistance")).get(), 12000, 2),
+            new StatusEffectInstance(Registries.STATUS_EFFECT.getEntry(Identifier.ofVanilla("speed")).get(), 12000, 2),
+            new StatusEffectInstance(Registries.STATUS_EFFECT.getEntry(Identifier.ofVanilla("strength")).get(), 12000,
+                    2),
+            new StatusEffectInstance(Registries.STATUS_EFFECT.getEntry(Identifier.ofVanilla("fire_resistance")).get(),
+                    12000, 2),
     };
 
     public StatusEffects() {
         super(new ModuleDetails("Status effects", "effect")
-            .description("Displays status effects")
-            .version("v0.1.0")
-            .tags("Utility"),
-        
-        enabled.named("Enabled"),
-        dimensions.prop());
+                .description("Displays status effects")
+                .version("v0.1.0")
+                .tags("Utility"),
+
+                enabled.named("Enabled"),
+                dimensions.prop());
     }
 
     private void renderEffects(RenderScope scope, Iterable<StatusEffectInstance> effects) {
@@ -68,25 +70,26 @@ public class StatusEffects extends Module implements HudMod {
         renderEffects(scope, Arrays.asList(dummyEffects));
     }
 
-    // This code was from: https://github.com/magicus/statuseffecttimer/blob/master/src/main/java/se/icus/mag/statuseffecttimer/mixin/StatusEffectTimerMixin.java
+    // This code was from:
+    // https://github.com/magicus/statuseffecttimer/blob/master/src/main/java/se/icus/mag/statuseffecttimer/mixin/StatusEffectTimerMixin.java
     private String getDurationAsString(StatusEffectInstance statusEffectInstance) {
-		if (statusEffectInstance.isInfinite()) {
-			return I18n.translate("effect.duration.infinite");
-		}
+        if (statusEffectInstance.isInfinite()) {
+            return I18n.translate("effect.duration.infinite");
+        }
 
-		int ticks = MathHelper.floor((float) statusEffectInstance.getDuration());
-		int totalSeconds = ticks / 20;
+        int ticks = MathHelper.floor((float) statusEffectInstance.getDuration());
+        int totalSeconds = ticks / 20;
 
-		if (totalSeconds >= 3600) {
-			return totalSeconds / 3600 + "h";
-		} else if (totalSeconds >= 60) {
+        if (totalSeconds >= 3600) {
+            return totalSeconds / 3600 + "h";
+        } else if (totalSeconds >= 60) {
             int minutes = totalSeconds / 60;
             int seconds = totalSeconds % 60;
-			return String.format("%d:%02d", minutes, seconds);
-		} else {
-			return String.valueOf(totalSeconds) + "s";
-		}
-	}
+            return String.format("%d:%02d", minutes, seconds);
+        } else {
+            return String.valueOf(totalSeconds) + "s";
+        }
+    }
 
     @Override
     public ModDimensions getDimensions() {

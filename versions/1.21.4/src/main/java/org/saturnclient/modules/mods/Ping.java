@@ -4,7 +4,7 @@ import org.saturnclient.modules.HudMod;
 import org.saturnclient.modules.ModDimensions;
 import org.saturnclient.modules.Module;
 import org.saturnclient.modules.ModuleDetails;
-import org.saturnclient.saturnclient.config.manager.Property;
+import org.saturnclient.config.manager.Property;
 import org.saturnclient.ui.RenderScope;
 import org.saturnclient.ui.resources.Fonts;
 
@@ -14,14 +14,14 @@ import net.minecraft.client.network.ClientPlayNetworkHandler;
 public class Ping extends Module implements HudMod {
     private static Property<Boolean> enabled = Property.bool(false);
     private static ModDimensions dimensions = new ModDimensions(60, Fonts.getHeight());
-    
+
     public Ping() {
         super(new ModuleDetails("Ping Display", "ping")
-            .description("Displays ping")
-            .version("v0.1.0")
-            .tags("Utility"),
-            enabled.named("Enabled"),
-            dimensions.prop());
+                .description("Displays ping")
+                .version("v0.1.0")
+                .tags("Utility"),
+                enabled.named("Enabled"),
+                dimensions.prop());
     }
 
     @Override

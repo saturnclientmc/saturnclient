@@ -2,7 +2,7 @@ package org.saturnclient.ui.anim;
 
 import java.util.function.Function;
 
-import org.saturnclient.saturnclient.config.AnimationConfig;
+import org.saturnclient.config.AnimationConfig;
 import org.saturnclient.ui.Element;
 
 public abstract class Animation {

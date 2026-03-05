@@ -5,7 +5,7 @@ import org.saturnclient.modules.ModDimensions;
 import org.saturnclient.modules.Module;
 import org.saturnclient.modules.ModuleDetails;
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.config.manager.Property;
+import org.saturnclient.config.manager.Property;
 import org.saturnclient.ui.RenderScope;
 import org.saturnclient.ui.resources.Fonts;
 
@@ -16,12 +16,11 @@ public class DayCounter extends Module implements HudMod {
 
     public DayCounter() {
         super(new ModuleDetails("DayCounter", "day")
-            .description("Displays the number of days that have passed")
-            .version("v0.1.0")
-            .tags("Utility"),
-            enabled.named("Enabled"),
-            dimensions.prop()
-        );
+                .description("Displays the number of days that have passed")
+                .version("v0.1.0")
+                .tags("Utility"),
+                enabled.named("Enabled"),
+                dimensions.prop());
     }
 
     @Override
@@ -38,7 +37,7 @@ public class DayCounter extends Module implements HudMod {
     public void renderDay(long day, RenderScope scope) {
         String text = "Day: " + day;
         scope.drawText(text,
-            0, 0, dimensions.font.value, dimensions.fgColor.value);
+                0, 0, dimensions.font.value, dimensions.fgColor.value);
         dimensions.width = Fonts.getWidth(text, dimensions.font.value);
         dimensions.height = 18 * text.split("\n").length;
     }
@@ -58,4 +57,3 @@ public class DayCounter extends Module implements HudMod {
         enabled.value = e;
     }
 }
-

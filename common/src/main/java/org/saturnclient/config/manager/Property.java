@@ -271,15 +271,14 @@ public class Property<T> {
 
     // ---------- Keybindings (no SaturnClient) ----------
 
-    public boolean isKeyPressed(long windowHandle, boolean screenOpen) {
+    public boolean isKeyPressed() {
 
         return (Integer) value != -1 &&
-                MinecraftProvider.PROVIDER.isKeyPressed((Integer) value) && !screenOpen;
+                MinecraftProvider.PROVIDER.isKeyPressed((Integer) value);
     }
 
-    public boolean wasKeyPressed(long windowHandle, boolean screenOpen) {
-
-        boolean pressed = isKeyPressed(windowHandle, screenOpen);
+    public boolean wasKeyPressed() {
+        boolean pressed = isKeyPressed();
 
         boolean result = pressed && !wasPressedLastTick;
 

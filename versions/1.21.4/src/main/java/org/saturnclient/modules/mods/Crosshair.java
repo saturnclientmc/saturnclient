@@ -3,7 +3,7 @@ package org.saturnclient.modules.mods;
 import org.saturnclient.modules.Module;
 import org.saturnclient.modules.ModuleDetails;
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.config.manager.Property;
+import org.saturnclient.config.manager.Property;
 import org.saturnclient.ui.RenderScope;
 import org.saturnclient.ui.resources.Textures;
 
@@ -14,11 +14,11 @@ public class Crosshair extends Module {
 
     public Crosshair() {
         super(
-            new ModuleDetails("Crosshair", "crosshair")
-            .description("Changes the crosshair if you're aiming at a entity")
-            .tags("Visuals", "Utility")
-            .version("v0.1.0"),
-            enabled.named("Enabled"));
+                new ModuleDetails("Crosshair", "crosshair")
+                        .description("Changes the crosshair if you're aiming at a entity")
+                        .tags("Visuals", "Utility")
+                        .version("v0.1.0"),
+                enabled.named("Enabled"));
     }
 
     @Override

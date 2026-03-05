@@ -3,8 +3,8 @@ package org.saturnclient.ui.elements;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.saturnclient.saturnclient.config.Theme;
-import org.saturnclient.saturnclient.config.manager.Property;
+import org.saturnclient.config.Theme;
+import org.saturnclient.config.manager.Property;
 import org.saturnclient.ui.Element;
 import org.saturnclient.ui.ElementContext;
 import org.saturnclient.ui.RenderScope;
@@ -71,12 +71,12 @@ public class Scroll extends Element {
     @Override
     public Element dimensions(int width, int height) {
         super.dimensions(width, height);
-    
+
         maxScroll = 0;
         for (Element element : children) {
             maxScroll = Math.max(maxScroll, (element.y + element.height + padding) - (height - padding * 2));
         }
-        
+
         return this;
     }
 
@@ -88,7 +88,8 @@ public class Scroll extends Element {
 
     int calculateScrollBarY() {
         int scrollBarHeight = calculateScrollBarHeight();
-        if (maxScroll <= 0) return scrollBarPadding.value;
+        if (maxScroll <= 0)
+            return scrollBarPadding.value;
         int y = (scroll * (height - scrollBarHeight - scrollBarPadding.value * 2)) / maxScroll + scrollBarPadding.value;
         return Math.min(y, height - scrollBarHeight - scrollBarPadding.value);
     }

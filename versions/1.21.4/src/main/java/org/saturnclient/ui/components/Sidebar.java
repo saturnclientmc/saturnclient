@@ -1,8 +1,8 @@
 package org.saturnclient.ui.components;
 
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.config.Config;
-import org.saturnclient.saturnclient.config.Theme;
+import org.saturnclient.config.Config;
+import org.saturnclient.config.Theme;
 import org.saturnclient.ui.Element;
 import org.saturnclient.ui.ElementContext;
 import org.saturnclient.ui.RenderScope;

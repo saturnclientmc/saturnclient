@@ -2,7 +2,7 @@ package org.saturnclient.modules.mods;
 
 import org.saturnclient.modules.Module;
 import org.saturnclient.modules.ModuleDetails;
-import org.saturnclient.saturnclient.config.manager.Property;
+import org.saturnclient.config.manager.Property;
 
 public class NoFog extends Module {
     private static Property<Boolean> enabled = Property.bool(false);
@@ -10,12 +10,12 @@ public class NoFog extends Module {
 
     public NoFog() {
         super(
-            new ModuleDetails("No Fog", "nofog")
-            .description("Stops fog from rendering")
-            .tags("Camera")
-            .version("v0.1.0"),
-            enabled.named("Enabled"),
-            liquids.named("See through liquids"));
+                new ModuleDetails("No Fog", "nofog")
+                        .description("Stops fog from rendering")
+                        .tags("Camera")
+                        .version("v0.1.0"),
+                enabled.named("Enabled"),
+                liquids.named("See through liquids"));
     }
 
     @Override

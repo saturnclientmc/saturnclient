@@ -7,7 +7,7 @@ import org.saturnclient.modules.HudMod;
 import org.saturnclient.modules.ModDimensions;
 import org.saturnclient.modules.Module;
 import org.saturnclient.modules.ModuleDetails;
-import org.saturnclient.saturnclient.config.manager.Property;
+import org.saturnclient.config.manager.Property;
 import org.saturnclient.ui.RenderScope;
 import org.saturnclient.ui.resources.Fonts;
 
@@ -19,14 +19,13 @@ public class Clock extends Module implements HudMod {
 
     public Clock() {
         super(new ModuleDetails("Clock", "clock")
-            .description("Displays the current real-world time")
-            .version("v0.1.0")
-            .tags("Utility"),
-            enabled.named("Enabled"),
-            format.named("Format"),
-            seconds.named("Show seconds"),
-            dimensions.prop()
-        );
+                .description("Displays the current real-world time")
+                .version("v0.1.0")
+                .tags("Utility"),
+                enabled.named("Enabled"),
+                format.named("Format"),
+                seconds.named("Show seconds"),
+                dimensions.prop());
     }
 
     @Override
@@ -45,17 +44,23 @@ public class Clock extends Module implements HudMod {
 
         switch (format.value) {
             case 0:
-                if (seconds.value) { text = currentTime.format(DateTimeFormatter.ofPattern("HH:mm:ss")); }
-                else { text = currentTime.format(DateTimeFormatter.ofPattern("HH:mm")); }
+                if (seconds.value) {
+                    text = currentTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+                } else {
+                    text = currentTime.format(DateTimeFormatter.ofPattern("HH:mm"));
+                }
                 break;
-            case 1: 
-                if (seconds.value) { text = currentTime.format(DateTimeFormatter.ofPattern("hh:mm:ss a")); }
-                else { text = currentTime.format(DateTimeFormatter.ofPattern("hh:mm a")); }
+            case 1:
+                if (seconds.value) {
+                    text = currentTime.format(DateTimeFormatter.ofPattern("hh:mm:ss a"));
+                } else {
+                    text = currentTime.format(DateTimeFormatter.ofPattern("hh:mm a"));
+                }
                 break;
         }
 
         scope.drawText(text,
-            0, 0, dimensions.font.value, dimensions.fgColor.value);
+                0, 0, dimensions.font.value, dimensions.fgColor.value);
         dimensions.width = Fonts.getWidth(text, dimensions.font.value);
         dimensions.height = 18 * text.split("\n").length;
     }

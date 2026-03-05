@@ -1,6 +1,6 @@
 package org.saturnclient.ui.anim;
 
-import org.saturnclient.saturnclient.config.AnimationConfig;
+import org.saturnclient.config.AnimationConfig;
 import org.saturnclient.ui.Element;
 
 public class SlideY extends Animation {

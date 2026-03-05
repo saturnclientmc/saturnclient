@@ -1,7 +1,7 @@
 package org.saturnclient.modules;
 
-import org.saturnclient.saturnclient.config.manager.ConfigManager;
-import org.saturnclient.saturnclient.config.manager.Property.NamedProperty;
+import org.saturnclient.config.manager.ConfigManager;
+import org.saturnclient.config.manager.Property.NamedProperty;
 import org.saturnclient.ui.RenderScope;
 import org.saturnclient.ui.resources.Textures;
 

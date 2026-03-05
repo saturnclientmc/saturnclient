@@ -7,7 +7,7 @@ import net.minecraft.client.util.InputUtil;
 
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.client.ServiceClient;
-import org.saturnclient.saturnclient.config.Config;
+import org.saturnclient.config.Config;
 import org.saturnclient.ui.screens.EmoteWheel;
 import org.saturnclient.ui.screens.ShiftMenu;
 
@@ -39,7 +39,8 @@ public class KeyInputHandler {
                 client.setScreen(new ShiftMenu());
             }
 
-            if (Config.openEmoteWheel.wasKeyPressed() && client.currentScreen == null && !InputUtil.isKeyPressed(client.getWindow().getHandle(), GLFW.GLFW_KEY_F3)) {
+            if (Config.openEmoteWheel.wasKeyPressed() && client.currentScreen == null
+                    && !InputUtil.isKeyPressed(client.getWindow().getHandle(), GLFW.GLFW_KEY_F3)) {
                 client.setScreen(new EmoteWheel());
             }
 

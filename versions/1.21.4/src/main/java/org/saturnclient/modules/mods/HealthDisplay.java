@@ -5,7 +5,7 @@ import org.saturnclient.modules.ModDimensions;
 import org.saturnclient.modules.Module;
 import org.saturnclient.modules.ModuleDetails;
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.config.manager.Property;
+import org.saturnclient.config.manager.Property;
 import org.saturnclient.ui.RenderScope;
 import org.saturnclient.ui.resources.Fonts;
 
@@ -22,14 +22,13 @@ public class HealthDisplay extends Module implements HudMod {
 
     public HealthDisplay() {
         super(new ModuleDetails("Health display", "health")
-            .description("Displays your current health")
-            .version("v0.1.0")
-            .tags("Utility"),
-            enabled.named("Enabled"),
-            displayMode.named("Display mode"),
-            decimals.named("Decimals"),
-            dimensions.prop()
-        );
+                .description("Displays your current health")
+                .version("v0.1.0")
+                .tags("Utility"),
+                enabled.named("Enabled"),
+                displayMode.named("Display mode"),
+                decimals.named("Decimals"),
+                dimensions.prop());
     }
 
     @Override
@@ -51,19 +50,19 @@ public class HealthDisplay extends Module implements HudMod {
         String text = "";
 
         switch (decimals.value) {
-            case 0: 
+            case 0:
                 text = String.format("%.0f ", health);
                 break;
-            case 1: 
+            case 1:
                 text = String.format("%.1f ", health);
                 break;
-            case 2: 
+            case 2:
                 text = String.format("%.2f ", health);
                 break;
         }
 
         scope.drawText(text,
-            0, 0, dimensions.font.value, dimensions.fgColor.value);
+                0, 0, dimensions.font.value, dimensions.fgColor.value);
         dimensions.width = Fonts.getWidth(text, dimensions.font.value);
         dimensions.height = 18 * text.split("\n").length;
     }

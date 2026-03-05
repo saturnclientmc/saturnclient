@@ -2,7 +2,7 @@ package org.saturnclient.ui.components.inputs;
 
 import org.lwjgl.glfw.GLFW;
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.config.Theme;
+import org.saturnclient.config.Theme;
 import org.saturnclient.ui.Element;
 import org.saturnclient.ui.ElementContext;
 import org.saturnclient.ui.RenderScope;
