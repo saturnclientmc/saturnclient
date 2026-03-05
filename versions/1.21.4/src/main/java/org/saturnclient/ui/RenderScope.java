@@ -11,7 +11,7 @@ import org.joml.Matrix4f;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import org.saturnclient.common.minecraft.SaturnIdentifier;
+import org.saturnclient.common.minecraft.bindings.SaturnIdentifier;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
 import org.saturnclient.ui.resources.Fonts;
@@ -224,7 +224,7 @@ public class RenderScope {
     public void drawTexture(SaturnIdentifier sprite, int x, int y, float u, float v, int width, int height,
             int regionWidth,
             int regionHeight, int textureWidth, int textureHeight, int color) {
-        this.drawTexturedQuad((Identifier) sprite.id, x, x + width, y, y + height, (u + 0.0F) / (float) textureWidth,
+        this.drawTexturedQuad((Identifier) sprite.inner, x, x + width, y, y + height, (u + 0.0F) / (float) textureWidth,
                 (u + (float) regionWidth) / (float) textureWidth, (v + 0.0F) / (float) textureHeight,
                 (v + (float) regionHeight) / (float) textureHeight, color);
     }

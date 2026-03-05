@@ -1,6 +1,6 @@
 package org.saturnclient.modules;
 
-import org.saturnclient.common.minecraft.SaturnIdentifier;
+import org.saturnclient.common.minecraft.bindings.SaturnIdentifier;
 import org.saturnclient.config.manager.ConfigManager;
 import org.saturnclient.config.manager.Property.NamedProperty;
 import org.saturnclient.ui.RenderScope;

@@ -1,6 +1,6 @@
 package org.saturnclient.ui.resources;
 
-import org.saturnclient.common.minecraft.SaturnIdentifier;
+import org.saturnclient.common.minecraft.bindings.SaturnIdentifier;
 
 public class Textures {
     public static final SaturnIdentifier CROSSHAIR_RANGE = new SaturnIdentifier("saturnclient",

@@ -3,7 +3,7 @@ package org.saturnclient.config;
 import java.io.File;
 
 import org.saturnclient.common.minecraft.MinecraftProvider;
-import org.saturnclient.common.minecraft.SaturnIdentifier;
+import org.saturnclient.common.minecraft.bindings.SaturnIdentifier;
 import org.saturnclient.config.manager.ConfigManager;
 import org.saturnclient.config.manager.Key;
 import org.saturnclient.config.manager.Property;

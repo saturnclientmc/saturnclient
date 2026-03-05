@@ -1,7 +1,7 @@
 package org.saturnclient.ui.components;
 
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.common.minecraft.SaturnIdentifier;
+import org.saturnclient.common.minecraft.bindings.SaturnIdentifier;
 import org.saturnclient.config.Config;
 import org.saturnclient.config.Theme;
 import org.saturnclient.ui.Element;
@@ -26,7 +26,7 @@ public class Sidebar extends Element {
         public SidebarComponent(SaturnIdentifier sprite, Runnable onClick, boolean end) {
             this.onClick = onClick;
             this.end = end;
-            this.sprite = (Identifier) sprite.id;
+            this.sprite = (Identifier) sprite.inner;
         }
     }
 

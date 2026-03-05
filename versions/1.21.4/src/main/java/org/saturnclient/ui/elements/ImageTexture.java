@@ -1,6 +1,6 @@
 package org.saturnclient.ui.elements;
 
-import org.saturnclient.common.minecraft.SaturnIdentifier;
+import org.saturnclient.common.minecraft.bindings.SaturnIdentifier;
 import org.saturnclient.ui.Element;
 import org.saturnclient.ui.ElementContext;
 import org.saturnclient.ui.RenderScope;
@@ -17,7 +17,7 @@ public class ImageTexture extends Element {
     }
 
     public ImageTexture(SaturnIdentifier sprite) {
-        this.sprite = (Identifier) sprite.id;
+        this.sprite = (Identifier) sprite.inner;
     }
 
     @Override
