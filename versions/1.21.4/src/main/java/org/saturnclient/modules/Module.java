@@ -1,11 +1,10 @@
 package org.saturnclient.modules;
 
+import org.saturnclient.common.minecraft.SaturnIdentifier;
 import org.saturnclient.config.manager.ConfigManager;
 import org.saturnclient.config.manager.Property.NamedProperty;
 import org.saturnclient.ui.RenderScope;
 import org.saturnclient.ui.resources.Textures;
-
-import net.minecraft.util.Identifier;
 
 public abstract class Module {
     private final ModuleDetails details;
@@ -38,7 +37,7 @@ public abstract class Module {
         return details.name;
     }
 
-    public Identifier getIconTexture() {
+    public SaturnIdentifier getIconTexture() {
         return Textures.getModIcon(details.namespace);
     }
 
