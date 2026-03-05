@@ -17,17 +17,10 @@
 	"entrypoints": {
 		"main": [
 			"org.saturnclient.SaturnClient"
-		],
-		"client": [
-			"org.saturnclient.SaturnClientClient"
 		]
 	},
 	"mixins": [
-		"saturn-client.mixins.json",
-		{
-			"config": "saturn-client.client.mixins.json",
-			"environment": "client"
-		}
+		"saturn-client.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.18.4",
