@@ -1,0 +1,27 @@
+package org.saturnclient.ui.anim;
+
+import org.saturnclient.config.AnimationConfig;
+import org.saturnclient.ui.Element;
+
+public class Fade extends Animation {
+    float targetOpacity;
+
+    public Fade(int duration) {
+        super(duration);
+    }
+
+    public Fade(AnimationConfig config) {
+        super(config);
+    }
+
+    @Override
+    public void tick(double progress, Element element) {
+        element.opacity = Math.max(0.1f, targetOpacity * (float) progress);
+    }
+
+    @Override
+    public void init(Element element) {
+        targetOpacity = element.opacity;
+        element.opacity = 0.1f;
+    }
+}
