@@ -17,6 +17,14 @@ subprojects {
 configure(subprojects.findAll { it.name != "common" }) {
     dependencies {
         implementation project(":common")
+
+        sourceSets {
+            main {
+                resources {
+                    srcDir project(":common").file("src/main/resources")
+                }
+            }
+        }
     }
 }
 
