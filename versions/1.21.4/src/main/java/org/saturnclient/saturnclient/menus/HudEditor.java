@@ -11,8 +11,8 @@ import org.saturnclient.modules.ModManager;
 import org.saturnclient.modules.Module;
 import org.saturnclient.saturnclient.config.manager.ConfigManager;
 import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
-import org.saturnclient.ui2.RenderScope;
-import org.saturnclient.ui2.SaturnScreen;
+import org.saturnclient.ui.RenderScope;
+import org.saturnclient.ui.SaturnScreen;
 
 import java.util.ArrayList;
 import java.util.List;

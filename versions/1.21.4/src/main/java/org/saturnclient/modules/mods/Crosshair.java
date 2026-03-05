@@ -4,8 +4,8 @@ import org.saturnclient.modules.Module;
 import org.saturnclient.modules.ModuleDetails;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.config.manager.Property;
-import org.saturnclient.ui2.RenderScope;
-import org.saturnclient.ui2.resources.Textures;
+import org.saturnclient.ui.RenderScope;
+import org.saturnclient.ui.resources.Textures;
 
 import net.minecraft.client.render.RenderLayer;
 

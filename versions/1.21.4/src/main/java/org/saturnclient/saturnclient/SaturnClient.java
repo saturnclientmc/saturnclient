@@ -15,11 +15,11 @@ import org.saturnclient.saturnclient.config.Config;
 import org.saturnclient.saturnclient.config.manager.ConfigManager;
 import org.saturnclient.saturnclient.event.KeyInputHandler;
 import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
-import org.saturnclient.ui2.RenderScope;
-import org.saturnclient.ui2.SaturnScreen;
-import org.saturnclient.ui2.elements.ImageTexture;
-import org.saturnclient.ui2.resources.Textures;
-import org.saturnclient.ui2.screens.TitleMenu;
+import org.saturnclient.ui.RenderScope;
+import org.saturnclient.ui.SaturnScreen;
+import org.saturnclient.ui.elements.ImageTexture;
+import org.saturnclient.ui.resources.Textures;
+import org.saturnclient.ui.screens.TitleMenu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

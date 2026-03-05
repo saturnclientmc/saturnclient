@@ -8,7 +8,7 @@ import org.saturnclient.modules.Module;
 import org.saturnclient.modules.ModuleDetails;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.config.manager.Property;
-import org.saturnclient.ui2.RenderScope;
+import org.saturnclient.ui.RenderScope;
 
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.texture.Sprite;

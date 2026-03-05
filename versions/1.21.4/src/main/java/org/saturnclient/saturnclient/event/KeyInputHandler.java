@@ -8,8 +8,8 @@ import net.minecraft.client.util.InputUtil;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.client.ServiceClient;
 import org.saturnclient.saturnclient.config.Config;
-import org.saturnclient.ui2.screens.EmoteWheel;
-import org.saturnclient.ui2.screens.ShiftMenu;
+import org.saturnclient.ui.screens.EmoteWheel;
+import org.saturnclient.ui.screens.ShiftMenu;
 
 import dev.kosmx.playerAnim.api.layered.AnimationStack;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;

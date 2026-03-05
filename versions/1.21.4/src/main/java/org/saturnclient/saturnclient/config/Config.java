@@ -3,7 +3,7 @@ package org.saturnclient.saturnclient.config;
 import org.lwjgl.glfw.GLFW;
 import org.saturnclient.saturnclient.config.manager.ConfigManager;
 import org.saturnclient.saturnclient.config.manager.Property;
-import org.saturnclient.ui2.resources.Textures;
+import org.saturnclient.ui.resources.Textures;
 
 import net.minecraft.util.Identifier;
 

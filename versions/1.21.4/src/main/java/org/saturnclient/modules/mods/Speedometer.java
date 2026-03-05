@@ -6,8 +6,8 @@ import org.saturnclient.modules.Module;
 import org.saturnclient.modules.ModuleDetails;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.config.manager.Property;
-import org.saturnclient.ui2.RenderScope;
-import org.saturnclient.ui2.resources.Fonts;
+import org.saturnclient.ui.RenderScope;
+import org.saturnclient.ui.resources.Fonts;
 
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.entity.Entity;

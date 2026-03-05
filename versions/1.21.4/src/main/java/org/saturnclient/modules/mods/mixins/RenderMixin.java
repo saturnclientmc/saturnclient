@@ -6,7 +6,7 @@ import org.saturnclient.modules.ModManager;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.menus.HudEditor;
 import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
-import org.saturnclient.ui2.RenderScope;
+import org.saturnclient.ui.RenderScope;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

@@ -1,6 +1,6 @@
 package org.saturnclient.modules;
 
-import org.saturnclient.ui2.RenderScope;
+import org.saturnclient.ui.RenderScope;
 
 public interface HudMod {
     public ModDimensions getDimensions();
