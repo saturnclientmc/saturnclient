@@ -1,0 +1,38 @@
+{
+	"schemaVersion": 1,
+	"id": "saturn-client",
+	"version": "${version}",
+	"name": "Saturn Client",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"Me!"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/saturn-client/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"org.saturnclient.SaturnClient"
+		],
+		"client": [
+			"org.saturnclient.SaturnClientClient"
+		]
+	},
+	"mixins": [
+		"saturn-client.mixins.json",
+		{
+			"config": "saturn-client.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.18.4",
+		"minecraft": "~1.21.4",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}
