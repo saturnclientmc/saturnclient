@@ -1,6 +1,6 @@
 # Licenses
 
-This project is under [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0), but a lot of code taken from other open source projects that are under other licenses that need to be mentioned due to legal reasons.
+This project is under [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0), but a lot of code taken from other open source projects that are under other licenses that need to be mentioned due to legal or ethical reasons.
 
 | File                                                                                    | License                                                     |
 | --------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
