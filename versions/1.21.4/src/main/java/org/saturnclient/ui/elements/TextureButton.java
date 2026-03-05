@@ -1,5 +1,6 @@
 package org.saturnclient.ui.elements;
 
+import org.saturnclient.common.minecraft.SaturnIdentifier;
 import org.saturnclient.config.Theme;
 import org.saturnclient.ui.Element;
 import org.saturnclient.ui.ElementContext;
@@ -13,8 +14,8 @@ public class TextureButton extends Element {
     private Runnable onClick;
     static int padding = 14;
 
-    public TextureButton(Identifier sprite, Runnable onClick) {
-        this.sprite = sprite;
+    public TextureButton(SaturnIdentifier sprite, Runnable onClick) {
+        this.sprite = (Identifier) sprite.id;
         this.onClick = onClick;
     }
 

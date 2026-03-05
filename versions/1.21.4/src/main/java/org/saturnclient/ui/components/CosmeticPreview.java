@@ -1,5 +1,6 @@
 package org.saturnclient.ui.components;
 
+import org.saturnclient.common.minecraft.SaturnIdentifier;
 import org.saturnclient.config.Theme;
 import org.saturnclient.ui.Element;
 import org.saturnclient.ui.ElementContext;
@@ -15,8 +16,8 @@ public class CosmeticPreview extends Element {
     private Runnable onClick;
     private boolean isSelected;
 
-    public CosmeticPreview(boolean isSelected, Identifier sprite, Runnable onClick) {
-        this.sprite = sprite;
+    public CosmeticPreview(boolean isSelected, SaturnIdentifier sprite, Runnable onClick) {
+        this.sprite = (Identifier) sprite.id;
         this.onClick = onClick;
         this.isSelected = isSelected;
 

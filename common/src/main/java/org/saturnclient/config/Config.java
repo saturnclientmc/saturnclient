@@ -7,7 +7,7 @@ import org.saturnclient.common.minecraft.SaturnIdentifier;
 import org.saturnclient.config.manager.ConfigManager;
 import org.saturnclient.config.manager.Key;
 import org.saturnclient.config.manager.Property;
-import org.saturnclient.resources.Textures;
+import org.saturnclient.ui.resources.Textures;
 
 public class Config {
     public static ConfigManager config;

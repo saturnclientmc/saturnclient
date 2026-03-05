@@ -11,6 +11,7 @@ import org.joml.Matrix4f;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import org.saturnclient.common.minecraft.SaturnIdentifier;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
 import org.saturnclient.ui.resources.Fonts;
@@ -204,6 +205,31 @@ public class RenderScope {
     public int getScaledWindowHeight() {
         return SaturnClient.client.getWindow().getScaledHeight();
     }
+
+    /* Saturn common sprites */
+    public void drawTexture(SaturnIdentifier sprite, int x, int y, float u, float v, int width, int height, int color) {
+        this.drawTexture(sprite, x, y, u, v, width, height, width, height, width, height, color);
+    }
+
+    public void drawTexture(SaturnIdentifier sprite, int x, int y, float u, float v, int width, int height) {
+        this.drawTexture(sprite, x, y, u, v, width, height, width, height, width, height);
+    }
+
+    public void drawTexture(SaturnIdentifier sprite, int x, int y, float u, float v, int width, int height,
+            int regionWith,
+            int regionHeight, int textureWidth, int textureHeight) {
+        this.drawTexture(sprite, x, y, u, v, width, height, regionWith, regionHeight, textureWidth, textureHeight, -1);
+    }
+
+    public void drawTexture(SaturnIdentifier sprite, int x, int y, float u, float v, int width, int height,
+            int regionWidth,
+            int regionHeight, int textureWidth, int textureHeight, int color) {
+        this.drawTexturedQuad((Identifier) sprite.id, x, x + width, y, y + height, (u + 0.0F) / (float) textureWidth,
+                (u + (float) regionWidth) / (float) textureWidth, (v + 0.0F) / (float) textureHeight,
+                (v + (float) regionHeight) / (float) textureHeight, color);
+    }
+
+    /* Minecraft sprites */
 
     public void drawTexture(Identifier sprite, int x, int y, float u, float v, int width, int height, int color) {
         this.drawTexture(sprite, x, y, u, v, width, height, width, height, width, height, color);

@@ -1,5 +1,6 @@
 package org.saturnclient.ui.elements;
 
+import org.saturnclient.common.minecraft.SaturnIdentifier;
 import org.saturnclient.config.Theme;
 import org.saturnclient.ui.Element;
 import org.saturnclient.ui.ElementContext;
@@ -13,9 +14,9 @@ public class TabMenu extends Element {
         Runnable onClick;
         Identifier sprite;
 
-        public TabMenuComponent(Identifier sprite, Runnable onClick) {
+        public TabMenuComponent(SaturnIdentifier sprite, Runnable onClick) {
             this.onClick = onClick;
-            this.sprite = sprite;
+            this.sprite = (Identifier) sprite.id;
         }
     }
 
