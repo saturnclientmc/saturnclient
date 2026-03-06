@@ -23,7 +23,7 @@ public class Config {
     }
 
     public static void init() {
-        File configFile = new File(MinecraftProvider.PROVIDER.getRunDirectory(), "saturn.json");
+        File configFile = new File(MinecraftProvider.PROVIDER.getClient().getRunDirectory(), "saturn.json");
         config = new ConfigManager(configFile, "Saturn Client");
 
         config.property("Realistic logo", realisticLogo);

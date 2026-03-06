@@ -1,5 +1,7 @@
 package org.saturnclient.ui.elements;
 
+import org.saturnclient.common.minecraft.IMinecraftClient;
+import org.saturnclient.common.minecraft.MinecraftProvider;
 import org.saturnclient.common.minecraft.bindings.SaturnIdentifier;
 import org.saturnclient.ui.Element;
 import org.saturnclient.ui.ElementContext;
@@ -15,11 +17,12 @@ public class ImageTexture extends Element {
     @Override
     public void render(RenderScope renderScope, ElementContext ctx) {
         if (sprite.toString().endsWith(".svg")) {
-            MinecraftClient client = MinecraftClient.getInstance();
+            IMinecraftClient client = MinecraftProvider.PROVIDER.getClient();
 
             // Get the actual window pixel dimensions for the image
             int renderWidth = (int) (width * client.getWindow().getFramebufferWidth() / client.getWindow().getWidth());
-            int renderHeight = (int) (height * client.getWindow().getFramebufferHeight() / client.getWindow().getHeight());
+            int renderHeight = (int) (height * client.getWindow().getFramebufferHeight()
+                    / client.getWindow().getHeight());
 
             sprite = SvgTexture.getSvg(client, sprite, renderWidth * 2, renderHeight * 2);
         }

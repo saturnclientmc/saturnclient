@@ -6,16 +6,13 @@ import org.saturnclient.ui.Element;
 import org.saturnclient.ui.ElementContext;
 import org.saturnclient.ui.RenderScope;
 
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.util.Identifier;
-
 public class TextureButton extends Element {
-    Identifier sprite;
+    SaturnIdentifier sprite;
     private Runnable onClick;
     static int padding = 14;
 
     public TextureButton(SaturnIdentifier sprite, Runnable onClick) {
-        this.sprite = (Identifier) sprite.inner;
+        this.sprite = sprite;
         this.onClick = onClick;
     }
 
@@ -23,8 +20,6 @@ public class TextureButton extends Element {
     public void render(RenderScope renderScope, ElementContext ctx) {
         renderScope.drawRoundedRectangle(0, 0, width, height, Theme.WIDGET_RADIUS.value,
                 ctx.isHovering() ? Theme.ACCENT.value : Theme.PRIMARY.value);
-
-        renderScope.setRenderLayer(RenderLayer::getGuiTextured);
 
         int texWidth = width - padding;
         int texHeight = height - padding;

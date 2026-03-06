@@ -52,8 +52,6 @@ public interface RenderScope {
 
     public void drawItemWithoutEntity(SaturnItemStack stack, int x, int y, int seed);
 
-    public void drawItem(SaturnItemStack entity, SaturnItemStack stack, int x, int y, int seed);
-
     public void drawSpriteStretched(SaturnSprite sprite, int x, int y, int width, int height);
 
     public void drawSpriteStretched(SaturnSprite sprite, int x, int y, int width, int height, int color);

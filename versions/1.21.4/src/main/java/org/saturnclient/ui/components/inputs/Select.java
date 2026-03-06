@@ -8,8 +8,6 @@ import org.saturnclient.ui.RenderScope;
 import org.saturnclient.ui.Utils;
 import org.saturnclient.ui.resources.Fonts;
 
-import net.minecraft.client.render.RenderLayer;
-
 public class Select extends Element {
     private Property<Integer> prop;
 
@@ -21,8 +19,6 @@ public class Select extends Element {
 
     @Override
     public void render(RenderScope renderScope, ElementContext ctx) {
-        renderScope.setRenderLayer(RenderLayer::getGuiTextured);
-
         renderScope.drawText(0.8f, "<", 0, 0, Theme.FONT.value, Theme.FOREGROUND.value);
 
         String text = prop.getSelection();

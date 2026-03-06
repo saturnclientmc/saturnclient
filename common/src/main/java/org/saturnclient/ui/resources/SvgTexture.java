@@ -9,6 +9,8 @@ import java.util.List;
 
 import com.kitfox.svg.SVGDiagram;
 import com.kitfox.svg.SVGUniverse;
+
+import org.saturnclient.common.minecraft.IMinecraftClient;
 import org.saturnclient.common.minecraft.bindings.SaturnIdentifier;
 
 public class SvgTexture {
@@ -47,7 +49,7 @@ public class SvgTexture {
         return image;
     }
 
-    public static SaturnIdentifier getSvg(MinecraftClient client, SaturnIdentifier svgImage, int width, int height) {
+    public static SaturnIdentifier getSvg(IMinecraftClient client, SaturnIdentifier svgImage, int width, int height) {
         SaturnIdentifier id = SaturnIdentifier
                 .of(svgImage.toString().replaceAll("\\.svg$", (width + "_" + height).toString() + ".png"));
 
@@ -55,10 +57,7 @@ public class SvgTexture {
             return id;
         }
 
-        try (InputStream svgStream = client
-                .getResourceManager()
-                .getResource(svgImage).get()
-                .getInputStream()) {
+        try (InputStream svgStream = client.getResource(svgImage)) {
 
             BufferedImage image = renderSvg(svgStream, width, height);
 

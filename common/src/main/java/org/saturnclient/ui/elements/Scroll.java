@@ -8,7 +8,6 @@ import org.saturnclient.config.manager.Property;
 import org.saturnclient.ui.Element;
 import org.saturnclient.ui.ElementContext;
 import org.saturnclient.ui.RenderScope;
-import org.saturnclient.ui.components.ElementRenderer;
 
 public class Scroll extends Element {
     private static Property<Integer> scrollBarRadius = Property.integer(10);

@@ -94,7 +94,7 @@ public abstract class SaturnScreen extends Screen {
 
         // We are using a Abstracted RenderScope because older minecraft versions don't
         // use DrawContext
-        RenderScope renderScope = new RenderScope(context.getMatrices(),
+        RenderScope renderScope = new RenderScopeImpl(context.getMatrices(),
                 ((DrawContextAccessor) context).getVertexConsumers());
 
         renderScope.matrices.push();

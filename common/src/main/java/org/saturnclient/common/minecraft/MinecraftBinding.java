@@ -6,4 +6,13 @@ public class MinecraftBinding {
     public MinecraftBinding(Object binding) {
         this.inner = binding;
     }
+
+    @SuppressWarnings("unchecked")
+    public <T> T get() {
+        try {
+            return (T) inner;
+        } catch (ClassCastException e) {
+            return null;
+        }
+    }
 }
