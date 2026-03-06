@@ -8,7 +8,10 @@ import org.saturnclient.impl.modules.*;
 public class FabricModuleProvider implements ModuleProvider {
     public static Module[] MODS = {
             new ArmorDisplay(new ArmorDisplayFabric()),
-            new AutoSprint(new AutoSprintFabric())
+            new AutoSprint(new AutoSprintFabric()),
+            new Coordinates(new CoordinatesFabric()),
+            new Crosshair(new CrosshairFabric()),
+            new Clock(),
     };
 
     @Override
