@@ -1,36 +1,40 @@
 package org.saturnclient.modules.mods;
 
-import java.util.Objects;
-
 import org.saturnclient.modules.Module;
 import org.saturnclient.modules.ModuleDetails;
-import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.modules.interfaces.AutoSprintInterface;
 import org.saturnclient.config.manager.Property;
 
 public class AutoSprint extends Module {
+
     private static Property<Boolean> enabled = Property.bool(false);
 
-    public AutoSprint() {
+    private final AutoSprintInterface minecraft;
+
+    public AutoSprint(AutoSprintInterface minecraft) {
         super(
                 new ModuleDetails("Auto Sprint", "sprint")
                         .description("Makes the player always sprint")
                         .tags("Movement")
                         .version("v0.1.0"),
                 enabled.named("Enabled"));
+
+        this.minecraft = minecraft;
     }
 
     @Override
     public void tick() {
-        if (SaturnClient.client.player == null || SaturnClient.client.getNetworkHandler() == null) {
+        if (!minecraft.hasPlayer() || !minecraft.hasNetwork()) {
             return;
         }
-        if (SaturnClient.client.options.forwardKey.isPressed()
-                && !SaturnClient.client.options.backKey.isPressed()
-                && !SaturnClient.client.player.isSneaking()
-                && !SaturnClient.client.player.horizontalCollision
-                && !SaturnClient.client.player.isUsingItem()) {
 
-            Objects.requireNonNull(SaturnClient.client.player).setSprinting(true);
+        if (minecraft.isForwardPressed()
+                && !minecraft.isBackPressed()
+                && !minecraft.isSneaking()
+                && !minecraft.hasHorizontalCollision()
+                && !minecraft.isUsingItem()) {
+
+            minecraft.setSprinting(true);
         }
     }
 
