@@ -8,24 +8,24 @@ import org.saturnclient.modules.mods.*;
 public class ModManager {
     public static final List<Module> ENABLED_MODS = new ArrayList<>();
     public static final Module[] ALL_MODS = {
-            new Crosshair(),
-            new AutoSprint(),
+            // new Crosshair(),
+            // new AutoSprint(),
             new ArmorDisplay(),
-            new Fps(),
-            new StatusEffects(),
-            new Coordinates(),
-            new Freelook(),
-            new Keystrokes(),
-            new Fullbright(),
-            new NoFog(),
-            new DayCounter(),
-            new Speedometer(),
-            new Zoom(),
-            new HealthDisplay(),
-            new Nametags(),
-            new Ping(),
-            new Tps(),
-            new Clock()
+            // new Fps(),
+            // new StatusEffects(),
+            // new Coordinates(),
+            // new Freelook(),
+            // new Keystrokes(),
+            // new Fullbright(),
+            // new NoFog(),
+            // new DayCounter(),
+            // new Speedometer(),
+            // new Zoom(),
+            // new HealthDisplay(),
+            // new Nametags(),
+            // new Ping(),
+            // new Tps(),
+            // new Clock()
     };
 
     public static void init() {
@@ -44,9 +44,5 @@ public class ModManager {
 
     public static Module[] getAllMods() {
         return ALL_MODS;
-    }
-
-    public static void refreshEnabledModules() {
-        updateEnabledModules();
     }
 }
