@@ -3,10 +3,10 @@ package org.saturnclient.modules.mods;
 import org.saturnclient.modules.Module;
 import org.saturnclient.modules.HudMod;
 import org.saturnclient.modules.ModDimensions;
-import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.modules.ModuleDetails;
+import org.saturnclient.modules.interfaces.KeystrokesInterface;
 import org.saturnclient.config.manager.Property;
 import org.saturnclient.ui.RenderScope;
-import org.saturnclient.modules.ModuleDetails;
 
 public class Keystrokes extends Module implements HudMod {
 
@@ -19,6 +19,8 @@ public class Keystrokes extends Module implements HudMod {
 
     private static final ModDimensions dimensions = new ModDimensions(78, 54);
 
+    private final KeystrokesInterface minecraft;
+
     // Key states
     private boolean w, a, s, d, lmb, rmb, space;
 
@@ -29,7 +31,7 @@ public class Keystrokes extends Module implements HudMod {
     private static final int MOUSE_HEIGHT = 24;
     private static final int SPACE_HEIGHT = 19;
 
-    public Keystrokes() {
+    public Keystrokes(KeystrokesInterface minecraft) {
         super(new ModuleDetails("Keystrokes", "keystrokes")
                 .description("Displays movement keystrokes")
                 .version("v0.2.0")
@@ -42,18 +44,20 @@ public class Keystrokes extends Module implements HudMod {
                 clickFg.named("Clicked fg"),
                 clickBg.named("Clicked bg"));
 
+        this.minecraft = minecraft;
+
         dimensions.renderBackground = false;
     }
 
     @Override
     public void tick() {
-        w = SaturnClient.client.options.forwardKey.isPressed();
-        a = SaturnClient.client.options.leftKey.isPressed();
-        s = SaturnClient.client.options.backKey.isPressed();
-        d = SaturnClient.client.options.rightKey.isPressed();
-        lmb = SaturnClient.client.options.attackKey.isPressed();
-        rmb = SaturnClient.client.options.useKey.isPressed();
-        space = SaturnClient.client.options.jumpKey.isPressed();
+        w = minecraft.isForwardPressed();
+        a = minecraft.isLeftPressed();
+        s = minecraft.isBackPressed();
+        d = minecraft.isRightPressed();
+        lmb = minecraft.isAttackPressed();
+        rmb = minecraft.isUsePressed();
+        space = minecraft.isJumpPressed();
 
         updateHeight();
     }

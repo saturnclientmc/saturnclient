@@ -14,6 +14,8 @@ public class FabricModuleProvider implements ModuleProvider {
             new DayCounter(new DayCounterFabric()),
             new Fps(new FpsFabric()),
             new Freelook(new FreelookFabric()),
+            new HealthDisplay(new HealthDisplayFabric()),
+            new Keystrokes(new KeystrokesFabric()),
             new Clock(),
     };
 

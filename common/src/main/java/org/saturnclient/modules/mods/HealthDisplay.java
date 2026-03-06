@@ -4,23 +4,22 @@ import org.saturnclient.modules.HudMod;
 import org.saturnclient.modules.ModDimensions;
 import org.saturnclient.modules.Module;
 import org.saturnclient.modules.ModuleDetails;
-import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.modules.interfaces.HealthDisplayInterface;
 import org.saturnclient.config.manager.Property;
 import org.saturnclient.ui.RenderScope;
 import org.saturnclient.ui.resources.Fonts;
 
-import net.minecraft.util.math.Vec3d;
-
 public class HealthDisplay extends Module implements HudMod {
+
     private static Property<Boolean> enabled = Property.bool(false);
     private static Property<Integer> displayMode = Property.select(0, "Health", "Hearts");
     private static Property<Integer> decimals = Property.select(0, "0", "1", "2");
-    private static ModDimensions dimensions = new ModDimensions(40, 18);
-    double speed = 0.;
-    Vec3d velocity;
-    double y = 0.;
 
-    public HealthDisplay() {
+    private static ModDimensions dimensions = new ModDimensions(40, 18);
+
+    private final HealthDisplayInterface minecraft;
+
+    public HealthDisplay(HealthDisplayInterface minecraft) {
         super(new ModuleDetails("Health display", "health")
                 .description("Displays your current health")
                 .version("v0.1.0")
@@ -29,6 +28,8 @@ public class HealthDisplay extends Module implements HudMod {
                 displayMode.named("Display mode"),
                 decimals.named("Decimals"),
                 dimensions.prop());
+
+        this.minecraft = minecraft;
     }
 
     @Override
@@ -38,31 +39,43 @@ public class HealthDisplay extends Module implements HudMod {
 
     @Override
     public void renderHud(RenderScope scope) {
-        float health = SaturnClient.client.player.getHealth();
+        float health = minecraft.getPlayerHealth();
+
         switch (displayMode.value) {
             case 1:
                 health = health / 2;
+                break;
         }
+
         renderHealth(health, scope);
     }
 
     public void renderHealth(float health, RenderScope scope) {
+
         String text = "";
 
         switch (decimals.value) {
             case 0:
                 text = String.format("%.0f ", health);
                 break;
+
             case 1:
                 text = String.format("%.1f ", health);
                 break;
+
             case 2:
                 text = String.format("%.2f ", health);
                 break;
         }
 
-        scope.drawText(text,
-                0, 0, dimensions.font.value, dimensions.fgColor.value);
+        scope.drawText(
+                text,
+                0,
+                0,
+                dimensions.font.value,
+                dimensions.fgColor.value
+        );
+
         dimensions.width = Fonts.getWidth(text, dimensions.font.value);
         dimensions.height = 18 * text.split("\n").length;
     }

@@ -2,7 +2,7 @@ package org.saturnclient.modules.mods.mixins;
 
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 
-import org.saturnclient.modules.mods.utils.HealthRenderState;
+import org.saturnclient.modules.interfaces.NametagsInterface.EntityType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
@@ -11,7 +11,7 @@ public class LivingEntityRenderStateMixin implements org.saturnclient.modules.mo
 
     @Unique private float saturn$health = 0f;
     @Unique private float saturn$maxHealth = 1f;
-    @Unique private HealthRenderState.EntityType saturn$entityType = HealthRenderState.EntityType.OTHER;
+    @Unique private EntityType saturn$entityType = EntityType.OTHER;
 
     public float saturn$getHealth() { return saturn$health; }
     public float saturn$getMaxHealth() { return saturn$maxHealth; }
@@ -20,7 +20,7 @@ public class LivingEntityRenderStateMixin implements org.saturnclient.modules.mo
         this.saturn$maxHealth = maxHealth;
     }
 
-    public HealthRenderState.EntityType saturn$getEntityType() { return saturn$entityType; }
-    public void saturn$setEntityType(HealthRenderState.EntityType type) { this.saturn$entityType = type; }
+    public EntityType saturn$getEntityType() { return saturn$entityType; }
+    public void saturn$setEntityType(EntityType type) { this.saturn$entityType = type; }
 
 }

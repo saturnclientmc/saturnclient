@@ -2,6 +2,8 @@ package org.saturnclient.modules.mods.mixins;
 
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
+
+import org.saturnclient.modules.interfaces.NametagsInterface.EntityType;
 import org.saturnclient.modules.mods.utils.HealthRenderState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.HostileEntity;
@@ -17,18 +19,19 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
 
     @Inject(method = "updateRenderState", at = @At("TAIL"))
     private void saturn$captureHealth(T entity, S state, float tickDelta, CallbackInfo ci) {
-        if (!(state instanceof HealthRenderState hrs)) return;
+        if (!(state instanceof HealthRenderState hrs))
+            return;
 
         hrs.saturn$setHealth(entity.getHealth(), entity.getMaxHealth());
 
         if (entity instanceof PlayerEntity) {
-            hrs.saturn$setEntityType(HealthRenderState.EntityType.PLAYER);
+            hrs.saturn$setEntityType(EntityType.PLAYER);
         } else if (entity instanceof HostileEntity) {
-            hrs.saturn$setEntityType(HealthRenderState.EntityType.HOSTILE);
+            hrs.saturn$setEntityType(EntityType.HOSTILE);
         } else if (entity instanceof PassiveEntity) {
-            hrs.saturn$setEntityType(HealthRenderState.EntityType.PASSIVE);
+            hrs.saturn$setEntityType(EntityType.PASSIVE);
         } else {
-            hrs.saturn$setEntityType(HealthRenderState.EntityType.OTHER);
+            hrs.saturn$setEntityType(EntityType.OTHER);
         }
     }
 }
