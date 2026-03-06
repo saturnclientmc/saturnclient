@@ -26,6 +26,11 @@ public class Fonts {
                 Style.EMPTY.withFont(font));
     }
 
+    public static Text setFont(String text, int font) {
+        return Text.literal(text).setStyle(
+                Style.EMPTY.withFont(getFont(font)));
+    }
+
     public static int getWidth(String text, int font) {
         int w = 0;
         for (String line : text.split("\n")) {
