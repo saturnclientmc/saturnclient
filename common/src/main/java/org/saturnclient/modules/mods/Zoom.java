@@ -1,14 +1,14 @@
 package org.saturnclient.modules.mods;
 
-import org.lwjgl.glfw.GLFW;
 import org.saturnclient.modules.Module;
 import org.saturnclient.modules.ModuleDetails;
+import org.saturnclient.config.manager.Key;
 import org.saturnclient.config.manager.Property;
 
 public class Zoom extends Module {
     private static Property<Boolean> enabled = Property.bool(false);
     private static Property<Boolean> toggle = Property.bool(false);
-    public static Property<Integer> zoomKey = Property.keybinding(GLFW.GLFW_KEY_C);
+    public static Property<Integer> zoomKey = Property.keybinding(Key.GLFW_KEY_C);
     public static Property<Float> zoomLevel = Property.floatProp(3.0f);
 
     public static boolean isZooming = false;

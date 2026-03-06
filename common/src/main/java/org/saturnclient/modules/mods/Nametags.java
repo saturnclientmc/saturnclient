@@ -28,8 +28,6 @@ public class Nametags extends Module {
             "§8", "§9", "§a", "§b", "§c", "§d", "§e", "§f"
     };
 
-    private final NametagsInterface minecraft;
-
     public Nametags(NametagsInterface minecraft) {
         super(new ModuleDetails("Nametags", "nametags")
                 .description("Allows you to modify entity nametags")
@@ -46,8 +44,6 @@ public class Nametags extends Module {
                 format.named("Format"),
                 nameColor.named("Name color"),
                 healthColor.named("Health color"));
-
-        this.minecraft = minecraft;
     }
 
     @Override
