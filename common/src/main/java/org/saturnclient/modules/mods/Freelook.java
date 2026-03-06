@@ -1,21 +1,24 @@
 package org.saturnclient.modules.mods;
 
-import org.lwjgl.glfw.GLFW;
 import org.saturnclient.modules.Module;
 import org.saturnclient.modules.ModuleDetails;
-import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.modules.interfaces.FreelookInterface;
+import org.saturnclient.config.manager.Key;
 import org.saturnclient.config.manager.Property;
 
-import net.minecraft.client.option.Perspective;
-
 public class Freelook extends Module {
+
     private static Property<Boolean> enabled = Property.bool(false);
     private static Property<Boolean> toggle = Property.bool(true);
-    public static Property<Integer> freelookKey = Property.keybinding(GLFW.GLFW_KEY_H);
+
+    public static Property<Integer> freelookKey = Property.keybinding(Key.GLFW_KEY_H);
+
     public static boolean isFreeLooking = false;
     private static boolean was1stPerson = false;
 
-    public Freelook() {
+    private final FreelookInterface minecraft;
+
+    public Freelook(FreelookInterface minecraft) {
         super(
                 new ModuleDetails("Freelook", "freelook")
                         .description("Allows you to look around freely without moving your character")
@@ -24,37 +27,52 @@ public class Freelook extends Module {
                 enabled.named("Enabled"),
                 toggle.named("Toggle freelook"),
                 freelookKey.named("Freelook Keybinding"));
+
+        this.minecraft = minecraft;
     }
 
     @Override
     public void tick() {
+
         if (toggle.value) {
+
             if (freelookKey.wasKeyPressed()) {
+
                 if (isFreeLooking) {
                     stopFreelook();
                 } else {
                     startFreelook();
                 }
+
             }
+
         } else if (freelookKey.isKeyPressed()) {
+
             if (!isFreeLooking) {
                 startFreelook();
             }
+
         } else if (isFreeLooking) {
+
             stopFreelook();
+
         }
     }
 
     private void startFreelook() {
         isFreeLooking = true;
-        was1stPerson = SaturnClient.client.options.getPerspective() == Perspective.FIRST_PERSON;
-        SaturnClient.client.options.setPerspective(Perspective.THIRD_PERSON_BACK);
+
+        was1stPerson = minecraft.isFirstPerson();
+
+        minecraft.setThirdPersonBack();
     }
 
     private void stopFreelook() {
+
         if (was1stPerson) {
-            SaturnClient.client.options.setPerspective(Perspective.FIRST_PERSON);
+            minecraft.setFirstPerson();
         }
+
         isFreeLooking = false;
     }
 
