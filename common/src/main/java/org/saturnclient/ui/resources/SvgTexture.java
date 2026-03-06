@@ -9,16 +9,11 @@ import java.util.List;
 
 import com.kitfox.svg.SVGDiagram;
 import com.kitfox.svg.SVGUniverse;
-
-import org.jetbrains.annotations.Nullable;
-import org.saturnclient.cosmetics.cloak.utils.IdentifierUtils;
-
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.Identifier;
+import org.saturnclient.common.minecraft.bindings.SaturnIdentifier;
 
 public class SvgTexture {
 
-    private static List<Identifier> svgCache = new ArrayList<>();
+    private static List<SaturnIdentifier> svgCache = new ArrayList<>();
 
     private static BufferedImage renderSvg(InputStream svgStream, int width, int height) throws Exception {
         // Load SVG
@@ -52,9 +47,8 @@ public class SvgTexture {
         return image;
     }
 
-    @Nullable
-    public static Identifier getSvg(MinecraftClient client, Identifier svgImage, int width, int height) {
-        Identifier id = Identifier
+    public static SaturnIdentifier getSvg(MinecraftClient client, SaturnIdentifier svgImage, int width, int height) {
+        SaturnIdentifier id = SaturnIdentifier
                 .of(svgImage.toString().replaceAll("\\.svg$", (width + "_" + height).toString() + ".png"));
 
         if (svgCache.contains(id)) {

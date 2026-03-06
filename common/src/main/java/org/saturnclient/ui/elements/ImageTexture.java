@@ -5,18 +5,11 @@ import org.saturnclient.ui.Element;
 import org.saturnclient.ui.ElementContext;
 import org.saturnclient.ui.RenderScope;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.Identifier;
-
 public class ImageTexture extends Element {
-    Identifier sprite;
-
-    public ImageTexture(Identifier sprite) {
-        this.sprite = sprite;
-    }
+    SaturnIdentifier sprite;
 
     public ImageTexture(SaturnIdentifier sprite) {
-        this.sprite = (Identifier) sprite.inner;
+        this.sprite = sprite;
     }
 
     @Override
