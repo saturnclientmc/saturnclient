@@ -7,16 +7,14 @@ import org.saturnclient.ui.ElementContext;
 import org.saturnclient.ui.RenderScope;
 import org.saturnclient.ui.Utils;
 
-import net.minecraft.util.Identifier;
-
 public class TabMenu extends Element {
     public static class TabMenuComponent {
         Runnable onClick;
-        Identifier sprite;
+        SaturnIdentifier sprite;
 
         public TabMenuComponent(SaturnIdentifier sprite, Runnable onClick) {
             this.onClick = onClick;
-            this.sprite = (Identifier) sprite.inner;
+            this.sprite = sprite;
         }
     }
 

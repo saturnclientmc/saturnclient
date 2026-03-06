@@ -11,6 +11,7 @@ import com.kitfox.svg.SVGDiagram;
 import com.kitfox.svg.SVGUniverse;
 
 import org.saturnclient.common.minecraft.IMinecraftClient;
+import org.saturnclient.common.minecraft.MinecraftProvider;
 import org.saturnclient.common.minecraft.bindings.SaturnIdentifier;
 
 public class SvgTexture {
@@ -61,7 +62,7 @@ public class SvgTexture {
 
             BufferedImage image = renderSvg(svgStream, width, height);
 
-            IdentifierUtils.registerBufferedImageTexture(id, image);
+            MinecraftProvider.PROVIDER.registerBufferedImageTexture(id, image);
 
             return id;
 
