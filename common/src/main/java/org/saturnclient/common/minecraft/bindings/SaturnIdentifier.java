@@ -8,6 +8,10 @@ public class SaturnIdentifier extends MinecraftBinding {
         super(MinecraftProvider.PROVIDER.createIdentifier(namespace, path));
     }
 
+    public SaturnIdentifier(Object o) {
+        super(o);
+    }
+
     public static SaturnIdentifier of(String namespace, String path) {
         return new SaturnIdentifier(namespace, path);
     }
@@ -20,5 +24,10 @@ public class SaturnIdentifier extends MinecraftBinding {
 
     public static SaturnIdentifier ofVanilla(String path) {
         return new SaturnIdentifier("minecraft", path);
+    }
+
+    @Override
+    public String toString() {
+        return this.inner.toString();
     }
 }

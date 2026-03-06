@@ -20,14 +20,19 @@ public class ImageTexture extends Element {
         if (sprite.toString().endsWith(".svg")) {
             IMinecraftClient client = MinecraftProvider.PROVIDER.getClient();
 
-            // Get the actual window pixel dimensions for the image
             int renderWidth = (int) (width * client.getWindow().getFramebufferWidth() / client.getWindow().getWidth());
             int renderHeight = (int) (height * client.getWindow().getFramebufferHeight()
                     / client.getWindow().getHeight());
 
-            sprite = SvgTexture.getSvg(client, sprite, renderWidth * 2, renderHeight * 2);
+            SaturnIdentifier pngId = SvgTexture.getSvg(client, sprite, renderWidth * 2, renderHeight * 2);
+
+            this.sprite = pngId;
+            if (pngId == null) {
+                System.err.println("Failed to render SVG: " + sprite);
+                return;
+            }
         }
 
-        renderScope.drawTexture(sprite, 0, 0, 0, 0, width, height);
+        renderScope.drawTexture(this.sprite, 0, 0, 0, 0, width, height);
     }
 }

@@ -10,6 +10,7 @@ import org.joml.Matrix4f;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import org.saturnclient.common.minecraft.MinecraftProvider;
 import org.saturnclient.common.minecraft.bindings.SaturnIdentifier;
 import org.saturnclient.common.minecraft.bindings.SaturnItemStack;
 import org.saturnclient.common.minecraft.bindings.SaturnSprite;
@@ -17,6 +18,7 @@ import org.saturnclient.common.minecraft.render.IMatrixStack;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
 import org.saturnclient.ui.resources.Fonts;
+import org.saturnclient.ui.resources.SvgTexture;
 
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.font.TextRenderer.TextLayerType;
@@ -267,8 +269,9 @@ public class RenderScopeImpl implements RenderScope {
             float v2, int color) {
 
         if (sprite.toString().endsWith(".svg")) {
-            // sprite = SvgTexture.getSvg(MinecraftClient.getInstance(), sprite, (x2 - x1) *
-            // 2, (y2 - y1) * 2);
+            sprite = (Identifier) SvgTexture.getSvg(MinecraftProvider.PROVIDER.getClient(),
+                    new SaturnIdentifier(sprite),
+                    (x2 - x1) * 2, (y2 - y1) * 2).inner;
         }
 
         if (color == 0)
