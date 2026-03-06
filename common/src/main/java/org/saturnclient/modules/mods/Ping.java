@@ -5,33 +5,32 @@ import org.saturnclient.modules.ModDimensions;
 import org.saturnclient.modules.Module;
 import org.saturnclient.modules.ModuleDetails;
 import org.saturnclient.config.manager.Property;
+import org.saturnclient.modules.interfaces.PingInterface;
 import org.saturnclient.ui.RenderScope;
 import org.saturnclient.ui.resources.Fonts;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
-
 public class Ping extends Module implements HudMod {
+
     private static Property<Boolean> enabled = Property.bool(false);
     private static ModDimensions dimensions = new ModDimensions(60, Fonts.getHeight());
 
-    public Ping() {
+    private final PingInterface pingProvider;
+
+    public Ping(PingInterface pingProvider) {
         super(new ModuleDetails("Ping Display", "ping")
                 .description("Displays ping")
                 .version("v0.1.0")
                 .tags("Utility"),
                 enabled.named("Enabled"),
                 dimensions.prop());
+
+        this.pingProvider = pingProvider;
     }
 
     @Override
     public void renderHud(RenderScope scope) {
-        MinecraftClient client = MinecraftClient.getInstance();
-        ClientPlayNetworkHandler handler = client.getNetworkHandler();
-        String text = "0 ms";
-        if (handler != null) {
-            text = String.valueOf(handler.getPlayerListEntry(client.player.getUuid()).getLatency()) + " ms";
-        }
+        int ping = pingProvider.getPing();
+        String text = ping + " ms";
         scope.drawText(text, 0, 0, dimensions.font.value, dimensions.fgColor.value);
         dimensions.width = Fonts.getWidth(text, dimensions.font.value);
     }
