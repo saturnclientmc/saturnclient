@@ -11,7 +11,8 @@
     "DrawContextAccessor",
     "SplashOverlayMixin",
     "SetScreenMixin",
-    "MinecraftClientMixin"
+    "MinecraftClientMixin",
+    "MatrixStackMixin"
   ],
   "injectors": {
     "defaultRequire": 1
