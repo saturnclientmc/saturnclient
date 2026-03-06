@@ -5,11 +5,12 @@ import java.util.List;
 
 import org.saturnclient.ui.Element;
 import org.saturnclient.ui.ElementContext;
+import org.saturnclient.ui.ElementRenderer;
 import org.saturnclient.ui.RenderScope;
 import org.saturnclient.ui.Utils;
 
-public class ElementRenderer {
-    public static void draw(List<Element> elements, Element element) {
+public class ElementRendererImpl extends ElementRenderer {
+    public void draw(List<Element> elements, Element element) {
         synchronized (elements) {
             elements.add(element);
         }
@@ -19,7 +20,7 @@ public class ElementRenderer {
         }
     }
 
-    public static void render(List<Element> elements, long elapsed, RenderScope renderScope, int mouseX, int mouseY) {
+    public void render(List<Element> elements, long elapsed, RenderScope renderScope, int mouseX, int mouseY) {
         for (Element element : elements) {
             element.playAnimationFrame(elapsed);
 
@@ -32,7 +33,7 @@ public class ElementRenderer {
         }
     }
 
-    public static void mouseClicked(List<Element> elements, double mouseX, double mouseY, int button) {
+    public void mouseClicked(List<Element> elements, double mouseX, double mouseY, int button) {
         if (button == 0) {
             for (Element element : new ArrayList<>(elements)) {
                 element.focused = false;
@@ -51,7 +52,7 @@ public class ElementRenderer {
         }
     }
 
-    public static void mouseScrolled(
+    public void mouseScrolled(
             List<Element> elements,
             double mouseX,
             double mouseY,
@@ -69,7 +70,7 @@ public class ElementRenderer {
         }
     }
 
-    public static void keyPressed(List<Element> elements, int keyCode, int scanCode, int modifiers) {
+    public void keyPressed(List<Element> elements, int keyCode, int scanCode, int modifiers) {
         for (Element element : new ArrayList<>(elements)) {
             if (element.focused && element.opacity > 0) {
                 element.keyPressed(keyCode, scanCode, modifiers);
@@ -82,14 +83,14 @@ public class ElementRenderer {
         }
     }
 
-    public static void mouseDragged(List<Element> elements, double mouseX, double mouseY, int button, double deltaX,
+    public void mouseDragged(List<Element> elements, double mouseX, double mouseY, int button, double deltaX,
             double deltaY) {
         for (Element element : new ArrayList<>(elements)) {
             element.mouseDragged(mouseX - element.x, mouseY - element.y, button, deltaX, deltaY);
         }
     }
 
-    public static void mouseReleased(List<Element> elements, double mouseX, double mouseY, int button) {
+    public void mouseReleased(List<Element> elements, double mouseX, double mouseY, int button) {
         for (Element element : new ArrayList<>(elements)) {
             element.mouseReleased(mouseX - element.x, mouseY - element.y, button);
         }

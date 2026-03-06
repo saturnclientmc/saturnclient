@@ -17,9 +17,11 @@ import org.saturnclient.config.manager.ConfigManager;
 import org.saturnclient.saturnclient.event.KeyInputHandler;
 import org.saturnclient.saturnclient.impl.SaturnClientProvider;
 import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
+import org.saturnclient.ui.ElementRenderer;
 import org.saturnclient.ui.RenderScope;
 import org.saturnclient.ui.RenderScopeImpl;
 import org.saturnclient.ui.SaturnScreen;
+import org.saturnclient.ui.components.ElementRendererImpl;
 import org.saturnclient.ui.elements.ImageTexture;
 import org.saturnclient.ui.resources.Textures;
 import org.saturnclient.ui.screens.TitleMenu;
@@ -41,6 +43,8 @@ public class SaturnClient implements ModInitializer {
         client = MinecraftClient.getInstance();
 
         MinecraftProvider.PROVIDER = new SaturnClientProvider();
+
+        ElementRenderer.INSTANCE = new ElementRendererImpl();
 
         Config.init();
         ModManager.init();

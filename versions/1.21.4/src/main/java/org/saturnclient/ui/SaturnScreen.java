@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
-import org.saturnclient.ui.components.ElementRenderer;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.PostEffectProcessor;
@@ -55,7 +54,7 @@ public abstract class SaturnScreen extends Screen {
     }
 
     public void draw(Element element) {
-        ElementRenderer.draw(elements, element);
+        ElementRenderer.INSTANCE.draw(elements, element);
     }
 
     @Override
@@ -101,7 +100,7 @@ public abstract class SaturnScreen extends Screen {
 
         renderScope.getMatrixStack().scale(0.5f, 0.5f, 0.5f);
 
-        ElementRenderer.render(new ArrayList<>(elements), elapsed, renderScope, mouseX, mouseY);
+        ElementRenderer.INSTANCE.render(new ArrayList<>(elements), elapsed, renderScope, mouseX, mouseY);
 
         renderScope.getMatrixStack().pop();
     }
@@ -111,7 +110,7 @@ public abstract class SaturnScreen extends Screen {
         mouseX *= 2;
         mouseY *= 2;
 
-        ElementRenderer.mouseClicked(elements, mouseX, mouseY, button);
+        ElementRenderer.INSTANCE.mouseClicked(elements, mouseX, mouseY, button);
 
         return false;
     }
@@ -121,7 +120,7 @@ public abstract class SaturnScreen extends Screen {
         mouseX *= 2;
         mouseY *= 2;
 
-        ElementRenderer.mouseDragged(elements, mouseX, mouseY, button, deltaX, deltaY);
+        ElementRenderer.INSTANCE.mouseDragged(elements, mouseX, mouseY, button, deltaX, deltaY);
 
         return super.mouseReleased(mouseX, mouseY, button);
     }
@@ -131,7 +130,7 @@ public abstract class SaturnScreen extends Screen {
         mouseX *= 2;
         mouseY *= 2;
 
-        ElementRenderer.mouseReleased(elements, mouseX, mouseY, button);
+        ElementRenderer.INSTANCE.mouseReleased(elements, mouseX, mouseY, button);
 
         return super.mouseReleased(mouseX, mouseY, button);
     }
@@ -145,7 +144,7 @@ public abstract class SaturnScreen extends Screen {
         mouseX *= 2;
         mouseY *= 2;
 
-        ElementRenderer.mouseScrolled(elements, mouseX, mouseY, horizontalAmount, verticalAmount);
+        ElementRenderer.INSTANCE.mouseScrolled(elements, mouseX, mouseY, horizontalAmount, verticalAmount);
 
         return super.mouseScrolled(
                 mouseX,
@@ -162,7 +161,7 @@ public abstract class SaturnScreen extends Screen {
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        ElementRenderer.keyPressed(elements, keyCode, scanCode, modifiers);
+        ElementRenderer.INSTANCE.keyPressed(elements, keyCode, scanCode, modifiers);
 
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
