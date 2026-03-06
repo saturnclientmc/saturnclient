@@ -3,39 +3,18 @@ package org.saturnclient.modules;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.saturnclient.modules.mods.*;
-
 public class ModManager {
-    public static final List<Module> ENABLED_MODS = new ArrayList<>();
-    public static final Module[] ALL_MODS = {
-            // new Crosshair(),
-            // new AutoSprint(),
-            new ArmorDisplay(),
-            // new Fps(),
-            // new StatusEffects(),
-            // new Coordinates(),
-            // new Freelook(),
-            // new Keystrokes(),
-            // new Fullbright(),
-            // new NoFog(),
-            // new DayCounter(),
-            // new Speedometer(),
-            // new Zoom(),
-            // new HealthDisplay(),
-            // new Nametags(),
-            // new Ping(),
-            // new Tps(),
-            // new Clock()
-    };
+    public static List<Module> ENABLED_MODS = new ArrayList<>();
+    public static Module[] MODS = {};
 
-    public static void init() {
-        // Pre-filter enabled modules to avoid checking every tick
+    public static void init(ModuleProvider provider) {
+        MODS = provider.getMods();
         updateEnabledModules();
     }
 
     public static synchronized void updateEnabledModules() {
         ENABLED_MODS.clear();
-        for (Module m : ALL_MODS) {
+        for (Module m : MODS) {
             if (m.isEnabled()) {
                 ENABLED_MODS.add(m);
             }
@@ -43,6 +22,10 @@ public class ModManager {
     }
 
     public static Module[] getAllMods() {
-        return ALL_MODS;
+        return MODS;
+    }
+
+    public interface ModuleProvider {
+        Module[] getMods();
     }
 }

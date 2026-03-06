@@ -13,7 +13,7 @@ public class ArmorDisplay extends Module implements HudMod {
 
     private static Property<Boolean> enabled = Property.bool(false);
     private static ModDimensions dimensions = new ModDimensions(40, 75);
-    private static Property<Boolean> useMainHand = Property.bool(false);
+    private static Property<Boolean> useMainHand = Property.bool(true);
 
     private final ArmorDisplayInterface minecraft;
 

@@ -29,7 +29,7 @@ public class ModMenu extends SaturnScreen {
 
         AnimationStagger moduleStagger = new AnimationStagger(AnimationConfig.modMenu);
 
-        for (Module mod : ModManager.ALL_MODS) {
+        for (Module mod : ModManager.MODS) {
             moduleStagger.draw(
                     new SaturnModule(mod)
                             .position((160 + g) * col, (50 + g) * row)
