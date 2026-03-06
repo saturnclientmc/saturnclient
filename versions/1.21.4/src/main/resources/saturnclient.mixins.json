@@ -10,7 +10,8 @@
     "WhoAmI",
     "DrawContextAccessor",
     "SplashOverlayMixin",
-    "SetScreenMixin"
+    "SetScreenMixin",
+    "MinecraftClientMixin"
   ],
   "injectors": {
     "defaultRequire": 1
