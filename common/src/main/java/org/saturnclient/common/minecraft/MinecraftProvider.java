@@ -15,4 +15,6 @@ public abstract class MinecraftProvider {
     public abstract int getWidth(String text, int font);
 
     public abstract void registerBufferedImageTexture(SaturnIdentifier i, BufferedImage bi);
+
+    public abstract String getKeyName(int key);
 }

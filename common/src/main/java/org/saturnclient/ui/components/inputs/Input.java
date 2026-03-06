@@ -1,8 +1,7 @@
 package org.saturnclient.ui.components.inputs;
 
-import org.lwjgl.glfw.GLFW;
-import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.config.Theme;
+import org.saturnclient.config.manager.Key;
 import org.saturnclient.ui.Element;
 import org.saturnclient.ui.ElementContext;
 import org.saturnclient.ui.RenderScope;
@@ -22,18 +21,18 @@ public abstract class Input extends Element {
 
     @Override
     public void keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (keyCode == GLFW.GLFW_KEY_BACKSPACE) {
+        if (keyCode == Key.GLFW_KEY_BACKSPACE) {
             if (cursorPosition > 0 && validateBackspace()) {
                 text = text.substring(0, cursorPosition - 1) +
                         text.substring(cursorPosition);
                 cursorPosition--;
                 backspace();
             }
-        } else if (keyCode == GLFW.GLFW_KEY_LEFT) {
+        } else if (keyCode == Key.GLFW_KEY_LEFT) {
             if (cursorPosition > 0) {
                 cursorPosition--;
             }
-        } else if (keyCode == GLFW.GLFW_KEY_RIGHT) {
+        } else if (keyCode == Key.GLFW_KEY_RIGHT) {
             if (cursorPosition < text.length()) {
                 cursorPosition++;
             }
@@ -49,7 +48,7 @@ public abstract class Input extends Element {
         float textWidth = 0;
 
         for (int i = 0; i < visibleText.length(); i++) {
-            textWidth = SaturnClient.client.textRenderer.getWidth(visibleText.substring(0, i + 1)) * 0.6f;
+            textWidth = Fonts.getWidth(visibleText.substring(0, i + 1), Theme.FONT.value) * 0.6f;
 
             if (textWidth > mouseX) {
                 break;

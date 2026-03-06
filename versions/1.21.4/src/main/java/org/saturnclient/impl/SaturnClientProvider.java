@@ -38,4 +38,9 @@ public class SaturnClientProvider extends MinecraftProvider {
     public void registerBufferedImageTexture(SaturnIdentifier i, BufferedImage bi) {
         IdentifierUtils.registerBufferedImageTextureFast((Identifier) i.inner, bi);
     }
+
+    @Override
+    public String getKeyName(int key) {
+        return GLFW.glfwGetKeyName(key, GLFW.glfwGetKeyScancode(key));
+    }
 }
