@@ -1,6 +1,5 @@
 package org.saturnclient.modules;
 
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,13 +31,6 @@ public class ModManager {
     public static void init() {
         // Pre-filter enabled modules to avoid checking every tick
         updateEnabledModules();
-
-        ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            // Only iterate over enabled modules
-            for (Module m : ENABLED_MODS) {
-                m.tick();
-            }
-        });
     }
 
     public static synchronized void updateEnabledModules() {

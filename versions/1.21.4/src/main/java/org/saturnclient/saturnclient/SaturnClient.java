@@ -2,6 +2,7 @@ package org.saturnclient.saturnclient;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
@@ -79,6 +80,13 @@ public class SaturnClient implements ModInitializer {
                         matrixStack.pop();
                     });
                 }
+            }
+        });
+
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            // Only iterate over enabled modules
+            for (org.saturnclient.modules.Module m : ModManager.ENABLED_MODS) {
+                m.tick();
             }
         });
 
