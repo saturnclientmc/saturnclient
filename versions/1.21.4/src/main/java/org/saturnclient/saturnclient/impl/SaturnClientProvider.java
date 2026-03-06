@@ -24,4 +24,9 @@ public class SaturnClientProvider extends MinecraftProvider {
         return GLFW.glfwGetKey(SaturnClient.client.getWindow().getHandle(), key) == GLFW.GLFW_PRESS
                 && SaturnClient.client.currentScreen == null;
     }
+
+    @Override
+    public int getWidth(String text, int font) {
+        return Fonts.getWidth(text, font);
+    }
 }

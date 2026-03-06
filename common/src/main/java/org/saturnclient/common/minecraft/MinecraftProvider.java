@@ -10,4 +10,6 @@ public abstract class MinecraftProvider {
     public abstract boolean isKeyPressed(int key);
 
     public abstract File getRunDirectory();
+
+    public abstract int getWidth(String text, int font);
 }

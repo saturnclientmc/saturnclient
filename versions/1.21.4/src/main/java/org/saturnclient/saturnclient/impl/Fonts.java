@@ -1,4 +1,4 @@
-package org.saturnclient.ui.resources;
+package org.saturnclient.saturnclient.impl;
 
 import org.saturnclient.saturnclient.SaturnClient;
 import net.minecraft.text.Style;
@@ -20,10 +20,10 @@ public class Fonts {
                 return INTER_BOLD;
         }
     }
-    
+
     public static Text setFont(String text, Identifier font) {
         return Text.literal(text).setStyle(
-            Style.EMPTY.withFont(font));
+                Style.EMPTY.withFont(font));
     }
 
     public static int getWidth(String text, int font) {
