@@ -7,6 +7,7 @@ import org.saturnclient.config.Theme;
 import org.saturnclient.config.manager.Property;
 import org.saturnclient.ui.Element;
 import org.saturnclient.ui.ElementContext;
+import org.saturnclient.ui.ElementRenderer;
 import org.saturnclient.ui.RenderScope;
 
 public class Scroll extends Element {
@@ -25,7 +26,7 @@ public class Scroll extends Element {
     }
 
     public void draw(Element element) {
-        // ElementRenderer.draw(children, element);
+        ElementRenderer.INSTANCE.draw(children, element);
     }
 
     @Override
@@ -39,9 +40,9 @@ public class Scroll extends Element {
         renderScope.getMatrixStack().push();
         renderScope.getMatrixStack().translate(padding, -scroll + padding, 0);
 
-        // ElementRenderer.render(children, ctx.elapsed, renderScope,
-        //         ctx.mouseX - padding,
-        //         ctx.mouseY - padding + scroll);
+        ElementRenderer.INSTANCE.render(children, ctx.elapsed, renderScope,
+                ctx.mouseX - padding,
+                ctx.mouseY - padding + scroll);
 
         renderScope.getMatrixStack().pop();
         renderScope.disableScissor();
@@ -110,21 +111,22 @@ public class Scroll extends Element {
 
     @Override
     public void keyPressed(int keyCode, int scanCode, int modifiers) {
-        // ElementRenderer.keyPressed(children, keyCode, scanCode, modifiers);
+        ElementRenderer.INSTANCE.keyPressed(children, keyCode, scanCode, modifiers);
     }
 
     @Override
     public void mouseClicked(double mouseX, double mouseY, int button) {
-        // ElementRenderer.mouseClicked(children, mouseX - padding, mouseY - padding + scroll, button);
+        ElementRenderer.INSTANCE.mouseClicked(children, mouseX - padding, mouseY - padding + scroll, button);
     }
 
     @Override
     public void mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-        // ElementRenderer.mouseDragged(children, mouseX - padding, mouseY - padding + scroll, button, deltaX, deltaY);
+        ElementRenderer.INSTANCE.mouseDragged(children, mouseX - padding, mouseY - padding + scroll, button, deltaX,
+                deltaY);
     }
 
     @Override
     public void mouseReleased(double mouseX, double mouseY, int button) {
-        // ElementRenderer.mouseReleased(children, mouseX - padding, mouseY - padding + scroll, button);
+        ElementRenderer.INSTANCE.mouseReleased(children, mouseX - padding, mouseY - padding + scroll, button);
     }
 }
