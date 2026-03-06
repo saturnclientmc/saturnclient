@@ -1,4 +1,4 @@
-package org.saturnclient.saturnclient.impl;
+package org.saturnclient.impl;
 
 import org.saturnclient.saturnclient.SaturnClient;
 import net.minecraft.text.Style;

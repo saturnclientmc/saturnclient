@@ -1,4 +1,4 @@
-package org.saturnclient.saturnclient.mixin;
+package org.saturnclient.impl.mixins;
 
 import org.joml.Quaternionf;
 import org.saturnclient.common.minecraft.bindings.SaturnQuaternionf;

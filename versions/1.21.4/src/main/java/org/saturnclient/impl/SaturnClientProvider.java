@@ -1,4 +1,4 @@
-package org.saturnclient.saturnclient.impl;
+package org.saturnclient.impl;
 
 import java.awt.image.BufferedImage;
 

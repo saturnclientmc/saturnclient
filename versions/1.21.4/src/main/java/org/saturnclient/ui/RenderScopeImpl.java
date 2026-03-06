@@ -128,7 +128,7 @@ public class RenderScopeImpl implements RenderScope {
             matrices.translate(x, y + (i * Fonts.getHeight()), 0);
             matrices.scale(scale, scale, 1.0f);
             TextRenderer textRenderer = SaturnClient.client.textRenderer;
-            textRenderer.draw(org.saturnclient.saturnclient.impl.Fonts.setFont(line, font), 0,
+            textRenderer.draw(org.saturnclient.impl.Fonts.setFont(line, font), 0,
                     font == 0 ? 1 : 7, color, false,
                     this.matrices.peek().getPositionMatrix(),
                     this.vertexConsumers, TextLayerType.NORMAL, 0, 15728880);

@@ -17,7 +17,8 @@
   },
   "mixins": [
     "saturnclient.mixins.json",
-    "mods.mixins.json"
+    "mods.mixins.json",
+    "impl.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=${loader_version}",
