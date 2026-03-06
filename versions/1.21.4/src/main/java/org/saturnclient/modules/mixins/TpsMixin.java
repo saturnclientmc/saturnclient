@@ -1,4 +1,4 @@
-package org.saturnclient.modules.mods.mixins;
+package org.saturnclient.modules.mixins;
 
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.packet.s2c.play.WorldTimeUpdateS2CPacket;

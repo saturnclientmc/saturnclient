@@ -1,10 +1,11 @@
-package org.saturnclient.modules.mods.mixins;
+package org.saturnclient.modules.mixins;
 
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 
+import org.saturnclient.modules.HealthRenderState;
 import org.saturnclient.modules.interfaces.NametagsInterface.EntityType;
-import org.saturnclient.modules.mods.utils.HealthRenderState;
+
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.passive.PassiveEntity;

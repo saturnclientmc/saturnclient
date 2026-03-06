@@ -1,7 +1,7 @@
 package org.saturnclient.impl.modules;
 
+import org.saturnclient.modules.HealthRenderState;
 import org.saturnclient.modules.interfaces.NametagsInterface;
-import org.saturnclient.modules.mods.utils.HealthRenderState;
 
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 import net.minecraft.text.Text;

@@ -1,12 +1,12 @@
-package org.saturnclient.modules.mods.mixins;
+package org.saturnclient.modules.mixins;
 
 
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 
+import org.saturnclient.modules.CameraOverriddenEntity;
 import org.saturnclient.modules.mods.Freelook;
-import org.saturnclient.modules.mods.utils.CameraOverriddenEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;

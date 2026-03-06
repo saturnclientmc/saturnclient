@@ -1,4 +1,4 @@
-package org.saturnclient.modules.mods.mixins;
+package org.saturnclient.modules.mixins;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

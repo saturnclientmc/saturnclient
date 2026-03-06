@@ -1,4 +1,4 @@
-package org.saturnclient.modules.mods.mixins;
+package org.saturnclient.modules.mixins;
 
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderer;

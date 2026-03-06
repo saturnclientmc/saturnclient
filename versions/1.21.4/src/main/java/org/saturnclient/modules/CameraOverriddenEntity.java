@@ -1,4 +1,4 @@
-package org.saturnclient.modules.mods.utils;
+package org.saturnclient.modules;
 
 public interface CameraOverriddenEntity {
 	float freelook$getCameraPitch();

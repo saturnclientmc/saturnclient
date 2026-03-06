@@ -1,4 +1,4 @@
-package org.saturnclient.modules.mods.mixins;
+package org.saturnclient.modules.mixins;
 
 import org.saturnclient.modules.HudMod;
 import org.saturnclient.modules.ModDimensions;

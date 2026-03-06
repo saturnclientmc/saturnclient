@@ -1,5 +1,5 @@
 // code modified from Gamma utils: https://github.com/Sjouwer/gamma-utils
-package org.saturnclient.modules.mods.mixins;
+package org.saturnclient.modules.mixins;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.client.render.LightmapTextureManager;
