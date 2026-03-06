@@ -3,6 +3,7 @@ package org.saturnclient.ui.components;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
+import org.saturnclient.common.minecraft.bindings.SaturnQuaternionf;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.ui.Element;
 import org.saturnclient.ui.ElementContext;
@@ -21,7 +22,8 @@ public class SkinPreview extends Element {
         this.negativeAngle = negativeAngle;
     }
 
-    public static void drawEntity(RenderScope renderScope, int x1, int y1, int x2, int y2, int size, float f, float mouseX,
+    public static void drawEntity(RenderScope renderScope, int x1, int y1, int x2, int y2, int size, float f,
+            float mouseX,
             float mouseY, LivingEntity entity, float angle, boolean negativeAngle) {
         float g = (float) (x1 + x2) / 2.0F;
         float h = (float) (y1 + y2) / 2.0F;
@@ -57,23 +59,24 @@ public class SkinPreview extends Element {
 
     public static void drawEntity(RenderScope renderScope, float x, float y, float size, Vector3f vector3f,
             Quaternionf quaternionf, @Nullable Quaternionf quaternionf2, LivingEntity entity) {
-        renderScope.matrices.push();
-        renderScope.matrices.translate((double) x, (double) y, 50.0);
-        renderScope.matrices.scale(size, size, -size);
-        renderScope.matrices.translate(vector3f.x, vector3f.y, vector3f.z);
-        renderScope.matrices.multiply(quaternionf);
+        renderScope.getMatrixStack().push();
+        renderScope.getMatrixStack().translate((double) x, (double) y, 50.0);
+        renderScope.getMatrixStack().scale(size, size, -size);
+        renderScope.getMatrixStack().translate(vector3f.x, vector3f.y, vector3f.z);
+        renderScope.getMatrixStack().multiply(new SaturnQuaternionf(quaternionf));
         renderScope.draw();
         DiffuseLighting.method_34742();
         EntityRenderDispatcher entityRenderDispatcher = SaturnClient.client.getEntityRenderDispatcher();
 
         entityRenderDispatcher.setRenderShadows(false);
-        renderScope.draw((vertexConsumers) -> {
-            entityRenderDispatcher.render(entity, 0.0, 0.0, 0.0, 1.0F, renderScope.matrices, vertexConsumers,
-                    15728880);
-        });
+        // TODO add the method draw with vertex consumers
+        // renderScope.draw((vertexConsumers) -> {
+        //     entityRenderDispatcher.render(entity, 0.0, 0.0, 0.0, 1.0F, renderScope.getMatrixStack(), vertexConsumers,
+        //             15728880);
+        // });
         renderScope.draw();
         entityRenderDispatcher.setRenderShadows(true);
-        renderScope.matrices.pop();
+        renderScope.getMatrixStack().pop();
         DiffuseLighting.enableGuiDepthLighting();
     }
 
@@ -81,7 +84,8 @@ public class SkinPreview extends Element {
     public void render(RenderScope renderScope, ElementContext ctx) {
         LivingEntity entity = SaturnClient.client.player;
         if (entity != null) {
-            drawEntity(renderScope, 0, 0, 75, 78, 30, 0.0625F, ctx.mouseX / scale, ctx.mouseY / scale, entity, angle, negativeAngle);
+            drawEntity(renderScope, 0, 0, 75, 78, 30, 0.0625F, ctx.mouseX / scale, ctx.mouseY / scale, entity, angle,
+                    negativeAngle);
         }
     }
 }

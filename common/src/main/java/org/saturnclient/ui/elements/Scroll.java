@@ -25,7 +25,7 @@ public class Scroll extends Element {
     }
 
     public void draw(Element element) {
-        ElementRenderer.draw(children, element);
+        // ElementRenderer.draw(children, element);
     }
 
     @Override
@@ -36,14 +36,14 @@ public class Scroll extends Element {
                 Theme.BG_RADIUS.value, Theme.BACKGROUND.value);
 
         renderScope.enableScissor(padding, padding, width - padding, height - padding);
-        renderScope.matrices.push();
-        renderScope.matrices.translate(padding, -scroll + padding, 0);
+        renderScope.getMatrixStack().push();
+        renderScope.getMatrixStack().translate(padding, -scroll + padding, 0);
 
-        ElementRenderer.render(children, ctx.elapsed, renderScope,
-                ctx.mouseX - padding,
-                ctx.mouseY - padding + scroll);
+        // ElementRenderer.render(children, ctx.elapsed, renderScope,
+        //         ctx.mouseX - padding,
+        //         ctx.mouseY - padding + scroll);
 
-        renderScope.matrices.pop();
+        renderScope.getMatrixStack().pop();
         renderScope.disableScissor();
 
         if (maxScroll > 0) {
@@ -110,21 +110,21 @@ public class Scroll extends Element {
 
     @Override
     public void keyPressed(int keyCode, int scanCode, int modifiers) {
-        ElementRenderer.keyPressed(children, keyCode, scanCode, modifiers);
+        // ElementRenderer.keyPressed(children, keyCode, scanCode, modifiers);
     }
 
     @Override
     public void mouseClicked(double mouseX, double mouseY, int button) {
-        ElementRenderer.mouseClicked(children, mouseX - padding, mouseY - padding + scroll, button);
+        // ElementRenderer.mouseClicked(children, mouseX - padding, mouseY - padding + scroll, button);
     }
 
     @Override
     public void mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-        ElementRenderer.mouseDragged(children, mouseX - padding, mouseY - padding + scroll, button, deltaX, deltaY);
+        // ElementRenderer.mouseDragged(children, mouseX - padding, mouseY - padding + scroll, button, deltaX, deltaY);
     }
 
     @Override
     public void mouseReleased(double mouseX, double mouseY, int button) {
-        ElementRenderer.mouseReleased(children, mouseX - padding, mouseY - padding + scroll, button);
+        // ElementRenderer.mouseReleased(children, mouseX - padding, mouseY - padding + scroll, button);
     }
 }

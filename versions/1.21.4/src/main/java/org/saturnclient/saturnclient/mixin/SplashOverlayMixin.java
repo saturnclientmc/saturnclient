@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 
 import org.saturnclient.config.Theme;
 import org.saturnclient.ui.RenderScope;
+import org.saturnclient.ui.RenderScopeImpl;
 import org.saturnclient.ui.resources.Textures;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -14,7 +15,6 @@ import org.spongepowered.asm.mixin.Final;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.SplashOverlay;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.resource.ResourceReload;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
@@ -74,8 +74,7 @@ public abstract class SplashOverlayMixin {
                 : -1f;
 
         // Get render scope for better UI
-        RenderScope scope = new RenderScope(context);
-        scope.setRenderLayer(RenderLayer::getGuiTextured);
+        RenderScope scope = new RenderScopeImpl(context);
 
         // Draw background overlay
         if (fadeOutProgress >= 1.0F) {

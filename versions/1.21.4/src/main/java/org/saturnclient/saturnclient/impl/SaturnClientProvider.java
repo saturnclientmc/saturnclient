@@ -1,22 +1,26 @@
 package org.saturnclient.saturnclient.impl;
 
-import java.io.File;
+import java.awt.image.BufferedImage;
 
 import org.lwjgl.glfw.GLFW;
+import org.saturnclient.common.minecraft.IMinecraftClient;
 import org.saturnclient.common.minecraft.MinecraftProvider;
+import org.saturnclient.common.minecraft.bindings.SaturnIdentifier;
+import org.saturnclient.cosmetics.cloak.utils.IdentifierUtils;
 import org.saturnclient.saturnclient.SaturnClient;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;
 
 public class SaturnClientProvider extends MinecraftProvider {
     @Override
-    public Object createIdentifier(String namespace, String path) {
-        return Identifier.of(namespace, path);
+    public IMinecraftClient getClient() {
+        return (IMinecraftClient) MinecraftClient.getInstance();
     }
 
     @Override
-    public File getRunDirectory() {
-        return SaturnClient.client.runDirectory;
+    public Object createIdentifier(String namespace, String path) {
+        return Identifier.of(namespace, path);
     }
 
     @Override
@@ -28,5 +32,10 @@ public class SaturnClientProvider extends MinecraftProvider {
     @Override
     public int getWidth(String text, int font) {
         return Fonts.getWidth(text, font);
+    }
+
+    @Override
+    public void registerBufferedImageTexture(SaturnIdentifier i, BufferedImage bi) {
+        IdentifierUtils.registerBufferedImageTextureFast((Identifier) i.inner, bi);
     }
 }

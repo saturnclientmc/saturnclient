@@ -13,6 +13,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import org.saturnclient.common.minecraft.bindings.SaturnIdentifier;
 import org.saturnclient.common.minecraft.bindings.SaturnItemStack;
 import org.saturnclient.common.minecraft.bindings.SaturnSprite;
+import org.saturnclient.common.minecraft.render.IMatrixStack;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
 import org.saturnclient.ui.resources.Fonts;
@@ -56,6 +57,11 @@ public class RenderScopeImpl implements RenderScope {
         this.vertexConsumers = vertexConsumers;
         this.scissorStack = new ScissorStack();
         this.itemRenderState = new ItemRenderState();
+    }
+
+    @Override
+    public IMatrixStack getMatrixStack() {
+        return (IMatrixStack) matrices;
     }
 
     @Override

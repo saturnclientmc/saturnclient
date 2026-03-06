@@ -12,6 +12,7 @@ import org.saturnclient.modules.Module;
 import org.saturnclient.config.manager.ConfigManager;
 import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
 import org.saturnclient.ui.RenderScope;
+import org.saturnclient.ui.RenderScopeImpl;
 import org.saturnclient.ui.SaturnScreen;
 
 import java.util.ArrayList;
@@ -95,7 +96,7 @@ public class HudEditor extends Screen {
             SaturnScreen.ROTATING_PANORAMA_RENDERER.render(context, this.width, this.height, 1.0F, delta);
         }
 
-        RenderScope scope = new RenderScope(context.getMatrices(),
+        RenderScope scope = new RenderScopeImpl(context.getMatrices(),
                 ((DrawContextAccessor) context).getVertexConsumers());
 
         for (HudMod mod : hudMods) {

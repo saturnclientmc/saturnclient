@@ -7,6 +7,7 @@ import org.saturnclient.modules.ModDimensions;
 import org.saturnclient.modules.Module;
 import org.saturnclient.modules.ModuleDetails;
 import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.common.minecraft.bindings.SaturnSprite;
 import org.saturnclient.config.manager.Property;
 import org.saturnclient.ui.RenderScope;
 
@@ -51,7 +52,7 @@ public class StatusEffects extends Module implements HudMod {
             if (effect.shouldShowIcon()) {
                 RegistryEntry<StatusEffect> registryEntry = effect.getEffectType();
                 Sprite sprite = statusEffectSpriteManager.getSprite(registryEntry);
-                scope.drawSpriteStretched(sprite, 0, 18 * row, 16, 16);
+                scope.drawSpriteStretched(new SaturnSprite(sprite), 0, 18 * row, 16, 16);
                 scope.drawText(0.5f, getDurationAsString(effect), 18, 18 * row + 3, dimensions.font.value, -1);
                 row++;
             }

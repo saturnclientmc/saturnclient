@@ -116,7 +116,7 @@ public class CloakStore extends SaturnScreen {
         long now = System.currentTimeMillis();
 
         if (now - lastPurchaseTime >= 3000) {
-            Utils.notify(NotificationKind.Info, "Purchase processing", "Please wait");
+            // Utils.notify(NotificationKind.Info, "Purchase processing", "Please wait");
 
             ServiceClient.buyCloak(cloak);
             lastPurchaseTime = now;
@@ -129,16 +129,16 @@ public class CloakStore extends SaturnScreen {
 
                 RenderSystem.recordRenderCall(() -> {
                     SaturnClient.client.setScreen(new CloakStore(now));
-                    Utils.notify(NotificationKind.Success,
-                            "Purchase complete",
-                            "Congrats, enjoy your new cloak!");
+                    // Utils.notify(NotificationKind.Success,
+                    //         "Purchase complete",
+                    //         "Congrats, enjoy your new cloak!");
                 });
             }).start();
 
         } else {
-            Utils.notify(NotificationKind.Error,
-                    "Timeout error",
-                    "Please wait 3 seconds");
+            // Utils.notify(NotificationKind.Error,
+            //         "Timeout error",
+            //         "Please wait 3 seconds");
         }
     }
 }

@@ -117,7 +117,7 @@ public class HatStore extends SaturnScreen {
         long now = System.currentTimeMillis();
 
         if (now - lastPurchaseTime >= 3000) {
-            Utils.notify(NotificationKind.Info, "Purchase processing", "Please wait");
+            // Utils.notify(NotificationKind.Info, "Purchase processing", "Please wait");
 
             ServiceClient.buyHat(hat);
             lastPurchaseTime = now;
@@ -130,16 +130,16 @@ public class HatStore extends SaturnScreen {
 
                 RenderSystem.recordRenderCall(() -> {
                     SaturnClient.client.setScreen(new HatStore(now));
-                    Utils.notify(NotificationKind.Success,
-                            "Purchase complete",
-                            "Congrats, enjoy your new hat!");
+                    // Utils.notify(NotificationKind.Success,
+                    //         "Purchase complete",
+                    //         "Congrats, enjoy your new hat!");
                 });
             }).start();
 
         } else {
-            Utils.notify(NotificationKind.Error,
-                    "Timeout error",
-                    "Please wait 3 seconds");
+            // Utils.notify(NotificationKind.Error,
+            //         "Timeout error",
+            //         "Please wait 3 seconds");
         }
     }
 }

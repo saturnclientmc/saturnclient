@@ -14,19 +14,16 @@ import org.saturnclient.ui.screens.ModMenu;
 import org.saturnclient.ui.screens.cosmetics.CloakMenu;
 import org.saturnclient.ui.screens.store.CloakStore;
 
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.util.Identifier;
-
 public class Sidebar extends Element {
     public static class SidebarComponent {
         Runnable onClick;
         boolean end;
-        Identifier sprite;
+        SaturnIdentifier sprite;
 
         public SidebarComponent(SaturnIdentifier sprite, Runnable onClick, boolean end) {
             this.onClick = onClick;
             this.end = end;
-            this.sprite = (Identifier) sprite.inner;
+            this.sprite = sprite;
         }
     }
 
@@ -70,8 +67,6 @@ public class Sidebar extends Element {
         int sp = 30 - padding + gap;
         int s = 30 - (padding * 2);
         int s2 = s + padding;
-
-        renderScope.setRenderLayer(RenderLayer::getGuiTextured);
 
         renderScope.drawRoundedRectangle(0, 0, width, height, Theme.BG_RADIUS.value, Theme.BACKGROUND.value);
 

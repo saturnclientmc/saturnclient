@@ -7,8 +7,6 @@ import org.saturnclient.config.manager.Property;
 import org.saturnclient.ui.RenderScope;
 import org.saturnclient.ui.resources.Textures;
 
-import net.minecraft.client.render.RenderLayer;
-
 public class Crosshair extends Module {
     public static Property<Boolean> enabled = Property.bool(false);
 
@@ -29,7 +27,6 @@ public class Crosshair extends Module {
             int scaledWidth = 15;
             int scaledHeight = 15;
 
-            scope.setRenderLayer(RenderLayer::getCrosshair);
             scope.drawTexture(Textures.CROSSHAIR_RANGE,
                     (scope.getScaledWindowWidth() - scaledWidth) / 2,
                     (scope.getScaledWindowHeight() - scaledHeight) / 2, 0.0F, 0.0F, scaledWidth, scaledHeight);

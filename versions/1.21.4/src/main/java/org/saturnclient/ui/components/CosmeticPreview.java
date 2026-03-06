@@ -6,18 +6,15 @@ import org.saturnclient.ui.Element;
 import org.saturnclient.ui.ElementContext;
 import org.saturnclient.ui.RenderScope;
 
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.util.Identifier;
-
 public class CosmeticPreview extends Element {
     static int padding = 14;
 
-    Identifier sprite;
+    SaturnIdentifier sprite;
     private Runnable onClick;
     private boolean isSelected;
 
     public CosmeticPreview(boolean isSelected, SaturnIdentifier sprite, Runnable onClick) {
-        this.sprite = (Identifier) sprite.inner;
+        this.sprite = sprite;
         this.onClick = onClick;
         this.isSelected = isSelected;
 
@@ -29,8 +26,6 @@ public class CosmeticPreview extends Element {
     public void render(RenderScope renderScope, ElementContext ctx) {
         renderScope.drawRoundedRectangle(0, 0, width, height, Theme.WIDGET_RADIUS.value,
                 isSelected ? Theme.ACCENT.value : Theme.PRIMARY.value);
-
-        renderScope.setRenderLayer(RenderLayer::getGuiTextured);
 
         int texWidth = width - padding;
         int texHeight = height - padding;

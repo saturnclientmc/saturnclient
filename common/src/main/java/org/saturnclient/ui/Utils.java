@@ -51,13 +51,12 @@ public class Utils {
         return (index >= 0 && index < list.size()) ? list.get(index) : null;
     }
 
-    // public static void notify(NotificationKind kind, String title, String toast)
-    // {
-    // if (SaturnClient.client.currentScreen instanceof SaturnScreen) {
-    // ((SaturnScreen) SaturnClient.client.currentScreen)
-    // .draw(new Notification(SaturnClient.client.currentScreen.width,
-    // SaturnClient.client.currentScreen.height, kind,
-    // title, toast));
-    // }
+    // public static void notify(NotificationKind kind, String title, String toast) {
+    //     if (SaturnClient.client.currentScreen instanceof SaturnScreen) {
+    //         ((SaturnScreen) SaturnClient.client.currentScreen)
+    //                 .draw(new Notification(SaturnClient.client.currentScreen.width,
+    //                         SaturnClient.client.currentScreen.height, kind,
+    //                         title, toast));
+    //     }
     // }
 }

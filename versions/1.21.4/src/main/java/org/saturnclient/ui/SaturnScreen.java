@@ -97,13 +97,13 @@ public abstract class SaturnScreen extends Screen {
         RenderScope renderScope = new RenderScopeImpl(context.getMatrices(),
                 ((DrawContextAccessor) context).getVertexConsumers());
 
-        renderScope.matrices.push();
+        renderScope.getMatrixStack().push();
 
-        renderScope.matrices.scale(0.5f, 0.5f, 0.5f);
+        renderScope.getMatrixStack().scale(0.5f, 0.5f, 0.5f);
 
         ElementRenderer.render(new ArrayList<>(elements), elapsed, renderScope, mouseX, mouseY);
 
-        renderScope.matrices.pop();
+        renderScope.getMatrixStack().pop();
     }
 
     @Override

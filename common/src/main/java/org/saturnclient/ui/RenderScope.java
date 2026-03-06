@@ -3,8 +3,11 @@ package org.saturnclient.ui;
 import org.saturnclient.common.minecraft.bindings.SaturnIdentifier;
 import org.saturnclient.common.minecraft.bindings.SaturnItemStack;
 import org.saturnclient.common.minecraft.bindings.SaturnSprite;
+import org.saturnclient.common.minecraft.render.IMatrixStack;
 
 public interface RenderScope {
+    public IMatrixStack getMatrixStack();
+
     public void setOpacity(float alpha);
 
     public int getColor(int color);

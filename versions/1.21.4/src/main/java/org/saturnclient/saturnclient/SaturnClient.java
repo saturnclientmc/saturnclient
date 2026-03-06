@@ -18,6 +18,7 @@ import org.saturnclient.saturnclient.event.KeyInputHandler;
 import org.saturnclient.saturnclient.impl.SaturnClientProvider;
 import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
 import org.saturnclient.ui.RenderScope;
+import org.saturnclient.ui.RenderScopeImpl;
 import org.saturnclient.ui.SaturnScreen;
 import org.saturnclient.ui.elements.ImageTexture;
 import org.saturnclient.ui.resources.Textures;
@@ -57,7 +58,7 @@ public class SaturnClient implements ModInitializer {
                             .position(screen.width - 180 - 20, screen.height - 18 - 20));
                 } else {
                     ScreenEvents.afterRender(screen).register((screen1, context, mouseX, mouseY, tickDelta) -> {
-                        RenderScope renderScope = new RenderScope(context.getMatrices(),
+                        RenderScope renderScope = new RenderScopeImpl(context.getMatrices(),
                                 ((DrawContextAccessor) context).getVertexConsumers());
 
                         int width = context.getScaledWindowWidth();

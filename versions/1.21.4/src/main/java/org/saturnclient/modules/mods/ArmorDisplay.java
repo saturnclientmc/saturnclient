@@ -5,6 +5,7 @@ import org.saturnclient.modules.ModDimensions;
 import org.saturnclient.modules.Module;
 import org.saturnclient.modules.ModuleDetails;
 import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.common.minecraft.bindings.SaturnItemStack;
 import org.saturnclient.config.manager.Property;
 import org.saturnclient.ui.RenderScope;
 
@@ -32,30 +33,30 @@ public class ArmorDisplay extends Module implements HudMod {
         int row = 0;
 
         if (useMainHand.value && !mainHand.isEmpty()) {
-            scope.drawItem(mainHand, 0, 15 * row);
+            scope.drawItem(new SaturnItemStack(mainHand), 0, 15 * row);
             renderHealth(scope, row, mainHand.getMaxDamage(), mainHand.getDamage());
             row++;
         }
 
         if (!helmet.isEmpty()) {
-            scope.drawItem(helmet, 0, 15 * row);
+            scope.drawItem(new SaturnItemStack(helmet), 0, 15 * row);
             renderHealth(scope, row, helmet.getMaxDamage(), helmet.getDamage());
             row++;
         }
 
         if (!chestplate.isEmpty()) {
-            scope.drawItem(chestplate, 0, 15 * row);
+            scope.drawItem(new SaturnItemStack(chestplate), 0, 15 * row);
             renderHealth(scope, row, chestplate.getMaxDamage(), chestplate.getDamage());
             row++;
         }
         if (!leggings.isEmpty()) {
-            scope.drawItem(leggings, 0, 15 * row);
+            scope.drawItem(new SaturnItemStack(leggings), 0, 15 * row);
             renderHealth(scope, row, leggings.getMaxDamage(), leggings.getDamage());
             row++;
         }
 
         if (!boots.isEmpty()) {
-            scope.drawItem(boots, 0, 15 * row);
+            scope.drawItem(new SaturnItemStack(boots), 0, 15 * row);
             renderHealth(scope, row, boots.getMaxDamage(), boots.getDamage());
             row++;
         }
