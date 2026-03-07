@@ -7,8 +7,8 @@ import net.minecraft.client.MinecraftClient;
 
 import org.saturnclient.client.ServiceClient;
 import org.saturnclient.cosmetics.Emotes;
+import org.saturnclient.cosmetics.Hats;
 import org.saturnclient.cosmetics.cloak.Cloaks;
-import org.saturnclient.cosmetics.hat.Hats;
 import org.saturnclient.common.minecraft.bindings.SaturnClientBindings;
 import org.saturnclient.impl.FabricModuleProvider;
 import org.saturnclient.impl.SaturnClientProvider;

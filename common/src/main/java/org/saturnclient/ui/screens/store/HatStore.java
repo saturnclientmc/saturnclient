@@ -1,11 +1,11 @@
 package org.saturnclient.ui.screens.store;
 
-// import org.saturnclient.cosmetics.hat.Hats;
 import org.saturnclient.client.ServiceClient;
 import org.saturnclient.client.player.SaturnPlayer;
 import org.saturnclient.common.minecraft.MinecraftProvider;
 import org.saturnclient.config.AnimationConfig;
 import org.saturnclient.config.Theme;
+import org.saturnclient.cosmetics.Hats;
 import org.saturnclient.ui.SaturnScreen;
 import org.saturnclient.ui.anim.Fade;
 import org.saturnclient.ui.anim.SlideY;
@@ -50,44 +50,44 @@ public class HatStore extends SaturnScreen {
         AnimationStagger stagger = new AnimationStagger(AnimationConfig.cosmeticsMenu);
 
         if (player != null) {
-            // for (String hat : Hats.ALL_HATS) {
-            //     if (!Hats.availableHats.contains(hat)) {
+            for (String hat : Hats.ALL_HATS) {
+                if (!Hats.availableHats.contains(hat)) {
 
-            //         int x = (50 + gx) * col;
-            //         int y = (50 + gy) * row;
+                    int x = (50 + gx) * col;
+                    int y = (50 + gy) * row;
 
-            //         stagger.draw(
-            //                 new CosmeticPreview(
-            //                         hat == player.hat,
-            //                         Textures.getHatPreview(hat),
-            //                         () -> handlePurchase(hat))
-            //                         .dimensions(50, 50)
-            //                         .position(x, y)
-            //                         .animation(new SlideY(AnimationConfig.cosmeticsMenu, 16)));
+                    stagger.draw(
+                            new CosmeticPreview(
+                                    hat == player.hat,
+                                    Textures.getHatPreview(hat),
+                                    () -> handlePurchase(hat))
+                                    .dimensions(50, 50)
+                                    .position(x, y)
+                                    .animation(new SlideY(AnimationConfig.cosmeticsMenu, 16)));
 
-            //         String t = "50";
+                    String t = "50";
 
-            //         stagger.draw(
-            //                 new Text(t)
-            //                         .position(x + Fonts.centerX(50, t, Theme.FONT.value), y + 53)
-            //                         .scale(0.5f)
-            //                         .animation(new Fade(400)));
+                    stagger.draw(
+                            new Text(t)
+                                    .position(x + Fonts.centerX(50, t, Theme.FONT.value), y + 53)
+                                    .scale(0.5f)
+                                    .animation(new Fade(400)));
 
-            //         stagger.draw(
-            //                 new ImageTexture(Textures.COINS)
-            //                         .dimensions(16, 16)
-            //                         .position(x + Fonts.getWidth(t, Theme.FONT.value) + 4, y + 52)
-            //                         .scale(0.5f)
-            //                         .animation(new Fade(400)));
+                    stagger.draw(
+                            new ImageTexture(Textures.COINS)
+                                    .dimensions(16, 16)
+                                    .position(x + Fonts.getWidth(t, Theme.FONT.value) + 4, y + 52)
+                                    .scale(0.5f)
+                                    .animation(new Fade(400)));
 
-            //         if (col == 8) {
-            //             col = 0;
-            //             row++;
-            //         } else {
-            //             col++;
-            //         }
-            //     }
-            // }
+                    if (col == 8) {
+                        col = 0;
+                        row++;
+                    } else {
+                        col++;
+                    }
+                }
+            }
         }
 
         scroll.draw(stagger);

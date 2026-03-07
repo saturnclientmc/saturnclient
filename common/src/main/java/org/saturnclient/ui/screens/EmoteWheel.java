@@ -1,8 +1,8 @@
 package org.saturnclient.ui.screens;
 
 import org.saturnclient.cosmetics.Emotes;
-import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.client.ServiceClient;
+import org.saturnclient.common.minecraft.bindings.SaturnClientBindings;
 import org.saturnclient.config.AnimationConfig;
 import org.saturnclient.config.Config;
 import org.saturnclient.ui.SaturnScreen;
@@ -13,11 +13,6 @@ import org.saturnclient.ui.elements.AnimationStagger;
 import org.saturnclient.ui.elements.ImageTexture;
 import org.saturnclient.ui.elements.TextureButton;
 import org.saturnclient.ui.resources.Textures;
-
-import dev.kosmx.playerAnim.api.layered.AnimationStack;
-import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
-import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
-import net.minecraft.util.Identifier;
 
 public class EmoteWheel extends SaturnScreen {
     int page = 1;
@@ -87,26 +82,9 @@ public class EmoteWheel extends SaturnScreen {
 
             emoteStagger.draw(
                     new TextureButton(Textures.getEmotePreview(emote), () -> {
+                        if (emote != null)
+                            SaturnClientBindings.emotes().setEmote(ServiceClient.uuid, emote);
 
-                        if (emote == null)
-                            return;
-
-                        AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(
-                                SaturnClient.client.player);
-
-                        if (animationStack.isActive()
-                                && animationStack.getPriority() == 1000) {
-                            animationStack.removeLayer(1000);
-                        }
-
-                        animationStack.addAnimLayer(
-                                1000,
-                                PlayerAnimationRegistry
-                                        .getAnimation(
-                                                Identifier.of("saturnclient", emote))
-                                        .playAnimation());
-
-                        ServiceClient.emote(emote);
                         provider.close();
                     })
                             .dimensions(70, 70)
