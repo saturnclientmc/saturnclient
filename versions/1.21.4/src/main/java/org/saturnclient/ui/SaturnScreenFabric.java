@@ -19,7 +19,7 @@ import net.minecraft.client.util.Pool;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-public abstract class SaturnScreenFabric extends Screen implements ScreenProvider {
+public class SaturnScreenFabric extends Screen implements ScreenProvider {
     protected static final Identifier PANORAMA = Identifier.of("saturnclient",
             "textures/gui/title/background/panorama");
     protected static final CubeMapRenderer PANORAMA_RENDERER = new CubeMapRenderer(PANORAMA);
