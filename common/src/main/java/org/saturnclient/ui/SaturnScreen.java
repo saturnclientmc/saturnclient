@@ -103,7 +103,7 @@ public abstract class SaturnScreen {
     }
 
     public void resize(int width, int height) {
-        elements.clear();
+        init();
     }
 
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {

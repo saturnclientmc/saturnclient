@@ -53,8 +53,6 @@ public class SaturnScreenFabric extends Screen implements ScreenProvider {
 
     @Override
     protected void init() {
-        width *= 2;
-        height *= 2;
         screen.init();
     }
 
@@ -122,6 +120,7 @@ public class SaturnScreenFabric extends Screen implements ScreenProvider {
     @Override
     public void resize(MinecraftClient client, int width, int height) {
         screen.resize(width, height);
+        super.resize(client, width, height);
     }
 
     // ------------------------------------------
@@ -136,11 +135,11 @@ public class SaturnScreenFabric extends Screen implements ScreenProvider {
 
     @Override
     public int getWidth() {
-        return width;
+        return width * 2;
     }
 
     @Override
     public int getHeight() {
-        return height;
+        return height * 2;
     }
 }
