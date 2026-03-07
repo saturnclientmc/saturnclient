@@ -3,7 +3,7 @@ package org.saturnclient.saturnclient.client.player;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.client.ServiceClient;
+import org.saturnclient.client.ServiceClient;
 
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.MinecraftClient;

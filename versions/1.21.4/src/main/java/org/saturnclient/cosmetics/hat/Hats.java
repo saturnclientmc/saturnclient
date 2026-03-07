@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.saturnclient.saturnclient.client.ServiceClient;
-import org.saturnclient.saturnclient.client.player.SaturnPlayer;
+import org.saturnclient.client.ServiceClient;
+import org.saturnclient.client.player.SaturnPlayer;
 
 public class Hats {
     public static final String[] ALL_HATS = { "horns_black", "horns_white", "halo", "halo_black" };

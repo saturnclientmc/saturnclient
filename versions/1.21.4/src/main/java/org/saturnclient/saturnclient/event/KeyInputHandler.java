@@ -5,10 +5,10 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 
-import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.client.ServiceClient;
 import org.saturnclient.common.minecraft.MinecraftProvider;
 import org.saturnclient.config.Config;
+import org.saturnclient.client.ServiceClient;
+import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.ui.screens.EmoteWheel;
 import org.saturnclient.ui.screens.ShiftMenu;
 

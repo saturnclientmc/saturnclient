@@ -2,8 +2,8 @@ package org.saturnclient.cosmetics.cloak;
 
 import net.minecraft.util.Identifier;
 
-import org.saturnclient.saturnclient.client.ServiceClient;
-import org.saturnclient.saturnclient.client.player.SaturnPlayer;
+import org.saturnclient.client.ServiceClient;
+import org.saturnclient.client.player.SaturnPlayer;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

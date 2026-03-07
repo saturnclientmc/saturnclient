@@ -1,8 +1,8 @@
 package org.saturnclient.ui.screens.store;
 
 import org.saturnclient.cosmetics.cloak.Cloaks;
-import org.saturnclient.saturnclient.client.ServiceClient;
-import org.saturnclient.saturnclient.client.player.SaturnPlayer;
+import org.saturnclient.client.ServiceClient;
+import org.saturnclient.client.player.SaturnPlayer;
 import org.saturnclient.common.minecraft.MinecraftProvider;
 import org.saturnclient.config.AnimationConfig;
 import org.saturnclient.config.Theme;

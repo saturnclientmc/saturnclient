@@ -5,16 +5,19 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
 
+import org.saturnclient.client.ServiceClient;
 import org.saturnclient.cosmetics.Emotes;
 import org.saturnclient.cosmetics.cloak.Cloaks;
 import org.saturnclient.cosmetics.hat.Hats;
+import org.saturnclient.common.minecraft.bindings.SaturnClientBindings;
 import org.saturnclient.impl.FabricModuleProvider;
 import org.saturnclient.impl.SaturnClientProvider;
 import org.saturnclient.modules.ModManager;
-import org.saturnclient.saturnclient.client.ServiceClient;
 import org.saturnclient.common.minecraft.MinecraftProvider;
 import org.saturnclient.config.Config;
 import org.saturnclient.config.manager.ConfigManager;
+import org.saturnclient.saturnclient.bindings.SaturnEmoteBindingsImpl;
+import org.saturnclient.saturnclient.bindings.SaturnPlatformBindingsImpl;
 import org.saturnclient.saturnclient.event.KeyInputHandler;
 import org.saturnclient.ui.ElementRenderer;
 import org.saturnclient.ui.SaturnScreenFabric;
@@ -46,6 +49,9 @@ public class SaturnClient implements ModInitializer {
         client.execute(() -> {
             SaturnScreenFabric.preload(client);
         });
+
+        SaturnClientBindings.setPlatform(new SaturnPlatformBindingsImpl());
+        SaturnClientBindings.setEmotes(new SaturnEmoteBindingsImpl());
 
         ClientLifecycleEvents.CLIENT_STOPPING.register(_o -> ConfigManager.save());
 
