@@ -5,7 +5,7 @@ import java.util.Map;
 import org.saturnclient.config.Theme;
 import org.saturnclient.config.manager.ConfigManager;
 import org.saturnclient.config.manager.Property;
-import org.saturnclient.ui.SaturnScreen;
+import org.saturnclient.ui.SaturnScreenFabric;
 import org.saturnclient.ui.components.Sidebar;
 import org.saturnclient.ui.components.inputs.FloatInput;
 import org.saturnclient.ui.components.inputs.HexInput;
@@ -17,7 +17,7 @@ import org.saturnclient.ui.elements.Scroll;
 import org.saturnclient.ui.elements.Text;
 import org.saturnclient.ui.resources.Fonts;
 
-public class ConfigEditor extends SaturnScreen {
+public class ConfigEditor extends SaturnScreenFabric {
     private ConfigManager config;
 
     public ConfigEditor(ConfigManager config) {

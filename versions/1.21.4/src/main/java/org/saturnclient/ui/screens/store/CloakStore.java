@@ -6,7 +6,7 @@ import org.saturnclient.saturnclient.client.ServiceClient;
 import org.saturnclient.saturnclient.client.player.SaturnPlayer;
 import org.saturnclient.config.AnimationConfig;
 import org.saturnclient.config.Theme;
-import org.saturnclient.ui.SaturnScreen;
+import org.saturnclient.ui.SaturnScreenFabric;
 import org.saturnclient.ui.Utils;
 import org.saturnclient.ui.anim.Fade;
 import org.saturnclient.ui.anim.SlideY;
@@ -24,7 +24,7 @@ import org.saturnclient.ui.resources.Textures;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
-public class CloakStore extends SaturnScreen {
+public class CloakStore extends SaturnScreenFabric {
     private long lastPurchaseTime = 0;
 
     public CloakStore() {

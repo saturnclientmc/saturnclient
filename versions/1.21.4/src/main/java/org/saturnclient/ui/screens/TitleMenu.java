@@ -4,7 +4,7 @@ import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.config.AnimationConfig;
 import org.saturnclient.config.Config;
 import org.saturnclient.saturnclient.menus.HudEditor;
-import org.saturnclient.ui.SaturnScreen;
+import org.saturnclient.ui.SaturnScreenFabric;
 import org.saturnclient.ui.anim.Fade;
 import org.saturnclient.ui.anim.SlideFade;
 import org.saturnclient.ui.anim.SlideY;
@@ -20,7 +20,7 @@ import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
 import net.minecraft.client.gui.screen.world.SelectWorldScreen;
 
-public class TitleMenu extends SaturnScreen {
+public class TitleMenu extends SaturnScreenFabric {
     public TitleMenu() {
         super("Title Menu");
     }

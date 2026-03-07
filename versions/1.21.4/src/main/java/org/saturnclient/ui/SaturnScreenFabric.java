@@ -20,7 +20,7 @@ import net.minecraft.client.util.Pool;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-public abstract class SaturnScreen extends Screen {
+public abstract class SaturnScreenFabric extends Screen {
     private final Pool pool = new Pool(3);
     protected List<Element> elements = new ArrayList<>();
     protected float backgroundOpacity = 1.0f;
@@ -49,7 +49,7 @@ public abstract class SaturnScreen extends Screen {
         }
     }
 
-    public SaturnScreen(String title) {
+    public SaturnScreenFabric(String title) {
         super(Text.literal(title));
     }
 

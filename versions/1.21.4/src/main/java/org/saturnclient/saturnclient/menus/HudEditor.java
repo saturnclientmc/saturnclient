@@ -13,7 +13,7 @@ import org.saturnclient.config.manager.ConfigManager;
 import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
 import org.saturnclient.ui.RenderScope;
 import org.saturnclient.ui.RenderScopeImpl;
-import org.saturnclient.ui.SaturnScreen;
+import org.saturnclient.ui.SaturnScreenFabric;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,7 +93,7 @@ public class HudEditor extends Screen {
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         if (client.world == null && client.getCurrentServerEntry() == null) {
-            SaturnScreen.ROTATING_PANORAMA_RENDERER.render(context, this.width, this.height, 1.0F, delta);
+            SaturnScreenFabric.ROTATING_PANORAMA_RENDERER.render(context, this.width, this.height, 1.0F, delta);
         }
 
         RenderScope scope = new RenderScopeImpl(context.getMatrices(),

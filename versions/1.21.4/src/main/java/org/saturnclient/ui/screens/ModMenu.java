@@ -3,7 +3,7 @@ package org.saturnclient.ui.screens;
 import org.saturnclient.modules.ModManager;
 import org.saturnclient.modules.Module;
 import org.saturnclient.config.AnimationConfig;
-import org.saturnclient.ui.SaturnScreen;
+import org.saturnclient.ui.SaturnScreenFabric;
 import org.saturnclient.ui.anim.SlideFade;
 import org.saturnclient.ui.components.SaturnModule;
 import org.saturnclient.ui.components.Sidebar;
@@ -12,7 +12,7 @@ import org.saturnclient.ui.elements.ImageTexture;
 import org.saturnclient.ui.elements.Scroll;
 import org.saturnclient.ui.resources.Textures;
 
-public class ModMenu extends SaturnScreen {
+public class ModMenu extends SaturnScreenFabric {
     public ModMenu() {
         super("Mod Menu");
     }

@@ -22,7 +22,7 @@ import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
 import org.saturnclient.ui.ElementRenderer;
 import org.saturnclient.ui.RenderScope;
 import org.saturnclient.ui.RenderScopeImpl;
-import org.saturnclient.ui.SaturnScreen;
+import org.saturnclient.ui.SaturnScreenFabric;
 import org.saturnclient.ui.components.ElementRendererImpl;
 import org.saturnclient.ui.elements.ImageTexture;
 import org.saturnclient.ui.resources.Textures;
@@ -52,15 +52,15 @@ public class SaturnClient implements ModInitializer {
         ModManager.init(new FabricModuleProvider());
 
         client.execute(() -> {
-            SaturnScreen.preload(client);
+            SaturnScreenFabric.preload(client);
         });
 
         ClientLifecycleEvents.CLIENT_STOPPING.register(_o -> ConfigManager.save());
 
         ScreenEvents.AFTER_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
             if (screen != null && !(screen instanceof TitleMenu)) {
-                if (screen instanceof SaturnScreen) {
-                    ((SaturnScreen) screen).draw(new ImageTexture(Textures.LOGO_TEXT_BIG).dimensions(180, 18)
+                if (screen instanceof SaturnScreenFabric) {
+                    ((SaturnScreenFabric) screen).draw(new ImageTexture(Textures.LOGO_TEXT_BIG).dimensions(180, 18)
                             .position(screen.width - 180 - 20, screen.height - 18 - 20));
                 } else {
                     ScreenEvents.afterRender(screen).register((screen1, context, mouseX, mouseY, tickDelta) -> {

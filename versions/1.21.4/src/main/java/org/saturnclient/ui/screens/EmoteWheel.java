@@ -5,7 +5,7 @@ import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.client.ServiceClient;
 import org.saturnclient.config.AnimationConfig;
 import org.saturnclient.config.Config;
-import org.saturnclient.ui.SaturnScreen;
+import org.saturnclient.ui.SaturnScreenFabric;
 import org.saturnclient.ui.Utils;
 import org.saturnclient.ui.anim.Fade;
 import org.saturnclient.ui.anim.SlideY;
@@ -19,7 +19,7 @@ import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
 import net.minecraft.util.Identifier;
 
-public class EmoteWheel extends SaturnScreen {
+public class EmoteWheel extends SaturnScreenFabric {
     int page = 1;
 
     public EmoteWheel() {
