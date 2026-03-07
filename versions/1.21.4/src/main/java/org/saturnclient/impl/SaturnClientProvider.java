@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 import org.lwjgl.glfw.GLFW;
 import org.saturnclient.common.IMinecraftClient;
 import org.saturnclient.common.MinecraftProvider;
-import org.saturnclient.common.bindings.SaturnIdentifier;
+import org.saturnclient.common.ref.asset.IdentifierRef;
 import org.saturnclient.cosmetics.cloak.utils.IdentifierUtils;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.ui.SaturnScreen;
@@ -40,7 +40,7 @@ public class SaturnClientProvider extends MinecraftProvider {
     }
 
     @Override
-    public void registerBufferedImageTexture(SaturnIdentifier i, BufferedImage bi) {
+    public void registerBufferedImageTexture(IdentifierRef i, BufferedImage bi) {
         IdentifierUtils.registerBufferedImageTextureFast((Identifier) i.inner, bi);
     }
 

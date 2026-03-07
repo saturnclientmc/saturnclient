@@ -1,6 +1,6 @@
 package org.saturnclient.impl.modules;
 
-import org.saturnclient.common.bindings.SaturnItemStack;
+import org.saturnclient.common.ref.game.ItemStackRef;
 import org.saturnclient.modules.interfaces.ArmorDisplayInterface;
 
 import net.minecraft.client.MinecraftClient;
@@ -15,69 +15,69 @@ public class ArmorDisplayFabric implements ArmorDisplayInterface {
     }
 
     @Override
-    public SaturnItemStack getMainHand() {
-        return new SaturnItemStack(get(EquipmentSlot.MAINHAND));
+    public ItemStackRef getMainHand() {
+        return new ItemStackRef(get(EquipmentSlot.MAINHAND));
     }
 
     @Override
-    public SaturnItemStack getHelmet() {
-        return new SaturnItemStack(get(EquipmentSlot.HEAD));
+    public ItemStackRef getHelmet() {
+        return new ItemStackRef(get(EquipmentSlot.HEAD));
     }
 
     @Override
-    public SaturnItemStack getChestplate() {
-        return new SaturnItemStack(get(EquipmentSlot.CHEST));
+    public ItemStackRef getChestplate() {
+        return new ItemStackRef(get(EquipmentSlot.CHEST));
     }
 
     @Override
-    public SaturnItemStack getLeggings() {
-        return new SaturnItemStack(get(EquipmentSlot.LEGS));
+    public ItemStackRef getLeggings() {
+        return new ItemStackRef(get(EquipmentSlot.LEGS));
     }
 
     @Override
-    public SaturnItemStack getBoots() {
-        return new SaturnItemStack(get(EquipmentSlot.FEET));
+    public ItemStackRef getBoots() {
+        return new ItemStackRef(get(EquipmentSlot.FEET));
     }
 
     @Override
-    public boolean isEmpty(SaturnItemStack stack) {
+    public boolean isEmpty(ItemStackRef stack) {
         return ((ItemStack) stack.get()).isEmpty();
     }
 
     @Override
-    public int getMaxDamage(SaturnItemStack stack) {
+    public int getMaxDamage(ItemStackRef stack) {
         return ((ItemStack) stack.get()).getMaxDamage();
     }
 
     @Override
-    public int getDamage(SaturnItemStack stack) {
+    public int getDamage(ItemStackRef stack) {
         return ((ItemStack) stack.get()).getDamage();
     }
 
     // Dummy items
 
     @Override
-    public SaturnItemStack getDummyMainHand() {
-        return new SaturnItemStack(new ItemStack(Items.DIAMOND_SWORD));
+    public ItemStackRef getDummyMainHand() {
+        return new ItemStackRef(new ItemStack(Items.DIAMOND_SWORD));
     }
 
     @Override
-    public SaturnItemStack getDummyHelmet() {
-        return new SaturnItemStack(new ItemStack(Items.DIAMOND_HELMET));
+    public ItemStackRef getDummyHelmet() {
+        return new ItemStackRef(new ItemStack(Items.DIAMOND_HELMET));
     }
 
     @Override
-    public SaturnItemStack getDummyChestplate() {
-        return new SaturnItemStack(new ItemStack(Items.DIAMOND_CHESTPLATE));
+    public ItemStackRef getDummyChestplate() {
+        return new ItemStackRef(new ItemStack(Items.DIAMOND_CHESTPLATE));
     }
 
     @Override
-    public SaturnItemStack getDummyLeggings() {
-        return new SaturnItemStack(new ItemStack(Items.DIAMOND_LEGGINGS));
+    public ItemStackRef getDummyLeggings() {
+        return new ItemStackRef(new ItemStack(Items.DIAMOND_LEGGINGS));
     }
 
     @Override
-    public SaturnItemStack getDummyBoots() {
-        return new SaturnItemStack(new ItemStack(Items.DIAMOND_BOOTS));
+    public ItemStackRef getDummyBoots() {
+        return new ItemStackRef(new ItemStack(Items.DIAMOND_BOOTS));
     }
 }

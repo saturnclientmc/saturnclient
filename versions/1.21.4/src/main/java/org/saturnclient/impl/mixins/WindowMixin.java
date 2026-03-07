@@ -1,13 +1,13 @@
 package org.saturnclient.impl.mixins;
 
-import org.saturnclient.common.render.IWindow;
+import org.saturnclient.common.ref.render.WindowRef;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 import net.minecraft.client.util.Window;
 
 @Mixin(Window.class)
-public abstract class WindowMixin implements IWindow {
+public abstract class WindowMixin implements WindowRef {
     @Shadow
     public abstract int getWidth();
 

@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Arrays;
 
+import org.saturnclient.common.ref.asset.SpriteRef;
 import org.saturnclient.modules.interfaces.StatusEffectsInterface;
-import org.saturnclient.common.bindings.SaturnSprite;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.StatusEffectSpriteManager;
@@ -21,7 +21,7 @@ public class StatusEffectsFabric implements StatusEffectsInterface {
         return mc.player.getStatusEffects().stream()
                 .filter(StatusEffectInstance::shouldShowIcon)
                 .map(se -> new Effect(
-                        new SaturnSprite(manager.getSprite(se.getEffectType())),
+                        new SpriteRef(manager.getSprite(se.getEffectType())),
                         se.getDuration() / 20,
                         se.isInfinite(),
                         se.shouldShowIcon(),
@@ -32,7 +32,7 @@ public class StatusEffectsFabric implements StatusEffectsInterface {
     @Override
     public List<Effect> getDummyEffects() {
         return Arrays.asList(
-                new Effect(new SaturnSprite(null), 600, false, true, "Infinite"),
-                new Effect(new SaturnSprite(null), 600, false, true, "Infinite"));
+                new Effect(new SpriteRef(null), 600, false, true, "Infinite"),
+                new Effect(new SpriteRef(null), 600, false, true, "Infinite"));
     }
 }

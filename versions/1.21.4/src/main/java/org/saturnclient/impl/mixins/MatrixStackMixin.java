@@ -1,8 +1,8 @@
 package org.saturnclient.impl.mixins;
 
 import org.joml.Quaternionf;
-import org.saturnclient.common.bindings.SaturnQuaternionf;
-import org.saturnclient.common.render.IMatrixStack;
+import org.saturnclient.common.ref.render.MatrixStackRef;
+import org.saturnclient.common.ref.render.SaturnQuaternionf;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.gen.Invoker;
@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 import net.minecraft.client.util.math.MatrixStack;
 
 @Mixin(MatrixStack.class)
-public abstract class MatrixStackMixin implements IMatrixStack {
+public abstract class MatrixStackMixin implements MatrixStackRef {
 
     @Shadow
     public abstract void translate(double x, double y, double z);

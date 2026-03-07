@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.InputStream;
 
 import org.saturnclient.common.IMinecraftClient;
-import org.saturnclient.common.bindings.SaturnIdentifier;
-import org.saturnclient.common.render.IWindow;
+import org.saturnclient.common.ref.asset.IdentifierRef;
+import org.saturnclient.common.ref.render.WindowRef;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
@@ -31,7 +31,7 @@ public class MinecraftClientMixin implements IMinecraftClient {
     }
 
     @Override
-    public InputStream getResource(SaturnIdentifier identifier) {
+    public InputStream getResource(IdentifierRef identifier) {
         try {
             return resourceManager.getResource((Identifier) identifier.inner).get().getInputStream();
         } catch (Exception e) {
@@ -40,7 +40,7 @@ public class MinecraftClientMixin implements IMinecraftClient {
     }
 
     @Override
-    public IWindow getWindow() {
-        return (IWindow) (Object) this.window;
+    public WindowRef getWindow() {
+        return (WindowRef) (Object) this.window;
     }
 }
