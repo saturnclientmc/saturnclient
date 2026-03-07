@@ -1,0 +1,62 @@
+package org.saturnclient.ui;
+
+import java.util.List;
+
+import org.saturnclient.config.manager.Key;
+
+public class Utils {
+    public static boolean isHovering(int mouseX, int mouseY, int elementWidth, int elementHeight, float elementScale) {
+        return mouseX >= 0 &&
+                mouseX <= (elementWidth * elementScale) &&
+                mouseY >= 0 &&
+                mouseY <= (elementHeight * elementScale);
+    }
+
+    public static char getCharFromKey(int keyCode, int modifiers) {
+        boolean shift = (modifiers & Key.GLFW_MOD_SHIFT) != 0;
+
+        // A-Z
+        if (keyCode >= Key.GLFW_KEY_A && keyCode <= Key.GLFW_KEY_Z) {
+            return (char) (shift
+                    ? 'A' + (keyCode - Key.GLFW_KEY_A)
+                    : 'a' + (keyCode - Key.GLFW_KEY_A));
+        }
+
+        // 0-9
+        if (keyCode >= Key.GLFW_KEY_0 && keyCode <= Key.GLFW_KEY_9) {
+            return shift
+                    ? ")!@#$%^&*(".charAt(keyCode - Key.GLFW_KEY_0)
+                    : (char) ('0' + (keyCode - Key.GLFW_KEY_0));
+        }
+
+        // Special characters
+        return switch (keyCode) {
+            case Key.GLFW_KEY_SPACE -> ' ';
+            case Key.GLFW_KEY_PERIOD -> shift ? '>' : '.';
+            case Key.GLFW_KEY_COMMA -> shift ? '<' : ',';
+            case Key.GLFW_KEY_MINUS -> shift ? '_' : '-';
+            case Key.GLFW_KEY_EQUAL -> shift ? '+' : '=';
+            case Key.GLFW_KEY_SEMICOLON -> shift ? ':' : ';';
+            case Key.GLFW_KEY_APOSTROPHE -> shift ? '"' : '\'';
+            case Key.GLFW_KEY_SLASH -> shift ? '?' : '/';
+            case Key.GLFW_KEY_BACKSLASH -> shift ? '|' : '\\';
+            case Key.GLFW_KEY_LEFT_BRACKET -> shift ? '{' : '[';
+            case Key.GLFW_KEY_RIGHT_BRACKET -> shift ? '}' : ']';
+            case Key.GLFW_KEY_GRAVE_ACCENT -> shift ? '~' : '`';
+            default -> '\0';
+        };
+    }
+
+    public static <T> T getOrNull(List<T> list, int index) {
+        return (index >= 0 && index < list.size()) ? list.get(index) : null;
+    }
+
+    // public static void notify(NotificationKind kind, String title, String toast) {
+    //     if (SaturnClient.client.currentScreen instanceof SaturnScreen) {
+    //         ((SaturnScreen) SaturnClient.client.currentScreen)
+    //                 .draw(new Notification(SaturnClient.client.currentScreen.width,
+    //                         SaturnClient.client.currentScreen.height, kind,
+    //                         title, toast));
+    //     }
+    // }
+}

@@ -1,0 +1,132 @@
+package org.saturnclient.ui.elements;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.saturnclient.config.Theme;
+import org.saturnclient.config.manager.Property;
+import org.saturnclient.ui.Element;
+import org.saturnclient.ui.ElementContext;
+import org.saturnclient.ui.ElementRenderer;
+import org.saturnclient.ui.RenderScope;
+
+public class Scroll extends Element {
+    private static Property<Integer> scrollBarRadius = Property.integer(10);
+    private static Property<Integer> scrollBarWidth = Property.integer(5);
+    private static Property<Integer> scrollBarPadding = Property.integer(5);
+
+    int padding = 0;
+
+    protected List<Element> children = new ArrayList<>();
+    int scroll = 0;
+    int maxScroll = 0;
+
+    public Scroll(int padding) {
+        this.padding = padding;
+    }
+
+    public void draw(Element element) {
+        ElementRenderer.INSTANCE.draw(children, element);
+    }
+
+    @Override
+    public void render(RenderScope renderScope, ElementContext ctx) {
+        calculateMaxScroll();
+
+        renderScope.drawRoundedRectangle(0, 0, width, height,
+                Theme.BG_RADIUS.value, Theme.BACKGROUND.value);
+
+        renderScope.enableScissor(padding, padding, width - padding, height - padding);
+        renderScope.getMatrixStack().push();
+        renderScope.getMatrixStack().translate(padding, -scroll + padding, 0);
+
+        ElementRenderer.INSTANCE.render(children, ctx.elapsed, renderScope,
+                ctx.mouseX - padding,
+                ctx.mouseY - padding + scroll);
+
+        renderScope.getMatrixStack().pop();
+        renderScope.disableScissor();
+
+        if (maxScroll > 0) {
+            renderScope.drawRoundedRectangle(
+                    width - scrollBarWidth.value - scrollBarPadding.value,
+                    calculateScrollBarY(),
+                    scrollBarWidth.value,
+                    calculateScrollBarHeight(),
+                    scrollBarRadius.value,
+                    Theme.SCROLL.value);
+        }
+    }
+
+    @Override
+    public void scroll(int mouseX, int mouseY, double horizontalAmount, double verticalAmount) {
+        scroll -= verticalAmount;
+        if (scroll < 0) {
+            scroll = 0;
+        } else if (scroll > maxScroll) {
+            scroll = maxScroll;
+        }
+    }
+
+    @Override
+    public Element dimensions(int width, int height) {
+        super.dimensions(width, height);
+
+        maxScroll = 0;
+        for (Element element : children) {
+            maxScroll = Math.max(maxScroll, (element.y + element.height + padding) - (height - padding * 2));
+        }
+
+        return this;
+    }
+
+    int calculateScrollBarHeight() {
+        if (maxScroll <= 0)
+            return height - (scrollBarPadding.value * 2);
+        return Math.max(20, (height * height) / (height + maxScroll + 10)) - (scrollBarPadding.value * 2);
+    }
+
+    int calculateScrollBarY() {
+        int scrollBarHeight = calculateScrollBarHeight();
+        if (maxScroll <= 0)
+            return scrollBarPadding.value;
+        int y = (scroll * (height - scrollBarHeight - scrollBarPadding.value * 2)) / maxScroll + scrollBarPadding.value;
+        return Math.min(y, height - scrollBarHeight - scrollBarPadding.value);
+    }
+
+    private void calculateMaxScroll() {
+        maxScroll = 0;
+
+        for (Element element : children) {
+            int bottom = element.y + element.height;
+            maxScroll = Math.max(maxScroll, bottom - height + padding);
+        }
+
+        if (maxScroll > 0) {
+            maxScroll = maxScroll + 10;
+        } else {
+            maxScroll = 0;
+        }
+    }
+
+    @Override
+    public void keyPressed(int keyCode, int scanCode, int modifiers) {
+        ElementRenderer.INSTANCE.keyPressed(children, keyCode, scanCode, modifiers);
+    }
+
+    @Override
+    public void mouseClicked(double mouseX, double mouseY, int button) {
+        ElementRenderer.INSTANCE.mouseClicked(children, mouseX - padding, mouseY - padding + scroll, button);
+    }
+
+    @Override
+    public void mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
+        ElementRenderer.INSTANCE.mouseDragged(children, mouseX - padding, mouseY - padding + scroll, button, deltaX,
+                deltaY);
+    }
+
+    @Override
+    public void mouseReleased(double mouseX, double mouseY, int button) {
+        ElementRenderer.INSTANCE.mouseReleased(children, mouseX - padding, mouseY - padding + scroll, button);
+    }
+}

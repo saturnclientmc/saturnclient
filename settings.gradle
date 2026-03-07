@@ -1,9 +1,21 @@
 pluginManagement {
     repositories {
-        maven {
-            name = 'Fabric'
-            url = 'https://maven.fabricmc.net/'
-        }
+        maven { url "https://maven.fabricmc.net/" }
         gradlePluginPortal()
+        mavenCentral()
     }
+}
+
+rootProject.name = "saturn-client"
+
+include("common")
+
+def versionsDir = file("versions")
+
+versionsDir.eachDir { dir ->
+    def version = dir.name
+    def projectName = "mc-${version}"
+
+    include(projectName)
+    project(":${projectName}").projectDir = dir
 }

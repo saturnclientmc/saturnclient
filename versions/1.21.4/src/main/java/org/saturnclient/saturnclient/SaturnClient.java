@@ -1,0 +1,78 @@
+package org.saturnclient.saturnclient;
+
+import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.minecraft.client.MinecraftClient;
+
+import org.saturnclient.client.ServiceClient;
+import org.saturnclient.cosmetics.Emotes;
+import org.saturnclient.cosmetics.Hats;
+import org.saturnclient.cosmetics.cloak.Cloaks;
+import org.saturnclient.common.minecraft.bindings.SaturnClientBindings;
+import org.saturnclient.impl.FabricModuleProvider;
+import org.saturnclient.impl.SaturnClientProvider;
+import org.saturnclient.modules.ModManager;
+import org.saturnclient.common.minecraft.MinecraftProvider;
+import org.saturnclient.config.Config;
+import org.saturnclient.config.manager.ConfigManager;
+import org.saturnclient.saturnclient.bindings.SaturnEmoteBindingsImpl;
+import org.saturnclient.saturnclient.bindings.SaturnPlatformBindingsImpl;
+import org.saturnclient.saturnclient.event.KeyInputHandler;
+import org.saturnclient.ui.ElementRenderer;
+import org.saturnclient.ui.EntityDrawerImpl;
+import org.saturnclient.ui.SaturnScreenFabric;
+import org.saturnclient.ui.components.ElementRendererImpl;
+import org.saturnclient.ui.components.SkinPreview;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Main class for the Saturn Client mod.
+ */
+public class SaturnClient implements ModInitializer {
+
+    public static final String MOD_ID = "saturnclient";
+    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+    public static MinecraftClient client;
+
+    @Override
+    public void onInitialize() {
+        LOGGER.info("Initializing " + MOD_ID);
+        client = MinecraftClient.getInstance();
+
+        MinecraftProvider.PROVIDER = new SaturnClientProvider();
+
+        ElementRenderer.INSTANCE = new ElementRendererImpl();
+
+        SkinPreview.DRAWER = new EntityDrawerImpl();
+
+        Config.init();
+        ModManager.init(new FabricModuleProvider());
+
+        client.execute(() -> {
+            SaturnScreenFabric.preload(client);
+        });
+
+        SaturnClientBindings.setPlatform(new SaturnPlatformBindingsImpl());
+        SaturnClientBindings.setEmotes(new SaturnEmoteBindingsImpl());
+
+        ClientLifecycleEvents.CLIENT_STOPPING.register(_o -> ConfigManager.save());
+
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            for (org.saturnclient.modules.Module m : ModManager.ENABLED_MODS) {
+                m.tick();
+            }
+        });
+
+        KeyInputHandler.register();
+        Emotes.initialize();
+        if (ServiceClient.authenticate()) {
+            Cloaks.initialize();
+            Hats.initialize();
+            LOGGER.info(MOD_ID + " initialization complete");
+        } else {
+            LOGGER.error("Failed to authenticate with the server");
+        }
+    }
+}
