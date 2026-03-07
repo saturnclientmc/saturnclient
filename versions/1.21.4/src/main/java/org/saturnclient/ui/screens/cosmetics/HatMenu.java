@@ -1,6 +1,5 @@
 package org.saturnclient.ui.screens.cosmetics;
 
-import org.saturnclient.client.ServiceClient;
 import org.saturnclient.client.player.SaturnPlayer;
 import org.saturnclient.cosmetics.hat.Hats;
 import org.saturnclient.common.minecraft.MinecraftProvider;

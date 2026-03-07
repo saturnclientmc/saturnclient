@@ -1,8 +1,8 @@
 package org.saturnclient.cosmetics.hat;
 
+import org.saturnclient.client.player.SaturnPlayer;
 import org.saturnclient.cosmetics.obj.MtlLoader;
 import org.saturnclient.cosmetics.obj.ObjModel;
-import org.saturnclient.saturnclient.client.player.SaturnPlayer;
 
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;

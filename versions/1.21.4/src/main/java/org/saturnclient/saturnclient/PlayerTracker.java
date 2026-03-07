@@ -1,8 +1,8 @@
-package org.saturnclient.saturnclient.client.player;
+package org.saturnclient.saturnclient;
 
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import org.saturnclient.saturnclient.SaturnClient;
+
 import org.saturnclient.client.ServiceClient;
 
 import net.minecraft.client.network.PlayerListEntry;
