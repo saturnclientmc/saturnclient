@@ -7,6 +7,10 @@ import java.util.List;
 public abstract class SaturnScreen {
     public static interface ScreenProvider {
         public void close();
+
+        public int getWidth();
+
+        public int getHeight();
     }
 
     // General
@@ -29,8 +33,8 @@ public abstract class SaturnScreen {
 
     protected void init() {
         elements.clear();
-        width *= 2;
-        height *= 2;
+        width = provider.getWidth();
+        height = provider.getHeight();
         ui(); // abstraction to render the saturn ui and also render extra stuff here
     }
 

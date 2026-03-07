@@ -53,6 +53,8 @@ public class SaturnScreenFabric extends Screen implements ScreenProvider {
 
     @Override
     protected void init() {
+        width *= 2;
+        height *= 2;
         screen.init();
     }
 
@@ -130,5 +132,15 @@ public class SaturnScreenFabric extends Screen implements ScreenProvider {
     public void close() {
         this.screen.onClose();
         super.close();
+    }
+
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
     }
 }
