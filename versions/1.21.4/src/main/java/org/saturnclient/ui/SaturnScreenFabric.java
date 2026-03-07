@@ -31,7 +31,7 @@ public class SaturnScreenFabric extends Screen implements ScreenProvider {
     }
 
     private final Pool pool = new Pool(3);
-    private final SaturnScreen screen;
+    public final SaturnScreen screen;
 
     public static void preload(MinecraftClient client) {
         TextureManager textureManager = client.getTextureManager();

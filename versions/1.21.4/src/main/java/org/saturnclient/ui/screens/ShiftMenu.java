@@ -1,9 +1,8 @@
 package org.saturnclient.ui.screens;
 
-import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.common.minecraft.MinecraftProvider;
 import org.saturnclient.config.AnimationConfig;
 import org.saturnclient.config.Config;
-import org.saturnclient.saturnclient.menus.HudEditor;
 import org.saturnclient.ui.SaturnScreen;
 import org.saturnclient.ui.anim.Fade;
 import org.saturnclient.ui.anim.SlideY;
@@ -42,17 +41,17 @@ public class ShiftMenu extends SaturnScreen {
         AnimationStagger stagger = new AnimationStagger(AnimationConfig.shiftMenu.stagger.value);
 
         stagger.draw(new TextureButton(Textures.HUD_ICON, () -> {
-            client.setScreen(new HudEditor());
+            MinecraftProvider.PROVIDER.setScreen(new HudEditor());
         }).dimensions(btnHeight, btnHeight).position(0, 0)
                 .animation(new Fade(AnimationConfig.shiftMenu)));
 
         stagger.draw(new Button("Settings", () -> {
-            SaturnClient.client.setScreen(new ModMenu());
+            MinecraftProvider.PROVIDER.setScreen(new ModMenu());
         }).dimensions(btnWidth, btnHeight).position(btnHeight + spacing, 0)
                 .animation(new Fade(AnimationConfig.shiftMenu)));
 
         stagger.draw(new TextureButton(Textures.COSMETICS, () -> {
-            client.setScreen(new CloakMenu());
+            MinecraftProvider.PROVIDER.setScreen(new CloakMenu());
         }).dimensions(btnHeight, btnHeight).position(btnWidth + btnHeight + (spacing * 2), 0)
                 .animation(new Fade(AnimationConfig.shiftMenu)));
 

@@ -1,13 +1,12 @@
 package org.saturnclient.ui.screens.store;
 
 import org.saturnclient.cosmetics.hat.Hats;
-import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.client.ServiceClient;
 import org.saturnclient.saturnclient.client.player.SaturnPlayer;
+import org.saturnclient.common.minecraft.MinecraftProvider;
 import org.saturnclient.config.AnimationConfig;
 import org.saturnclient.config.Theme;
 import org.saturnclient.ui.SaturnScreen;
-import org.saturnclient.ui.Utils;
 import org.saturnclient.ui.anim.Fade;
 import org.saturnclient.ui.anim.SlideY;
 import org.saturnclient.ui.components.CosmeticPreview;
@@ -17,7 +16,6 @@ import org.saturnclient.ui.elements.ImageTexture;
 import org.saturnclient.ui.elements.Scroll;
 import org.saturnclient.ui.elements.TabMenu;
 import org.saturnclient.ui.elements.Text;
-import org.saturnclient.ui.elements.Notification.NotificationKind;
 import org.saturnclient.ui.elements.TabMenu.TabMenuComponent;
 import org.saturnclient.ui.resources.Fonts;
 import org.saturnclient.ui.resources.Textures;
@@ -106,7 +104,7 @@ public class HatStore extends SaturnScreen {
 
         draw(new TabMenu(1,
                 new TabMenuComponent(Textures.CLOAK, () -> {
-                    SaturnClient.client.setScreen(new CloakStore());
+                    MinecraftProvider.PROVIDER.setScreen(new CloakStore());
                 }),
                 new TabMenuComponent(Textures.HAT, () -> {
                 }))
@@ -129,7 +127,7 @@ public class HatStore extends SaturnScreen {
                 }
 
                 RenderSystem.recordRenderCall(() -> {
-                    SaturnClient.client.setScreen(new HatStore(now));
+                    MinecraftProvider.PROVIDER.setScreen(new HatStore(now));
                     // Utils.notify(NotificationKind.Success,
                     // "Purchase complete",
                     // "Congrats, enjoy your new hat!");

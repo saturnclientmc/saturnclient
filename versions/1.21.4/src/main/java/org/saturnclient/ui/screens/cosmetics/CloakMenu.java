@@ -1,8 +1,8 @@
 package org.saturnclient.ui.screens.cosmetics;
 
 import org.saturnclient.cosmetics.cloak.Cloaks;
-import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.client.player.SaturnPlayer;
+import org.saturnclient.common.minecraft.MinecraftProvider;
 import org.saturnclient.config.AnimationConfig;
 import org.saturnclient.ui.SaturnScreen;
 import org.saturnclient.ui.anim.Fade;
@@ -76,7 +76,7 @@ public class CloakMenu extends SaturnScreen {
                 new TabMenuComponent(Textures.CLOAK, () -> {
                 }),
                 new TabMenuComponent(Textures.HAT, () -> {
-                    SaturnClient.client.setScreen(new HatMenu());
+                    MinecraftProvider.PROVIDER.setScreen(new HatMenu());
                 }))
                 .centerOffset(width, height, 0, -195));
     }

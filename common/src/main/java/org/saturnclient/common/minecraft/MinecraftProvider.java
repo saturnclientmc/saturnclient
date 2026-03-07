@@ -10,7 +10,7 @@ public abstract class MinecraftProvider {
 
     public abstract IMinecraftClient getClient();
 
-    public abstract IMinecraftClient setScreen(SaturnScreen screen);
+    public abstract void setScreen(SaturnScreen screen);
 
     public abstract Object createIdentifier(String namespace, String path);
 

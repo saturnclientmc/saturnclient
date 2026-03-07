@@ -4,10 +4,11 @@ import org.saturnclient.modules.HudMod;
 import org.saturnclient.modules.ModDimensions;
 import org.saturnclient.modules.ModManager;
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.menus.HudEditor;
 import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
 import org.saturnclient.ui.RenderScope;
 import org.saturnclient.ui.RenderScopeImpl;
+import org.saturnclient.ui.SaturnScreenFabric;
+import org.saturnclient.ui.screens.HudEditor;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -25,7 +26,7 @@ public class RenderMixin {
         TextRenderer textRenderer = SaturnClient.client.textRenderer;
 
         if (textRenderer != null &&
-                !(SaturnClient.client.currentScreen instanceof HudEditor)) {
+                !(SaturnClient.client.currentScreen instanceof SaturnScreenFabric f && f.screen instanceof HudEditor)) {
             RenderScope renderScope = new RenderScopeImpl(context.getMatrices(),
                     ((DrawContextAccessor) context).getVertexConsumers());
 
