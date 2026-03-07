@@ -20,8 +20,10 @@ import org.saturnclient.saturnclient.bindings.SaturnEmoteBindingsImpl;
 import org.saturnclient.saturnclient.bindings.SaturnPlatformBindingsImpl;
 import org.saturnclient.saturnclient.event.KeyInputHandler;
 import org.saturnclient.ui.ElementRenderer;
+import org.saturnclient.ui.EntityDrawerImpl;
 import org.saturnclient.ui.SaturnScreenFabric;
 import org.saturnclient.ui.components.ElementRendererImpl;
+import org.saturnclient.ui.components.SkinPreview;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,6 +44,8 @@ public class SaturnClient implements ModInitializer {
         MinecraftProvider.PROVIDER = new SaturnClientProvider();
 
         ElementRenderer.INSTANCE = new ElementRendererImpl();
+
+        SkinPreview.DRAWER = new EntityDrawerImpl();
 
         Config.init();
         ModManager.init(new FabricModuleProvider());
