@@ -36,11 +36,7 @@ public class Fonts {
         for (String line : text.split("\n")) {
             w = Math.max(w, getWidth(line, getFont(font)));
         }
-        if (font == 0) {
-            return w * 2;
-        } else {
-            return w;
-        }
+        return w;
     }
 
     private static int getWidth(String text, Identifier font) {
