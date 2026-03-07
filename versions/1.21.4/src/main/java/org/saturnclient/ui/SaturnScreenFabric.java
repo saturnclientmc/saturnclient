@@ -128,6 +128,7 @@ public abstract class SaturnScreenFabric extends Screen implements ScreenProvide
 
     @Override
     public void close() {
+        this.screen.onClose();
         super.close();
     }
 }

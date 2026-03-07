@@ -1,6 +1,6 @@
 package org.saturnclient.ui.components;
 
-import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.common.minecraft.MinecraftProvider;
 import org.saturnclient.common.minecraft.bindings.SaturnIdentifier;
 import org.saturnclient.config.Config;
 import org.saturnclient.config.Theme;
@@ -30,14 +30,14 @@ public class Sidebar extends Element {
     Runnable onClose;
     SidebarComponent[] components = {
             new Sidebar.SidebarComponent(Textures.MODS_TAB, () -> {
-                SaturnClient.client.setScreen(new ModMenu());
+                MinecraftProvider.PROVIDER.setScreen(new ModMenu());
             }, false),
             new Sidebar.SidebarComponent(Textures.SETTINGS, () -> {
-                SaturnClient.client.setScreen(new ConfigEditor(Config.config));
+                MinecraftProvider.PROVIDER.setScreen(new ConfigEditor(Config.config));
             }, false),
 
             new Sidebar.SidebarComponent(Textures.SHIRT, () -> {
-                SaturnClient.client.setScreen(new CloakMenu());
+                MinecraftProvider.PROVIDER.setScreen(new CloakMenu());
             }, false),
 
             new Sidebar.SidebarComponent(Textures.CLOSE, () -> {
@@ -45,7 +45,7 @@ public class Sidebar extends Element {
             }, true),
 
             new Sidebar.SidebarComponent(Textures.STORE, () -> {
-                SaturnClient.client.setScreen(new CloakStore());
+                MinecraftProvider.PROVIDER.setScreen(new CloakStore());
             }, true),
     };
     int active = 0;

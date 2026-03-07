@@ -111,4 +111,7 @@ public abstract class SaturnScreen {
     public boolean shouldPause() {
         return true;
     }
+
+    public void onClose() {
+    }
 }

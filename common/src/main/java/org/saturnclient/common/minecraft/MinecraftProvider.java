@@ -1,12 +1,16 @@
 package org.saturnclient.common.minecraft;
 
 import org.saturnclient.common.minecraft.bindings.SaturnIdentifier;
+import org.saturnclient.ui.SaturnScreen;
+
 import java.awt.image.BufferedImage;
 
 public abstract class MinecraftProvider {
     public static MinecraftProvider PROVIDER;
 
     public abstract IMinecraftClient getClient();
+
+    public abstract IMinecraftClient setScreen(SaturnScreen screen);
 
     public abstract Object createIdentifier(String namespace, String path);
 
