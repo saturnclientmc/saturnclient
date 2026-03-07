@@ -3,9 +3,9 @@ package org.saturnclient.impl;
 import java.awt.image.BufferedImage;
 
 import org.lwjgl.glfw.GLFW;
-import org.saturnclient.common.IMinecraftClient;
 import org.saturnclient.common.MinecraftProvider;
 import org.saturnclient.common.ref.asset.IdentifierRef;
+import org.saturnclient.common.ref.game.MinecraftClientRef;
 import org.saturnclient.cosmetics.cloak.utils.IdentifierUtils;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.ui.SaturnScreen;
@@ -19,8 +19,8 @@ import net.minecraft.util.Identifier;
 
 public class SaturnClientProvider extends MinecraftProvider {
     @Override
-    public IMinecraftClient getClient() {
-        return (IMinecraftClient) SaturnClient.client;
+    public MinecraftClientRef getClient() {
+        return (MinecraftClientRef) SaturnClient.client;
     }
 
     @Override

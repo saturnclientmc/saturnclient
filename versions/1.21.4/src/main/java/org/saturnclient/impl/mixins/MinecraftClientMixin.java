@@ -3,8 +3,8 @@ package org.saturnclient.impl.mixins;
 import java.io.File;
 import java.io.InputStream;
 
-import org.saturnclient.common.IMinecraftClient;
 import org.saturnclient.common.ref.asset.IdentifierRef;
+import org.saturnclient.common.ref.game.MinecraftClientRef;
 import org.saturnclient.common.ref.render.WindowRef;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -15,7 +15,7 @@ import net.minecraft.resource.ReloadableResourceManagerImpl;
 import net.minecraft.util.Identifier;
 
 @Mixin(MinecraftClient.class)
-public class MinecraftClientMixin implements IMinecraftClient {
+public class MinecraftClientMixin implements MinecraftClientRef {
     @Shadow
     public File runDirectory;
 
