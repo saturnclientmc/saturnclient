@@ -2,10 +2,9 @@ package org.saturnclient.ui;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
+import org.saturnclient.ui.SaturnScreen.ScreenProvider;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.PostEffectProcessor;
@@ -20,13 +19,7 @@ import net.minecraft.client.util.Pool;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-public abstract class SaturnScreenFabric extends Screen {
-    private final Pool pool = new Pool(3);
-    protected List<Element> elements = new ArrayList<>();
-    protected float backgroundOpacity = 1.0f;
-    protected Instant start = null;
-    public int backgroundBlur = 10;
-
+public abstract class SaturnScreenFabric extends Screen implements ScreenProvider {
     protected static final Identifier PANORAMA = Identifier.of("saturnclient",
             "textures/gui/title/background/panorama");
     protected static final CubeMapRenderer PANORAMA_RENDERER = new CubeMapRenderer(PANORAMA);
@@ -36,6 +29,9 @@ public abstract class SaturnScreenFabric extends Screen {
     static {
         ROTATING_PANORAMA_RENDERER = new RotatingCubeMapRenderer(PANORAMA_RENDERER);
     }
+
+    private final Pool pool = new Pool(3);
+    private final SaturnScreen screen;
 
     public static void preload(MinecraftClient client) {
         TextureManager textureManager = client.getTextureManager();
@@ -49,37 +45,30 @@ public abstract class SaturnScreenFabric extends Screen {
         }
     }
 
-    public SaturnScreenFabric(String title) {
-        super(Text.literal(title));
-    }
-
-    public void draw(Element element) {
-        ElementRenderer.INSTANCE.draw(elements, element);
+    public SaturnScreenFabric(SaturnScreen screen) {
+        super(Text.literal(screen.title));
+        screen.provider = this;
+        this.screen = screen;
     }
 
     @Override
     protected void init() {
-        elements.clear();
-        width *= 2;
-        height *= 2;
-        ui(); // abstraction to render the saturn ui and also render extra stuff here
+        screen.init();
     }
-
-    public abstract void ui();
 
     @SuppressWarnings("deprecation")
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        if (start == null) {
-            start = Instant.now();
+        if (screen.start == null) {
+            screen.start = Instant.now();
         }
-        long elapsed = Duration.between(start, Instant.now()).toMillis();
+        long elapsed = Duration.between(screen.start, Instant.now()).toMillis();
 
         mouseX *= 2;
         mouseY *= 2;
 
         if (client.world == null && client.getCurrentServerEntry() == null) {
-            ROTATING_PANORAMA_RENDERER.render(context, this.width, this.height, backgroundOpacity, delta);
+            ROTATING_PANORAMA_RENDERER.render(context, this.width, this.height, screen.backgroundOpacity, delta);
         }
 
         PostEffectProcessor postEffectProcessor = this.client.getShaderLoader().loadPostEffect(
@@ -87,7 +76,7 @@ public abstract class SaturnScreenFabric extends Screen {
                 DefaultFramebufferSet.MAIN_ONLY);
 
         if (postEffectProcessor != null) {
-            postEffectProcessor.setUniforms("Radius", backgroundBlur * Math.min((float) elapsed / 700, 1.0f));
+            postEffectProcessor.setUniforms("Radius", screen.backgroundBlur * Math.min((float) elapsed / 700, 1.0f));
             postEffectProcessor.render(this.client.getFramebuffer(), this.pool);
         }
 
@@ -96,43 +85,22 @@ public abstract class SaturnScreenFabric extends Screen {
         RenderScope renderScope = new RenderScopeImpl(context.getMatrices(),
                 ((DrawContextAccessor) context).getVertexConsumers());
 
-        renderScope.getMatrixStack().push();
-
-        renderScope.getMatrixStack().scale(0.5f, 0.5f, 0.5f);
-
-        ElementRenderer.INSTANCE.render(new ArrayList<>(elements), elapsed, renderScope, mouseX, mouseY);
-
-        renderScope.getMatrixStack().pop();
+        screen.render(renderScope, mouseX, mouseY, delta, elapsed);
     }
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        mouseX *= 2;
-        mouseY *= 2;
-
-        ElementRenderer.INSTANCE.mouseClicked(elements, mouseX, mouseY, button);
-
-        return false;
+        return screen.mouseClicked(mouseX, mouseY, button);
     }
 
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-        mouseX *= 2;
-        mouseY *= 2;
-
-        ElementRenderer.INSTANCE.mouseDragged(elements, mouseX, mouseY, button, deltaX, deltaY);
-
-        return super.mouseReleased(mouseX, mouseY, button);
+        return screen.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
     }
 
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
-        mouseX *= 2;
-        mouseY *= 2;
-
-        ElementRenderer.INSTANCE.mouseReleased(elements, mouseX, mouseY, button);
-
-        return super.mouseReleased(mouseX, mouseY, button);
+        return screen.mouseReleased(mouseX, mouseY, button);
     }
 
     @Override
@@ -141,28 +109,25 @@ public abstract class SaturnScreenFabric extends Screen {
             double mouseY,
             double horizontalAmount,
             double verticalAmount) {
-        mouseX *= 2;
-        mouseY *= 2;
-
-        ElementRenderer.INSTANCE.mouseScrolled(elements, mouseX, mouseY, horizontalAmount, verticalAmount);
-
-        return super.mouseScrolled(
-                mouseX,
-                mouseY,
-                horizontalAmount,
-                verticalAmount);
-    }
-
-    @Override
-    public void resize(MinecraftClient client, int width, int height) {
-        elements.clear();
-        super.resize(client, width, height);
+        return screen.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount);
     }
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        ElementRenderer.INSTANCE.keyPressed(elements, keyCode, scanCode, modifiers);
+        return screen.keyPressed(keyCode, scanCode, modifiers);
+    }
 
-        return super.keyPressed(keyCode, scanCode, modifiers);
+    @Override
+    public void resize(MinecraftClient client, int width, int height) {
+        screen.resize(width, height);
+    }
+
+    // ------------------------------------------
+    // ScreenProvider implementations
+    // ------------------------------------------
+
+    @Override
+    public void close() {
+        super.close();
     }
 }
