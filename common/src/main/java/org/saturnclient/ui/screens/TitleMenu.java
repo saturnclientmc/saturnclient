@@ -1,6 +1,7 @@
 package org.saturnclient.ui.screens;
 
 import org.saturnclient.common.minecraft.MinecraftProvider;
+import org.saturnclient.common.minecraft.MinecraftProvider.MinecraftScreen;
 import org.saturnclient.config.AnimationConfig;
 import org.saturnclient.config.Config;
 import org.saturnclient.ui.SaturnScreen;
@@ -31,25 +32,23 @@ public class TitleMenu extends SaturnScreen {
 
         AnimationStagger mainButtonStagger = new AnimationStagger(AnimationConfig.mainMenu);
 
-        // TODO implement all of these
-
         mainButtonStagger.draw(new Button("SINGLEPLAYER", () -> {
-            // MinecraftProvider.PROVIDER.setScreen(new SelectWorldScreen(new TitleMenu()));
+            MinecraftProvider.PROVIDER.setScreen(MinecraftScreen.SelectWorld);
         }).scale(0.69f).dimensions(420, 52).position(0, 0)
                 .animation(new SlideFade(AnimationConfig.mainMenu, -10)));
 
         mainButtonStagger.draw(new Button("MULTIPLAYER", () -> {
-            // MinecraftProvider.PROVIDER.setScreen(new MultiplayerScreen(new TitleMenu()));
+            MinecraftProvider.PROVIDER.setScreen(MinecraftScreen.Multiplayer);
         }).scale(0.69f).dimensions(420, 52).position(0, 40)
                 .animation(new SlideFade(AnimationConfig.mainMenu, -10)));
 
         mainButtonStagger.draw(new Button("OPTIONS", () -> {
-            // MinecraftProvider.PROVIDER.setScreen(new OptionsScreen(new TitleMenu(), SaturnClient.client.options));
+            MinecraftProvider.PROVIDER.setScreen(MinecraftScreen.Options);
         }).scale(0.69f).dimensions(206, 52).position(0, 80)
                 .animation(new SlideFade(AnimationConfig.mainMenu, -10)));
 
         mainButtonStagger.draw(new Button("QUIT", () -> {
-            // client.scheduleStop();
+            MinecraftProvider.PROVIDER.stop();
         }).scale(0.69f).dimensions(206, 52).position(146, 80)
                 .animation(new SlideFade(AnimationConfig.mainMenu, -10)));
 
