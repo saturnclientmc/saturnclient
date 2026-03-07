@@ -4,7 +4,7 @@ import org.saturnclient.cosmetics.hat.Hats;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.client.player.SaturnPlayer;
 import org.saturnclient.config.AnimationConfig;
-import org.saturnclient.ui.SaturnScreenFabric;
+import org.saturnclient.ui.SaturnScreen;
 import org.saturnclient.ui.anim.Fade;
 import org.saturnclient.ui.anim.SlideY;
 import org.saturnclient.ui.components.CosmeticPreview;
@@ -16,7 +16,7 @@ import org.saturnclient.ui.elements.TabMenu;
 import org.saturnclient.ui.elements.TabMenu.TabMenuComponent;
 import org.saturnclient.ui.resources.Textures;
 
-public class HatMenu extends SaturnScreenFabric {
+public class HatMenu extends SaturnScreen {
     public HatMenu() {
         super("Hats Menu");
     }
@@ -69,7 +69,7 @@ public class HatMenu extends SaturnScreenFabric {
                 .position(scroll.x + (scrollWidth - 220), scroll.y + 40)
                 .animation(new Fade(500)));
 
-        draw(new Sidebar(2, this::close)
+        draw(new Sidebar(2, this.provider::close)
                 .centerOffset(width, height, -(scrollWidth / 2 + 20), 0)
                 .animation(new Fade(400)));
 

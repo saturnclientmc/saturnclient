@@ -6,7 +6,7 @@ import org.saturnclient.saturnclient.client.ServiceClient;
 import org.saturnclient.saturnclient.client.player.SaturnPlayer;
 import org.saturnclient.config.AnimationConfig;
 import org.saturnclient.config.Theme;
-import org.saturnclient.ui.SaturnScreenFabric;
+import org.saturnclient.ui.SaturnScreen;
 import org.saturnclient.ui.Utils;
 import org.saturnclient.ui.anim.Fade;
 import org.saturnclient.ui.anim.SlideY;
@@ -24,7 +24,7 @@ import org.saturnclient.ui.resources.Textures;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
-public class CloakStore extends SaturnScreenFabric {
+public class CloakStore extends SaturnScreen {
     private long lastPurchaseTime = 0;
 
     public CloakStore() {
@@ -99,7 +99,7 @@ public class CloakStore extends SaturnScreenFabric {
                 .dimensions(scrollWidth, 350)
                 .centerOffset(width, height, 15, 0));
 
-        draw(new Sidebar(5, this::close)
+        draw(new Sidebar(5, this.provider::close)
                 .centerOffset(width, height, -((scrollWidth - 30) / 2 + 20), 0)
                 .animation(new Fade(400)));
 
@@ -130,15 +130,15 @@ public class CloakStore extends SaturnScreenFabric {
                 RenderSystem.recordRenderCall(() -> {
                     SaturnClient.client.setScreen(new CloakStore(now));
                     // Utils.notify(NotificationKind.Success,
-                    //         "Purchase complete",
-                    //         "Congrats, enjoy your new cloak!");
+                    // "Purchase complete",
+                    // "Congrats, enjoy your new cloak!");
                 });
             }).start();
 
         } else {
             // Utils.notify(NotificationKind.Error,
-            //         "Timeout error",
-            //         "Please wait 3 seconds");
+            // "Timeout error",
+            // "Please wait 3 seconds");
         }
     }
 }

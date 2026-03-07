@@ -23,8 +23,8 @@ public abstract class SaturnScreen {
     // Provider
     public ScreenProvider provider;
 
-    public SaturnScreen() {
-        provider.close();
+    public SaturnScreen(String title) {
+        this.title = title;
     }
 
     protected void init() {
@@ -106,5 +106,9 @@ public abstract class SaturnScreen {
         ElementRenderer.INSTANCE.keyPressed(elements, keyCode, scanCode, modifiers);
 
         return false;
+    }
+
+    public boolean shouldPause() {
+        return true;
     }
 }

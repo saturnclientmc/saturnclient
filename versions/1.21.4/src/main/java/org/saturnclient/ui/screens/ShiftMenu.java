@@ -4,7 +4,7 @@ import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.config.AnimationConfig;
 import org.saturnclient.config.Config;
 import org.saturnclient.saturnclient.menus.HudEditor;
-import org.saturnclient.ui.SaturnScreenFabric;
+import org.saturnclient.ui.SaturnScreen;
 import org.saturnclient.ui.anim.Fade;
 import org.saturnclient.ui.anim.SlideY;
 import org.saturnclient.ui.elements.AnimationStagger;
@@ -14,7 +14,7 @@ import org.saturnclient.ui.elements.TextureButton;
 import org.saturnclient.ui.resources.Textures;
 import org.saturnclient.ui.screens.cosmetics.CloakMenu;
 
-public class ShiftMenu extends SaturnScreenFabric {
+public class ShiftMenu extends SaturnScreen {
     public ShiftMenu() {
         super("Shift Menu");
     }

@@ -13,7 +13,7 @@ import org.saturnclient.config.manager.ConfigManager;
 import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
 import org.saturnclient.ui.RenderScope;
 import org.saturnclient.ui.RenderScopeImpl;
-import org.saturnclient.ui.SaturnScreenFabric;
+import org.saturnclient.ui.SaturnScreen;
 
 import java.util.ArrayList;
 import java.util.List;

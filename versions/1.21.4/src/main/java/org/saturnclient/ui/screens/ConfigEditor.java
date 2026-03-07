@@ -5,7 +5,7 @@ import java.util.Map;
 import org.saturnclient.config.Theme;
 import org.saturnclient.config.manager.ConfigManager;
 import org.saturnclient.config.manager.Property;
-import org.saturnclient.ui.SaturnScreenFabric;
+import org.saturnclient.ui.SaturnScreen;
 import org.saturnclient.ui.components.Sidebar;
 import org.saturnclient.ui.components.inputs.FloatInput;
 import org.saturnclient.ui.components.inputs.HexInput;
@@ -17,7 +17,7 @@ import org.saturnclient.ui.elements.Scroll;
 import org.saturnclient.ui.elements.Text;
 import org.saturnclient.ui.resources.Fonts;
 
-public class ConfigEditor extends SaturnScreenFabric {
+public class ConfigEditor extends SaturnScreen {
     private ConfigManager config;
 
     public ConfigEditor(ConfigManager config) {
@@ -39,7 +39,7 @@ public class ConfigEditor extends SaturnScreenFabric {
 
         draw(scroll.dimensions(scrollWidth, 350).center(width, height));
 
-        draw(new Sidebar(1, this::close).centerOffset(width, height, -(scrollWidth / 2 + 20), 0));
+        draw(new Sidebar(1, this.provider::close).centerOffset(width, height, -(scrollWidth / 2 + 20), 0));
     }
 
     @SuppressWarnings("unchecked")

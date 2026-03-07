@@ -3,7 +3,7 @@ package org.saturnclient.ui.screens;
 import org.saturnclient.modules.ModManager;
 import org.saturnclient.modules.Module;
 import org.saturnclient.config.AnimationConfig;
-import org.saturnclient.ui.SaturnScreenFabric;
+import org.saturnclient.ui.SaturnScreen;
 import org.saturnclient.ui.anim.SlideFade;
 import org.saturnclient.ui.components.SaturnModule;
 import org.saturnclient.ui.components.Sidebar;
@@ -12,7 +12,7 @@ import org.saturnclient.ui.elements.ImageTexture;
 import org.saturnclient.ui.elements.Scroll;
 import org.saturnclient.ui.resources.Textures;
 
-public class ModMenu extends SaturnScreenFabric {
+public class ModMenu extends SaturnScreen {
     public ModMenu() {
         super("Mod Menu");
     }
@@ -49,7 +49,7 @@ public class ModMenu extends SaturnScreenFabric {
 
         draw(scroll.dimensions(scrollWidth, 350).center(width, height));
 
-        draw(new Sidebar(0, this::close).centerOffset(width, height, -(scrollWidth / 2 + 20), 0));
+        draw(new Sidebar(0, this.provider::close).centerOffset(width, height, -(scrollWidth / 2 + 20), 0));
 
         draw(new ImageTexture(Textures.LOGO_TEXT_BIG).dimensions(180, 18).position(width - 180 - 20, height - 18 - 20));
     }
