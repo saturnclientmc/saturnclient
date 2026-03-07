@@ -1,8 +1,8 @@
 package org.saturnclient.impl.mixins;
 
 import org.joml.Quaternionf;
-import org.saturnclient.common.minecraft.bindings.SaturnQuaternionf;
-import org.saturnclient.common.minecraft.render.IMatrixStack;
+import org.saturnclient.common.bindings.SaturnQuaternionf;
+import org.saturnclient.common.render.IMatrixStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.gen.Invoker;

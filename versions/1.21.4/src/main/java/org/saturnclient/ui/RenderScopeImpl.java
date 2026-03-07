@@ -10,11 +10,11 @@ import org.joml.Matrix4f;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import org.saturnclient.common.minecraft.MinecraftProvider;
-import org.saturnclient.common.minecraft.bindings.SaturnIdentifier;
-import org.saturnclient.common.minecraft.bindings.SaturnItemStack;
-import org.saturnclient.common.minecraft.bindings.SaturnSprite;
-import org.saturnclient.common.minecraft.render.IMatrixStack;
+import org.saturnclient.common.MinecraftProvider;
+import org.saturnclient.common.bindings.SaturnIdentifier;
+import org.saturnclient.common.bindings.SaturnItemStack;
+import org.saturnclient.common.bindings.SaturnSprite;
+import org.saturnclient.common.render.IMatrixStack;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
 import org.saturnclient.ui.resources.Fonts;

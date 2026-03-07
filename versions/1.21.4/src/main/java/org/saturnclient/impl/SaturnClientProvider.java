@@ -3,9 +3,9 @@ package org.saturnclient.impl;
 import java.awt.image.BufferedImage;
 
 import org.lwjgl.glfw.GLFW;
-import org.saturnclient.common.minecraft.IMinecraftClient;
-import org.saturnclient.common.minecraft.MinecraftProvider;
-import org.saturnclient.common.minecraft.bindings.SaturnIdentifier;
+import org.saturnclient.common.IMinecraftClient;
+import org.saturnclient.common.MinecraftProvider;
+import org.saturnclient.common.bindings.SaturnIdentifier;
 import org.saturnclient.cosmetics.cloak.utils.IdentifierUtils;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.ui.SaturnScreen;

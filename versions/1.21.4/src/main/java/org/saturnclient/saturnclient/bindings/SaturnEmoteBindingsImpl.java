@@ -2,7 +2,7 @@ package org.saturnclient.saturnclient.bindings;
 
 import java.util.UUID;
 
-import org.saturnclient.common.minecraft.bindings.SaturnEmoteBindings;
+import org.saturnclient.common.bindings.SaturnEmoteBindings;
 import org.saturnclient.saturnclient.SaturnClient;
 
 import dev.kosmx.playerAnim.api.layered.AnimationStack;

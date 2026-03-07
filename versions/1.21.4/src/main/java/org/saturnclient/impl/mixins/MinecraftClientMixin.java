@@ -3,9 +3,9 @@ package org.saturnclient.impl.mixins;
 import java.io.File;
 import java.io.InputStream;
 
-import org.saturnclient.common.minecraft.IMinecraftClient;
-import org.saturnclient.common.minecraft.bindings.SaturnIdentifier;
-import org.saturnclient.common.minecraft.render.IWindow;
+import org.saturnclient.common.IMinecraftClient;
+import org.saturnclient.common.bindings.SaturnIdentifier;
+import org.saturnclient.common.render.IWindow;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 

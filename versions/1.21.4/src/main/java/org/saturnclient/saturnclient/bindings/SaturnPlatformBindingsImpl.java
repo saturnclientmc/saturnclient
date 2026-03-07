@@ -2,7 +2,7 @@ package org.saturnclient.saturnclient.bindings;
 
 import java.util.UUID;
 
-import org.saturnclient.common.minecraft.bindings.SaturnPlatformBindings;
+import org.saturnclient.common.bindings.SaturnPlatformBindings;
 import org.saturnclient.saturnclient.SaturnClient;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;

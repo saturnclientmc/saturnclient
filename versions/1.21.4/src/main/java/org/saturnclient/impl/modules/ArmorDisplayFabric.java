@@ -1,6 +1,6 @@
 package org.saturnclient.impl.modules;
 
-import org.saturnclient.common.minecraft.bindings.SaturnItemStack;
+import org.saturnclient.common.bindings.SaturnItemStack;
 import org.saturnclient.modules.interfaces.ArmorDisplayInterface;
 
 import net.minecraft.client.MinecraftClient;

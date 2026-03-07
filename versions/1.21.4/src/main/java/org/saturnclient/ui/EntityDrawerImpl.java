@@ -3,7 +3,7 @@ package org.saturnclient.ui;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
-import org.saturnclient.common.minecraft.bindings.SaturnQuaternionf;
+import org.saturnclient.common.bindings.SaturnQuaternionf;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.ui.components.SkinPreview.EntityDrawer;
 
