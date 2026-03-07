@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="src/main/resources/assets/saturnclient/textures/logo/logo.png" alt="Saturn Client Logo" width="150px"/>
+  <img src="common/src/main/resources/assets/saturnclient/textures/logo/logo.png" alt="Saturn Client Logo" width="150px"/>
 </p>
 
 <h1 align="center">Saturn Client</h1>
@@ -20,7 +20,7 @@
 Saturn Client is a free, open-source Minecraft client designed to enhance the gameplay experience while staying lightweight and customizable.
 Our goal is to build a clean, optimized client that the community can contribute to and improve together.
 
-This project is currently in **beta**, so features, visuals, and performance are continuously evolving.
+Saturn is currently trying to support multiple versions of minecraft, so please report any issues you are experiencing.
 
 ---
 
@@ -49,13 +49,13 @@ If you're an artist or designer interested in helping with cosmetics or visual a
 
 ## 🙌 Credits
 
-- **Cloak Rendering:** `IIpho3nix`
+- **Cloak Rendering:** `IIpho3nix` & Saturn
 - **Who Am I:** `FokshaWasTaken`
 - **Panorama:**  
   https://www.planetminecraft.com/texture-pack/minecraft-cavesand-cliffs-part-ii-main-menu-panorama/
 
 If any code or assets belong to you and you would like them removed, please open an issue.  
-We aim to properly credit all contributors and respect original creators.
+We aim to properly credit all contributors and respect original creators of their respective art.
 
 ---
 
