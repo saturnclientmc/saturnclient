@@ -70,8 +70,7 @@ public class HatMenu extends SaturnScreen {
                 .animation(new Fade(500)));
 
         draw(new Sidebar(2, this.provider::close)
-                .centerOffset(width, height, -(scrollWidth / 2 + 20), 0)
-                .animation(new Fade(400)));
+                .centerOffset(width, height, -(scrollWidth / 2 + 20), 0));
 
         draw(new TabMenu(1,
                 new TabMenuComponent(Textures.CLOAK, () -> {

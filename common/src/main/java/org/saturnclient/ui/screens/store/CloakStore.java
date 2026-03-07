@@ -98,8 +98,7 @@ public class CloakStore extends SaturnScreen {
                 .centerOffset(width, height, 15, 0));
 
         draw(new Sidebar(5, this.provider::close)
-                .centerOffset(width, height, -((scrollWidth - 30) / 2 + 20), 0)
-                .animation(new Fade(400)));
+                .centerOffset(width, height, -((scrollWidth - 30) / 2 + 20), 0));
 
         draw(new TabMenu(0,
                 new TabMenuComponent(Textures.CLOAK, () -> {
