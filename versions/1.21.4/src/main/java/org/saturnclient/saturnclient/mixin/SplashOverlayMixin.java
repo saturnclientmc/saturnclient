@@ -4,8 +4,8 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 import org.saturnclient.config.Theme;
+import org.saturnclient.impl.ui.RenderScopeImpl;
 import org.saturnclient.ui.RenderScope;
-import org.saturnclient.ui.RenderScopeImpl;
 import org.saturnclient.ui.resources.Textures;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;

@@ -1,6 +1,5 @@
 package org.saturnclient.saturnclient.mixin;
 
-import org.saturnclient.saturnclient.SaturnClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.font.TextRenderer.TextLayerType;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -16,6 +15,7 @@ import net.minecraft.util.math.Vec3d;
 
 import org.saturnclient.client.player.Roles;
 import org.saturnclient.client.player.SaturnPlayer;
+import org.saturnclient.saturnclient.SaturnClient;
 
 import java.util.UUID;
 

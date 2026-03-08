@@ -1,4 +1,4 @@
-package org.saturnclient.cosmetics.obj;
+package org.saturnclient.impl.cosmetics.obj;
 
 import java.io.IOException;
 import java.io.InputStream;

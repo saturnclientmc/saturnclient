@@ -1,4 +1,4 @@
-package org.saturnclient.ui;
+package org.saturnclient.impl.ui;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -17,6 +17,7 @@ import org.saturnclient.common.ref.game.ItemStackRef;
 import org.saturnclient.common.ref.render.MatrixStackRef;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
+import org.saturnclient.ui.RenderScope;
 import org.saturnclient.ui.resources.Fonts;
 import org.saturnclient.ui.resources.SvgTexture;
 

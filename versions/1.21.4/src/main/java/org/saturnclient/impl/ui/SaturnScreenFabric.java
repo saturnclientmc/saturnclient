@@ -1,9 +1,11 @@
-package org.saturnclient.ui;
+package org.saturnclient.impl.ui;
 
 import java.time.Duration;
 import java.time.Instant;
 
 import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
+import org.saturnclient.ui.RenderScope;
+import org.saturnclient.ui.SaturnScreen;
 import org.saturnclient.ui.SaturnScreen.ScreenProvider;
 
 import net.minecraft.client.MinecraftClient;

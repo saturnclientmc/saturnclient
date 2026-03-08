@@ -1,4 +1,4 @@
-package org.saturnclient.cosmetics.utils;
+package org.saturnclient.impl.cosmetics.utils;
 
 import org.saturnclient.common.ref.asset.IdentifierRef;
 import org.saturnclient.saturnclient.SaturnClient;

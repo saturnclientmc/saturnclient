@@ -1,10 +1,12 @@
-package org.saturnclient.ui;
+package org.saturnclient.impl.ui;
 
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.saturnclient.common.ref.render.QuaternionfRef;
 import org.saturnclient.saturnclient.SaturnClient;
+import org.saturnclient.ui.ElementContext;
+import org.saturnclient.ui.RenderScope;
 import org.saturnclient.ui.components.SkinPreview.EntityDrawer;
 
 import net.minecraft.client.render.DiffuseLighting;
