@@ -9,7 +9,6 @@ import org.saturnclient.client.ServiceClient;
 import org.saturnclient.cosmetics.Emotes;
 import org.saturnclient.cosmetics.Hats;
 import org.saturnclient.cosmetics.cloak.Cloaks;
-import org.saturnclient.common.bindings.SaturnClientBindings;
 import org.saturnclient.common.provider.Providers;
 import org.saturnclient.impl.provider.FabricModuleProvider;
 import org.saturnclient.impl.provider.GLFWProviderImpl;
@@ -18,8 +17,6 @@ import org.saturnclient.impl.provider.SaturnProviderImpl;
 import org.saturnclient.modules.ModManager;
 import org.saturnclient.config.Config;
 import org.saturnclient.config.manager.ConfigManager;
-import org.saturnclient.saturnclient.bindings.SaturnEmoteBindingsImpl;
-import org.saturnclient.saturnclient.bindings.SaturnPlatformBindingsImpl;
 import org.saturnclient.saturnclient.event.KeyInputHandler;
 import org.saturnclient.ui.ElementRenderer;
 import org.saturnclient.ui.EntityDrawerImpl;
@@ -57,9 +54,6 @@ public class SaturnClient implements ModInitializer {
         client.execute(() -> {
             SaturnScreenFabric.preload(client);
         });
-
-        SaturnClientBindings.setPlatform(new SaturnPlatformBindingsImpl());
-        SaturnClientBindings.setEmotes(new SaturnEmoteBindingsImpl());
 
         ClientLifecycleEvents.CLIENT_STOPPING.register(_o -> ConfigManager.save());
 
