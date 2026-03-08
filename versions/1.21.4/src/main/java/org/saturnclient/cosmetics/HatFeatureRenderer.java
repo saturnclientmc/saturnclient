@@ -1,4 +1,4 @@
-package org.saturnclient.cosmetics.hat;
+package org.saturnclient.cosmetics;
 
 import org.saturnclient.client.player.SaturnPlayer;
 import org.saturnclient.cosmetics.obj.MtlLoader;

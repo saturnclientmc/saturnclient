@@ -1,4 +1,4 @@
-package org.saturnclient.cosmetics.cloak;
+package org.saturnclient.cosmetics;
 
 import java.util.Arrays;
 

@@ -6,7 +6,7 @@ import java.util.UUID;
 import org.saturnclient.common.provider.SaturnProvider;
 import org.saturnclient.common.ref.asset.IdentifierRef;
 import org.saturnclient.common.ref.game.MinecraftClientRef;
-import org.saturnclient.cosmetics.cloak.utils.IdentifierUtils;
+import org.saturnclient.cosmetics.utils.IdentifierUtils;
 import org.saturnclient.saturnclient.SaturnClient;
 
 import dev.kosmx.playerAnim.api.layered.AnimationStack;
