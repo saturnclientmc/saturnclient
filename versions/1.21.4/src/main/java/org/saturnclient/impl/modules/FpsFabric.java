@@ -1,6 +1,6 @@
 package org.saturnclient.impl.modules;
 
-import org.saturnclient.feature.interfaces.FpsInterface;
+import org.saturnclient.feature.features.featuresinterfaces.FpsInterface;
 
 import net.minecraft.client.MinecraftClient;
 

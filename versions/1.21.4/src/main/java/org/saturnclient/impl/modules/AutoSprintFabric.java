@@ -1,6 +1,6 @@
 package org.saturnclient.impl.modules;
 
-import org.saturnclient.feature.interfaces.AutoSprintInterface;
+import org.saturnclient.feature.features.featuresinterfaces.AutoSprintInterface;
 
 import net.minecraft.client.MinecraftClient;
 

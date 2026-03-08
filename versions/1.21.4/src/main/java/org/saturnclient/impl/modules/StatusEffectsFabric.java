@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import java.util.Arrays;
 
 import org.saturnclient.common.ref.asset.SpriteRef;
-import org.saturnclient.feature.interfaces.StatusEffectsInterface;
+import org.saturnclient.feature.features.featuresinterfaces.StatusEffectsInterface;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.StatusEffectSpriteManager;

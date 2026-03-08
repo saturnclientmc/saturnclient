@@ -1,6 +1,6 @@
 package org.saturnclient.impl.modules;
 
-import org.saturnclient.feature.interfaces.KeystrokesInterface;
+import org.saturnclient.feature.features.featuresinterfaces.KeystrokesInterface;
 
 import net.minecraft.client.MinecraftClient;
 

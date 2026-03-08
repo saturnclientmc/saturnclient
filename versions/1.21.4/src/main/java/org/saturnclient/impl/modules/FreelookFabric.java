@@ -1,6 +1,6 @@
 package org.saturnclient.impl.modules;
 
-import org.saturnclient.feature.interfaces.FreelookInterface;
+import org.saturnclient.feature.features.featuresinterfaces.FreelookInterface;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.Perspective;

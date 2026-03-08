@@ -1,6 +1,6 @@
 package org.saturnclient.impl.modules;
 
-import org.saturnclient.feature.interfaces.SpeedometerInterface;
+import org.saturnclient.feature.features.featuresinterfaces.SpeedometerInterface;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;

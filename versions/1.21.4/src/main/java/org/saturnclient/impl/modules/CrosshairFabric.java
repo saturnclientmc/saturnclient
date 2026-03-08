@@ -1,6 +1,6 @@
 package org.saturnclient.impl.modules;
 
-import org.saturnclient.feature.interfaces.CrosshairInterface;
+import org.saturnclient.feature.features.featuresinterfaces.CrosshairInterface;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;

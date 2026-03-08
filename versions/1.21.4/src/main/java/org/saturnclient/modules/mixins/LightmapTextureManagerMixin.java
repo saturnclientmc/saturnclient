@@ -4,20 +4,17 @@ package org.saturnclient.modules.mixins;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.client.render.LightmapTextureManager;
 
-import org.saturnclient.feature.features.Fullbright;
+import org.saturnclient.feature.features.FullbrightFeature;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(LightmapTextureManager.class)
 public class LightmapTextureManagerMixin {
-    
-    @ModifyExpressionValue(
-        method = "update",
-        at = @At(value = "INVOKE", target = "Ljava/lang/Math;max(FF)F", ordinal = 0)
-    )
+
+    @ModifyExpressionValue(method = "update", at = @At(value = "INVOKE", target = "Ljava/lang/Math;max(FF)F", ordinal = 0))
     private float modifyGamma(float original) {
-        if (Fullbright.shouldOverrideBrightness()) {
-            return Fullbright.getBrightnessValue();
+        if (FullbrightFeature.shouldOverrideBrightness()) {
+            return FullbrightFeature.getBrightnessValue();
         }
         return original;
     }

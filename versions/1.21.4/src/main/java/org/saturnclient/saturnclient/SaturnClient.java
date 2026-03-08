@@ -11,7 +11,6 @@ import org.saturnclient.cosmetics.Hats;
 import org.saturnclient.feature.FeatureManager;
 import org.saturnclient.cosmetics.Cloaks;
 import org.saturnclient.common.provider.Providers;
-import org.saturnclient.impl.provider.FabricModuleProvider;
 import org.saturnclient.impl.provider.GLFWProviderImpl;
 import org.saturnclient.impl.provider.RefConstructorImpl;
 import org.saturnclient.impl.provider.SaturnProviderImpl;
@@ -44,7 +43,7 @@ public class SaturnClient implements ModInitializer {
         SkinPreview.DRAWER = new EntityDrawerImpl();
 
         Config.init();
-        FeatureManager.init(new FabricModuleProvider());
+        FeatureManager.init();
 
         client.execute(() -> {
             SaturnScreenFabric.preload(client);

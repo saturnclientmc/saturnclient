@@ -1,22 +1,20 @@
 package org.saturnclient.modules.mixins;
 
-import org.saturnclient.feature.features.Zoom;
+import net.minecraft.client.render.GameRenderer;
+
+import org.saturnclient.feature.features.ZoomFeature;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import net.minecraft.client.render.GameRenderer;
-
 @Mixin(GameRenderer.class)
 public class GameRendererMixin {
-    
+
     @Inject(method = "getFov", at = @At("RETURN"), cancellable = true)
     private void onGetFov(CallbackInfoReturnable<Float> cir) {
-        if (Zoom.isZooming && Zoom.shouldZoom()) {
-            float originalFov = cir.getReturnValue();
-            float zoomedFov = originalFov / Zoom.getZoomLevel();
-            cir.setReturnValue(zoomedFov);
+        if (ZoomFeature.shouldZoom()) {
+            cir.setReturnValue(cir.getReturnValue() / ZoomFeature.getZoomLevel());
         }
     }
 }

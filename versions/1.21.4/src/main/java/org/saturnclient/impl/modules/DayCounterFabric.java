@@ -1,6 +1,6 @@
 package org.saturnclient.impl.modules;
 
-import org.saturnclient.feature.interfaces.DayCounterInterface;
+import org.saturnclient.feature.features.featuresinterfaces.DayCounterInterface;
 
 import net.minecraft.client.MinecraftClient;
 
