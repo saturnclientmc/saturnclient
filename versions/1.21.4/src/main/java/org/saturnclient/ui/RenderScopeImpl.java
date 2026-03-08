@@ -10,7 +10,7 @@ import org.joml.Matrix4f;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import org.saturnclient.common.MinecraftProvider;
+import org.saturnclient.common.provider.Providers;
 import org.saturnclient.common.ref.asset.IdentifierRef;
 import org.saturnclient.common.ref.asset.SpriteRef;
 import org.saturnclient.common.ref.game.ItemStackRef;
@@ -238,7 +238,8 @@ public class RenderScopeImpl implements RenderScope {
     public void drawTexture(IdentifierRef sprite, int x, int y, float u, float v, int width, int height,
             int regionWidth,
             int regionHeight, int textureWidth, int textureHeight, int color) {
-        this.drawTexturedQuad((Identifier) sprite.inner, x, x + width, y, y + height, (u + 0.0F) / (float) textureWidth,
+        this.drawTexturedQuad((Identifier) (Object) sprite, x, x + width, y, y + height,
+                (u + 0.0F) / (float) textureWidth,
                 (u + (float) regionWidth) / (float) textureWidth, (v + 0.0F) / (float) textureHeight,
                 (v + (float) regionHeight) / (float) textureHeight, color);
     }
@@ -269,9 +270,9 @@ public class RenderScopeImpl implements RenderScope {
             float v2, int color) {
 
         if (sprite.toString().endsWith(".svg")) {
-            sprite = (Identifier) SvgTexture.getSvg(MinecraftProvider.PROVIDER.getClient(),
-                    new IdentifierRef(sprite),
-                    (x2 - x1) * 2, (y2 - y1) * 2).inner;
+            sprite = (Identifier) (Object) SvgTexture.getSvg(Providers.saturn.getClient(),
+                    (IdentifierRef) (Object) sprite,
+                    (x2 - x1) * 2, (y2 - y1) * 2);
         }
 
         if (color == 0)
@@ -382,7 +383,7 @@ public class RenderScopeImpl implements RenderScope {
 
     @Override
     public void drawItem(ItemStackRef stack, int x, int y, int seed, int z) {
-        this.drawItem(SaturnClient.client.player, SaturnClient.client.world, (ItemStack) stack.inner, x, y, seed, z);
+        this.drawItem(SaturnClient.client.player, SaturnClient.client.world, (ItemStack) (Object) stack, x, y, seed, z);
     }
 
     @Override
@@ -397,7 +398,7 @@ public class RenderScopeImpl implements RenderScope {
 
     private void drawItem(@Nullable LivingEntity entity, @Nullable World world, ItemStackRef stack, int x, int y,
             int seed) {
-        this.drawItem(entity, world, (ItemStack) stack.inner, x, y, seed, 0);
+        this.drawItem(entity, world, (ItemStack) (Object) stack, x, y, seed, 0);
     }
 
     private void drawItem(@Nullable LivingEntity entity, @Nullable World world, ItemStack stack, int x, int y, int seed,
@@ -448,7 +449,7 @@ public class RenderScopeImpl implements RenderScope {
 
     @Override
     public void drawSpriteStretched(SpriteRef saturnSprite, int x, int y, int width, int height, int color) {
-        Sprite sprite = (Sprite) saturnSprite.inner;
+        Sprite sprite = (Sprite) saturnSprite;
         if (color == 0)
             return;
         if (width != 0 && height != 0) {

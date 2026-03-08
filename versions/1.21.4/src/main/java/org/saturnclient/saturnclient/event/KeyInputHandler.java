@@ -7,7 +7,7 @@ import net.minecraft.client.util.InputUtil;
 
 import org.saturnclient.config.Config;
 import org.saturnclient.client.ServiceClient;
-import org.saturnclient.common.MinecraftProvider;
+import org.saturnclient.common.provider.Providers;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.ui.screens.EmoteWheel;
 import org.saturnclient.ui.screens.ShiftMenu;
@@ -37,12 +37,12 @@ public class KeyInputHandler {
         // Register the event handler for the main menu key
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (mainMenuKeyBinding.wasPressed()) {
-                MinecraftProvider.PROVIDER.setScreen(new ShiftMenu());
+                Providers.saturn.getClient().setScreen(new ShiftMenu());
             }
 
             if (Config.openEmoteWheel.wasKeyPressed() && client.currentScreen == null
                     && !InputUtil.isKeyPressed(client.getWindow().getHandle(), GLFW.GLFW_KEY_F3)) {
-                MinecraftProvider.PROVIDER.setScreen(new EmoteWheel());
+                Providers.saturn.getClient().setScreen(new EmoteWheel());
             }
 
             if (SaturnClient.client.player != null && SaturnClient.client.player.isSneaking()) {

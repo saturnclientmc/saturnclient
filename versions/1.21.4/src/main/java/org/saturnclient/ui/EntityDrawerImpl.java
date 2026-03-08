@@ -3,7 +3,7 @@ package org.saturnclient.ui;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
-import org.saturnclient.common.ref.render.SaturnQuaternionf;
+import org.saturnclient.common.ref.render.QuaternionfRef;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.ui.components.SkinPreview.EntityDrawer;
 
@@ -53,7 +53,7 @@ public class EntityDrawerImpl implements EntityDrawer {
         renderScope.getMatrixStack().translate((double) x, (double) y, 50.0);
         renderScope.getMatrixStack().scale(size, size, -size);
         renderScope.getMatrixStack().translate(vector3f.x, vector3f.y, vector3f.z);
-        renderScope.getMatrixStack().multiply(new SaturnQuaternionf(quaternionf));
+        renderScope.getMatrixStack().multiply((QuaternionfRef) quaternionf);
         renderScope.draw();
         DiffuseLighting.method_34742();
         EntityRenderDispatcher entityRenderDispatcher = SaturnClient.client.getEntityRenderDispatcher();

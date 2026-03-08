@@ -9,8 +9,8 @@ import org.saturnclient.client.ServiceClient;
 import org.saturnclient.cosmetics.Emotes;
 import org.saturnclient.cosmetics.Hats;
 import org.saturnclient.cosmetics.cloak.Cloaks;
-import org.saturnclient.common.MinecraftProvider;
 import org.saturnclient.common.bindings.SaturnClientBindings;
+import org.saturnclient.common.provider.Providers;
 import org.saturnclient.impl.FabricModuleProvider;
 import org.saturnclient.impl.SaturnClientProvider;
 import org.saturnclient.modules.ModManager;
@@ -41,7 +41,7 @@ public class SaturnClient implements ModInitializer {
         LOGGER.info("Initializing " + MOD_ID);
         client = MinecraftClient.getInstance();
 
-        MinecraftProvider.PROVIDER = new SaturnClientProvider();
+        Providers.saturn = new SaturnClientProvider();
 
         ElementRenderer.INSTANCE = new ElementRendererImpl();
 

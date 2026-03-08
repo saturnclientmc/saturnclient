@@ -21,7 +21,7 @@ public class StatusEffectsFabric implements StatusEffectsInterface {
         return mc.player.getStatusEffects().stream()
                 .filter(StatusEffectInstance::shouldShowIcon)
                 .map(se -> new Effect(
-                        new SpriteRef(manager.getSprite(se.getEffectType())),
+                        (SpriteRef) manager.getSprite(se.getEffectType()),
                         se.getDuration() / 20,
                         se.isInfinite(),
                         se.shouldShowIcon(),
@@ -32,7 +32,7 @@ public class StatusEffectsFabric implements StatusEffectsInterface {
     @Override
     public List<Effect> getDummyEffects() {
         return Arrays.asList(
-                new Effect(new SpriteRef(null), 600, false, true, "Infinite"),
-                new Effect(new SpriteRef(null), 600, false, true, "Infinite"));
+                new Effect(null, 600, false, true, "Infinite"),
+                new Effect(null, 600, false, true, "Infinite"));
     }
 }
