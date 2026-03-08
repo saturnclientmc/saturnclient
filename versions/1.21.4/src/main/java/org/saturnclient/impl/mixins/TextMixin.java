@@ -10,15 +10,15 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 @Mixin(Text.class)
-public abstract class TextMixin implements TextRef {
+public interface TextMixin extends TextRef {
 
     @Override
-    public TextRef withFont(IdentifierRef font) {
+    public default TextRef withFont(IdentifierRef font) {
         return (TextRef) (((Text) this).copy().setStyle(Style.EMPTY.withFont((Identifier) (Object) font)));
     }
 
     @Override
-    public int getWidth() {
+    public default int getWidth() {
         return SaturnClient.client.textRenderer.getWidth((Text) this);
     }
 }

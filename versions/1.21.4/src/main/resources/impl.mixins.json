@@ -9,7 +9,8 @@
     "MatrixStackMixin",
     "MinecraftClientMixin",
     "QuaternionfMixin",
-    "WindowMixin"
+    "WindowMixin",
+    "TextMixin"
   ],
   "injectors": {
     "defaultRequire": 1
