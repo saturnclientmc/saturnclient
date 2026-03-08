@@ -1,4 +1,4 @@
-package org.saturnclient.modules.mixins;
+package org.saturnclient.impl.modules.mixins;
 
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
@@ -8,15 +8,22 @@ import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
 import org.saturnclient.common.module.EntityModule;
-import org.saturnclient.modules.HealthRenderState;
+import org.saturnclient.impl.modules.HealthRenderState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * Captures health and entity-type into the render state each frame so
- * that the nametag replacement logic never needs to touch the live entity.
+ * Captures each living entity's health and type into the render state
+ * during {@code updateRenderState}, so that nametag rendering can read
+ * them without touching the live entity again.
+ *
+ * Previously imported {@code NametagsInterface.EntityType}; now uses
+ * {@link EntityModule.EntityType} — the canonical enum shared across
+ * the whole module system.
+ *
+ * The injection target and strategy are unchanged from the original.
  */
 @Mixin(LivingEntityRenderer.class)
 public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extends LivingEntityRenderState> {
@@ -28,6 +35,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
 
         hrs.saturn$setHealth(entity.getHealth(), entity.getMaxHealth());
 
+        // Classify entity type for the nametag feature's filtering logic
         EntityModule.EntityType type;
         if (entity instanceof PlayerEntity)
             type = EntityModule.EntityType.PLAYER;

@@ -7,7 +7,7 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.entity.LivingEntity;
 
 import org.saturnclient.common.module.EntityModule;
-import org.saturnclient.modules.HealthRenderState;
+
 
 /**
  * Fabric implementation of {@link EntityModule}.

@@ -4,15 +4,12 @@
   "package": "org.saturnclient.modules.mixins",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "CameraMixin",
-    "EntityMixin",
-    "RenderMixin",
-    "LightmapTextureManagerMixin",
-    "BackgroundRendererMixin",
     "GameRendererMixin",
-    "NametagsMixin",
-    "LivingEntityRenderStateMixin",
+    "LightmapTextureManagerMixin",
     "LivingEntityRendererMixin",
+    "LivingEntityRenderStateMixin",
+    "NametagsMixin",
+    "RenderMixin",
     "TpsMixin"
   ],
   "injectors": {
