@@ -12,7 +12,8 @@ import org.saturnclient.cosmetics.cloak.Cloaks;
 import org.saturnclient.common.bindings.SaturnClientBindings;
 import org.saturnclient.common.provider.Providers;
 import org.saturnclient.impl.FabricModuleProvider;
-import org.saturnclient.impl.SaturnClientProvider;
+import org.saturnclient.impl.provider.RefConstructorImpl;
+import org.saturnclient.impl.provider.SaturnProviderImpl;
 import org.saturnclient.modules.ModManager;
 import org.saturnclient.config.Config;
 import org.saturnclient.config.manager.ConfigManager;
@@ -41,7 +42,8 @@ public class SaturnClient implements ModInitializer {
         LOGGER.info("Initializing " + MOD_ID);
         client = MinecraftClient.getInstance();
 
-        Providers.saturn = new SaturnClientProvider();
+        Providers.saturn = new SaturnProviderImpl();
+        Providers.refConstructor = new RefConstructorImpl();
 
         ElementRenderer.INSTANCE = new ElementRendererImpl();
 

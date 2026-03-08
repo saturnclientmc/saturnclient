@@ -1,10 +1,9 @@
 package org.saturnclient.impl.mixins;
 
+import org.joml.Quaternionf;
 import org.saturnclient.common.ref.render.QuaternionfRef;
 import org.spongepowered.asm.mixin.Mixin;
 
-import net.minecraft.item.ItemStack;
-
-@Mixin(ItemStack.class)
+@Mixin(Quaternionf.class)
 public abstract class QuaternionfMixin implements QuaternionfRef {
 }

@@ -1,4 +1,4 @@
-package org.saturnclient.impl;
+package org.saturnclient.impl.provider;
 
 import java.awt.image.BufferedImage;
 
@@ -7,11 +7,12 @@ import org.saturnclient.common.provider.SaturnProvider;
 import org.saturnclient.common.ref.asset.IdentifierRef;
 import org.saturnclient.common.ref.game.MinecraftClientRef;
 import org.saturnclient.cosmetics.cloak.utils.IdentifierUtils;
+import org.saturnclient.impl.Fonts;
 import org.saturnclient.saturnclient.SaturnClient;
 
 import net.minecraft.util.Identifier;
 
-public class SaturnClientProvider implements SaturnProvider {
+public class SaturnProviderImpl implements SaturnProvider {
     @Override
     public MinecraftClientRef getClient() {
         return (MinecraftClientRef) SaturnClient.client;
@@ -37,8 +38,6 @@ public class SaturnClientProvider implements SaturnProvider {
     public String getKeyName(int key) {
         return GLFW.glfwGetKeyName(key, GLFW.glfwGetKeyScancode(key));
     }
-
-    
 
     @Override
     public void stop() {

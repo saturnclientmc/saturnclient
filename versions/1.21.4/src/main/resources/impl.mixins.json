@@ -4,8 +4,11 @@
   "package": "org.saturnclient.impl.mixins",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "MinecraftClientMixin",
+    "IdentifierMixin",
+    "ItemStackMixin",
     "MatrixStackMixin",
+    "MinecraftClientMixin",
+    "QuaternionfMixin",
     "WindowMixin"
   ],
   "injectors": {
