@@ -4,9 +4,9 @@
   "version": "${version}",
   "name": "saturnclient",
   "description": "The ultimate open source client",
-  "authors": ["Saturn Mc", "ORUS"],
+  "authors": ["Saturn", "ORUS"],
   "contact": {
-    "website": "https://kleo-dev.netlify.app",
+    "website": "https://selimaj.dev",
     "sources": "https://github.com/saturnclientmc/saturnclient"
   },
   "license": "Apache-2.0",
