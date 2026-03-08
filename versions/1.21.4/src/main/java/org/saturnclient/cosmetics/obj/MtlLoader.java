@@ -27,7 +27,6 @@ public class MtlLoader {
     }
 
     public static Map<String, Mtl> of(Identifier mtlId) {
-        System.out.println(mtlId);
         if (loadedMtls.containsKey(mtlId))
             return loadedMtls.get(mtlId);
 

@@ -18,10 +18,8 @@ import org.saturnclient.modules.ModManager;
 import org.saturnclient.config.Config;
 import org.saturnclient.config.manager.ConfigManager;
 import org.saturnclient.saturnclient.event.KeyInputHandler;
-import org.saturnclient.ui.ElementRenderer;
 import org.saturnclient.ui.EntityDrawerImpl;
 import org.saturnclient.ui.SaturnScreenFabric;
-import org.saturnclient.ui.components.ElementRendererImpl;
 import org.saturnclient.ui.components.SkinPreview;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,9 +41,6 @@ public class SaturnClient implements ModInitializer {
         Providers.saturn = new SaturnProviderImpl();
         Providers.refConstructor = new RefConstructorImpl();
         Providers.GLFW = new GLFWProviderImpl();
-
-        ElementRenderer.INSTANCE = new ElementRendererImpl();
-
         SkinPreview.DRAWER = new EntityDrawerImpl();
 
         Config.init();
