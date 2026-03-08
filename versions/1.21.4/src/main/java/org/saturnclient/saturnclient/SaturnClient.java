@@ -12,6 +12,7 @@ import org.saturnclient.cosmetics.cloak.Cloaks;
 import org.saturnclient.common.bindings.SaturnClientBindings;
 import org.saturnclient.common.provider.Providers;
 import org.saturnclient.impl.provider.FabricModuleProvider;
+import org.saturnclient.impl.provider.GLFWProviderImpl;
 import org.saturnclient.impl.provider.RefConstructorImpl;
 import org.saturnclient.impl.provider.SaturnProviderImpl;
 import org.saturnclient.modules.ModManager;
@@ -44,6 +45,7 @@ public class SaturnClient implements ModInitializer {
 
         Providers.saturn = new SaturnProviderImpl();
         Providers.refConstructor = new RefConstructorImpl();
+        Providers.GLFW = new GLFWProviderImpl();
 
         ElementRenderer.INSTANCE = new ElementRendererImpl();
 

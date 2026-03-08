@@ -2,7 +2,6 @@ package org.saturnclient.impl.provider;
 
 import java.awt.image.BufferedImage;
 
-import org.lwjgl.glfw.GLFW;
 import org.saturnclient.common.provider.SaturnProvider;
 import org.saturnclient.common.ref.asset.IdentifierRef;
 import org.saturnclient.common.ref.game.MinecraftClientRef;
@@ -18,19 +17,8 @@ public class SaturnProviderImpl implements SaturnProvider {
     }
 
     @Override
-    public boolean isKeyPressed(int key) {
-        return GLFW.glfwGetKey(SaturnClient.client.getWindow().getHandle(), key) == GLFW.GLFW_PRESS
-                && SaturnClient.client.currentScreen == null;
-    }
-
-    @Override
     public void registerBufferedImageTexture(IdentifierRef i, BufferedImage bi) {
         IdentifierUtils.registerBufferedImageTextureFast((Identifier) (Object) i, bi);
-    }
-
-    @Override
-    public String getKeyName(int key) {
-        return GLFW.glfwGetKeyName(key, GLFW.glfwGetKeyScancode(key));
     }
 
     @Override
