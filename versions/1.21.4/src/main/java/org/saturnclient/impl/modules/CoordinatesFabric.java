@@ -1,6 +1,6 @@
 package org.saturnclient.impl.modules;
 
-import org.saturnclient.modules.interfaces.CoordinatesInterface;
+import org.saturnclient.feature.interfaces.CoordinatesInterface;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.math.Vec3d;

@@ -8,13 +8,13 @@ import net.minecraft.client.MinecraftClient;
 import org.saturnclient.client.ServiceClient;
 import org.saturnclient.cosmetics.Emotes;
 import org.saturnclient.cosmetics.Hats;
+import org.saturnclient.feature.FeatureManager;
 import org.saturnclient.cosmetics.Cloaks;
 import org.saturnclient.common.provider.Providers;
 import org.saturnclient.impl.provider.FabricModuleProvider;
 import org.saturnclient.impl.provider.GLFWProviderImpl;
 import org.saturnclient.impl.provider.RefConstructorImpl;
 import org.saturnclient.impl.provider.SaturnProviderImpl;
-import org.saturnclient.modules.ModManager;
 import org.saturnclient.config.Config;
 import org.saturnclient.config.manager.ConfigManager;
 import org.saturnclient.saturnclient.event.KeyInputHandler;
@@ -44,7 +44,7 @@ public class SaturnClient implements ModInitializer {
         SkinPreview.DRAWER = new EntityDrawerImpl();
 
         Config.init();
-        ModManager.init(new FabricModuleProvider());
+        FeatureManager.init(new FabricModuleProvider());
 
         client.execute(() -> {
             SaturnScreenFabric.preload(client);
@@ -53,7 +53,7 @@ public class SaturnClient implements ModInitializer {
         ClientLifecycleEvents.CLIENT_STOPPING.register(_o -> ConfigManager.save());
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            for (org.saturnclient.modules.Module m : ModManager.ENABLED_MODS) {
+            for (org.saturnclient.feature.Feature m : FeatureManager.ENABLED_MODS) {
                 m.tick();
             }
         });

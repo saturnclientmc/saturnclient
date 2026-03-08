@@ -1,7 +1,7 @@
 package org.saturnclient.impl.modules;
 
 import org.saturnclient.common.ref.game.ItemStackRef;
-import org.saturnclient.modules.interfaces.ArmorDisplayInterface;
+import org.saturnclient.feature.interfaces.ArmorDisplayInterface;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.EquipmentSlot;

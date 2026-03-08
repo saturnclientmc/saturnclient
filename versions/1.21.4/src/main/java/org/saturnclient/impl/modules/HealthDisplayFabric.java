@@ -1,6 +1,6 @@
 package org.saturnclient.impl.modules;
 
-import org.saturnclient.modules.interfaces.HealthDisplayInterface;
+import org.saturnclient.feature.interfaces.HealthDisplayInterface;
 
 import net.minecraft.client.MinecraftClient;
 

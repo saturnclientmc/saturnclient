@@ -1,6 +1,6 @@
 package org.saturnclient.modules;
 
-import org.saturnclient.modules.interfaces.NametagsInterface.EntityType;
+import org.saturnclient.feature.interfaces.NametagsInterface.EntityType;
 
 public interface HealthRenderState {
     float saturn$getHealth();

@@ -6,8 +6,8 @@ import net.minecraft.client.render.Camera;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.BlockView;
 
+import org.saturnclient.feature.features.Freelook;
 import org.saturnclient.modules.CameraOverriddenEntity;
-import org.saturnclient.modules.mods.Freelook;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;

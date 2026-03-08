@@ -2,7 +2,7 @@ package org.saturnclient.modules.mixins;
 
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 
-import org.saturnclient.modules.interfaces.NametagsInterface.EntityType;
+import org.saturnclient.feature.interfaces.NametagsInterface.EntityType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 

@@ -3,8 +3,8 @@ package org.saturnclient.modules.mixins;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 
+import org.saturnclient.feature.interfaces.NametagsInterface.EntityType;
 import org.saturnclient.modules.HealthRenderState;
-import org.saturnclient.modules.interfaces.NametagsInterface.EntityType;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.HostileEntity;

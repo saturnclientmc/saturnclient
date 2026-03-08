@@ -2,7 +2,8 @@ package org.saturnclient.modules.mixins;
 
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.packet.s2c.play.WorldTimeUpdateS2CPacket;
-import org.saturnclient.modules.mods.Tps;
+
+import org.saturnclient.feature.features.Tps;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

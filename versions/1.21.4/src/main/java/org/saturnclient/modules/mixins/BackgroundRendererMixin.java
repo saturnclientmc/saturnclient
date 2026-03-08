@@ -1,9 +1,9 @@
 package org.saturnclient.modules.mixins;
 
 import net.minecraft.client.render.BackgroundRenderer;
-
-import org.saturnclient.modules.mods.NoFog;
 import net.minecraft.entity.Entity;
+
+import org.saturnclient.feature.features.NoFog;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;

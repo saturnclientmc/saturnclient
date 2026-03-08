@@ -1,8 +1,8 @@
 package org.saturnclient.modules.mixins;
 
-import org.saturnclient.modules.HudMod;
-import org.saturnclient.modules.ModDimensions;
-import org.saturnclient.modules.ModManager;
+import org.saturnclient.feature.HudFeature;
+import org.saturnclient.feature.FeatureLayout;
+import org.saturnclient.feature.FeatureManager;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
 import org.saturnclient.ui.RenderScope;
@@ -30,9 +30,9 @@ public class RenderMixin {
             RenderScope renderScope = new RenderScopeImpl(context.getMatrices(),
                     ((DrawContextAccessor) context).getVertexConsumers());
 
-            for (org.saturnclient.modules.Module m : ModManager.ENABLED_MODS) {
-                if (m instanceof HudMod && m.isEnabled()) {
-                    ModDimensions dim = ((HudMod) m).getDimensions();
+            for (org.saturnclient.feature.Feature m : FeatureManager.ENABLED_MODS) {
+                if (m instanceof HudFeature && m.isEnabled()) {
+                    FeatureLayout dim = ((HudFeature) m).getDimensions();
 
                     renderScope.getMatrixStack().push();
 
@@ -45,7 +45,7 @@ public class RenderMixin {
                                 dim.bgColor.value);
                     }
 
-                    ((HudMod) m).renderHud(renderScope);
+                    ((HudFeature) m).renderHud(renderScope);
 
                     renderScope.getMatrixStack().pop();
                 } else {
