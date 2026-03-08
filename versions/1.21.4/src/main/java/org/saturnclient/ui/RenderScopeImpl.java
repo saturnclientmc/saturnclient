@@ -36,6 +36,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ModelTransformationMode;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.crash.CrashException;
 import net.minecraft.util.crash.CrashReport;
@@ -130,7 +131,7 @@ public class RenderScopeImpl implements RenderScope {
             matrices.translate(x, y + (i * Fonts.getHeight()), 0);
             matrices.scale(scale, scale, 1.0f);
             TextRenderer textRenderer = SaturnClient.client.textRenderer;
-            textRenderer.draw(org.saturnclient.impl.Fonts.setFont(line, font), 0,
+            textRenderer.draw((Text) Fonts.setFont(line, font), 0,
                     font == 0 ? 1 : 7, color, false,
                     this.matrices.peek().getPositionMatrix(),
                     this.vertexConsumers, TextLayerType.NORMAL, 0, 15728880);

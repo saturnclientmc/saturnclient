@@ -59,12 +59,13 @@ public class EntityDrawerImpl implements EntityDrawer {
         EntityRenderDispatcher entityRenderDispatcher = SaturnClient.client.getEntityRenderDispatcher();
 
         entityRenderDispatcher.setRenderShadows(false);
-        // TODO add the method draw with vertex consumers
-        // renderScope.draw((vertexConsumers) -> {
-        // entityRenderDispatcher.render(entity, 0.0, 0.0, 0.0, 1.0F,
-        // renderScope.getMatrixStack(), vertexConsumers,
-        // 15728880);
-        // });
+        if (renderScope instanceof RenderScopeImpl r) {
+            r.draw((vertexConsumers) -> {
+                entityRenderDispatcher.render(entity, 0.0, 0.0, 0.0, 1.0F,
+                        r.matrices, vertexConsumers,
+                        15728880);
+            });
+        }
         renderScope.draw();
         entityRenderDispatcher.setRenderShadows(true);
         renderScope.getMatrixStack().pop();

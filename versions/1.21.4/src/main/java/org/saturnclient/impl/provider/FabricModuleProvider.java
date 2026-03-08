@@ -1,4 +1,4 @@
-package org.saturnclient.impl;
+package org.saturnclient.impl.provider;
 
 import org.saturnclient.modules.Module;
 import org.saturnclient.modules.ModManager.ModuleProvider;
