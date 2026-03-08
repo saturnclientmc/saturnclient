@@ -4,6 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 
 import org.saturnclient.common.module.PlayerModule;
 import org.saturnclient.common.ref.asset.SpriteRef;
@@ -191,27 +192,27 @@ public class PlayerModuleFabric implements PlayerModule {
 
     @Override
     public ItemStackRef getDummyMainHand() {
-        return wrap(hasPlayer() ? player().getInventory().armor.get(3) : ItemStack.EMPTY);
+        return wrap(new ItemStack(Items.DIAMOND_SWORD));
     }
 
     @Override
     public ItemStackRef getDummyHelmet() {
-        return wrap(hasPlayer() ? player().getInventory().armor.get(3) : ItemStack.EMPTY);
+        return wrap(new ItemStack(Items.DIAMOND_HELMET));
     }
 
     @Override
     public ItemStackRef getDummyChestplate() {
-        return wrap(hasPlayer() ? player().getInventory().armor.get(2) : ItemStack.EMPTY);
+        return wrap(new ItemStack(Items.DIAMOND_CHESTPLATE));
     }
 
     @Override
     public ItemStackRef getDummyLeggings() {
-        return wrap(hasPlayer() ? player().getInventory().armor.get(1) : ItemStack.EMPTY);
+        return wrap(new ItemStack(Items.DIAMOND_LEGGINGS));
     }
 
     @Override
     public ItemStackRef getDummyBoots() {
-        return wrap(hasPlayer() ? player().getInventory().armor.get(0) : ItemStack.EMPTY);
+        return wrap(new ItemStack(Items.DIAMOND_BOOTS));
     }
 
     // ---------------------------------------------------------------
