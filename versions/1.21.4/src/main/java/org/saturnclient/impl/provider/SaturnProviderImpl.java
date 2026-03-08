@@ -12,7 +12,6 @@ import org.saturnclient.saturnclient.SaturnClient;
 import dev.kosmx.playerAnim.api.layered.AnimationStack;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.util.Identifier;
 
@@ -52,38 +51,6 @@ public class SaturnProviderImpl implements SaturnProvider {
     }
 
     @Override
-    public String getAccessToken() {
-        var session = SaturnClient.client.getSession();
-        if (session == null) {
-            return null;
-        }
-        return session.getAccessToken();
-    }
-
-    @Override
-    public UUID getUuid() {
-        var session = SaturnClient.client.getSession();
-        if (session == null) {
-            return null;
-        }
-        return session.getUuidOrNull();
-    }
-
-    @Override
-    public String getUsername() {
-        var session = SaturnClient.client.getSession();
-        if (session == null) {
-            return null;
-        }
-        return session.getUsername();
-    }
-
-    @Override
-    public void onClientStopping(Runnable handler) {
-        ClientLifecycleEvents.CLIENT_STOPPING.register(_o -> handler.run());
-    }
-
-    @Override
     public void logInfo(String message) {
         SaturnClient.LOGGER.info(message);
     }
@@ -96,11 +63,6 @@ public class SaturnProviderImpl implements SaturnProvider {
     @Override
     public void logError(String message, Throwable throwable) {
         SaturnClient.LOGGER.error(message, throwable);
-    }
-
-    @Override
-    public void stop() {
-        SaturnClient.client.scheduleStop();
     }
 
     @Override
