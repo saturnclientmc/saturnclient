@@ -67,6 +67,6 @@ public class SaturnProviderImpl implements SaturnProvider {
 
     @Override
     public void registerBufferedImageTexture(IdentifierRef i, BufferedImage bi) {
-        IdentifierUtils.registerBufferedImageTextureFast((Identifier) (Object) i, bi);
+        IdentifierUtils.registerBufferedImageTextureFast(i, bi);
     }
 }

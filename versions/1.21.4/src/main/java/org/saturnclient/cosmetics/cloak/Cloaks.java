@@ -1,9 +1,8 @@
 package org.saturnclient.cosmetics.cloak;
 
-import net.minecraft.util.Identifier;
-
 import org.saturnclient.client.ServiceClient;
 import org.saturnclient.client.player.SaturnPlayer;
+import org.saturnclient.common.ref.asset.IdentifierRef;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -15,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.saturnclient.cosmetics.cloak.utils.AnimatedCloakData;
+import org.saturnclient.cosmetics.utils.AnimatedCloakData;
 import org.saturnclient.cosmetics.cloak.utils.IdentifierUtils;
 import org.saturnclient.saturnclient.SaturnClient;
 
@@ -32,7 +31,7 @@ public class Cloaks {
 
     private static final String CLOAKS_RESOURCE_PATH = "assets/saturnclient/textures/cloaks/";
     public static final List<String> availableCloaks = new ArrayList<>();
-    public static Identifier cloakCacheIdentifier = null;
+    public static IdentifierRef cloakCacheIdentifier = null;
     public static final Map<UUID, List<AnimatedCloakData>> animatedCloaks = new ConcurrentHashMap<>();
     private static final Map<UUID, Long> lastFrameTime = new ConcurrentHashMap<>();
 
@@ -129,8 +128,8 @@ public class Cloaks {
                         .replace(' ', '_')
                         .replaceAll("[^a-z0-9/._-]", "");
 
-                cloakCacheIdentifier = Identifier.of(SaturnClient.MOD_ID, "cloaks_" + safeFileName);
-                IdentifierUtils.registerBufferedImageTexture(cloakCacheIdentifier, image);
+                cloakCacheIdentifier = IdentifierRef.of(SaturnClient.MOD_ID, "cloaks_" + safeFileName);
+                IdentifierUtils.registerBufferedImageTextureFast(cloakCacheIdentifier, image);
             }
         } catch (IOException e) {
             SaturnClient.LOGGER.error("Failed to load static cloak from resources: " + fileName, e);
@@ -177,7 +176,7 @@ public class Cloaks {
                     int delay = Math.max(gif.getDelay(i) * 10, 50); // Minimum 50ms delay
 
                     String frameId = baseFrameId + "_frame_" + i;
-                    Identifier frameIdentifier = Identifier.of(SaturnClient.MOD_ID, "cloaks_" + frameId);
+                    IdentifierRef frameIdentifier = IdentifierRef.of(SaturnClient.MOD_ID, "cloaks_" + frameId);
 
                     try {
                         IdentifierUtils.registerBufferedImageTextureFast(frameIdentifier, frame);
@@ -217,7 +216,7 @@ public class Cloaks {
         }, CLOAK_LOADER_EXECUTOR);
     }
 
-    public static Identifier getCurrentCloakTexture(UUID uuid) {
+    public static IdentifierRef getCurrentCloakTexture(UUID uuid) {
         SaturnPlayer player = SaturnPlayer.get(uuid);
 
         if (player == null || player.cloak.isEmpty()) {
@@ -251,15 +250,15 @@ public class Cloaks {
                 currentFrame = 0;
             }
 
-            Identifier identifier = frames.get(currentFrame).getTextureId();
+            IdentifierRef identifier = frames.get(currentFrame).getTextureId();
 
             if (identifier == null) {
-                return Identifier.of(SaturnClient.MOD_ID, "textures/cloaks/" + cloakName + ".png");
+                return IdentifierRef.of(SaturnClient.MOD_ID, "textures/cloaks/" + cloakName + ".png");
             }
 
             return identifier;
         } else {
-            return Identifier.of(SaturnClient.MOD_ID, "textures/cloaks/" + cloakName + ".png");
+            return IdentifierRef.of(SaturnClient.MOD_ID, "textures/cloaks/" + cloakName + ".png");
         }
     }
 }
