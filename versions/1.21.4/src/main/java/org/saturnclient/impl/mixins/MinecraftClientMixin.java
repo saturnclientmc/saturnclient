@@ -122,4 +122,9 @@ public abstract class MinecraftClientMixin implements MinecraftClientRef {
     public void onClientStopping(Runnable handler) {
         ClientLifecycleEvents.CLIENT_STOPPING.register(_o -> handler.run());
     }
+
+    @Override
+    public void executeOnThread(Runnable runnable) {
+        ((java.util.concurrent.Executor) (Object) this).execute(runnable);
+    }
 }
