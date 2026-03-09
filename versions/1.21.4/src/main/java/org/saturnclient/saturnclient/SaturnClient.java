@@ -8,21 +8,18 @@ import net.minecraft.client.MinecraftClient;
 import org.saturnclient.client.ServiceClient;
 import org.saturnclient.cosmetics.Emotes;
 import org.saturnclient.cosmetics.Hats;
-import org.saturnclient.cosmetics.cloak.Cloaks;
-import org.saturnclient.common.minecraft.bindings.SaturnClientBindings;
-import org.saturnclient.impl.FabricModuleProvider;
-import org.saturnclient.impl.SaturnClientProvider;
-import org.saturnclient.modules.ModManager;
-import org.saturnclient.common.minecraft.MinecraftProvider;
+import org.saturnclient.feature.FeatureManager;
+import org.saturnclient.cosmetics.Cloaks;
+import org.saturnclient.common.provider.Providers;
+import org.saturnclient.impl.provider.GLFWProviderImpl;
+import org.saturnclient.impl.provider.ModuleProviderFabric;
+import org.saturnclient.impl.provider.RefConstructorImpl;
+import org.saturnclient.impl.provider.SaturnProviderImpl;
+import org.saturnclient.impl.ui.EntityDrawerImpl;
+import org.saturnclient.impl.ui.SaturnScreenFabric;
+import org.saturnclient.saturnclient.event.KeyInputHandler;
 import org.saturnclient.config.Config;
 import org.saturnclient.config.manager.ConfigManager;
-import org.saturnclient.saturnclient.bindings.SaturnEmoteBindingsImpl;
-import org.saturnclient.saturnclient.bindings.SaturnPlatformBindingsImpl;
-import org.saturnclient.saturnclient.event.KeyInputHandler;
-import org.saturnclient.ui.ElementRenderer;
-import org.saturnclient.ui.EntityDrawerImpl;
-import org.saturnclient.ui.SaturnScreenFabric;
-import org.saturnclient.ui.components.ElementRendererImpl;
 import org.saturnclient.ui.components.SkinPreview;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,26 +38,23 @@ public class SaturnClient implements ModInitializer {
         LOGGER.info("Initializing " + MOD_ID);
         client = MinecraftClient.getInstance();
 
-        MinecraftProvider.PROVIDER = new SaturnClientProvider();
-
-        ElementRenderer.INSTANCE = new ElementRendererImpl();
-
+        Providers.saturn = new SaturnProviderImpl();
+        Providers.refConstructor = new RefConstructorImpl();
+        Providers.GLFW = new GLFWProviderImpl();
+        Providers.module = new ModuleProviderFabric(client);
         SkinPreview.DRAWER = new EntityDrawerImpl();
 
         Config.init();
-        ModManager.init(new FabricModuleProvider());
+        FeatureManager.init();
 
         client.execute(() -> {
             SaturnScreenFabric.preload(client);
         });
 
-        SaturnClientBindings.setPlatform(new SaturnPlatformBindingsImpl());
-        SaturnClientBindings.setEmotes(new SaturnEmoteBindingsImpl());
-
         ClientLifecycleEvents.CLIENT_STOPPING.register(_o -> ConfigManager.save());
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            for (org.saturnclient.modules.Module m : ModManager.ENABLED_MODS) {
+            for (org.saturnclient.feature.Feature m : FeatureManager.ENABLED_MODS) {
                 m.tick();
             }
         });

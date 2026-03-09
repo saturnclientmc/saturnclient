@@ -1,8 +1,8 @@
 package org.saturnclient.impl.mixins;
 
 import org.joml.Quaternionf;
-import org.saturnclient.common.minecraft.bindings.SaturnQuaternionf;
-import org.saturnclient.common.minecraft.render.IMatrixStack;
+import org.saturnclient.common.ref.render.MatrixStackRef;
+import org.saturnclient.common.ref.render.QuaternionfRef;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.gen.Invoker;
@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 import net.minecraft.client.util.math.MatrixStack;
 
 @Mixin(MatrixStack.class)
-public abstract class MatrixStackMixin implements IMatrixStack {
+public abstract class MatrixStackMixin implements MatrixStackRef {
 
     @Shadow
     public abstract void translate(double x, double y, double z);
@@ -43,13 +43,13 @@ public abstract class MatrixStackMixin implements IMatrixStack {
     public abstract void loadIdentity();
 
     @Override
-    public void multiply(SaturnQuaternionf quaternion) {
-        this.multiply((Quaternionf) quaternion.inner);
+    public void multiply(QuaternionfRef quaternion) {
+        this.multiply((Quaternionf) quaternion);
     }
 
     @Override
-    public void multiply(SaturnQuaternionf quaternion, float originX, float originY, float originZ) {
-        this.multiply((Quaternionf) quaternion.inner, originX, originY, originZ);
+    public void multiply(QuaternionfRef quaternion, float originX, float originY, float originZ) {
+        this.multiply((Quaternionf) quaternion, originX, originY, originZ);
     }
 
     @Override

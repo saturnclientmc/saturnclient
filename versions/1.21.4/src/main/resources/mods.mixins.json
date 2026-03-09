@@ -1,18 +1,15 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "org.saturnclient.modules.mixins",
+  "package": "org.saturnclient.impl.modules.mixins",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "CameraMixin",
-    "EntityMixin",
-    "RenderMixin",
-    "LightmapTextureManagerMixin",
-    "BackgroundRendererMixin",
     "GameRendererMixin",
-    "NametagsMixin",
-    "LivingEntityRenderStateMixin",
+    "LightmapTextureManagerMixin",
     "LivingEntityRendererMixin",
+    "LivingEntityRenderStateMixin",
+    "NametagsMixin",
+    "RenderMixin",
     "TpsMixin"
   ],
   "injectors": {
