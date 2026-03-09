@@ -297,42 +297,41 @@ public class CloakFeatureRenderer
             matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(29.0f));
         }
 
-        double d = MathHelper.lerp((double) tickDelta, entity.prevCapeX, entity.capeX)
-                - MathHelper.lerp((double) tickDelta, entity.prevX, entity.getX());
-        double e = MathHelper.lerp((double) tickDelta, entity.prevCapeY, entity.capeY)
-                - MathHelper.lerp((double) tickDelta, entity.prevY, entity.getY());
-        double m = MathHelper.lerp((double) tickDelta, entity.prevCapeZ, entity.capeZ)
-                - MathHelper.lerp((double) tickDelta, entity.prevZ, entity.getZ());
-
-        System.out.println("D: " + d + " E: " + e + " M: " + m);
-
         long now = System.currentTimeMillis();
-        // if (now - lastUpdate >= 20) {
-        // float velX = Math.min(1.0f, entity.field_53537 / 108.0f);
-        // float rawVelY = playerEntityRenderState.field_53536;
-        // float velY = (rawVelY > 4.0f ? rawVelY : 0.0f) / 16;
+        if (now - lastUpdate >= 20) {
+            float velX = (float) (MathHelper.lerp((double) tickDelta, entity.prevCapeX,
+                    entity.capeX)
+                    - MathHelper.lerp((double) tickDelta, entity.prevX, entity.getX()));
+            float velZ = (float) (MathHelper.lerp((double) tickDelta, entity.prevCapeZ,
+                    entity.capeZ)
+                    - MathHelper.lerp((double) tickDelta, entity.prevZ, entity.getZ()));
 
-        // float value = playerEntityRenderState.isSwimming ? 0.0f : velX + velY;
+            float rawVelY = (float) (MathHelper.lerp((double) tickDelta, entity.prevCapeY, entity.capeY)
+                    - MathHelper.lerp((double) tickDelta, entity.prevY, entity.getY()));
+            float velY = (rawVelY > 0.5f ? rawVelY : 0.0f);
 
-        // if (Config.cloakPhysics.value) {
-        // updateSegmentValues(value);
-        // } else {
-        // float last = segmentValues[0];
-        // float maxStep = 0.02f;
-        // float next = value;
+            float velHorizontal = (velZ > velX ? velZ : velX);
 
-        // if (next > last)
-        // next = Math.min(next, last + maxStep);
-        // else if (next < last)
-        // next = Math.max(next, last - maxStep);
+            float value = Math.max(0.0f, entity.isSwimming() ? 0.0f : velHorizontal + velY);
 
-        // Arrays.fill(segmentValues, next);
-        // }
-        // lastUpdate = now;
-        // }
+            if (Config.cloakPhysics.value) {
+                updateSegmentValues(value);
+            } else {
+                float last = segmentValues[0];
+                float maxStep = 0.02f;
+                float next = value;
 
-        // renderCape(matrices, vertexConsumer, playerEntityRenderState, light,
-        // OverlayTexture.DEFAULT_UV);
+                if (next > last)
+                    next = Math.min(next, last + maxStep);
+                else if (next < last)
+                    next = Math.max(next, last - maxStep);
+
+                Arrays.fill(segmentValues, next);
+            }
+            lastUpdate = now;
+        }
+
+        renderCape(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV);
 
         matrices.pop();
     }
