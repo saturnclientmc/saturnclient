@@ -2,7 +2,6 @@ package org.saturnclient.impl.cosmetics;
 
 import java.util.Arrays;
 
-import org.apache.http.conn.routing.RouteInfo.LayerType;
 import org.saturnclient.client.player.SaturnPlayer;
 import org.saturnclient.config.Config;
 import org.saturnclient.cosmetics.Cloaks;
@@ -16,10 +15,8 @@ import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
@@ -305,14 +302,13 @@ public class CloakFeatureRenderer
             float velZ = (float) (MathHelper.lerp((double) tickDelta, entity.prevCapeZ,
                     entity.capeZ)
                     - MathHelper.lerp((double) tickDelta, entity.prevZ, entity.getZ()));
-
             float rawVelY = (float) (MathHelper.lerp((double) tickDelta, entity.prevCapeY, entity.capeY)
                     - MathHelper.lerp((double) tickDelta, entity.prevY, entity.getY()));
-            float velY = (rawVelY > 0.5f ? rawVelY : 0.0f);
 
-            float velHorizontal = (velZ > velX ? velZ : velX);
+            float velHorizontal = Math.min(0.6f, velZ > velX ? velZ : velX);
+            float velY = (rawVelY > 0.25f ? rawVelY : 0.0f);
 
-            float value = Math.max(0.0f, entity.isSwimming() ? 0.0f : velHorizontal + velY);
+            float value = entity.isSwimming() ? 0.0f : Math.max(0.0f, Math.min(2.0f, velHorizontal + velY));
 
             if (Config.cloakPhysics.value) {
                 updateSegmentValues(value);
