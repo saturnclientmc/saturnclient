@@ -63,7 +63,7 @@ public class EntityDrawerImpl implements EntityDrawer {
         entityRenderDispatcher.setRenderShadows(false);
         if (renderScope instanceof RenderScopeImpl r) {
             r.draw((vertexConsumers) -> {
-                entityRenderDispatcher.render(entity, 0.0, 0.0, 0.0, 1.0F,
+                entityRenderDispatcher.render(entity, 0.0, 0.0, 0.0, 1.0F, 1.0f,
                         r.matrices, vertexConsumers,
                         15728880);
             });

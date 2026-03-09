@@ -2,28 +2,26 @@ package org.saturnclient.impl.cosmetics;
 
 import java.util.Arrays;
 
+import org.apache.http.conn.routing.RouteInfo.LayerType;
 import org.saturnclient.client.player.SaturnPlayer;
 import org.saturnclient.config.Config;
 import org.saturnclient.cosmetics.Cloaks;
 
+import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.equipment.EquipmentModel;
-import net.minecraft.client.render.entity.equipment.EquipmentModelLoader;
-import net.minecraft.client.render.entity.equipment.EquipmentModel.LayerType;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
-import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.EquippableComponent;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.equipment.EquipmentAsset;
+import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
 
@@ -34,8 +32,8 @@ import net.minecraft.util.math.Vec3d;
  * - **Curving**: Curves when player velocity increases.
  * - **Wavey**: Makes the cloak feel like wind, when jump sprinting.
  */
-public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState, PlayerEntityModel> {
-    private final EquipmentModelLoader equipmentModelLoader;
+public class CloakFeatureRenderer
+        extends FeatureRenderer<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> {
     private static final int PARTS = 24;
     private final float[] segmentValues = new float[PARTS];
 
@@ -76,23 +74,10 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
     private static final PxRect TOP_RECT = new PxRect(8, 0, 80, 8);
     private static final PxRect BOTTOM_RECT = new PxRect(88, 0, 80, 8);
 
-    public CloakFeatureRenderer(FeatureRendererContext<PlayerEntityRenderState, PlayerEntityModel> context,
-            EquipmentModelLoader equipmentModelLoader) {
-        super(context);
-        this.equipmentModelLoader = equipmentModelLoader;
+    public CloakFeatureRenderer(
+            FeatureRendererContext<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> featureRendererContext) {
+        super(featureRendererContext);
         Arrays.fill(segmentValues, 0.0f);
-    }
-
-    private boolean hasCustomModelForLayer(ItemStack stack, EquipmentModel.LayerType layerType) {
-        EquippableComponent equippableComponent = (EquippableComponent) stack
-                .get(DataComponentTypes.EQUIPPABLE);
-        if (equippableComponent != null && !equippableComponent.assetId().isEmpty()) {
-            EquipmentModel equipmentModel = this.equipmentModelLoader
-                    .get((RegistryKey<EquipmentAsset>) equippableComponent.assetId().get());
-            return !equipmentModel.getLayers(layerType).isEmpty();
-        } else {
-            return false;
-        }
     }
 
     private void renderCapeQuad(VertexConsumer vertexConsumer, MatrixStack matrixStack,
@@ -140,8 +125,7 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         }
     }
 
-    private void renderCape(MatrixStack matrixStack, VertexConsumer vertexConsumer, PlayerEntityRenderState playerState,
-            int light, int overlay) {
+    private void renderCape(MatrixStack matrixStack, VertexConsumer vertexConsumer, int light, int overlay) {
         float capeWidth = 10.0f / 16.0f;
         float capeHeight = 16.0f / 16.0f;
         float capeDepth = 1.0f / 16.0f;
@@ -270,22 +254,24 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
 
     private long lastUpdate = 0;
 
-    public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light,
-            PlayerEntityRenderState playerEntityRenderState, float f, float g) {
-        if (playerEntityRenderState.invisible || !playerEntityRenderState.capeVisible
-                || playerEntityRenderState.skinTextures.capeTexture() != null) {
+    @Override
+    public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light,
+            AbstractClientPlayerEntity entity, float limbAngle, float limbDistance, float tickDelta,
+            float animationProgress, float headYaw, float headPitch) {
+        if (entity.isInvisible() || entity.getSkinTextures().capeTexture() != null) {
             return;
         }
 
-        SaturnPlayer player = SaturnPlayer.get(playerEntityRenderState.name);
+        SaturnPlayer player = SaturnPlayer.get(entity.getUuid());
 
         if (player == null) {
             return;
         }
 
+        ItemStack chestStack = entity.getInventory().armor.get(1);
+
         Identifier customCape = (Identifier) (Object) Cloaks.getCurrentCloakTexture(player.uuid);
-        if (customCape == null
-                || this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack, LayerType.WINGS)) {
+        if (customCape == null || chestStack.itemMatches(Items.ELYTRA.getRegistryEntry())) {
             return;
         }
 
@@ -296,49 +282,135 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         skyLight = Math.max(skyLight, minBrightness);
         light = (skyLight << 20) | (blockLight << 4);
 
-        VertexConsumer vertexConsumer = vertexConsumerProvider
-                .getBuffer(RenderLayer.getEntityAlpha(customCape));
+        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityAlpha(customCape));
 
-        matrixStack.push();
+        matrices.push();
 
-        matrixStack.translate(0.0f, 0.0f, 0.12f);
+        matrices.translate(0.0f, 0.0f, 0.12f);
 
-        if (this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack, LayerType.HUMANOID)) {
-            matrixStack.translate(0.0F, -0.053125F, 0.06875F);
+        if (!chestStack.isEmpty()) {
+            matrices.translate(0.0F, -0.053125F, 0.06875F);
         }
 
-        if (playerEntityRenderState.isInSneakingPose) {
-            matrixStack.translate(0, 0.16f, 0.0f);
-            matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(29.0f));
+        if (entity.isInSneakingPose()) {
+            matrices.translate(0, 0.16f, 0.0f);
+            matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(29.0f));
         }
+
+        double d = MathHelper.lerp((double) tickDelta, entity.prevCapeX, entity.capeX)
+                - MathHelper.lerp((double) tickDelta, entity.prevX, entity.getX());
+        double e = MathHelper.lerp((double) tickDelta, entity.prevCapeY, entity.capeY)
+                - MathHelper.lerp((double) tickDelta, entity.prevY, entity.getY());
+        double m = MathHelper.lerp((double) tickDelta, entity.prevCapeZ, entity.capeZ)
+                - MathHelper.lerp((double) tickDelta, entity.prevZ, entity.getZ());
+
+        System.out.println("D: " + d + " E: " + e + " M: " + m);
 
         long now = System.currentTimeMillis();
-        if (now - lastUpdate >= 20) {
-            float velX = Math.min(1.0f, playerEntityRenderState.field_53537 / 108.0f);
-            float rawVelY = playerEntityRenderState.field_53536;
-            float velY = (rawVelY > 4.0f ? rawVelY : 0.0f) / 16;
+        // if (now - lastUpdate >= 20) {
+        // float velX = Math.min(1.0f, entity.field_53537 / 108.0f);
+        // float rawVelY = playerEntityRenderState.field_53536;
+        // float velY = (rawVelY > 4.0f ? rawVelY : 0.0f) / 16;
 
-            float value = playerEntityRenderState.isSwimming ? 0.0f : velX + velY;
+        // float value = playerEntityRenderState.isSwimming ? 0.0f : velX + velY;
 
-            if (Config.cloakPhysics.value) {
-                updateSegmentValues(value);
-            } else {
-                float last = segmentValues[0];
-                float maxStep = 0.02f;
-                float next = value;
+        // if (Config.cloakPhysics.value) {
+        // updateSegmentValues(value);
+        // } else {
+        // float last = segmentValues[0];
+        // float maxStep = 0.02f;
+        // float next = value;
 
-                if (next > last)
-                    next = Math.min(next, last + maxStep);
-                else if (next < last)
-                    next = Math.max(next, last - maxStep);
+        // if (next > last)
+        // next = Math.min(next, last + maxStep);
+        // else if (next < last)
+        // next = Math.max(next, last - maxStep);
 
-                Arrays.fill(segmentValues, next);
-            }
-            lastUpdate = now;
-        }
+        // Arrays.fill(segmentValues, next);
+        // }
+        // lastUpdate = now;
+        // }
 
-        renderCape(matrixStack, vertexConsumer, playerEntityRenderState, light, OverlayTexture.DEFAULT_UV);
+        // renderCape(matrices, vertexConsumer, playerEntityRenderState, light,
+        // OverlayTexture.DEFAULT_UV);
 
-        matrixStack.pop();
+        matrices.pop();
     }
+
+    // public void render(MatrixStack matrixStack, VertexConsumerProvider
+    // vertexConsumerProvider, int light,
+    // PlayerEntityRenderState playerEntityRenderState, float f, float g) {
+    // if (playerEntityRenderState.invisible || !playerEntityRenderState.capeVisible
+    // || playerEntityRenderState.skinTextures.capeTexture() != null) {
+    // return;
+    // }
+
+    // SaturnPlayer player = SaturnPlayer.get(playerEntityRenderState.name);
+
+    // if (player == null) {
+    // return;
+    // }
+
+    // Identifier customCape = (Identifier) (Object)
+    // Cloaks.getCurrentCloakTexture(player.uuid);
+    // if (customCape == null
+    // || this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack,
+    // LayerType.WINGS)) {
+    // return;
+    // }
+
+    // int minBrightness = 7;
+    // int blockLight = (light >> 4) & 0xF;
+    // int skyLight = (light >> 20) & 0xF;
+    // blockLight = Math.max(blockLight, minBrightness);
+    // skyLight = Math.max(skyLight, minBrightness);
+    // light = (skyLight << 20) | (blockLight << 4);
+
+    // VertexConsumer vertexConsumer = vertexConsumerProvider
+    // .getBuffer(RenderLayer.getEntityAlpha(customCape));
+
+    // matrixStack.push();
+
+    // matrixStack.translate(0.0f, 0.0f, 0.12f);
+
+    // if (this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack,
+    // LayerType.HUMANOID)) {
+    // matrixStack.translate(0.0F, -0.053125F, 0.06875F);
+    // }
+
+    // if (playerEntityRenderState.isInSneakingPose) {
+    // matrixStack.translate(0, 0.16f, 0.0f);
+    // matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(29.0f));
+    // }
+
+    // long now = System.currentTimeMillis();
+    // if (now - lastUpdate >= 20) {
+    // float velX = Math.min(1.0f, playerEntityRenderState.field_53537 / 108.0f);
+    // float rawVelY = playerEntityRenderState.field_53536;
+    // float velY = (rawVelY > 4.0f ? rawVelY : 0.0f) / 16;
+
+    // float value = playerEntityRenderState.isSwimming ? 0.0f : velX + velY;
+
+    // if (Config.cloakPhysics.value) {
+    // updateSegmentValues(value);
+    // } else {
+    // float last = segmentValues[0];
+    // float maxStep = 0.02f;
+    // float next = value;
+
+    // if (next > last)
+    // next = Math.min(next, last + maxStep);
+    // else if (next < last)
+    // next = Math.max(next, last - maxStep);
+
+    // Arrays.fill(segmentValues, next);
+    // }
+    // lastUpdate = now;
+    // }
+
+    // renderCape(matrixStack, vertexConsumer, playerEntityRenderState, light,
+    // OverlayTexture.DEFAULT_UV);
+
+    // matrixStack.pop();
+    // }
 }

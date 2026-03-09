@@ -28,7 +28,7 @@ public class IdentifierUtils {
                 int index = 0;
                 for (int y = 0; y < height; y++) {
                     for (int x = 0; x < width; x++) {
-                        nativeImage.setColorArgb(x, y, pixels[index++]);
+                        nativeImage.setColor(x, y, pixels[index++]);
                     }
                 }
 
@@ -36,7 +36,7 @@ public class IdentifierUtils {
 
                 for (int y = 0; y < height; y++) {
                     for (int x = 0; x < width; x++) {
-                        nativeImage.setColorArgb(x, y, bufferedImage.getRGB(x, y));
+                        nativeImage.setColor(x, y, bufferedImage.getRGB(x, y));
                     }
                 }
 
