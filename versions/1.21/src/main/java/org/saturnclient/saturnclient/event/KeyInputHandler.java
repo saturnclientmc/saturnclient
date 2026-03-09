@@ -47,7 +47,7 @@ public class KeyInputHandler {
 
             if (SaturnClient.client.player != null && SaturnClient.client.player.isSneaking()) {
                 AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(SaturnClient.client.player);
-                if (animationStack.isActive() && animationStack.getPriority() == 1000) {
+                if (animationStack.isActive()) {
                     animationStack.removeLayer(1000);
                     ServiceClient.emote("");
                 }
