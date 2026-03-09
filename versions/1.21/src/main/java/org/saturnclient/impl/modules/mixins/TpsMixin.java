@@ -25,6 +25,6 @@ public class TpsMixin {
 
     @Inject(method = "onWorldTimeUpdate", at = @At("HEAD"))
     private void onWorldTimeUpdate(WorldTimeUpdateS2CPacket packet, CallbackInfo ci) {
-        TpsFeature.onTimePacket(packet.time());
+        TpsFeature.onTimePacket(packet.getTime());
     }
 }

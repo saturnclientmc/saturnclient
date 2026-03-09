@@ -1,7 +1,7 @@
 package org.saturnclient.impl.modules.mixins;
 
 import net.minecraft.client.render.entity.LivingEntityRenderer;
-import net.minecraft.client.render.entity.state.LivingEntityRenderState;
+// import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.passive.PassiveEntity;
@@ -26,26 +26,30 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * The injection target and strategy are unchanged from the original.
  */
 @Mixin(LivingEntityRenderer.class)
-public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extends LivingEntityRenderState> {
-
-    @Inject(method = "updateRenderState", at = @At("TAIL"))
-    private void saturn$captureHealth(T entity, S state, float tickDelta, CallbackInfo ci) {
-        if (!(state instanceof HealthRenderState hrs))
-            return;
-
-        hrs.saturn$setHealth(entity.getHealth(), entity.getMaxHealth());
-
-        // Classify entity type for the nametag feature's filtering logic
-        EntityModule.EntityType type;
-        if (entity instanceof PlayerEntity)
-            type = EntityModule.EntityType.PLAYER;
-        else if (entity instanceof HostileEntity)
-            type = EntityModule.EntityType.HOSTILE;
-        else if (entity instanceof PassiveEntity)
-            type = EntityModule.EntityType.PASSIVE;
-        else
-            type = EntityModule.EntityType.OTHER;
-
-        hrs.saturn$setEntityType(type);
-    }
+public abstract class LivingEntityRendererMixin {
 }
+// public abstract class LivingEntityRendererMixin<T extends LivingEntity, S
+// extends LivingEntityRenderState> {
+
+// @Inject(method = "updateRenderState", at = @At("TAIL"))
+// private void saturn$captureHealth(T entity, S state, float tickDelta,
+// CallbackInfo ci) {
+// if (!(state instanceof HealthRenderState hrs))
+// return;
+
+// hrs.saturn$setHealth(entity.getHealth(), entity.getMaxHealth());
+
+// // Classify entity type for the nametag feature's filtering logic
+// EntityModule.EntityType type;
+// if (entity instanceof PlayerEntity)
+// type = EntityModule.EntityType.PLAYER;
+// else if (entity instanceof HostileEntity)
+// type = EntityModule.EntityType.HOSTILE;
+// else if (entity instanceof PassiveEntity)
+// type = EntityModule.EntityType.PASSIVE;
+// else
+// type = EntityModule.EntityType.OTHER;
+
+// hrs.saturn$setEntityType(type);
+// }
+// }

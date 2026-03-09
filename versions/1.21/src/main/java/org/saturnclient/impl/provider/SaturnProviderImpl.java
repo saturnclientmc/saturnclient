@@ -35,7 +35,7 @@ public class SaturnProviderImpl implements SaturnProvider {
             AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(player);
 
             if (emoteIdOrNull != null && !emoteIdOrNull.isEmpty()) {
-                if (animationStack.isActive() && animationStack.getPriority() == 1000) {
+                if (animationStack.isActive()) {
                     animationStack.removeLayer(1000);
                 }
                 animationStack.addAnimLayer(1000,

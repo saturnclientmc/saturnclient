@@ -7,7 +7,6 @@
     "GameRendererMixin",
     "LightmapTextureManagerMixin",
     "LivingEntityRendererMixin",
-    "LivingEntityRenderStateMixin",
     "NametagsMixin",
     "RenderMixin",
     "TpsMixin"
