@@ -25,18 +25,24 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.font.TextRenderer.TextLayerType;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.ScreenRect;
+import net.minecraft.client.render.BufferBuilder;
+import net.minecraft.client.render.BufferRenderer;
 import net.minecraft.client.render.DiffuseLighting;
+import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.item.ItemRenderState;
+import net.minecraft.client.render.VertexFormat.DrawMode;
+import net.minecraft.client.render.VertexFormats;
+import net.minecraft.client.render.model.BakedModel;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.Window;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ModelTransformationMode;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.crash.CrashException;
@@ -50,7 +56,6 @@ public class RenderScopeImpl implements RenderScope {
     public VertexConsumerProvider.Immediate vertexConsumers;
     private ScissorStack scissorStack = new ScissorStack();
     private int opacity = 255 << 24;
-    private final ItemRenderState itemRenderState;
 
     public RenderScopeImpl(DrawContext context) {
         this(context.getMatrices(), ((DrawContextAccessor) context).getVertexConsumers());
@@ -60,7 +65,6 @@ public class RenderScopeImpl implements RenderScope {
         this.matrices = matrices;
         this.vertexConsumers = vertexConsumers;
         this.scissorStack = new ScissorStack();
-        this.itemRenderState = new ItemRenderState();
     }
 
     @Override
@@ -287,36 +291,34 @@ public class RenderScopeImpl implements RenderScope {
 
         matrices.push();
         matrices.scale(0.25f, 0.25f, 1.0f);
+
         RenderSystem.setShaderTexture(0, sprite);
-        RenderLayer renderLayer = (RenderLayer) RenderLayer.getGuiTextured(sprite);
+        RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         Matrix4f matrix4f = this.matrices.peek().getPositionMatrix();
-        VertexConsumer vertexConsumer = this.vertexConsumers.getBuffer(renderLayer);
-        vertexConsumer.vertex(matrix4f, (float) x1, (float) y1, 0.0F).texture(u1, v1).color(color);
-        vertexConsumer.vertex(matrix4f, (float) x1, (float) y2, 0.0F).texture(u1, v2).color(color);
-        vertexConsumer.vertex(matrix4f, (float) x2, (float) y2, 0.0F).texture(u2, v2).color(color);
-        vertexConsumer.vertex(matrix4f, (float) x2, (float) y1, 0.0F).texture(u2, v1).color(color);
+        BufferBuilder bufferBuilder = Tessellator.getInstance().begin(DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
+        bufferBuilder.vertex(matrix4f, (float) x1, (float) y1, 0f).texture(u1, v1);
+        bufferBuilder.vertex(matrix4f, (float) x1, (float) y2, 0f).texture(u1, v2);
+        bufferBuilder.vertex(matrix4f, (float) x2, (float) y2, 0f).texture(u2, v2);
+        bufferBuilder.vertex(matrix4f, (float) x2, (float) y1, 0f).texture(u2, v1);
+        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
+
         matrices.pop();
     }
 
     @Override
     public void enableScissor(int x1, int y1, int x2, int y2) {
-        ScreenRect screenRect = (new ScreenRect(x1, y1, x2 - x1, y2 - y1))
-                .transform(this.matrices.peek().getPositionMatrix());
-        this.setScissor(this.scissorStack.push(screenRect));
+        this.setScissor(this.scissorStack.push(new ScreenRect(x1, y1, x2 - x1, y2 - y1)));
     }
 
-    @Override
     public void disableScissor() {
         this.setScissor(this.scissorStack.pop());
     }
 
-    @Override
     public boolean scissorContains(int x, int y) {
-        return this.scissorStack.containsPoint(x, y);
+        return this.scissorStack.contains(x, y);
     }
 
     private void setScissor(@Nullable ScreenRect rect) {
-        this.draw();
         if (rect != null) {
             Window window = SaturnClient.client.getWindow();
             int i = window.getFramebufferHeight();
@@ -345,16 +347,19 @@ public class RenderScopeImpl implements RenderScope {
     static class ScissorStack {
         private final Deque<ScreenRect> stack = new ArrayDeque<>();
 
-        public ScreenRect push(ScreenRect p_281812_) {
-            ScreenRect screenrectangle = this.stack.peekLast();
-            if (screenrectangle != null) {
-                ScreenRect screenrectangle1 = Objects.requireNonNullElse(p_281812_.intersection(screenrectangle),
+        ScissorStack() {
+        }
+
+        public ScreenRect push(ScreenRect rect) {
+            ScreenRect screenRect = (ScreenRect) this.stack.peekLast();
+            if (screenRect != null) {
+                ScreenRect screenRect2 = (ScreenRect) Objects.requireNonNullElse(rect.intersection(screenRect),
                         ScreenRect.empty());
-                this.stack.addLast(screenrectangle1);
-                return screenrectangle1;
+                this.stack.addLast(screenRect2);
+                return screenRect2;
             } else {
-                this.stack.addLast(p_281812_);
-                return p_281812_;
+                this.stack.addLast(rect);
+                return rect;
             }
         }
 
@@ -364,12 +369,12 @@ public class RenderScopeImpl implements RenderScope {
                 throw new IllegalStateException("Scissor stack underflow");
             } else {
                 this.stack.removeLast();
-                return this.stack.peekLast();
+                return (ScreenRect) this.stack.peekLast();
             }
         }
 
-        public boolean containsPoint(int p_329411_, int p_333404_) {
-            return this.stack.isEmpty() ? true : this.stack.peek().contains(p_329411_, p_333404_);
+        public boolean contains(int x, int y) {
+            return this.stack.isEmpty() ? true : ((ScreenRect) this.stack.peek()).contains(x, y);
         }
     }
 
@@ -406,37 +411,30 @@ public class RenderScopeImpl implements RenderScope {
     private void drawItem(@Nullable LivingEntity entity, @Nullable World world, ItemStack stack, int x, int y, int seed,
             int z) {
         if (!stack.isEmpty()) {
-            SaturnClient.client.getItemModelManager().update(this.itemRenderState, stack, ModelTransformationMode.GUI,
-                    false, world, entity, seed);
+            BakedModel bakedModel = SaturnClient.client.getItemRenderer().getModel(stack, world, entity, seed);
             this.matrices.push();
-            this.matrices.translate((float) (x + 8), (float) (y + 8),
-                    (float) (150 + (this.itemRenderState.hasDepth() ? z : 0)));
+            this.matrices.translate((float) (x + 8), (float) (y + 8), (float) (150 + (bakedModel.hasDepth() ? z : 0)));
 
             try {
                 this.matrices.scale(16.0F, -16.0F, 16.0F);
-                boolean bl = !this.itemRenderState.isSideLit();
+                boolean bl = !bakedModel.isSideLit();
                 if (bl) {
-                    this.draw();
                     DiffuseLighting.disableGuiDepthLighting();
                 }
 
-                this.itemRenderState.render(this.matrices, this.vertexConsumers, 15728880, OverlayTexture.DEFAULT_UV);
+                SaturnClient.client.getItemRenderer().renderItem(stack, ModelTransformationMode.GUI, false,
+                        this.matrices,
+                        this.vertexConsumers, 15728880, OverlayTexture.DEFAULT_UV, bakedModel);
                 this.draw();
                 if (bl) {
                     DiffuseLighting.enableGuiDepthLighting();
                 }
-            } catch (Throwable var11) {
-                CrashReport crashReport = CrashReport.create(var11, "Rendering item");
+            } catch (Throwable throwable) {
+                CrashReport crashReport = CrashReport.create(throwable, "Rendering item");
                 CrashReportSection crashReportSection = crashReport.addElement("Item being rendered");
-                crashReportSection.add("Item Type", () -> {
-                    return String.valueOf(stack.getItem());
-                });
-                crashReportSection.add("Item Components", () -> {
-                    return String.valueOf(stack.getComponents());
-                });
-                crashReportSection.add("Item Foil", () -> {
-                    return String.valueOf(stack.hasGlint());
-                });
+                crashReportSection.add("Item Type", () -> String.valueOf(stack.getItem()));
+                crashReportSection.add("Item Components", () -> String.valueOf(stack.getComponents()));
+                crashReportSection.add("Item Foil", () -> String.valueOf(stack.hasGlint()));
                 throw new CrashException(crashReport);
             }
 
