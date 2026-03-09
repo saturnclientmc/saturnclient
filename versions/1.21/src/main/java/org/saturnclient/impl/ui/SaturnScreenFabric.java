@@ -14,10 +14,8 @@ import net.minecraft.client.gui.CubeMapRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.RotatingCubeMapRenderer;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.render.DefaultFramebufferSet;
 import net.minecraft.client.texture.ResourceTexture;
 import net.minecraft.client.texture.TextureManager;
-import net.minecraft.client.util.Pool;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -32,7 +30,7 @@ public class SaturnScreenFabric extends Screen implements ScreenProvider {
         ROTATING_PANORAMA_RENDERER = new RotatingCubeMapRenderer(PANORAMA_RENDERER);
     }
 
-    private final Pool pool = new Pool(3);
+    // private final Pool pool = new Pool(3);
     public final SaturnScreen screen;
 
     public static void preload(MinecraftClient client) {
@@ -73,14 +71,14 @@ public class SaturnScreenFabric extends Screen implements ScreenProvider {
             ROTATING_PANORAMA_RENDERER.render(context, this.width, this.height, screen.backgroundOpacity, delta);
         }
 
-        PostEffectProcessor postEffectProcessor = this.client.getShaderLoader().loadPostEffect(
-                Identifier.ofVanilla("blur"),
-                DefaultFramebufferSet.MAIN_ONLY);
+        // PostEffectProcessor postEffectProcessor = this.client.getShaderLoader().loadPostEffect(
+        //         Identifier.ofVanilla("blur"),
+        //         DefaultFramebufferSet.MAIN_ONLY);
 
-        if (postEffectProcessor != null) {
-            postEffectProcessor.setUniforms("Radius", screen.backgroundBlur * Math.min((float) elapsed / 700, 1.0f));
-            postEffectProcessor.render(this.client.getFramebuffer(), this.pool);
-        }
+        // if (postEffectProcessor != null) {
+        //     postEffectProcessor.setUniforms("Radius", screen.backgroundBlur * Math.min((float) elapsed / 700, 1.0f));
+        //     postEffectProcessor.render(this.client.getFramebuffer(), this.pool);
+        // }
 
         // We are using a Abstracted RenderScope because older minecraft versions don't
         // use DrawContext
