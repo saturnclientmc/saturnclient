@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="common/src/main/resources/assets/saturnclient/textures/logo/logo.png" alt="Saturn Client Logo" width="150px"/>
+  <img src="https://raw.github.com/saturnclientmc/common/master/src/main/resources/assets/saturnclient/textures/logo/logo.png" alt="Saturn Client Logo" width="150px"/>
 </p>
 
 <h1 align="center">Saturn Client</h1>
