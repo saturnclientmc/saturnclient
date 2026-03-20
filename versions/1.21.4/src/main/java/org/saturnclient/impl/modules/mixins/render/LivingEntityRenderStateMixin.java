@@ -1,9 +1,10 @@
-package org.saturnclient.impl.modules.mixins;
+package org.saturnclient.impl.modules.mixins.render;
 
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 
 import org.saturnclient.common.module.EntityModule;
-import org.saturnclient.impl.modules.HealthRenderState;
+import org.saturnclient.impl.modules.entity.HealthRenderState;
+import org.saturnclient.impl.modules.mixins.misc.NametagsMixin;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 

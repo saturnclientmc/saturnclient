@@ -1,7 +1,7 @@
-package org.saturnclient.impl.modules.mixins;
+package org.saturnclient.impl.modules.mixins.entity;
 
 import org.saturnclient.feature.features.FreelookFeature;
-import org.saturnclient.impl.modules.CameraOverriddenEntity;
+import org.saturnclient.impl.modules.entity.CameraOverriddenEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;

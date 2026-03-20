@@ -1,4 +1,4 @@
-package org.saturnclient.impl.modules.mixins;
+package org.saturnclient.impl.modules.mixins.render;
 
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
@@ -8,7 +8,7 @@ import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
 import org.saturnclient.common.module.EntityModule;
-import org.saturnclient.impl.modules.HealthRenderState;
+import org.saturnclient.impl.modules.entity.HealthRenderState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

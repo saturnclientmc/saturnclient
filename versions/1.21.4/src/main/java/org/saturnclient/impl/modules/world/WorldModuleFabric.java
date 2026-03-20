@@ -1,4 +1,4 @@
-package org.saturnclient.impl.modules;
+package org.saturnclient.impl.modules.world;
 
 import net.minecraft.client.MinecraftClient;
 

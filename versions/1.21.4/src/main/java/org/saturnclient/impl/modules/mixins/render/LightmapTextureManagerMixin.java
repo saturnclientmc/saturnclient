@@ -1,4 +1,4 @@
-package org.saturnclient.impl.modules.mixins;
+package org.saturnclient.impl.modules.mixins.render;
 
 // Code approach adapted from Gamma Utils: https://github.com/Sjouwer/gamma-utils
 

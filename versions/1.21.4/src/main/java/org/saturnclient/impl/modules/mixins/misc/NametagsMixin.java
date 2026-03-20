@@ -1,4 +1,4 @@
-package org.saturnclient.impl.modules.mixins;
+package org.saturnclient.impl.modules.mixins.misc;
 
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderer;
@@ -8,8 +8,9 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 
 import org.saturnclient.feature.features.NametagsFeature;
-import org.saturnclient.impl.modules.EntityModuleFabric;
-import org.saturnclient.impl.modules.HealthRenderState;
+import org.saturnclient.impl.modules.entity.EntityModuleFabric;
+import org.saturnclient.impl.modules.entity.HealthRenderState;
+import org.saturnclient.impl.modules.mixins.render.LivingEntityRenderStateMixin;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;

@@ -1,4 +1,4 @@
-package org.saturnclient.impl.modules;
+package org.saturnclient.impl.modules.player;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
