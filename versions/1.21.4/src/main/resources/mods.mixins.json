@@ -10,7 +10,9 @@
     "LivingEntityRenderStateMixin",
     "NametagsMixin",
     "RenderMixin",
-    "TpsMixin"
+    "TpsMixin",
+    "CameraMixin",
+    "EntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
