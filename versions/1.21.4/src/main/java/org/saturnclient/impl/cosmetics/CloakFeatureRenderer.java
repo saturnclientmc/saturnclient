@@ -283,7 +283,7 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
             return;
         }
 
-        Identifier customCape = (Identifier) (Object) Cloaks.getCurrentCloakTexture(player.uuid);
+        Identifier customCape = (Identifier) (Object) Cloaks.getCurrentCloakTexture(player.cloak);
         if (customCape == null
                 || this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack, LayerType.WINGS)) {
             return;
