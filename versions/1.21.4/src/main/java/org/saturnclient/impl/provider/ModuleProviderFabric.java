@@ -3,11 +3,11 @@ package org.saturnclient.impl.provider;
 import net.minecraft.client.MinecraftClient;
 
 import org.saturnclient.common.provider.ModuleProvider;
-import org.saturnclient.impl.modules.EntityModuleFabric;
-import org.saturnclient.impl.modules.NetworkModuleFabric;
-import org.saturnclient.impl.modules.PlayerModuleFabric;
-import org.saturnclient.impl.modules.RenderModuleFabric;
-import org.saturnclient.impl.modules.WorldModuleFabric;
+import org.saturnclient.impl.modules.entity.EntityModuleFabric;
+import org.saturnclient.impl.modules.network.NetworkModuleFabric;
+import org.saturnclient.impl.modules.player.PlayerModuleFabric;
+import org.saturnclient.impl.modules.render.RenderModuleFabric;
+import org.saturnclient.impl.modules.world.WorldModuleFabric;
 import org.saturnclient.common.module.*;
 
 /**

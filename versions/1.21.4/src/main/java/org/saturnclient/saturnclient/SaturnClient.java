@@ -19,7 +19,7 @@ import org.saturnclient.impl.ui.EntityDrawerImpl;
 import org.saturnclient.impl.ui.SaturnScreenFabric;
 import org.saturnclient.saturnclient.event.KeyInputHandler;
 import org.saturnclient.config.Config;
-import org.saturnclient.config.manager.ConfigManager;
+import org.saturnclient.config.ConfigManager;
 import org.saturnclient.ui.components.SkinPreview;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

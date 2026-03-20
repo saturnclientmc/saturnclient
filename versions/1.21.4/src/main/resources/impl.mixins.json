@@ -11,7 +11,8 @@
     "QuaternionfMixin",
     "WindowMixin",
     "TextMixin",
-    "SpriteMixin"
+    "SpriteMixin",
+    "StatusEffectMixin"
   ],
   "injectors": {
     "defaultRequire": 1
