@@ -5,6 +5,8 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.registry.Registries;
+import net.minecraft.util.Identifier;
 
 import org.saturnclient.common.module.PlayerModule;
 import org.saturnclient.common.ref.asset.SpriteRef;
@@ -234,15 +236,13 @@ public class PlayerModuleFabric implements PlayerModule {
 
     @Override
     public List<? extends StatusEffectsFeature.EffectView> getDummyEffects() {
-        if (!hasPlayer())
-            return Collections.emptyList();
-
-        var effects = player().getActiveStatusEffects().values();
-        List<FabricEffectView> result = new ArrayList<>(effects.size());
-        for (StatusEffectInstance instance : effects) {
-            result.add(new FabricEffectView(instance));
-        }
-        return result;
+        return List.of(
+                new FabricEffectView(new StatusEffectInstance(
+                        Registries.STATUS_EFFECT.getEntry(Identifier.ofVanilla("speed")).get(), 12000, 2)),
+                new FabricEffectView(new StatusEffectInstance(
+                        Registries.STATUS_EFFECT.getEntry(Identifier.ofVanilla("strength")).get(), 12000, 2)),
+                new FabricEffectView(new StatusEffectInstance(
+                        Registries.STATUS_EFFECT.getEntry(Identifier.ofVanilla("fire_resistance")).get(), 12000, 2)));
     }
 
     // ---------------------------------------------------------------
