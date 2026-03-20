@@ -8,6 +8,7 @@
     "render.LightmapTextureManagerMixin",
     "render.LivingEntityRendererMixin",
     "render.LivingEntityRenderStateMixin",
+    "render.BackgroundRendererMixin",
     "misc.NametagsMixin",
     "render.RenderMixin",
     "world.TpsMixin",
