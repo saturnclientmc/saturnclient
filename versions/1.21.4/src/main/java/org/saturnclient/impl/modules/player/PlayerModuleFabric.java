@@ -9,10 +9,8 @@ import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
 import org.saturnclient.common.module.PlayerModule;
-import org.saturnclient.common.ref.asset.SpriteRef;
+import org.saturnclient.common.ref.game.EffectRef;
 import org.saturnclient.common.ref.game.ItemStackRef;
-import org.saturnclient.feature.features.StatusEffectsFeature;
-import org.saturnclient.saturnclient.SaturnClient;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -222,27 +220,27 @@ public class PlayerModuleFabric implements PlayerModule {
     // ---------------------------------------------------------------
 
     @Override
-    public List<? extends StatusEffectsFeature.EffectView> getActiveEffects() {
+    public List<? extends EffectRef> getActiveEffects() {
         if (!hasPlayer())
             return Collections.emptyList();
 
         var effects = player().getActiveStatusEffects().values();
-        List<FabricEffectView> result = new ArrayList<>(effects.size());
+        List<EffectRef> result = new ArrayList<>(effects.size());
         for (StatusEffectInstance instance : effects) {
-            result.add(new FabricEffectView(instance));
+            result.add((EffectRef) instance);
         }
         return result;
     }
 
     @Override
-    public List<? extends StatusEffectsFeature.EffectView> getDummyEffects() {
+    public List<? extends EffectRef> getDummyEffects() {
         return List.of(
-                new FabricEffectView(new StatusEffectInstance(
-                        Registries.STATUS_EFFECT.getEntry(Identifier.ofVanilla("speed")).get(), 12000, 2)),
-                new FabricEffectView(new StatusEffectInstance(
-                        Registries.STATUS_EFFECT.getEntry(Identifier.ofVanilla("strength")).get(), 12000, 2)),
-                new FabricEffectView(new StatusEffectInstance(
-                        Registries.STATUS_EFFECT.getEntry(Identifier.ofVanilla("fire_resistance")).get(), 12000, 2)));
+                (EffectRef) new StatusEffectInstance(
+                        Registries.STATUS_EFFECT.getEntry(Identifier.ofVanilla("speed")).get(), 12000, 2),
+                (EffectRef) new StatusEffectInstance(
+                        Registries.STATUS_EFFECT.getEntry(Identifier.ofVanilla("strength")).get(), 12000, 2),
+                (EffectRef) new StatusEffectInstance(
+                        Registries.STATUS_EFFECT.getEntry(Identifier.ofVanilla("fire_resistance")).get(), 12000, 2));
     }
 
     // ---------------------------------------------------------------
@@ -251,52 +249,5 @@ public class PlayerModuleFabric implements PlayerModule {
 
     private static ItemStackRef wrap(ItemStack stack) {
         return (ItemStackRef) (Object) stack;
-    }
-
-    // ---------------------------------------------------------------
-    // Inner — EffectView adapter
-    // ---------------------------------------------------------------
-
-    /**
-     * Bridges a Fabric {@link StatusEffectInstance} to the
-     * platform-neutral {@link StatusEffectsFeature.EffectView}.
-     */
-    public static final class FabricEffectView implements StatusEffectsFeature.EffectView {
-
-        private final StatusEffectInstance instance;
-
-        public FabricEffectView(StatusEffectInstance instance) {
-            this.instance = instance;
-        }
-
-        @Override
-        public boolean shouldShowIcon() {
-            return instance.shouldShowIcon();
-        }
-
-        /**
-         * Returns the Minecraft sprite identifier for this effect's icon.
-         * The platform-specific renderer knows how to draw a
-         * {@link net.minecraft.util.Identifier}.
-         */
-        @Override
-        public SpriteRef getIcon() {
-            return (SpriteRef) SaturnClient.client.getStatusEffectSpriteManager().getSprite(instance.getEffectType());
-        }
-
-        @Override
-        public boolean isInfinite() {
-            return instance.isInfinite();
-        }
-
-        @Override
-        public String getInfiniteText() {
-            return "∞";
-        }
-
-        @Override
-        public int getDurationSeconds() {
-            return instance.getDuration() / 20; // ticks → seconds
-        }
     }
 }
