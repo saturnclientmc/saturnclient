@@ -28,6 +28,8 @@ dependencies {
         "dev.kosmx.player-anim:player-animation-lib-fabric:${project.player_anim}"
     )
 
+	implementation project(":common")
+
     // Optional: BendyLib
     // include modRuntimeOnly(
     //     "io.github.kosmx.bendy-lib:bendy-lib-fabric:${project.bendylib_version}"
@@ -75,6 +77,9 @@ jar {
 	from("LICENSE") {
 		rename { "${it}_${inputs.properties.archivesName}"}
 	}
+
+	from project(":common").sourceSets.main.output
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 // configure the maven publication
