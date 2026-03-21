@@ -316,9 +316,9 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         if (now - lastUpdate >= 20) {
             float velX = Math.min(0.6f, playerEntityRenderState.field_53537 / 108.0f);
             float rawVelY = playerEntityRenderState.field_53536;
-            float velY = (rawVelY > 3.4f ? rawVelY : 0.0f) / 16;
+            float velY = (rawVelY > 3.4f ? rawVelY : rawVelY < -3.4f ? rawVelY : 0.0f) / 16;
 
-            float value = playerEntityRenderState.isSwimming ? 0.0f : velX + velY;
+            float value = Math.max(0.0f, Math.min(2.0f, playerEntityRenderState.isSwimming ? 0.0f : velX + velY));
 
             if (Config.cloakPhysics.value) {
                 updateSegmentValues(segmentValues[0] + (value - segmentValues[0]) * 0.3f);
