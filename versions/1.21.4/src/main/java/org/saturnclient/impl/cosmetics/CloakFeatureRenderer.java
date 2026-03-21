@@ -279,7 +279,7 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
 
         SaturnPlayer player = SaturnPlayer.get(playerEntityRenderState.name);
 
-        if (player == null) {
+        if (player == null || player.cloak.isEmpty()) {
             return;
         }
 

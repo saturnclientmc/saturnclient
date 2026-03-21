@@ -33,7 +33,7 @@ public abstract class TabListMixin {
         String name = profile.getName();
         UUID uuid = profile.getId();
 
-        if (SaturnPlayer.get(uuid) != null) {
+        if (SaturnPlayer.get(name, uuid) != null) {
             return Text.literal(Roles.getSaturnIndicator())
                     .styled(style -> style.withColor(Roles.getIconColor(uuid)))
                     .append(Text.literal(name).styled(style -> style.withColor(Formatting.WHITE)));

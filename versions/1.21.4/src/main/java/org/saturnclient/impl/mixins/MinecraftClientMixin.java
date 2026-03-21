@@ -127,4 +127,36 @@ public abstract class MinecraftClientMixin implements MinecraftClientRef {
     public void executeOnThread(Runnable runnable) {
         ((java.util.concurrent.Executor) (Object) this).execute(runnable);
     }
+
+    @Override
+    @SuppressWarnings("resource")
+    public String getPlayerListEntry(UUID uuid) {
+        var client = (MinecraftClient) (Object) this;
+        var handler = client.getNetworkHandler();
+
+        if (handler == null)
+            return null;
+
+        var entry = handler.getPlayerListEntry(uuid);
+        if (entry == null)
+            return null;
+
+        return entry.getProfile().getName();
+    }
+
+    @Override
+    @SuppressWarnings("resource")
+    public UUID getPlayerListEntryUUID(String name) {
+        var client = (MinecraftClient) (Object) this;
+        var handler = client.getNetworkHandler();
+
+        if (handler == null)
+            return null;
+
+        var entry = handler.getPlayerListEntry(name);
+        if (entry == null)
+            return null;
+
+        return entry.getProfile().getId();
+    }
 }
