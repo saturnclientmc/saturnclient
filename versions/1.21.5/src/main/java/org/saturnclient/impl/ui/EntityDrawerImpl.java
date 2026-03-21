@@ -26,13 +26,13 @@ public class EntityDrawerImpl implements EntityDrawer {
         float k = entity.bodyYaw;
         float l = entity.getYaw();
         float m = entity.getPitch();
-        float n = entity.prevHeadYaw;
+        float n = entity.lastHeadYaw;
         float o = entity.headYaw;
         entity.setYaw(angle);
         entity.bodyYaw = angle;
         entity.setPitch(-(j * 20.0F));
         entity.headYaw = negativeAngle ? (i * 40.0F) + 180f : -(i * 40.0F);
-        entity.prevHeadYaw = entity.getHeadYaw();
+        entity.lastHeadYaw = entity.getHeadYaw();
         entity.setCustomNameVisible(false);
 
         float p = entity.getScale();
@@ -44,7 +44,7 @@ public class EntityDrawerImpl implements EntityDrawer {
         entity.bodyYaw = k;
         entity.setYaw(l);
         entity.setPitch(m);
-        entity.prevHeadYaw = n;
+        entity.lastHeadYaw = n;
         entity.headYaw = o;
         renderScope.disableScissor();
     }
@@ -57,7 +57,7 @@ public class EntityDrawerImpl implements EntityDrawer {
         renderScope.getMatrixStack().translate(vector3f.x, vector3f.y, vector3f.z);
         renderScope.getMatrixStack().multiply((QuaternionfRef) quaternionf);
         renderScope.draw();
-        DiffuseLighting.method_34742();
+        DiffuseLighting.disableGuiDepthLighting();
         EntityRenderDispatcher entityRenderDispatcher = SaturnClient.client.getEntityRenderDispatcher();
 
         entityRenderDispatcher.setRenderShadows(false);
