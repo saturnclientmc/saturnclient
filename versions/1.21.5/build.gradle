@@ -12,6 +12,7 @@ base {
 
 repositories {
     maven { name = "KoSmX Maven"; url = 'https://maven.kosmx.dev/' }
+	maven { name = "JitPack"; url = 'https://jitpack.io' }
 }
 
 dependencies {
@@ -27,6 +28,15 @@ dependencies {
     include modImplementation(
         "dev.kosmx.player-anim:player-animation-lib-fabric:${project.player_anim}"
     )
+
+	implementation project(":common")
+
+	include implementation("com.github.selimaj-dev:session-java:0.1.6")
+    include implementation("de.javagl:obj:0.4.0")
+    include implementation("com.formdev:svgSalamander:1.1.4")
+    include implementation("com.fasterxml.jackson.core:jackson-databind:2.17.0")
+    include implementation("com.fasterxml.jackson.core:jackson-annotations:2.17.0")
+    include implementation("com.fasterxml.jackson.core:jackson-core:2.17.0")
 
     // Optional: BendyLib
     // include modRuntimeOnly(
@@ -75,6 +85,9 @@ jar {
 	from("LICENSE") {
 		rename { "${it}_${inputs.properties.archivesName}"}
 	}
+
+	from project(":common").sourceSets.main.output
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 // configure the maven publication
