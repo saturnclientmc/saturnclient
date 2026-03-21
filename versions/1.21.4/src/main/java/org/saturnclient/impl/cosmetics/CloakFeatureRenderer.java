@@ -5,9 +5,9 @@ import java.util.Arrays;
 import org.saturnclient.client.player.SaturnPlayer;
 import org.saturnclient.config.Config;
 import org.saturnclient.cosmetics.Cloaks;
+import org.saturnclient.impl.cosmetics.utils.ShaderUtils;
 
 import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.equipment.EquipmentModel;
@@ -297,7 +297,7 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         light = (skyLight << 20) | (blockLight << 4);
 
         VertexConsumer vertexConsumer = vertexConsumerProvider
-                .getBuffer(RenderLayer.getEntityAlpha(customCape));
+                .getBuffer(ShaderUtils.getRenderLayer(customCape));
 
         matrixStack.push();
 
