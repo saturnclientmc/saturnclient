@@ -42,8 +42,8 @@ public class IdentifierUtils {
 
             }
 
-            NativeImageBackedTexture texture = new NativeImageBackedTexture(nativeImage);
-
+            NativeImageBackedTexture texture = new NativeImageBackedTexture(() -> identifier.toString(), nativeImage);
+            
             SaturnClient.client.execute(() ->
                 SaturnClient.client.getTextureManager().registerTexture(identifier, texture)
             );
