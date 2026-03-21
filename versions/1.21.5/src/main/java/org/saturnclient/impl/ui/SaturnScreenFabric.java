@@ -37,8 +37,6 @@ public class SaturnScreenFabric extends Screen implements ScreenProvider {
 
     public static void preload(MinecraftClient client) {
         TextureManager textureManager = client.getTextureManager();
-
-        // Force upload each texture to GPU
         for (int i = 0; i < 6; i++) {
             String var10001 = PANORAMA.getPath();
             Identifier tex = PANORAMA.withPath(var10001 + "_" + i + ".png");
@@ -78,12 +76,14 @@ public class SaturnScreenFabric extends Screen implements ScreenProvider {
                 DefaultFramebufferSet.MAIN_ONLY);
 
         if (postEffectProcessor != null) {
-            postEffectProcessor.setUniforms("Radius", screen.backgroundBlur * Math.min((float) elapsed / 700, 1.0f));
-            postEffectProcessor.render(this.client.getFramebuffer(), this.pool);
+            float radius = screen.backgroundBlur * Math.min((float) elapsed / 700, 1.0f);
+            postEffectProcessor.render(
+                this.client.getFramebuffer(),
+                this.pool,
+                pass -> pass.setUniform("Radius", radius)
+            );
         }
 
-        // We are using a Abstracted RenderScope because older minecraft versions don't
-        // use DrawContext
         RenderScope renderScope = new RenderScopeImpl(context.getMatrices(),
                 ((DrawContextAccessor) context).getVertexConsumers());
 
@@ -95,7 +95,6 @@ public class SaturnScreenFabric extends Screen implements ScreenProvider {
         if (screen.mouseClicked(mouseX, mouseY, button)) {
             return true;
         }
-
         return super.mouseClicked(mouseX, mouseY, button);
     }
 
@@ -104,7 +103,6 @@ public class SaturnScreenFabric extends Screen implements ScreenProvider {
         if (screen.mouseDragged(mouseX, mouseY, button, deltaX, deltaY)) {
             return true;
         }
-
         return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
     }
 
@@ -113,7 +111,6 @@ public class SaturnScreenFabric extends Screen implements ScreenProvider {
         if (screen.mouseReleased(mouseX, mouseY, button)) {
             return true;
         }
-
         return super.mouseReleased(mouseX, mouseY, button);
     }
 
@@ -122,7 +119,6 @@ public class SaturnScreenFabric extends Screen implements ScreenProvider {
         if (screen.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)) {
             return true;
         }
-
         return super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount);
     }
 
@@ -131,7 +127,6 @@ public class SaturnScreenFabric extends Screen implements ScreenProvider {
         if (screen.keyPressed(keyCode, scanCode, modifiers)) {
             return true;
         }
-
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
@@ -140,10 +135,6 @@ public class SaturnScreenFabric extends Screen implements ScreenProvider {
         screen.resize(width, height);
         super.resize(client, width, height);
     }
-
-    // ------------------------------------------
-    // ScreenProvider implementations
-    // ------------------------------------------
 
     @Override
     public void close() {
