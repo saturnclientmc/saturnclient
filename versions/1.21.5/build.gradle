@@ -12,6 +12,7 @@ base {
 
 repositories {
     maven { name = "KoSmX Maven"; url = 'https://maven.kosmx.dev/' }
+	maven { name = "JitPack"; url = 'https://jitpack.io' }
 }
 
 dependencies {
@@ -29,6 +30,8 @@ dependencies {
     )
 
 	implementation project(":common")
+
+	include implementation("com.github.selimaj-dev:session-java:0.1.6")
 
     // Optional: BendyLib
     // include modRuntimeOnly(
