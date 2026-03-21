@@ -36,7 +36,7 @@ import net.minecraft.client.util.Window;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ModelTransformationMode;
+import net.minecraft.item.ItemDisplayContext;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.crash.CrashException;
@@ -287,7 +287,6 @@ public class RenderScopeImpl implements RenderScope {
 
         matrices.push();
         matrices.scale(0.25f, 0.25f, 1.0f);
-        RenderSystem.setShaderTexture(0, sprite);
         RenderLayer renderLayer = (RenderLayer) RenderLayer.getGuiTextured(sprite);
         Matrix4f matrix4f = this.matrices.peek().getPositionMatrix();
         VertexConsumer vertexConsumer = this.vertexConsumers.getBuffer(renderLayer);
@@ -406,11 +405,10 @@ public class RenderScopeImpl implements RenderScope {
     private void drawItem(@Nullable LivingEntity entity, @Nullable World world, ItemStack stack, int x, int y, int seed,
             int z) {
         if (!stack.isEmpty()) {
-            SaturnClient.client.getItemModelManager().update(this.itemRenderState, stack, ModelTransformationMode.GUI,
-                    false, world, entity, seed);
+            SaturnClient.client.getItemModelManager().update(this.itemRenderState, stack, ItemDisplayContext.GUI, world, entity, seed);
             this.matrices.push();
             this.matrices.translate((float) (x + 8), (float) (y + 8),
-                    (float) (150 + (this.itemRenderState.hasDepth() ? z : 0)));
+                    (float) (150 + z)); //always has depth
 
             try {
                 this.matrices.scale(16.0F, -16.0F, 16.0F);
