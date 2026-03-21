@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
+import net.minecraft.entity.EquipmentSlot;
 
 import org.saturnclient.common.module.PlayerModule;
 import org.saturnclient.common.ref.game.EffectRef;
@@ -168,22 +169,22 @@ public class PlayerModuleFabric implements PlayerModule {
 
     @Override
     public ItemStackRef getHelmet() {
-        return wrap(hasPlayer() ? player().getInventory().armor.get(3) : ItemStack.EMPTY);
+        return wrap(hasPlayer() ? player().getEquippedStack(EquipmentSlot.HEAD) : ItemStack.EMPTY);
     }
 
     @Override
     public ItemStackRef getChestplate() {
-        return wrap(hasPlayer() ? player().getInventory().armor.get(2) : ItemStack.EMPTY);
+        return wrap(hasPlayer() ? player().getEquippedStack(EquipmentSlot.CHEST) : ItemStack.EMPTY);
     }
 
     @Override
     public ItemStackRef getLeggings() {
-        return wrap(hasPlayer() ? player().getInventory().armor.get(1) : ItemStack.EMPTY);
+        return wrap(hasPlayer() ? player().getEquippedStack(EquipmentSlot.LEGS) : ItemStack.EMPTY);
     }
 
     @Override
     public ItemStackRef getBoots() {
-        return wrap(hasPlayer() ? player().getInventory().armor.get(0) : ItemStack.EMPTY);
+        return wrap(hasPlayer() ? player().getEquippedStack(EquipmentSlot.FEET) : ItemStack.EMPTY);
     }
 
     // ---------------------------------------------------------------
