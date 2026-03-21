@@ -11,6 +11,9 @@ import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.model.ModelPart;
+
+import org.joml.Quaternionf;
 
 public class HatFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState, PlayerEntityModel> {
     public HatFeatureRenderer(FeatureRendererContext<PlayerEntityRenderState, PlayerEntityModel> context) {
@@ -27,8 +30,10 @@ public class HatFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState,
         }
 
         matrices.push();
-
-        this.getContextModel().head.rotate(matrices);
+        
+        ModelPart head = this.getContextModel().head;
+        matrices.translate(head.originX / 16f, head.originY / 16f, head.originZ / 16f);
+        matrices.multiply(new Quaternionf().rotationXYZ(head.pitch, head.yaw, head.roll));
 
         ObjModel.cosmetic("hat", player.hat).render(MtlLoader.cosmetic(player.hat),
                 matrices, vertexConsumers, light,
