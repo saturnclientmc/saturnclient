@@ -4,16 +4,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
+import org.saturnclient.impl.cosmetics.utils.ShaderUtils;
+
 import de.javagl.obj.*;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 public class ObjRenderer {
+
     public static Obj loadObj(Identifier objId) throws IOException {
         try (InputStream is = MinecraftClient.getInstance().getResourceManager()
                 .getResource(objId).get().getInputStream()) {
@@ -39,8 +41,6 @@ public class ObjRenderer {
             if (mtl != null) {
                 String mapKd = mtl.getMapKd();
                 if (mapKd != null) {
-                    // "#key" references are not resolvable at runtime without a texture map,
-                    // so we only support direct resource location strings here
                     if (!mapKd.startsWith("#")) {
                         texture = Identifier.of(mapKd);
                     }
@@ -58,7 +58,7 @@ public class ObjRenderer {
                 }
             }
 
-            VertexConsumer consumer = vertexConsumers.getBuffer(RenderLayer.getEntityAlpha(texture));
+            VertexConsumer consumer = vertexConsumers.getBuffer(ShaderUtils.getRenderLayer(texture));
 
             int faces = groupObj.getNumFaces();
             final float fr = r, fg = g, fb = b;
