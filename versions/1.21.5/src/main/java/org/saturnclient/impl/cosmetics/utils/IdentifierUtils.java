@@ -42,11 +42,13 @@ public class IdentifierUtils {
 
             }
 
-            NativeImageBackedTexture texture = new NativeImageBackedTexture(() -> identifier.toString(), nativeImage);
-            
-            SaturnClient.client.execute(() ->
-                SaturnClient.client.getTextureManager().registerTexture(identifier, texture)
-            );
+            SaturnClient.client.execute(() -> {
+                NativeImageBackedTexture texture = new NativeImageBackedTexture(
+                        () -> identifier.toString(),
+                        nativeImage);
+
+                SaturnClient.client.getTextureManager().registerTexture(identifier, texture);
+            });
 
         } catch (Exception e) {
             SaturnClient.LOGGER.error("Failed to register texture: {}", identifierRef, e);
@@ -62,9 +64,8 @@ public class IdentifierUtils {
         long end = System.currentTimeMillis();
 
         SaturnClient.LOGGER.info(
-            "Registered {} textures in {}ms",
-            textures.size(),
-            (end - start)
-        );
+                "Registered {} textures in {}ms",
+                textures.size(),
+                (end - start));
     }
 }
