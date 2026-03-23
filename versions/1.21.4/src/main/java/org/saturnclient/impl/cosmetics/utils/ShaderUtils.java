@@ -10,7 +10,7 @@ import net.minecraft.util.Identifier;
 
 public class ShaderUtils {
     public static final RenderLayer END_GATEWAY = RenderLayer.of(
-            "end_gateway_no_cull",
+            "end_gateway",
             VertexFormats.POSITION,
             DrawMode.QUADS,
             1536,
