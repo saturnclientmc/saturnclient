@@ -3,6 +3,7 @@ package org.saturnclient.impl.cosmetics;
 import java.util.Arrays;
 
 import org.saturnclient.client.player.SaturnPlayer;
+import org.saturnclient.common.ref.asset.IdentifierRef;
 import org.saturnclient.config.Config;
 import org.saturnclient.cosmetics.Cloaks;
 import org.saturnclient.impl.cosmetics.utils.ShaderUtils;
@@ -23,7 +24,6 @@ import net.minecraft.component.type.EquippableComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.equipment.EquipmentAsset;
 import net.minecraft.registry.RegistryKey;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
 
@@ -283,7 +283,7 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
             return;
         }
 
-        Identifier customCape = (Identifier) (Object) Cloaks.getCurrentCloakTexture(player.cloak);
+        IdentifierRef customCape = Cloaks.getCurrentCloakTexture(player.cloak);
         if (customCape == null
                 || this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack, LayerType.WINGS)) {
             return;
