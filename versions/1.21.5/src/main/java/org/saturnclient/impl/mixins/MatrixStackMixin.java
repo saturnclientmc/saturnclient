@@ -1,5 +1,4 @@
 package org.saturnclient.impl.mixins;
-import org.joml.Quaternionf;
 import org.joml.Quaternionfc;
 import org.saturnclient.common.ref.render.MatrixStackRef;
 import org.saturnclient.common.ref.render.QuaternionfRef;

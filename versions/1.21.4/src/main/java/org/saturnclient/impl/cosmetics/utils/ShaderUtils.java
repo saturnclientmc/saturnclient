@@ -1,5 +1,8 @@
 package org.saturnclient.impl.cosmetics.utils;
 
+import org.saturnclient.common.ref.asset.IdentifierRef;
+import org.saturnclient.cosmetics.utils.GifUtils;
+
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderPhase;
 import net.minecraft.client.render.VertexFormat.DrawMode;
@@ -10,7 +13,7 @@ import net.minecraft.util.Identifier;
 
 public class ShaderUtils {
     public static final RenderLayer END_GATEWAY = RenderLayer.of(
-            "end_gateway_no_cull",
+            "end_gateway",
             VertexFormats.POSITION,
             DrawMode.QUADS,
             1536,
@@ -25,11 +28,14 @@ public class ShaderUtils {
                     .cull(RenderPhase.DISABLE_CULLING)
                     .build(false));
 
-    public static RenderLayer getRenderLayer(Identifier texture) {
-        if (texture.getPath().endsWith("end.png")) {
+    public static RenderLayer getRenderLayer(IdentifierRef texture) {
+        String path = texture.toString();
+        if (path.endsWith(".gif")) {
+            return RenderLayer.getEntityAlpha((Identifier) (Object) GifUtils.get(texture));
+        } else if (path.endsWith("end.png")) {
             return END_GATEWAY;
         } else {
-            return RenderLayer.getEntityAlpha(texture);
+            return RenderLayer.getEntityAlpha((Identifier) (Object) texture);
         }
     }
 }

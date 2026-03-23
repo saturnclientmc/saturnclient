@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
+import org.saturnclient.common.ref.asset.IdentifierRef;
 import org.saturnclient.impl.cosmetics.utils.ShaderUtils;
 
 import de.javagl.obj.*;
@@ -36,13 +37,13 @@ public class ObjRenderer {
             Mtl mtl = mtlMap != null ? mtlMap.get(materialName) : null;
 
             // Resolve texture identifier using same logic as ObjUnbakedModelModel
-            Identifier texture = Identifier.of("minecraft:textures/misc/white.png");
+            IdentifierRef texture = IdentifierRef.ofVanilla("textures/misc/white.png");
 
             if (mtl != null) {
                 String mapKd = mtl.getMapKd();
                 if (mapKd != null) {
                     if (!mapKd.startsWith("#")) {
-                        texture = Identifier.of(mapKd);
+                        texture = IdentifierRef.of(mapKd);
                     }
                 }
             }
