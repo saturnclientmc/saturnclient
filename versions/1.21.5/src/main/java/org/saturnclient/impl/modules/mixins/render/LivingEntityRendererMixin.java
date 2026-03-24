@@ -7,7 +7,7 @@ import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
-import org.saturnclient.common.module.EntityModule;
+import org.saturnclient.common.feature.EntityFeature;
 import org.saturnclient.impl.modules.entity.HealthRenderState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * them without touching the live entity again.
  *
  * Previously imported {@code NametagsInterface.EntityType}; now uses
- * {@link EntityModule.EntityType} — the canonical enum shared across
+ * {@link EntityFeature.EntityType} — the canonical enum shared across
  * the whole module system.
  *
  * The injection target and strategy are unchanged from the original.
@@ -36,15 +36,15 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
         hrs.saturn$setHealth(entity.getHealth(), entity.getMaxHealth());
 
         // Classify entity type for the nametag feature's filtering logic
-        EntityModule.EntityType type;
+        EntityFeature.EntityType type;
         if (entity instanceof PlayerEntity)
-            type = EntityModule.EntityType.PLAYER;
+            type = EntityFeature.EntityType.PLAYER;
         else if (entity instanceof HostileEntity)
-            type = EntityModule.EntityType.HOSTILE;
+            type = EntityFeature.EntityType.HOSTILE;
         else if (entity instanceof PassiveEntity)
-            type = EntityModule.EntityType.PASSIVE;
+            type = EntityFeature.EntityType.PASSIVE;
         else
-            type = EntityModule.EntityType.OTHER;
+            type = EntityFeature.EntityType.OTHER;
 
         hrs.saturn$setEntityType(type);
     }

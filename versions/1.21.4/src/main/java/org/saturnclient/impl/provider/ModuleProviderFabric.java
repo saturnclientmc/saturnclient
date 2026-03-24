@@ -2,16 +2,16 @@ package org.saturnclient.impl.provider;
 
 import net.minecraft.client.MinecraftClient;
 
-import org.saturnclient.common.provider.ModuleProvider;
+import org.saturnclient.common.feature.*;
+import org.saturnclient.common.provider.FeatureProvider;
 import org.saturnclient.impl.modules.entity.EntityModuleFabric;
 import org.saturnclient.impl.modules.network.NetworkModuleFabric;
 import org.saturnclient.impl.modules.player.PlayerModuleFabric;
 import org.saturnclient.impl.modules.render.RenderModuleFabric;
 import org.saturnclient.impl.modules.world.WorldModuleFabric;
-import org.saturnclient.common.module.*;
 
 /**
- * Fabric implementation of {@link ModuleProvider}.
+ * Fabric implementation of {@link FeatureProvider}.
  *
  * Instantiated once during client startup (e.g. in the mod initialiser)
  * and passed to every feature constructor. All five sub-modules share
@@ -25,13 +25,13 @@ import org.saturnclient.common.module.*;
  * // …
  * }</pre>
  */
-public class ModuleProviderFabric implements ModuleProvider {
+public class ModuleProviderFabric implements FeatureProvider {
 
-    private final PlayerModule player;
-    private final WorldModule world;
-    private final EntityModule entity;
-    private final RenderModule render;
-    private final NetworkModule network;
+    private final PlayerFeature player;
+    private final WorldFeature world;
+    private final EntityFeature entity;
+    private final RenderFeature render;
+    private final NetworkFeature network;
 
     public ModuleProviderFabric(MinecraftClient mc) {
         this.player = new PlayerModuleFabric(mc);
@@ -42,27 +42,27 @@ public class ModuleProviderFabric implements ModuleProvider {
     }
 
     @Override
-    public PlayerModule player() {
+    public PlayerFeature player() {
         return player;
     }
 
     @Override
-    public WorldModule world() {
+    public WorldFeature world() {
         return world;
     }
 
     @Override
-    public EntityModule entity() {
+    public EntityFeature entity() {
         return entity;
     }
 
     @Override
-    public RenderModule render() {
+    public RenderFeature render() {
         return render;
     }
 
     @Override
-    public NetworkModule network() {
+    public NetworkFeature network() {
         return network;
     }
 }

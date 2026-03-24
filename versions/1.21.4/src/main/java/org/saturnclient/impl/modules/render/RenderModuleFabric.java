@@ -1,18 +1,18 @@
 package org.saturnclient.impl.modules.render;
 
+import org.saturnclient.common.feature.RenderFeature;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.Perspective;
 
-import org.saturnclient.common.module.RenderModule;
-
 /**
- * Fabric implementation of {@link RenderModule}.
+ * Fabric implementation of {@link RenderFeature}.
  *
  * Window dimensions and FPS are read directly from
- * {@link MinecraftClient}.  Camera perspective control delegates to
+ * {@link MinecraftClient}. Camera perspective control delegates to
  * {@link net.minecraft.client.option.GameOptions}.
  */
-public class RenderModuleFabric implements RenderModule {
+public class RenderModuleFabric implements RenderFeature {
 
     private final MinecraftClient mc;
 

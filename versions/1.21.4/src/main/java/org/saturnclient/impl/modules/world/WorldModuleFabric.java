@@ -1,16 +1,16 @@
 package org.saturnclient.impl.modules.world;
 
+import org.saturnclient.common.feature.WorldFeature;
+
 import net.minecraft.client.MinecraftClient;
 
-import org.saturnclient.common.module.WorldModule;
-
 /**
- * Fabric implementation of {@link WorldModule}.
+ * Fabric implementation of {@link WorldFeature}.
  *
  * Reads the client world's time directly from {@link MinecraftClient}.
  * Returns safe defaults when no world is loaded.
  */
-public class WorldModuleFabric implements WorldModule {
+public class WorldModuleFabric implements WorldFeature {
 
     private final MinecraftClient mc;
 
@@ -25,7 +25,7 @@ public class WorldModuleFabric implements WorldModule {
 
     /**
      * Returns the total world age in ticks, or {@code 0} when no world
-     * is loaded.  Used by {@link TpsFeature#onTimePacket} (which is
+     * is loaded. Used by {@link TpsFeature#onTimePacket} (which is
      * called from the mixin and stores its own copy) and by
      * {@link DayCounterFeature} for the day count.
      */

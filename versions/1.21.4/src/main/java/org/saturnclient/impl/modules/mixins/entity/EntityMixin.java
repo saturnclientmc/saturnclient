@@ -1,7 +1,7 @@
 package org.saturnclient.impl.modules.mixins.entity;
 
-import org.saturnclient.feature.features.FreelookFeature;
 import org.saturnclient.impl.modules.entity.CameraOverriddenEntity;
+import org.saturnclient.mod.mods.FreelookMod;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -24,7 +24,7 @@ public class EntityMixin implements CameraOverriddenEntity {
     public void changeCameraLookDirection(double xDelta, double yDelta, CallbackInfo ci) {
         // noinspection ConstantValue// IntelliJ is incorrect here, this code block is
         // reachable
-        if (FreelookFeature.isFreeLooking && (Object) this instanceof ClientPlayerEntity) {
+        if (FreelookMod.isFreeLooking && (Object) this instanceof ClientPlayerEntity) {
             double pitchDelta = (yDelta * 0.15);
             double yawDelta = (xDelta * 0.15);
 

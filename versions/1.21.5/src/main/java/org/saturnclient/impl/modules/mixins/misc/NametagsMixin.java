@@ -7,10 +7,10 @@ import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 
-import org.saturnclient.feature.features.NametagsFeature;
 import org.saturnclient.impl.modules.entity.EntityModuleFabric;
 import org.saturnclient.impl.modules.entity.HealthRenderState;
 import org.saturnclient.impl.modules.mixins.render.LivingEntityRenderStateMixin;
+import org.saturnclient.mod.mods.NametagsMod;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
  * Intercepts nametag rendering and replaces the displayed text with
- * the string produced by {@link NametagsFeature#getNametagString}.
+ * the string produced by {@link NametagsMod#getNametagString}.
  *
  * Key changes from the original:
  *
@@ -30,7 +30,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * which wraps the {@link HealthRenderState} already injected into
  * the render state by {@link LivingEntityRenderStateMixin}.</li>
  * <li>The feature import changes from {@code Nametags} to
- * {@link NametagsFeature}; the two static methods
+ * {@link NametagsMod}; the two static methods
  * ({@code shouldReplaceName} / {@code getNametagString}) are
  * unchanged in signature.</li>
  * <li>The entity's display name is extracted from the render state's
@@ -64,7 +64,7 @@ public abstract class NametagsMixin {
         if (saturn$rendering.get())
             return;
 
-        if (!NametagsFeature.shouldReplaceName())
+        if (!NametagsMod.shouldReplaceName())
             return;
 
         // Only living entities carry health data
@@ -80,7 +80,7 @@ public abstract class NametagsMixin {
                 customName, hrs);
 
         // Ask the feature for the replacement string
-        String replacement = NametagsFeature.getNametagString(entityState);
+        String replacement = NametagsMod.getNametagString(entityState);
         if (replacement == null)
             return; // feature decided not to replace this entity
 

@@ -2,7 +2,7 @@ package org.saturnclient.impl.modules.mixins.render;
 
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 
-import org.saturnclient.common.module.EntityModule;
+import org.saturnclient.common.feature.EntityFeature;
 import org.saturnclient.impl.modules.entity.HealthRenderState;
 import org.saturnclient.impl.modules.mixins.misc.NametagsMixin;
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.Unique;
  * storage into every living entity's render-state snapshot.
  *
  * Previously imported {@code NametagsInterface.EntityType}; the enum
- * now lives in {@link EntityModule.EntityType} which is the single
+ * now lives in {@link EntityFeature.EntityType} which is the single
  * canonical definition shared by the mixin layer and the feature layer.
  *
  * The stored values are written by
@@ -30,7 +30,7 @@ public class LivingEntityRenderStateMixin implements HealthRenderState {
     @Unique
     private float saturn$maxHealth = 1f;
     @Unique
-    private EntityModule.EntityType saturn$entityType = EntityModule.EntityType.OTHER;
+    private EntityFeature.EntityType saturn$entityType = EntityFeature.EntityType.OTHER;
 
     @Override
     public float saturn$getHealth() {
@@ -49,12 +49,12 @@ public class LivingEntityRenderStateMixin implements HealthRenderState {
     }
 
     @Override
-    public EntityModule.EntityType saturn$getEntityType() {
+    public EntityFeature.EntityType saturn$getEntityType() {
         return saturn$entityType;
     }
 
     @Override
-    public void saturn$setEntityType(EntityModule.EntityType type) {
+    public void saturn$setEntityType(EntityFeature.EntityType type) {
         saturn$entityType = type;
     }
 }

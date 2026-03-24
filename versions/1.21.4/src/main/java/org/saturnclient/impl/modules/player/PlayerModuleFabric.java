@@ -8,7 +8,7 @@ import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
-import org.saturnclient.common.module.PlayerModule;
+import org.saturnclient.common.feature.PlayerFeature;
 import org.saturnclient.common.ref.game.EffectRef;
 import org.saturnclient.common.ref.game.ItemStackRef;
 
@@ -17,16 +17,16 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Fabric implementation of {@link PlayerModule}.
+ * Fabric implementation of {@link PlayerFeature}.
  *
  * All access to {@link MinecraftClient} and {@link ClientPlayerEntity}
- * is encapsulated here. Features only ever see the {@link PlayerModule}
+ * is encapsulated here. Features only ever see the {@link PlayerFeature}
  * interface; they never import Minecraft classes directly.
  *
  * Every method guards against a missing player and returns a safe
  * default so features are free of null checks.
  */
-public class PlayerModuleFabric implements PlayerModule {
+public class PlayerModuleFabric implements PlayerFeature {
 
     private final MinecraftClient mc;
 

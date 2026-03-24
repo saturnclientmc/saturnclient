@@ -1,16 +1,15 @@
 package org.saturnclient.impl.modules.entity;
 
+import org.saturnclient.common.feature.EntityFeature;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.entity.LivingEntity;
 
-import org.saturnclient.common.module.EntityModule;
-
-
 /**
- * Fabric implementation of {@link EntityModule}.
+ * Fabric implementation of {@link EntityFeature}.
  *
  * Crosshair targeting is resolved via {@link MinecraftClient#crosshairTarget}.
  * Entity state for nametag rendering is supplied at render time by
@@ -18,7 +17,7 @@ import org.saturnclient.common.module.EntityModule;
  * writes into the render state; {@link NametagsMixin} then constructs
  * a {@link RenderStateEntityState} from the already-extracted snapshot.
  */
-public class EntityModuleFabric implements EntityModule {
+public class EntityModuleFabric implements EntityFeature {
 
     private final MinecraftClient mc;
 
