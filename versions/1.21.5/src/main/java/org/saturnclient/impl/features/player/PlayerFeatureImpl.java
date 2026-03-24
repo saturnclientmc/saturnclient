@@ -1,13 +1,13 @@
-package org.saturnclient.impl.modules.player;
+package org.saturnclient.impl.features.player;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.entity.EquipmentSlot;
 
 import org.saturnclient.common.feature.PlayerFeature;
 import org.saturnclient.common.ref.game.EffectRef;
@@ -27,11 +27,11 @@ import java.util.List;
  * Every method guards against a missing player and returns a safe
  * default so features are free of null checks.
  */
-public class PlayerModuleFabric implements PlayerFeature {
+public class PlayerFeatureImpl implements PlayerFeature {
 
     private final MinecraftClient mc;
 
-    public PlayerModuleFabric(MinecraftClient mc) {
+    public PlayerFeatureImpl(MinecraftClient mc) {
         this.mc = mc;
     }
 

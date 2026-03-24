@@ -1,4 +1,4 @@
-package org.saturnclient.impl.modules.entity;
+package org.saturnclient.impl.features.entity;
 
 import org.saturnclient.common.feature.EntityFeature;
 

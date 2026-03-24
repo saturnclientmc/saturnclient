@@ -1,4 +1,4 @@
-package org.saturnclient.impl.modules.mixins.render;
+package org.saturnclient.impl.features.mixins.render;
 
 import net.minecraft.client.render.GameRenderer;
 

@@ -1,4 +1,4 @@
-package org.saturnclient.impl.modules.render;
+package org.saturnclient.impl.features.render;
 
 import org.saturnclient.common.feature.RenderFeature;
 
@@ -12,11 +12,11 @@ import net.minecraft.client.option.Perspective;
  * {@link MinecraftClient}. Camera perspective control delegates to
  * {@link net.minecraft.client.option.GameOptions}.
  */
-public class RenderModuleFabric implements RenderFeature {
+public class RenderFeatureImpl implements RenderFeature {
 
     private final MinecraftClient mc;
 
-    public RenderModuleFabric(MinecraftClient mc) {
+    public RenderFeatureImpl(MinecraftClient mc) {
         this.mc = mc;
     }
 

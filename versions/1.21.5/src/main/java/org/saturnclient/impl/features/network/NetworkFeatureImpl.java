@@ -1,4 +1,4 @@
-package org.saturnclient.impl.modules.network;
+package org.saturnclient.impl.features.network;
 
 import org.saturnclient.common.feature.NetworkFeature;
 
@@ -12,11 +12,11 @@ import net.minecraft.client.network.PlayerListEntry;
  * Ping is read from the player's {@link PlayerListEntry} which the
  * server populates; returns {@code -1} when unavailable.
  */
-public class NetworkModuleFabric implements NetworkFeature {
+public class NetworkFeatureImpl implements NetworkFeature {
 
     private final MinecraftClient mc;
 
-    public NetworkModuleFabric(MinecraftClient mc) {
+    public NetworkFeatureImpl(MinecraftClient mc) {
         this.mc = mc;
     }
 

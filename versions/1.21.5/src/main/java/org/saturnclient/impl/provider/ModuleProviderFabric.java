@@ -4,11 +4,11 @@ import net.minecraft.client.MinecraftClient;
 
 import org.saturnclient.common.feature.*;
 import org.saturnclient.common.provider.FeatureProvider;
-import org.saturnclient.impl.modules.entity.EntityModuleFabric;
-import org.saturnclient.impl.modules.network.NetworkModuleFabric;
-import org.saturnclient.impl.modules.player.PlayerModuleFabric;
-import org.saturnclient.impl.modules.render.RenderModuleFabric;
-import org.saturnclient.impl.modules.world.WorldModuleFabric;
+import org.saturnclient.impl.features.entity.EntityFeatureImpl;
+import org.saturnclient.impl.features.network.NetworkFeatureImpl;
+import org.saturnclient.impl.features.player.PlayerFeatureImpl;
+import org.saturnclient.impl.features.render.RenderFeatureImpl;
+import org.saturnclient.impl.features.world.WorldFeatureImpl;
 
 /**
  * Fabric implementation of {@link FeatureProvider}.
@@ -34,11 +34,11 @@ public class ModuleProviderFabric implements FeatureProvider {
     private final NetworkFeature network;
 
     public ModuleProviderFabric(MinecraftClient mc) {
-        this.player = new PlayerModuleFabric(mc);
-        this.world = new WorldModuleFabric(mc);
-        this.entity = new EntityModuleFabric(mc);
-        this.render = new RenderModuleFabric(mc);
-        this.network = new NetworkModuleFabric(mc);
+        this.player = new PlayerFeatureImpl(mc);
+        this.world = new WorldFeatureImpl(mc);
+        this.entity = new EntityFeatureImpl(mc);
+        this.render = new RenderFeatureImpl(mc);
+        this.network = new NetworkFeatureImpl(mc);
     }
 
     @Override
