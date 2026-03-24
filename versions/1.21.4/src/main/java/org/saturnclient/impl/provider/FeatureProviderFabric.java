@@ -19,7 +19,7 @@ import org.saturnclient.impl.features.world.WorldFeatureImpl;
  * inconsistency between modules reading state within the same tick.
  *
  * <pre>{@code
- * ModuleProvider provider = new ModuleProviderFabric(MinecraftClient.getInstance());
+ * FeatureProvider provider = new FeatureProviderFabric(MinecraftClient.getInstance());
  * FeatureManager.register(new AutoSprintFeature(provider));
  * FeatureManager.register(new CoordinatesFeature(provider));
  * // …
