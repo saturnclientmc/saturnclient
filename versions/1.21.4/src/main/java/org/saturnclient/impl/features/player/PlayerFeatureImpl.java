@@ -1,4 +1,4 @@
-package org.saturnclient.impl.modules.player;
+package org.saturnclient.impl.features.player;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -26,11 +26,11 @@ import java.util.List;
  * Every method guards against a missing player and returns a safe
  * default so features are free of null checks.
  */
-public class PlayerModuleFabric implements PlayerFeature {
+public class PlayerFeatureImpl implements PlayerFeature {
 
     private final MinecraftClient mc;
 
-    public PlayerModuleFabric(MinecraftClient mc) {
+    public PlayerFeatureImpl(MinecraftClient mc) {
         this.mc = mc;
     }
 

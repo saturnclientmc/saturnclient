@@ -1,4 +1,4 @@
-package org.saturnclient.impl.modules.world;
+package org.saturnclient.impl.features.world;
 
 import org.saturnclient.common.feature.WorldFeature;
 
@@ -10,11 +10,11 @@ import net.minecraft.client.MinecraftClient;
  * Reads the client world's time directly from {@link MinecraftClient}.
  * Returns safe defaults when no world is loaded.
  */
-public class WorldModuleFabric implements WorldFeature {
+public class WorldFeatureImpl implements WorldFeature {
 
     private final MinecraftClient mc;
 
-    public WorldModuleFabric(MinecraftClient mc) {
+    public WorldFeatureImpl(MinecraftClient mc) {
         this.mc = mc;
     }
 

@@ -1,4 +1,4 @@
-package org.saturnclient.impl.modules.mixins.misc;
+package org.saturnclient.impl.features.mixins.misc;
 
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderer;
@@ -7,9 +7,9 @@ import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 
-import org.saturnclient.impl.modules.entity.EntityModuleFabric;
-import org.saturnclient.impl.modules.entity.HealthRenderState;
-import org.saturnclient.impl.modules.mixins.render.LivingEntityRenderStateMixin;
+import org.saturnclient.impl.features.entity.EntityFeatureImpl;
+import org.saturnclient.impl.features.entity.HealthRenderState;
+import org.saturnclient.impl.features.mixins.render.LivingEntityRenderStateMixin;
 import org.saturnclient.mod.mods.NametagsMod;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -26,7 +26,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  *
  * <ul>
  * <li>The old {@code NametagsFabric.EntityStateImpl} bridge class is
- * replaced by {@link EntityModuleFabric.RenderStateEntityState},
+ * replaced by {@link EntityFeatureImpl.RenderStateEntityState},
  * which wraps the {@link HealthRenderState} already injected into
  * the render state by {@link LivingEntityRenderStateMixin}.</li>
  * <li>The feature import changes from {@code Nametags} to
@@ -76,7 +76,7 @@ public abstract class NametagsMixin {
         // Build the platform-neutral EntityState from the render-state snapshot
         // (health/type were written by LivingEntityRendererMixin at extract time).
         String customName = text != null ? text.getString() : null;
-        EntityModuleFabric.RenderStateEntityState entityState = new EntityModuleFabric.RenderStateEntityState(
+        EntityFeatureImpl.RenderStateEntityState entityState = new EntityFeatureImpl.RenderStateEntityState(
                 customName, hrs);
 
         // Ask the feature for the replacement string

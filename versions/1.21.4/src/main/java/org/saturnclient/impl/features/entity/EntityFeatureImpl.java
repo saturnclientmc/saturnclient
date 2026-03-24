@@ -1,4 +1,4 @@
-package org.saturnclient.impl.modules.entity;
+package org.saturnclient.impl.features.entity;
 
 import org.saturnclient.common.feature.EntityFeature;
 
@@ -17,11 +17,11 @@ import net.minecraft.entity.LivingEntity;
  * writes into the render state; {@link NametagsMixin} then constructs
  * a {@link RenderStateEntityState} from the already-extracted snapshot.
  */
-public class EntityModuleFabric implements EntityFeature {
+public class EntityFeatureImpl implements EntityFeature {
 
     private final MinecraftClient mc;
 
-    public EntityModuleFabric(MinecraftClient mc) {
+    public EntityFeatureImpl(MinecraftClient mc) {
         this.mc = mc;
     }
 

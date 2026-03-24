@@ -41,7 +41,7 @@ public class SaturnClient implements ModInitializer {
         Providers.saturn = new SaturnProviderImpl();
         Providers.refConstructor = new RefConstructorImpl();
         Providers.GLFW = new GLFWProviderImpl();
-        Providers.module = new ModuleProviderFabric(client);
+        Providers.feature = new ModuleProviderFabric(client);
         SkinPreview.DRAWER = new EntityDrawerImpl();
 
         Config.init();
