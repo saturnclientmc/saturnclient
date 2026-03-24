@@ -17,7 +17,7 @@
   },
   "mixins": [
     "saturnclient.mixins.json",
-    "mods.mixins.json",
+    "features.mixins.json",
     "impl.mixins.json"
   ],
   "depends": {
