@@ -12,8 +12,8 @@ import org.saturnclient.common.provider.Providers;
 import org.saturnclient.ui.screens.EmoteWheel;
 import org.saturnclient.ui.screens.ShiftMenu;
 
-import dev.kosmx.playerAnim.api.layered.AnimationStack;
-import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
+// import dev.kosmx.playerAnim.api.layered.AnimationStack;
+// import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 
 import org.lwjgl.glfw.GLFW;
 
@@ -46,11 +46,11 @@ public class KeyInputHandler {
             }
 
             if (SaturnClient.client.player != null && SaturnClient.client.player.isSneaking()) {
-                AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(SaturnClient.client.player);
-                if (animationStack.isActive() && animationStack.getPriority() == 1000) {
-                    animationStack.removeLayer(1000);
-                    ServiceClient.emote("");
-                }
+                // AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(SaturnClient.client.player);
+                // if (animationStack.isActive() && animationStack.getPriority() == 1000) {
+                //     animationStack.removeLayer(1000);
+                //     ServiceClient.emote("");
+                // }
             }
         });
     }
