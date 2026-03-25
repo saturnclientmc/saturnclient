@@ -19,6 +19,7 @@ import org.saturnclient.common.ref.asset.IdentifierRef;
 import org.saturnclient.common.ref.asset.SpriteRef;
 import org.saturnclient.common.ref.game.ItemStackRef;
 import org.saturnclient.common.ref.render.MatrixStackRef;
+import org.saturnclient.impl.ref.Matrix3x2fStackRef;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
 import org.saturnclient.ui.RenderScope;
@@ -70,7 +71,7 @@ public class RenderScopeImpl implements RenderScope {
 
     @Override
     public MatrixStackRef getMatrixStack() {
-        return (MatrixStackRef) matrices;
+        return new Matrix3x2fStackRef(matrices);
     }
 
     @Override
