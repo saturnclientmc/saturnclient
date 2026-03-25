@@ -1,0 +1,20 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "org.saturnclient.impl.mixins",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "IdentifierMixin",
+    "ItemStackMixin",
+    "MatrixStackMixin",
+    "MinecraftClientMixin",
+    "QuaternionfMixin",
+    "WindowMixin",
+    "TextMixin",
+    "SpriteMixin",
+    "StatusEffectMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
