@@ -67,25 +67,26 @@ public class SaturnScreenFabric extends Screen implements ScreenProvider {
         mouseX *= 2;
         mouseY *= 2;
 
-        if (client.world == null && client.getCurrentServerEntry() == null) {
-            ROTATING_PANORAMA_RENDERER.render(context, this.width, this.height, screen.backgroundOpacity, delta);
-        }
+        // if (client.world == null && client.getCurrentServerEntry() == null) {
+        // ROTATING_PANORAMA_RENDERER.render(context, this.width, this.height,
+        // screen.backgroundOpacity, delta);
+        // }
 
-        PostEffectProcessor postEffectProcessor = this.client.getShaderLoader().loadPostEffect(
-                Identifier.ofVanilla("blur"),
-                DefaultFramebufferSet.MAIN_ONLY);
+        // PostEffectProcessor postEffectProcessor =
+        // this.client.getShaderLoader().loadPostEffect(
+        // Identifier.ofVanilla("blur"),
+        // DefaultFramebufferSet.MAIN_ONLY);
 
-        if (postEffectProcessor != null) {
-            float radius = screen.backgroundBlur * Math.min((float) elapsed / 700, 1.0f);
-            postEffectProcessor.render(
-                this.client.getFramebuffer(),
-                this.pool,
-                pass -> pass.setUniform("Radius", radius)
-            );
-        }
+        // if (postEffectProcessor != null) {
+        // float radius = screen.backgroundBlur * Math.min((float) elapsed / 700, 1.0f);
+        // postEffectProcessor.render(
+        // this.client.getFramebuffer(),
+        // this.pool,
+        // pass -> pass.setUniform("Radius", radius)
+        // );
+        // }
 
-        RenderScope renderScope = new RenderScopeImpl(context.getMatrices(),
-                ((DrawContextAccessor) context).getVertexConsumers());
+        RenderScope renderScope = new RenderScopeImpl(context);
 
         screen.render(renderScope, mouseX, mouseY, delta, elapsed);
     }
