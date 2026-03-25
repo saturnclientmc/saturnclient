@@ -22,8 +22,8 @@ public class ShaderUtils {
     public static final RenderLayer END_GATEWAY = RenderLayer.of("end_gateway", 1536, false, false,
             END_GATEWAY_PIPELINE,
             RenderLayer.MultiPhaseParameters.builder()
-                    .texture(Textures.create().add(EndPortalBlockEntityRenderer.SKY_TEXTURE, false, false)
-                            .add(EndPortalBlockEntityRenderer.PORTAL_TEXTURE, false, false).build())
+                    .texture(Textures.create().add(EndPortalBlockEntityRenderer.SKY_TEXTURE, false)
+                            .add(EndPortalBlockEntityRenderer.PORTAL_TEXTURE, false).build())
                     .build(false));
 
     public static RenderLayer getRenderLayer(IdentifierRef texture) {
