@@ -32,7 +32,7 @@ public class Matrix3x2fStackRef implements MatrixStackRef {
 
     @Override
     public void rotate(float angle) {
-        stack.rotate(angle);
+        stack.rotate((float) Math.toRadians(angle));
     }
 
     @Override

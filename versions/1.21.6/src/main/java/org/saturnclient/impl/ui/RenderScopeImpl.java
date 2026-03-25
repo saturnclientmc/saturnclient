@@ -172,9 +172,8 @@ public class RenderScopeImpl implements RenderScope {
         matrices.pop();
 
         matrices.push();
-        matrices.translate(cornerWidth, cornerHeight * 2);
-        matrices.stack.rotate((float) Math.toRadians(90));
-        matrices.translate(0, -cornerWidth);
+        matrices.rotate(-90);
+        matrices.translate(-cornerHeight * 2, 0);
         matrices.scale(0.05f, 0.05f);
         drawRoundedCorner(cornerHeight, cornerWidth, radius * 10, color);
         matrices.pop();
@@ -186,19 +185,17 @@ public class RenderScopeImpl implements RenderScope {
             return;
         radius = Math.min(radius, Math.min(width, height));
 
-        fill(x, y, x + width, y + height, color);
+        int cornerWidth = width / 2;
+        int cornerHeight = height / 2;
 
-        // int cornerWidth = width / 2;
-        // int cornerHeight = height / 2;
+        matrices.push();
+        matrices.translate(x, y);
+        drawRoundedSide(cornerWidth, cornerHeight, radius, color);
 
-        // matrices.push();
-        // matrices.translate(x, y);
-        // drawRoundedSide(cornerWidth, cornerHeight, radius, color);
-
-        // matrices.translate(cornerWidth * 2, cornerHeight * 2);
-        // matrices.stack.rotate((float) Math.toRadians(90));
-        // drawRoundedSide(cornerWidth, cornerHeight, radius, color);
-        // matrices.pop();
+        matrices.translate(cornerWidth * 2, cornerHeight * 2);
+        matrices.rotate(180);
+        drawRoundedSide(cornerWidth, cornerHeight, radius, color);
+        matrices.pop();
     }
 
     @Override
