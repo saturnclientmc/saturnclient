@@ -56,8 +56,8 @@ public class RenderScopeImpl implements RenderScope {
     }
 
     public RenderScopeImpl(Matrix3x2fStack matrices, GuiRenderState state) {
-        this.state = state;
         this.matrices = new Matrix3x2fStackRef(matrices);
+        this.state = state;
         this.scissorStack = new ScissorStack();
     }
 
@@ -130,17 +130,21 @@ public class RenderScopeImpl implements RenderScope {
         int lineIndex = 0;
         for (String line : text.split("\n")) {
             int finalColor = getColor(color);
+
+            matrices.push();
+            matrices.translate(x, y + (lineIndex * Fonts.getHeight()));
+            matrices.scale(scale, scale);
+
             this.state.addText(
                     new TextGuiElementRenderState(
                             SaturnClient.client.textRenderer,
                             ((Text) Fonts.setFont(line, font)).asOrderedText(),
                             new Matrix3x2f(this.matrices.stack),
-                            x, y,
+                            0, 0, // IMPORTANT
                             finalColor, 0, false, this.scissorStack.peekLast()));
 
-            matrices.push();
-            matrices.translate(x, y + (lineIndex * Fonts.getHeight()));
-            matrices.scale(scale, scale);
+            matrices.pop();
+
             lineIndex++;
         }
     }
@@ -182,17 +186,19 @@ public class RenderScopeImpl implements RenderScope {
             return;
         radius = Math.min(radius, Math.min(width, height));
 
-        int cornerWidth = width / 2;
-        int cornerHeight = height / 2;
+        fill(x, y, x + width, y + height, color);
 
-        matrices.push();
-        matrices.translate(x, y);
-        drawRoundedSide(cornerWidth, cornerHeight, radius, color);
+        // int cornerWidth = width / 2;
+        // int cornerHeight = height / 2;
 
-        matrices.translate(cornerWidth * 2, cornerHeight * 2);
-        matrices.stack.rotate((float) Math.toRadians(90));
-        drawRoundedSide(cornerWidth, cornerHeight, radius, color);
-        matrices.pop();
+        // matrices.push();
+        // matrices.translate(x, y);
+        // drawRoundedSide(cornerWidth, cornerHeight, radius, color);
+
+        // matrices.translate(cornerWidth * 2, cornerHeight * 2);
+        // matrices.stack.rotate((float) Math.toRadians(90));
+        // drawRoundedSide(cornerWidth, cornerHeight, radius, color);
+        // matrices.pop();
     }
 
     @Override
