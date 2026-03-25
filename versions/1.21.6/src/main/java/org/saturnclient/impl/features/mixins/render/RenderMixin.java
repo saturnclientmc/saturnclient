@@ -12,7 +12,6 @@ import org.saturnclient.mod.Mod;
 import org.saturnclient.mod.ModLayout;
 import org.saturnclient.mod.ModManager;
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
 import org.saturnclient.ui.RenderScope;
 import org.saturnclient.ui.screens.HudEditor;
 import org.spongepowered.asm.mixin.Mixin;
@@ -53,9 +52,7 @@ public class RenderMixin {
                 && f.screen instanceof HudEditor)
             return;
 
-        RenderScope scope = new RenderScopeImpl(
-                context.getMatrices(),
-                ((DrawContextAccessor) context).getVertexConsumers());
+        RenderScope scope = new RenderScopeImpl(context);
 
         for (Mod feature : ModManager.ENABLED_MODS) {
             if (!feature.isEnabled())

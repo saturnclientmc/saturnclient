@@ -57,21 +57,21 @@ public class EntityDrawerImpl implements EntityDrawer {
         renderScope.getMatrixStack().translate(vector3f.x, vector3f.y, vector3f.z);
         renderScope.getMatrixStack().multiply((QuaternionfRef) quaternionf);
         renderScope.draw();
-        DiffuseLighting.disableGuiDepthLighting();
+        // DiffuseLighting.disableGuiDepthLighting();
         EntityRenderDispatcher entityRenderDispatcher = SaturnClient.client.getEntityRenderDispatcher();
 
         entityRenderDispatcher.setRenderShadows(false);
         if (renderScope instanceof RenderScopeImpl r) {
-            r.draw((vertexConsumers) -> {
-                entityRenderDispatcher.render(entity, 0.0, 0.0, 0.0, 1.0F,
-                        r.matrices, vertexConsumers,
-                        15728880);
-            });
+            // r.draw((vertexConsumers) -> {
+            //     entityRenderDispatcher.render(entity, 0.0, 0.0, 0.0, 1.0F,
+            //             r.matrices, vertexConsumers,
+            //             15728880);
+            // });
         }
         renderScope.draw();
         entityRenderDispatcher.setRenderShadows(true);
         renderScope.getMatrixStack().pop();
-        DiffuseLighting.enableGuiDepthLighting();
+        // DiffuseLighting.enableGuiDepthLighting();
     }
 
     @Override
