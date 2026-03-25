@@ -49,7 +49,7 @@ import net.minecraft.util.crash.CrashReportSection;
 import net.minecraft.world.World;
 
 public class RenderScopeImpl implements RenderScope {
-    private final Matrix3x2fStack matrices;
+    private final Matrix3x2fStackRef matrices;
     private final GuiAtlasManager guiAtlasManager;
     public final GuiRenderState state;
 
@@ -63,7 +63,7 @@ public class RenderScopeImpl implements RenderScope {
 
     public RenderScopeImpl(Matrix3x2fStack matrices, GuiRenderState state) {
         this.state = state;
-        this.matrices = matrices;
+        this.matrices = new Matrix3x2fStackRef(matrices);
         this.guiAtlasManager = SaturnClient.client.getGuiAtlasManager();
         this.scissorStack = new ScissorStack();
         this.itemRenderState = new ItemRenderState();
@@ -71,7 +71,7 @@ public class RenderScopeImpl implements RenderScope {
 
     @Override
     public MatrixStackRef getMatrixStack() {
-        return new Matrix3x2fStackRef(matrices);
+        return matrices;
     }
 
     @Override
@@ -91,7 +91,7 @@ public class RenderScopeImpl implements RenderScope {
     public void fill(int x1, int y1, int x2, int y2, int color) {
         this.state.addSimpleElement(
                 new ColoredQuadGuiElementRenderState(RenderPipelines.GUI, TextureSetup.empty(),
-                        new Matrix3x2f(this.matrices),
+                        new Matrix3x2f(this.matrices.stack),
                         x1, y1, x2,
                         y2, color, color, this.scissorStack.peekLast()));
     }
@@ -143,12 +143,12 @@ public class RenderScopeImpl implements RenderScope {
         for (String line : text.split("\n")) {
             color = getColor(color);
             this.state.addText(new TextGuiElementRenderState(SaturnClient.client.textRenderer,
-                    ((Text) Fonts.setFont(line, font)).asOrderedText(), new Matrix3x2f(this.matrices), x, y,
+                    ((Text) Fonts.setFont(line, font)).asOrderedText(), new Matrix3x2f(this.matrices.stack), x, y,
                     color, 0, false, this.scissorStack.peekLast()));
 
-            matrices.pushMatrix();
-            matrices.translate(x, y + (i * Fonts.getHeight()));
-            matrices.scale(scale, scale);
+            matrices.push();
+            matrices.translate(x, y + (i * Fonts.getHeight()), 0);
+            matrices.scale(scale, scale, 0);
             i++;
         }
     }
@@ -172,28 +172,28 @@ public class RenderScopeImpl implements RenderScope {
 
     private void drawRoundedSide(int cornerWidth, int cornerHeight, int radius, int color) {
         // Top
-        this.matrices.pushMatrix();
+        this.matrices.push();
 
-        this.matrices.scale(0.05f, 0.05f);
+        this.matrices.scale(0.05f, 0.05f, 0);
 
         this.drawRoundedCorner(cornerWidth, cornerHeight, radius * 10, color);
 
-        this.matrices.popMatrix();
+        this.matrices.pop();
 
         // Bottom
-        this.matrices.pushMatrix();
+        this.matrices.push();
 
-        this.matrices.translate(cornerWidth, cornerHeight * 2);
+        this.matrices.translate(cornerWidth, cornerHeight * 2, 0);
 
-        this.matrices.rotate((float) Math.toRadians(90));
+        this.matrices.stack.rotate((float) Math.toRadians(90));
 
-        this.matrices.translate(0, -cornerWidth);
+        this.matrices.translate(0, -cornerWidth, 0);
 
-        this.matrices.scale(0.05f, 0.05f);
+        this.matrices.scale(0.05f, 0.05f, 0);
 
         this.drawRoundedCorner(cornerHeight, cornerWidth, radius * 10, color);
 
-        this.matrices.popMatrix();
+        this.matrices.pop();
     }
 
     @Override
@@ -204,21 +204,21 @@ public class RenderScopeImpl implements RenderScope {
         int cornerWidth = width / 2;
         int cornerHeight = height / 2;
 
-        this.matrices.pushMatrix();
+        this.matrices.push();
 
-        this.matrices.translate(x, y);
-
-        this.drawRoundedSide(cornerWidth, cornerHeight, radius, color);
-
-        this.matrices.translate(cornerWidth * 2, cornerHeight * 2);
-
-        this.matrices.rotate((float) Math.toRadians(90));
-
-        this.matrices.translate(0, 0);
+        this.matrices.translate(x, y, 0);
 
         this.drawRoundedSide(cornerWidth, cornerHeight, radius, color);
 
-        this.matrices.popMatrix();
+        this.matrices.translate(cornerWidth * 2, cornerHeight * 2, 0);
+
+        this.matrices.stack.rotate((float) Math.toRadians(90));
+
+        this.matrices.translate(0, 0, 0);
+
+        this.drawRoundedSide(cornerWidth, cornerHeight, radius, color);
+
+        this.matrices.pop();
     }
 
     @Override
@@ -300,14 +300,14 @@ public class RenderScopeImpl implements RenderScope {
         }
 
         this.state.addSimpleElement(new TexturedQuadGuiElementRenderState(RenderPipelines.GUI,
-                TextureSetup.withoutGlTexture(gpuTextureView), new Matrix3x2f(this.matrices), x1, y1, x2, y2, u1, u2,
+                TextureSetup.withoutGlTexture(gpuTextureView), new Matrix3x2f(this.matrices.stack), x1, y1, x2, y2, u1, u2,
                 v1, v2,
                 color, this.scissorStack.peekLast()));
     }
 
     @Override
     public void enableScissor(int x1, int y1, int x2, int y2) {
-        ScreenRect screenRect = (new ScreenRect(x1, y1, x2 - x1, y2 - y1)).transform(this.matrices);
+        ScreenRect screenRect = (new ScreenRect(x1, y1, x2 - x1, y2 - y1)).transform(this.matrices.stack);
         this.scissorStack.push(screenRect);
     }
 
@@ -400,7 +400,7 @@ public class RenderScopeImpl implements RenderScope {
 
             try {
                 this.state.addItem(new ItemGuiElementRenderState(stack.getItem().getName().toString(),
-                        new Matrix3x2f(this.matrices), itemRenderState, x, y, this.scissorStack.peekLast()));
+                        new Matrix3x2f(this.matrices.stack), itemRenderState, x, y, this.scissorStack.peekLast()));
             } catch (Throwable throwable) {
                 CrashReport crashReport = CrashReport.create(throwable, "Rendering item");
                 CrashReportSection crashReportSection = crashReport.addElement("Item being rendered");
