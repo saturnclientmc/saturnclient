@@ -5,7 +5,6 @@ import java.util.Deque;
 
 import org.joml.Matrix3x2fStack;
 import org.saturnclient.common.ref.render.MatrixStackRef;
-import org.saturnclient.common.ref.render.QuaternionfRef;
 
 public class Matrix3x2fStackRef implements MatrixStackRef {
     public final Matrix3x2fStack stack;
@@ -33,11 +32,11 @@ public class Matrix3x2fStackRef implements MatrixStackRef {
         if (t.scaleX != 1 || t.scaleY != 1)
             stack.scale(1f / t.scaleX, 1f / t.scaleY);
         stack.translate(-t.translateX, -t.translateY);
-        // rotation inversion can be added here if needed
+        stack.rotate(-t.rotation);
     }
 
     @Override
-    public void scale(float x, float y, float z) {
+    public void scale(float x, float y) {
         stack.scale(x, y);
         if (!customStack.isEmpty()) {
             Transform t = customStack.peek();
@@ -47,7 +46,7 @@ public class Matrix3x2fStackRef implements MatrixStackRef {
     }
 
     @Override
-    public void translate(float x, float y, float z) {
+    public void translate(float x, float y) {
         stack.translate(x, y);
         if (!customStack.isEmpty()) {
             Transform t = customStack.peek();
@@ -57,38 +56,21 @@ public class Matrix3x2fStackRef implements MatrixStackRef {
     }
 
     @Override
-    public void translate(double x, double y, double z) {
-        translate((float) x, (float) y, (float) z);
+    public void rotate(float angle) {
+        stack.rotate(angle);
+        if (!customStack.isEmpty()) {
+            Transform t = customStack.peek();
+            t.rotation += angle;
+        }
     }
 
     @Override
-    public void multiply(QuaternionfRef quaternion) {
-        // Not implemented yet
-    }
-
-    @Override
-    public void multiply(QuaternionfRef quaternion, float originX, float originY, float originZ) {
-        // Not implemented yet
-    }
-
-    @Override
-    public void loadIdentity() {
-        customStack.clear();
-    }
-
-    @Override
-    public Object peek() {
-        return null;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return customStack.isEmpty();
+    public void rotate(float angle, float originX, float originY, float originZ) {
     }
 
     private static class Transform {
         float scaleX = 1f, scaleY = 1f;
         float translateX = 0f, translateY = 0f;
-        // rotation can be added if needed
+        float rotation = 0f;
     }
 }
