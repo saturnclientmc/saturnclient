@@ -10,7 +10,6 @@ import org.joml.Matrix4f;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import org.saturnclient.common.provider.Providers;
 import org.saturnclient.common.ref.asset.IdentifierRef;
 import org.saturnclient.common.ref.asset.SpriteRef;
 import org.saturnclient.common.ref.game.ItemStackRef;
@@ -42,7 +41,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.crash.CrashException;
 import net.minecraft.util.crash.CrashReport;
 import net.minecraft.util.crash.CrashReportSection;
-import net.minecraft.util.math.RotationAxis;
 import net.minecraft.world.World;
 
 public class RenderScopeImpl implements RenderScope {
@@ -191,60 +189,6 @@ public class RenderScopeImpl implements RenderScope {
         fill(x + width - 1, y + 1, x + width, y + height - 1, color);
     }
 
-    @Override
-    public void drawRoundedRectangle(int x, int y, int width, int height, int radius, int color) {
-        if (color == 0)
-            return;
-
-        radius = Math.min(radius, Math.min(width, height));
-        int cornerWidth = width / 2;
-        int cornerHeight = height / 2;
-
-        matrices.push();
-        matrices.translate(x, y, 0);
-
-        drawRoundedSide(cornerWidth, cornerHeight, radius, color);
-
-        matrices.translate(cornerWidth * 2, cornerHeight * 2, 0);
-        matrices.multiply(RotationAxis.NEGATIVE_Z.rotationDegrees(180));
-        drawRoundedSide(cornerWidth, cornerHeight, radius, color);
-
-        matrices.pop();
-    }
-
-    // Rounded rectangle helpers
-    private void drawRoundedCorner(int width, int height, int radius, int color) {
-        int w = width * 20;
-        int h = height * 20;
-
-        for (int y = 0; y < h; y++) {
-            int startX = 0;
-            if (y < radius) {
-                double dy = radius - y - 0.5;
-                double dx = Math.sqrt(Math.max(0, radius * radius - dy * dy));
-                startX = radius - (int) dx;
-            }
-            drawRectangle(startX, y, w - startX, 1, color);
-        }
-    }
-
-    private void drawRoundedSide(int cornerWidth, int cornerHeight, int radius, int color) {
-        // Top
-        matrices.push();
-        matrices.scale(0.05f, 0.05f, 1.0f);
-        drawRoundedCorner(cornerWidth, cornerHeight, radius * 10, color);
-        matrices.pop();
-
-        // Bottom
-        matrices.push();
-        matrices.translate(cornerWidth, cornerHeight * 2, 0);
-        matrices.multiply(RotationAxis.NEGATIVE_Z.rotationDegrees(90));
-        matrices.translate(0, -cornerWidth, 0);
-        matrices.scale(0.05f, 0.05f, 1.0f);
-        drawRoundedCorner(cornerHeight, cornerWidth, radius * 10, color);
-        matrices.pop();
-    }
-
     // ----------------------------
     // Text
     // ----------------------------
@@ -320,8 +264,8 @@ public class RenderScopeImpl implements RenderScope {
     private void drawTexturedQuad(Identifier sprite, int x1, int x2, int y1, int y2,
             float u1, float u2, float v1, float v2, int color) {
         if (sprite.toString().endsWith(".svg")) {
-            sprite = (Identifier) (Object) SvgTexture.getSvg(Providers.saturn.getClient(),
-                    (IdentifierRef) (Object) sprite, (x2 - x1) * 2, (y2 - y1) * 2);
+            sprite = (Identifier) (Object) SvgTexture.getSvg((IdentifierRef) (Object) sprite, (x2 - x1) * 2,
+                    (y2 - y1) * 2);
         }
         if (color == 0)
             return;

@@ -10,7 +10,6 @@ import org.joml.Matrix3x2fStack;
 
 import com.mojang.blaze3d.textures.GpuTextureView;
 
-import org.saturnclient.common.provider.Providers;
 import org.saturnclient.common.ref.asset.IdentifierRef;
 import org.saturnclient.common.ref.asset.SpriteRef;
 import org.saturnclient.common.ref.game.ItemStackRef;
@@ -149,55 +148,6 @@ public class RenderScopeImpl implements RenderScope {
         }
     }
 
-    // Rounded rectangle helpers
-    private void drawRoundedCorner(int width, int height, int radius, int color) {
-        int w = width * 20;
-        int h = height * 20;
-
-        for (int y = 0; y < h; y++) {
-            int startX = 0;
-            if (y < radius) {
-                double dy = radius - y - 0.5;
-                double dx = Math.sqrt(Math.max(0, radius * radius - dy * dy));
-                startX = radius - (int) dx;
-            }
-            drawRectangle(startX, y, w - startX, 1, color);
-        }
-    }
-
-    private void drawRoundedSide(int cornerWidth, int cornerHeight, int radius, int color) {
-        matrices.push();
-        matrices.scale(0.05f, 0.05f);
-        drawRoundedCorner(cornerWidth, cornerHeight, radius * 10, color);
-        matrices.pop();
-
-        matrices.push();
-        matrices.rotate(-90);
-        matrices.translate(-cornerHeight * 2, 0);
-        matrices.scale(0.05f, 0.05f);
-        drawRoundedCorner(cornerHeight, cornerWidth, radius * 10, color);
-        matrices.pop();
-    }
-
-    @Override
-    public void drawRoundedRectangle(int x, int y, int width, int height, int radius, int color) {
-        if (color == 0)
-            return;
-        radius = Math.min(radius, Math.min(width, height));
-
-        int cornerWidth = width / 2;
-        int cornerHeight = height / 2;
-
-        matrices.push();
-        matrices.translate(x, y);
-        drawRoundedSide(cornerWidth, cornerHeight, radius, color);
-
-        matrices.translate(cornerWidth * 2, cornerHeight * 2);
-        matrices.rotate(180);
-        drawRoundedSide(cornerWidth, cornerHeight, radius, color);
-        matrices.pop();
-    }
-
     @Override
     public int getScaledWindowWidth() {
         return SaturnClient.client.getWindow().getScaledWidth();
@@ -244,7 +194,6 @@ public class RenderScopeImpl implements RenderScope {
 
         if (sprite.getPath().endsWith(".svg")) {
             sprite = (Identifier) (Object) SvgTexture.getSvg(
-                    Providers.saturn.getClient(),
                     (IdentifierRef) (Object) sprite,
                     (x2 - x1) * 2, (y2 - y1) * 2);
         }
