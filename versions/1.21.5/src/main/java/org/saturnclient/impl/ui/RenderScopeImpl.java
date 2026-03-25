@@ -82,7 +82,7 @@ public class RenderScopeImpl implements RenderScope {
     }
 
     @Override
-    public void drawRect(int x, int y, int width, int height, int color) {
+    public void drawRectangle(int x, int y, int width, int height, int color) {
         if (color == 0)
             return;
         color = getColor(color);
@@ -154,7 +154,7 @@ public class RenderScopeImpl implements RenderScope {
                 startX = radius - (int) dx;
             }
 
-            this.drawRect(startX, y, w - startX, 1, color);
+            this.drawRectangle(startX, y, w - startX, 1, color);
         }
     }
 
@@ -405,10 +405,11 @@ public class RenderScopeImpl implements RenderScope {
     private void drawItem(@Nullable LivingEntity entity, @Nullable World world, ItemStack stack, int x, int y, int seed,
             int z) {
         if (!stack.isEmpty()) {
-            SaturnClient.client.getItemModelManager().update(this.itemRenderState, stack, ItemDisplayContext.GUI, world, entity, seed);
+            SaturnClient.client.getItemModelManager().update(this.itemRenderState, stack, ItemDisplayContext.GUI, world,
+                    entity, seed);
             this.matrices.push();
             this.matrices.translate((float) (x + 8), (float) (y + 8),
-                    (float) (150 + z)); //always has depth
+                    (float) (150 + z)); // always has depth
 
             try {
                 this.matrices.scale(16.0F, -16.0F, 16.0F);

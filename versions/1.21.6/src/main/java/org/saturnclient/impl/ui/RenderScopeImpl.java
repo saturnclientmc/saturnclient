@@ -102,7 +102,7 @@ public class RenderScopeImpl implements RenderScope {
     }
 
     @Override
-    public void drawRect(int x, int y, int width, int height, int color) {
+    public void drawRectangle(int x, int y, int width, int height, int color) {
         if (color == 0)
             return;
         color = getColor(color);
@@ -166,7 +166,7 @@ public class RenderScopeImpl implements RenderScope {
                 startX = radius - (int) dx;
             }
 
-            this.drawRect(startX, y, w - startX, 1, color);
+            this.drawRectangle(startX, y, w - startX, 1, color);
         }
     }
 
@@ -300,7 +300,8 @@ public class RenderScopeImpl implements RenderScope {
         }
 
         this.state.addSimpleElement(new TexturedQuadGuiElementRenderState(RenderPipelines.GUI,
-                TextureSetup.withoutGlTexture(gpuTextureView), new Matrix3x2f(this.matrices.stack), x1, y1, x2, y2, u1, u2,
+                TextureSetup.withoutGlTexture(gpuTextureView), new Matrix3x2f(this.matrices.stack), x1, y1, x2, y2, u1,
+                u2,
                 v1, v2,
                 color, this.scissorStack.peekLast()));
     }
