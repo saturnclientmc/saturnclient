@@ -7,7 +7,6 @@ import net.minecraft.client.util.InputUtil;
 
 import org.saturnclient.config.Config;
 import org.saturnclient.saturnclient.SaturnClient;
-import org.saturnclient.client.ServiceClient;
 import org.saturnclient.common.provider.Providers;
 import org.saturnclient.ui.screens.EmoteWheel;
 import org.saturnclient.ui.screens.ShiftMenu;
