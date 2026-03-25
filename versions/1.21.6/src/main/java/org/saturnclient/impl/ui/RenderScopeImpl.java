@@ -140,7 +140,7 @@ public class RenderScopeImpl implements RenderScope {
                             SaturnClient.client.textRenderer,
                             ((Text) Fonts.setFont(line, font)).asOrderedText(),
                             new Matrix3x2f(this.matrices.stack),
-                            0, 0, // IMPORTANT
+                            0, font == 0 ? 1 : 8,
                             finalColor, 0, false, this.scissorStack.peekLast()));
 
             matrices.pop();
@@ -245,9 +245,6 @@ public class RenderScopeImpl implements RenderScope {
             return;
         color = getColor(color);
 
-        GpuTextureView gpuTextureView = SaturnClient.client.getTextureManager()
-                .getTexture(sprite).getGlTextureView();
-
         if (sprite.getPath().endsWith(".svg")) {
             sprite = (Identifier) (Object) SvgTexture.getSvg(
                     Providers.saturn.getClient(),
@@ -255,8 +252,11 @@ public class RenderScopeImpl implements RenderScope {
                     (x2 - x1) * 2, (y2 - y1) * 2);
         }
 
+        GpuTextureView gpuTextureView = SaturnClient.client.getTextureManager()
+                .getTexture(sprite).getGlTextureView();
+
         this.state.addSimpleElement(new TexturedQuadGuiElementRenderState(
-                RenderPipelines.GUI,
+                RenderPipelines.GUI_TEXTURED,
                 TextureSetup.withoutGlTexture(gpuTextureView),
                 new Matrix3x2f(this.matrices.stack),
                 x1, y1, x2, y2, u1, u2, v1, v2, color,
