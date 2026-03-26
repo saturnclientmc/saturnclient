@@ -18,8 +18,6 @@ public class EntityDrawerImpl implements EntityDrawer {
     public void render(RenderScope renderScope, boolean negativeAngle, float angle, float scale, ElementContext ctx) {
         LivingEntity entity = SaturnClient.client.player;
 
-        System.out.println(scale);
-
         if (entity != null) {
             drawEntity(renderScope, 0, 0, 75, 78, 30, 0.0625F, ctx.mouseX / scale, ctx.mouseY / scale,
                     SaturnClient.client.player);
