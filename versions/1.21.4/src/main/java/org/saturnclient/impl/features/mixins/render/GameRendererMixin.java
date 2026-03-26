@@ -2,6 +2,7 @@ package org.saturnclient.impl.features.mixins.render;
 
 import net.minecraft.client.render.GameRenderer;
 
+import org.saturnclient.mod.mods.FreelookMod;
 import org.saturnclient.mod.mods.ZoomMod;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -31,6 +32,9 @@ public class GameRendererMixin {
     private void onGetFov(CallbackInfoReturnable<Float> cir) {
         if (ZoomMod.shouldZoom()) {
             float zoomedFov = cir.getReturnValue() / ZoomMod.getZoomLevel();
+            cir.setReturnValue(zoomedFov);
+        } else if (FreelookMod.shouldZoomOut()) {
+            float zoomedFov = cir.getReturnValue() / FreelookMod.getZoomLevel();
             cir.setReturnValue(zoomedFov);
         }
     }

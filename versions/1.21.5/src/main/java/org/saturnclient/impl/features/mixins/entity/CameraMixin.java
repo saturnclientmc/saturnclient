@@ -26,7 +26,7 @@ public abstract class CameraMixin {
     @Inject(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Camera;setRotation(FF)V", ordinal = 1, shift = At.Shift.AFTER))
     public void lockRotation(BlockView focusedBlock, Entity cameraEntity, boolean isThirdPerson, boolean isFrontFacing,
             float tickDelta, CallbackInfo ci) {
-        if (FreelookMod.isFreeLooking && cameraEntity instanceof ClientPlayerEntity) {
+        if (FreelookMod.isFreeLooking() && cameraEntity instanceof ClientPlayerEntity) {
             CameraOverriddenEntity cameraOverriddenEntity = (CameraOverriddenEntity) cameraEntity;
 
             if (firstTime && SaturnClient.client.player != null) {
@@ -38,7 +38,7 @@ public abstract class CameraMixin {
                     cameraOverriddenEntity.freelook$getCameraPitch());
 
         }
-        if (!FreelookMod.isFreeLooking && cameraEntity instanceof ClientPlayerEntity) {
+        if (!FreelookMod.isFreeLooking() && cameraEntity instanceof ClientPlayerEntity) {
             firstTime = true;
         }
     }
