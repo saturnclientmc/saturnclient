@@ -3,21 +3,17 @@ package org.saturnclient.impl.ui;
 import java.time.Duration;
 import java.time.Instant;
 
-import org.saturnclient.saturnclient.mixin.DrawContextAccessor;
 import org.saturnclient.ui.RenderScope;
 import org.saturnclient.ui.SaturnScreen;
 import org.saturnclient.ui.SaturnScreen.ScreenProvider;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gl.PostEffectProcessor;
 import net.minecraft.client.gui.CubeMapRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.RotatingCubeMapRenderer;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.render.DefaultFramebufferSet;
 import net.minecraft.client.texture.ResourceTexture;
 import net.minecraft.client.texture.TextureManager;
-import net.minecraft.client.util.Pool;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -32,7 +28,6 @@ public class SaturnScreenFabric extends Screen implements ScreenProvider {
         ROTATING_PANORAMA_RENDERER = new RotatingCubeMapRenderer(PANORAMA_RENDERER);
     }
 
-    private final Pool pool = new Pool(3);
     public final SaturnScreen screen;
 
     public static void preload(MinecraftClient client) {
@@ -56,7 +51,6 @@ public class SaturnScreenFabric extends Screen implements ScreenProvider {
         screen.init();
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         if (screen.start == null) {
@@ -67,24 +61,9 @@ public class SaturnScreenFabric extends Screen implements ScreenProvider {
         mouseX *= 2;
         mouseY *= 2;
 
-        // if (client.world == null && client.getCurrentServerEntry() == null) {
-        // ROTATING_PANORAMA_RENDERER.render(context, this.width, this.height,
-        // screen.backgroundOpacity, delta);
-        // }
-
-        // PostEffectProcessor postEffectProcessor =
-        // this.client.getShaderLoader().loadPostEffect(
-        // Identifier.ofVanilla("blur"),
-        // DefaultFramebufferSet.MAIN_ONLY);
-
-        // if (postEffectProcessor != null) {
-        // float radius = screen.backgroundBlur * Math.min((float) elapsed / 700, 1.0f);
-        // postEffectProcessor.render(
-        // this.client.getFramebuffer(),
-        // this.pool,
-        // pass -> pass.setUniform("Radius", radius)
-        // );
-        // }
+        if (client.world == null && client.getCurrentServerEntry() == null) {
+            // ROTATING_PANORAMA_RENDERER.render(context, this.width, this.height, true);
+        }
 
         RenderScope renderScope = new RenderScopeImpl(context);
 

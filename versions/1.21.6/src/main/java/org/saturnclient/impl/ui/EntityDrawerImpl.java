@@ -3,83 +3,68 @@ package org.saturnclient.impl.ui;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
-import org.saturnclient.common.ref.render.QuaternionfRef;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.ui.ElementContext;
 import org.saturnclient.ui.RenderScope;
 import org.saturnclient.ui.components.SkinPreview.EntityDrawer;
 
-import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.render.entity.EntityRenderer;
+import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.entity.LivingEntity;
 
 public class EntityDrawerImpl implements EntityDrawer {
-    public static void drawEntity(RenderScope renderScope, int x1, int y1, int x2, int y2, int size, float f,
-            float mouseX,
-            float mouseY, LivingEntity entity, float angle, boolean negativeAngle) {
-        float g = (float) (x1 + x2) / 2.0F;
-        float h = (float) (y1 + y2) / 2.0F;
-        renderScope.enableScissor(0, 6, x2, y2);
-        float i = (float) Math.atan((double) ((g - mouseX) / 40.0F));
-        float j = (float) Math.atan((double) ((h - mouseY) / 40.0F));
-        Quaternionf quaternionf = (new Quaternionf()).rotateZ(3.1415927F);
-        float k = entity.bodyYaw;
-        float l = entity.getYaw();
-        float m = entity.getPitch();
-        float n = entity.lastHeadYaw;
-        float o = entity.headYaw;
-        entity.setYaw(angle);
-        entity.bodyYaw = angle;
-        entity.setPitch(-(j * 20.0F));
-        entity.headYaw = negativeAngle ? (i * 40.0F) + 180f : -(i * 40.0F);
-        entity.lastHeadYaw = entity.getHeadYaw();
-        entity.setCustomNameVisible(false);
-
-        float p = entity.getScale();
-        Vector3f vector3f = new Vector3f(0.0F, entity.getHeight() / 2.0F + f * p, 0.0F);
-        float q = (float) size / p;
-        drawEntity(renderScope, g, h, q, vector3f, quaternionf, null, entity);
-
-        entity.setCustomNameVisible(true);
-        entity.bodyYaw = k;
-        entity.setYaw(l);
-        entity.setPitch(m);
-        entity.lastHeadYaw = n;
-        entity.headYaw = o;
-        renderScope.disableScissor();
-    }
-
-    public static void drawEntity(RenderScope renderScope, float x, float y, float size, Vector3f vector3f,
-            Quaternionf quaternionf, @Nullable Quaternionf quaternionf2, LivingEntity entity) {
-        renderScope.getMatrixStack().push();
-        renderScope.getMatrixStack().translate((double) x, (double) y, 50.0);
-        renderScope.getMatrixStack().scale(size, size, -size);
-        renderScope.getMatrixStack().translate(vector3f.x, vector3f.y, vector3f.z);
-        renderScope.getMatrixStack().multiply((QuaternionfRef) quaternionf);
-        renderScope.draw();
-        // DiffuseLighting.disableGuiDepthLighting();
-        EntityRenderDispatcher entityRenderDispatcher = SaturnClient.client.getEntityRenderDispatcher();
-
-        entityRenderDispatcher.setRenderShadows(false);
-        if (renderScope instanceof RenderScopeImpl r) {
-            // r.draw((vertexConsumers) -> {
-            //     entityRenderDispatcher.render(entity, 0.0, 0.0, 0.0, 1.0F,
-            //             r.matrices, vertexConsumers,
-            //             15728880);
-            // });
-        }
-        renderScope.draw();
-        entityRenderDispatcher.setRenderShadows(true);
-        renderScope.getMatrixStack().pop();
-        // DiffuseLighting.enableGuiDepthLighting();
-    }
-
     @Override
     public void render(RenderScope renderScope, boolean negativeAngle, float angle, float scale, ElementContext ctx) {
         LivingEntity entity = SaturnClient.client.player;
+
         if (entity != null) {
-            drawEntity(renderScope, 0, 0, 75, 78, 30, 0.0625F, ctx.mouseX / scale, ctx.mouseY / scale, entity, angle,
-                    negativeAngle);
+            drawEntity(renderScope, 0, 0, 75, 78, 30, 0.0625F, ctx.mouseX / scale, ctx.mouseY / scale,
+                    SaturnClient.client.player);
         }
+    }
+
+    public static void drawEntity(RenderScope renderScope, int x1, int y1, int x2, int y2, int size, float scale,
+            float mouseX, float mouseY, LivingEntity entity) {
+        float f = (float) (x1 + x2) / 2.0F;
+        float g = (float) (y1 + y2) / 2.0F;
+        renderScope.enableScissor(x1, y1, x2, y2);
+        float h = (float) Math.atan((double) ((f - mouseX) / 40.0F));
+        float i = (float) Math.atan((double) ((g - mouseY) / 40.0F));
+        Quaternionf quaternionf = (new Quaternionf()).rotateZ((float) Math.PI);
+        Quaternionf quaternionf2 = (new Quaternionf()).rotateX(i * 20.0F * ((float) Math.PI / 180F));
+        quaternionf.mul(quaternionf2);
+        float j = entity.bodyYaw;
+        float k = entity.getYaw();
+        float l = entity.getPitch();
+        float m = entity.lastHeadYaw;
+        float n = entity.headYaw;
+        entity.bodyYaw = 180.0F + h * 20.0F;
+        entity.setYaw(180.0F + h * 40.0F);
+        entity.setPitch(-i * 20.0F);
+        entity.headYaw = entity.getYaw();
+        entity.lastHeadYaw = entity.getYaw();
+        float o = entity.getScale();
+        Vector3f vector3f = new Vector3f(0.0F, entity.getHeight() / 2.0F + scale * o, 0.0F);
+        float p = (float) size / o;
+        drawEntity(renderScope, x1, y1, x2, y2, p, vector3f, quaternionf, quaternionf2, entity);
+        entity.bodyYaw = j;
+        entity.setYaw(k);
+        entity.setPitch(l);
+        entity.lastHeadYaw = m;
+        entity.headYaw = n;
+        renderScope.disableScissor();
+    }
+
+    public static void drawEntity(RenderScope renderScope, int x1, int y1, int x2, int y2, float scale,
+            Vector3f translation, Quaternionf rotation, @Nullable Quaternionf overrideCameraAngle,
+            LivingEntity entity) {
+        EntityRenderDispatcher entityRenderDispatcher = SaturnClient.client.getEntityRenderDispatcher();
+        EntityRenderer<? super LivingEntity, ?> entityRenderer = entityRenderDispatcher.getRenderer(entity);
+        EntityRenderState entityRenderState = entityRenderer.getAndUpdateRenderState(entity, 1.0F);
+        entityRenderState.hitbox = null;
+
+        if (renderScope instanceof RenderScopeImpl i)
+            i.addEntity(entityRenderState, scale, translation, rotation, overrideCameraAngle, x1, y1, x2, y2);
     }
 }

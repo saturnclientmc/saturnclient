@@ -6,7 +6,6 @@
   "client": [
     "IdentifierMixin",
     "ItemStackMixin",
-    "MatrixStackMixin",
     "MinecraftClientMixin",
     "QuaternionfMixin",
     "WindowMixin",

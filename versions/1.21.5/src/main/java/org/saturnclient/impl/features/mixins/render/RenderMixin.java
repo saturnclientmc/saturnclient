@@ -65,8 +65,8 @@ public class RenderMixin {
                 ModLayout dim = hud.getDimensions();
 
                 scope.getMatrixStack().push();
-                scope.getMatrixStack().translate(dim.x.value, (float) dim.y.value, 0f);
-                scope.getMatrixStack().scale(dim.scale.value, dim.scale.value, 1.0f);
+                scope.getMatrixStack().translate(dim.x.value, (float) dim.y.value);
+                scope.getMatrixStack().scale(dim.scale.value, dim.scale.value);
 
                 if (dim.renderBackground) {
                     scope.drawRoundedRectangle(0, 0, dim.width, dim.height,

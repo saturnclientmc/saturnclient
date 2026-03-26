@@ -3,7 +3,6 @@ package org.saturnclient.impl.ui;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
-import org.saturnclient.common.ref.render.QuaternionfRef;
 import org.saturnclient.saturnclient.SaturnClient;
 import org.saturnclient.ui.ElementContext;
 import org.saturnclient.ui.RenderScope;
@@ -51,27 +50,28 @@ public class EntityDrawerImpl implements EntityDrawer {
 
     public static void drawEntity(RenderScope renderScope, float x, float y, float size, Vector3f vector3f,
             Quaternionf quaternionf, @Nullable Quaternionf quaternionf2, LivingEntity entity) {
-        renderScope.getMatrixStack().push();
-        renderScope.getMatrixStack().translate((double) x, (double) y, 50.0);
-        renderScope.getMatrixStack().scale(size, size, -size);
-        renderScope.getMatrixStack().translate(vector3f.x, vector3f.y, vector3f.z);
-        renderScope.getMatrixStack().multiply((QuaternionfRef) quaternionf);
-        renderScope.draw();
-        DiffuseLighting.disableGuiDepthLighting();
-        EntityRenderDispatcher entityRenderDispatcher = SaturnClient.client.getEntityRenderDispatcher();
+        if (renderScope instanceof RenderScopeImpl scopeImpl) {
+            scopeImpl.matrices.push();
+            scopeImpl.matrices.translate((double) x, (double) y, 0);
+            scopeImpl.matrices.scale(size, size, -size);
+            scopeImpl.matrices.translate(vector3f.x, vector3f.y, vector3f.z);
+            scopeImpl.matrices.multiply(quaternionf);
+            scopeImpl.draw();
+            DiffuseLighting.disableGuiDepthLighting();
+            EntityRenderDispatcher entityRenderDispatcher = SaturnClient.client.getEntityRenderDispatcher();
 
-        entityRenderDispatcher.setRenderShadows(false);
-        if (renderScope instanceof RenderScopeImpl r) {
-            r.draw((vertexConsumers) -> {
+            entityRenderDispatcher.setRenderShadows(false);
+            scopeImpl.draw((vertexConsumers) -> {
                 entityRenderDispatcher.render(entity, 0.0, 0.0, 0.0, 1.0F,
-                        r.matrices, vertexConsumers,
-                        15728880);
+                        scopeImpl.matrices, vertexConsumers, 15728880);
             });
+
+            scopeImpl.draw();
+            entityRenderDispatcher.setRenderShadows(true);
+            scopeImpl.getMatrixStack().pop();
+            DiffuseLighting.enableGuiDepthLighting();
         }
-        renderScope.draw();
-        entityRenderDispatcher.setRenderShadows(true);
-        renderScope.getMatrixStack().pop();
-        DiffuseLighting.enableGuiDepthLighting();
+
     }
 
     @Override

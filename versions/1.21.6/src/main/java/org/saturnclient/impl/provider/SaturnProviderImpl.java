@@ -9,9 +9,6 @@ import org.saturnclient.common.ref.game.MinecraftClientRef;
 import org.saturnclient.impl.cosmetics.utils.IdentifierUtils;
 import org.saturnclient.saturnclient.SaturnClient;
 
-import net.minecraft.client.network.AbstractClientPlayerEntity;
-import net.minecraft.util.Identifier;
-
 public class SaturnProviderImpl implements SaturnProvider {
     @Override
     public MinecraftClientRef getClient() {
