@@ -7,6 +7,8 @@ import java.util.Objects;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix3x2f;
 import org.joml.Matrix3x2fStack;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 import com.mojang.blaze3d.textures.GpuTextureView;
 
@@ -29,6 +31,8 @@ import net.minecraft.client.gui.render.state.GuiRenderState;
 import net.minecraft.client.gui.render.state.ItemGuiElementRenderState;
 import net.minecraft.client.gui.render.state.TextGuiElementRenderState;
 import net.minecraft.client.gui.render.state.TexturedQuadGuiElementRenderState;
+import net.minecraft.client.gui.render.state.special.EntityGuiElementRenderState;
+import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.client.render.item.ItemRenderState;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.TextureSetup;
@@ -316,5 +320,26 @@ public class RenderScopeImpl implements RenderScope {
         fill(x, y + height - 1, x + width, y + height, color);
         fill(x, y + 1, x + 1, y + height - 1, color);
         fill(x + width - 1, y + 1, x + width, y + height - 1, color);
+    }
+
+    public void addEntity(EntityRenderState entityState, float scale, Vector3f translation, Quaternionf rotation,
+            @Nullable Quaternionf overrideCameraAngle, int x1, int y1, int x2, int y2) {
+
+        Matrix3x2f mat = this.matrices.stack;
+        float offsetX = mat.m20;
+        float offsetY = mat.m21;
+        float scaleX = mat.m00; // current matrix X scale
+        float scaleY = mat.m11; // current matrix Y scale
+
+        int adjustedX1 = (int) (x1 * scaleX + offsetX);
+        int adjustedY1 = (int) (y1 * scaleY + offsetY);
+        int adjustedX2 = (int) (x2 * scaleX + offsetX);
+        int adjustedY2 = (int) (y2 * scaleY + offsetY);
+
+        float adjustedScale = scale * scaleX; // apply matrix scale to entity scale too
+
+        this.state.addSpecialElement(new EntityGuiElementRenderState(entityState, translation, rotation,
+                overrideCameraAngle, adjustedX1, adjustedY1, adjustedX2, adjustedY2, adjustedScale,
+                this.scissorStack.peekLast()));
     }
 }

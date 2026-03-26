@@ -62,7 +62,7 @@ public class SaturnScreenFabric extends Screen implements ScreenProvider {
         mouseY *= 2;
 
         if (client.world == null && client.getCurrentServerEntry() == null) {
-            ROTATING_PANORAMA_RENDERER.render(context, this.width, this.height, true);
+            // ROTATING_PANORAMA_RENDERER.render(context, this.width, this.height, true);
         }
 
         RenderScope renderScope = new RenderScopeImpl(context);
