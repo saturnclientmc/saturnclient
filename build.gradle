@@ -30,3 +30,35 @@ configure(subprojects.findAll { it.name != "common" }) {
     }
 }
 
+tasks.register("buildAll") {
+    group = "build"
+    description = "Builds all subprojects and collects their remapped jars"
+
+    // Only build remapped jars (not full build)
+    dependsOn subprojects.collect { proj ->
+        proj.tasks.matching { it.name == "remapJar" }
+    }
+
+    doLast {
+        def outputDir = file("$buildDir/allJars")
+        outputDir.mkdirs()
+
+        subprojects.each { proj ->
+            def remapTask = proj.tasks.findByName("remapJar")
+
+            if (remapTask != null) {
+                def jarFile = remapTask.archiveFile.get().asFile
+
+                if (jarFile.exists() && !jarFile.name.contains("sources")) {
+                    copy {
+                        from jarFile
+                        into outputDir
+                        rename { "${proj.name}-${jarFile.name}" }
+                    }
+                }
+            }
+        }
+
+        println "All remapped jars collected in: $outputDir"
+    }
+}
