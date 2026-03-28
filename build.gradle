@@ -53,7 +53,7 @@ tasks.register("buildAll") {
                     copy {
                         from jarFile
                         into outputDir
-                        rename { "${proj.name}-${jarFile.name}" }
+                        rename { "${jarFile.name}" }
                     }
                 }
             }
