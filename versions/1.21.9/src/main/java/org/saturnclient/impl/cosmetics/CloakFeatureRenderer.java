@@ -11,6 +11,7 @@ import org.saturnclient.impl.cosmetics.utils.ShaderUtils;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.render.entity.equipment.EquipmentModel;
 import net.minecraft.client.render.entity.equipment.EquipmentModelLoader;
 import net.minecraft.client.render.entity.equipment.EquipmentModel.LayerType;
@@ -273,11 +274,11 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
     public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light,
             PlayerEntityRenderState playerEntityRenderState, float f, float g) {
         if (playerEntityRenderState.invisible || !playerEntityRenderState.capeVisible
-                || playerEntityRenderState.skinTextures.capeTexture() != null) {
+                || playerEntityRenderState.skinTextures.cape() != null) {
             return;
         }
 
-        SaturnPlayer player = SaturnPlayer.get(playerEntityRenderState.name);
+        SaturnPlayer player = SaturnPlayer.get(playerEntityRenderState.displayName.getString());
 
         if (player == null) {
             return;
@@ -331,5 +332,11 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         renderCape(matrixStack, vertexConsumer, playerEntityRenderState, light, OverlayTexture.DEFAULT_UV);
 
         matrixStack.pop();
+    }
+
+    @Override
+    public void render(MatrixStack matrices, OrderedRenderCommandQueue queue, int light, PlayerEntityRenderState state,
+            float limbAngle, float limbDistance) {
+
     }
 }

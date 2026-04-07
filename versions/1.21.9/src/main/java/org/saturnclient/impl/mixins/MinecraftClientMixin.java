@@ -141,7 +141,7 @@ public abstract class MinecraftClientMixin implements MinecraftClientRef {
         if (entry == null)
             return null;
 
-        return entry.getProfile().getName();
+        return entry.getProfile().name();
     }
 
     @Override
@@ -157,6 +157,6 @@ public abstract class MinecraftClientMixin implements MinecraftClientRef {
         if (entry == null)
             return null;
 
-        return entry.getProfile().getId();
+        return entry.getProfile().id();
     }
 }

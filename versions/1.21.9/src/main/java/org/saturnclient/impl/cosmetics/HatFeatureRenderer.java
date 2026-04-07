@@ -7,6 +7,7 @@ import org.saturnclient.impl.cosmetics.obj.ObjModel;
 
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
@@ -19,10 +20,10 @@ public class HatFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState,
         super(context);
     }
 
-    @Override
+    // @Override
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light,
             PlayerEntityRenderState state, float limbAngle, float limbDistance) {
-        SaturnPlayer player = SaturnPlayer.get(state.name);
+        SaturnPlayer player = SaturnPlayer.get(state.displayName.getString());
 
         if (state.invisible || player == null || player.hat.isEmpty()) {
             return;
@@ -38,5 +39,10 @@ public class HatFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState,
                 OverlayTexture.DEFAULT_UV);
 
         matrices.pop();
+    }
+
+    @Override
+    public void render(MatrixStack matrices, OrderedRenderCommandQueue queue, int light, PlayerEntityRenderState state,
+            float limbAngle, float limbDistance) {
     }
 }
