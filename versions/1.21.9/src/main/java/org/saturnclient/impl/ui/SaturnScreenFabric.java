@@ -8,10 +8,12 @@ import org.saturnclient.ui.SaturnScreen;
 import org.saturnclient.ui.SaturnScreen.ScreenProvider;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.CubeMapRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.RotatingCubeMapRenderer;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.input.KeyInput;
 import net.minecraft.client.texture.ResourceTexture;
 import net.minecraft.client.texture.TextureManager;
 import net.minecraft.text.Text;
@@ -71,27 +73,30 @@ public class SaturnScreenFabric extends Screen implements ScreenProvider {
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (screen.mouseClicked(mouseX, mouseY, button)) {
+    public boolean mouseClicked(Click click, boolean doubled) {
+        if (screen.mouseClicked(click.x(), click.y(), click.button())) {
             return true;
         }
-        return super.mouseClicked(mouseX, mouseY, button);
+
+        return super.mouseClicked(click, doubled);
     }
 
     @Override
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-        if (screen.mouseDragged(mouseX, mouseY, button, deltaX, deltaY)) {
+    public boolean mouseDragged(Click click, double offsetX, double offsetY) {
+        if (screen.mouseDragged(click.x(), click.y(), click.button(), 0.0, 0.0)) {
             return true;
         }
-        return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+
+        return super.mouseDragged(click, offsetX, offsetY);
     }
 
     @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int button) {
-        if (screen.mouseReleased(mouseX, mouseY, button)) {
+    public boolean mouseReleased(Click click) {
+        if (screen.mouseReleased(click.x(), click.y(), click.button())) {
             return true;
         }
-        return super.mouseReleased(mouseX, mouseY, button);
+
+        return super.mouseReleased(click);
     }
 
     @Override
@@ -103,11 +108,12 @@ public class SaturnScreenFabric extends Screen implements ScreenProvider {
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (screen.keyPressed(keyCode, scanCode, modifiers)) {
+    public boolean keyPressed(KeyInput input) {
+        if (screen.keyPressed(input.getKeycode(), input.scancode(), input.modifiers())) {
             return true;
         }
-        return super.keyPressed(keyCode, scanCode, modifiers);
+
+        return super.keyPressed(input);
     }
 
     @Override

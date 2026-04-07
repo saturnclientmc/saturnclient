@@ -124,7 +124,8 @@ public abstract class SplashOverlayMixin {
     private void renderProgressBar(RenderScope scope, DrawContext context, int screenWidth, int screenHeight,
             int alpha) {
         int progressY = ((screenHeight - 5) / 2) + 25;
-        context.drawBorder((screenWidth - 120) / 2, progressY, 120, 5, Theme.withAlpha(alpha, 0xFFFFFFFF));
+        // context.drawBorder((screenWidth - 120) / 2, progressY, 120, 5,
+        // Theme.withAlpha(alpha, 0xFFFFFFFF));
 
         int progressWidth = Math.min((int) (progress * 120), 120);
         int progressX = (screenWidth - 120) / 2;
