@@ -30,8 +30,8 @@ public abstract class TabListMixin {
     @Nullable
     public Text getDisplayName() {
         GameProfile profile = ((PlayerListEntry) (Object) this).getProfile();
-        String name = profile.getName();
-        UUID uuid = profile.getId();
+        String name = profile.name();
+        UUID uuid = profile.id();
 
         if (SaturnPlayer.get(uuid) != null) {
             return Text.literal(Roles.getSaturnIndicator())

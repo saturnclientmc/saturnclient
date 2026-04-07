@@ -7,6 +7,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.texture.SpriteAtlasTexture;
+import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -28,7 +30,10 @@ public abstract class StatusEffectMixin implements EffectRef {
 
     @Override
     public SpriteRef getIcon() {
-        return (SpriteRef) SaturnClient.client.getGuiAtlasManager().getSprite((InGameHud.getEffectTexture(getEffectType())));
+        SpriteIdentifier identifier = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE,
+                InGameHud.getEffectTexture(getEffectType()));
+
+        return (SpriteRef) SaturnClient.client.getAtlasManager().getSprite(identifier);
     }
 
     @Override
