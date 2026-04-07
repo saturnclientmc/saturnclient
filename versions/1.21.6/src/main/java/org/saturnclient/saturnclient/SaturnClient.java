@@ -7,8 +7,6 @@ import net.minecraft.client.MinecraftClient;
 
 import org.saturnclient.client.ServiceClient;
 import org.saturnclient.cosmetics.Emotes;
-import org.saturnclient.cosmetics.Hats;
-import org.saturnclient.cosmetics.Cloaks;
 import org.saturnclient.common.provider.Providers;
 import org.saturnclient.impl.provider.GLFWProviderImpl;
 import org.saturnclient.impl.provider.FeatureProviderFabric;
@@ -61,12 +59,6 @@ public class SaturnClient implements ModInitializer {
 
         KeyInputHandler.register();
         Emotes.initialize();
-        if (ServiceClient.authenticate()) {
-            Cloaks.initialize();
-            Hats.initialize();
-            LOGGER.info(MOD_ID + " initialization complete");
-        } else {
-            LOGGER.error("Failed to authenticate with the server");
-        }
+        ServiceClient.initialize();
     }
 }
