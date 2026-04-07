@@ -46,50 +46,50 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class NametagsMixin {
 
     /** Guards against the recursive call we make with the replacement text. */
-    @Unique
-    private static final ThreadLocal<Boolean> saturn$rendering = ThreadLocal.withInitial(() -> false);
+    // @Unique
+    // private static final ThreadLocal<Boolean> saturn$rendering = ThreadLocal.withInitial(() -> false);
 
-    @Shadow
-    protected abstract <S extends EntityRenderState> void renderLabelIfPresent(
-            S state, Text text,
-            MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light);
+    // @Shadow
+    // protected abstract <S extends EntityRenderState> void renderLabelIfPresent(
+    //         S state, Text text,
+    //         MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light);
 
-    @Inject(method = "renderLabelIfPresent", at = @At("HEAD"), cancellable = true)
-    private <S extends EntityRenderState> void saturn$replaceNametag(
-            S state, Text text,
-            MatrixStack matrices, VertexConsumerProvider vertexConsumers,
-            int light, CallbackInfo ci) {
+    // @Inject(method = "renderLabelIfPresent", at = @At("HEAD"), cancellable = true)
+    // private <S extends EntityRenderState> void saturn$replaceNametag(
+    //         S state, Text text,
+    //         MatrixStack matrices, VertexConsumerProvider vertexConsumers,
+    //         int light, CallbackInfo ci) {
 
-        // Skip our own recursive call
-        if (saturn$rendering.get())
-            return;
+    //     // Skip our own recursive call
+    //     if (saturn$rendering.get())
+    //         return;
 
-        if (!NametagsMod.shouldReplaceName())
-            return;
+    //     if (!NametagsMod.shouldReplaceName())
+    //         return;
 
-        // Only living entities carry health data
-        if (!(state instanceof LivingEntityRenderState living))
-            return;
-        if (!(living instanceof HealthRenderState hrs))
-            return;
+    //     // Only living entities carry health data
+    //     if (!(state instanceof LivingEntityRenderState living))
+    //         return;
+    //     if (!(living instanceof HealthRenderState hrs))
+    //         return;
 
-        // Build the platform-neutral EntityState from the render-state snapshot
-        // (health/type were written by LivingEntityRendererMixin at extract time).
-        String customName = text != null ? text.getString() : null;
-        EntityFeatureImpl.RenderStateEntityState entityState = new EntityFeatureImpl.RenderStateEntityState(
-                customName, hrs);
+    //     // Build the platform-neutral EntityState from the render-state snapshot
+    //     // (health/type were written by LivingEntityRendererMixin at extract time).
+    //     String customName = text != null ? text.getString() : null;
+    //     EntityFeatureImpl.RenderStateEntityState entityState = new EntityFeatureImpl.RenderStateEntityState(
+    //             customName, hrs);
 
-        // Ask the feature for the replacement string
-        String replacement = NametagsMod.getNametagString(entityState);
-        if (replacement == null)
-            return; // feature decided not to replace this entity
+    //     // Ask the feature for the replacement string
+    //     String replacement = NametagsMod.getNametagString(entityState);
+    //     if (replacement == null)
+    //         return; // feature decided not to replace this entity
 
-        ci.cancel();
-        saturn$rendering.set(true);
-        try {
-            renderLabelIfPresent(state, Text.literal(replacement), matrices, vertexConsumers, light);
-        } finally {
-            saturn$rendering.set(false);
-        }
-    }
+    //     ci.cancel();
+    //     saturn$rendering.set(true);
+    //     try {
+    //         renderLabelIfPresent(state, Text.literal(replacement), matrices, vertexConsumers, light);
+    //     } finally {
+    //         saturn$rendering.set(false);
+    //     }
+    // }
 }

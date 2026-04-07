@@ -32,7 +32,7 @@ public abstract class NameTagMixin<S extends EntityRenderState> {
      * @reason Adds the Saturn Client icon to the player's name if they are online
      *         with Saturn Client
      */
-    @Inject(method = "renderLabelIfPresent(Lnet/minecraft/client/render/entity/state/EntityRenderState;Lnet/minecraft/text/Text;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "renderLabelIfPresent", at = @At("HEAD"), cancellable = true)
     protected void renderLabelIfPresent(S state, MatrixStack matrices, OrderedRenderCommandQueue queue,
             CameraRenderState cameraRenderState, CallbackInfo ci) {
         UUID uuid = isSaturn(state);
