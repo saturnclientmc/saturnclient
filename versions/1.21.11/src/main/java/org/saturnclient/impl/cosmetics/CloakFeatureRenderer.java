@@ -119,13 +119,10 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
                 n.x(), n.y(), n.z());
     }
 
-    private void renderCapeQuad(VertexConsumer vertexConsumer, MatrixStack matrixStack,
+    private void renderCapeQuad(VertexConsumer vertexConsumer, MatrixStack.Entry entry,
             Vec3d bottomLeft, Vec3d bottomRight, Vec3d topRight, Vec3d topLeft,
             float u1, float v1, float u2, float v2, int light, int overlay,
             float normalX, float normalY, float normalZ, boolean flipWinding) {
-
-        MatrixStack.Entry entry = matrixStack.peek();
-
         // Extract matrix (you must transform positions manually now)
         Matrix4f pos = entry.getPositionMatrix();
         Matrix3f normalMat = entry.getNormalMatrix();
@@ -151,8 +148,8 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         }
     }
 
-    private void renderCape(MatrixStack matrixStack, VertexConsumer vertexConsumer, PlayerEntityRenderState playerState,
-            int light, int overlay) {
+    private void renderCape(MatrixStack.Entry entry, VertexConsumer vertexConsumer,
+            PlayerEntityRenderState playerState, int light, int overlay) {
         float capeWidth = 10.0f / 16.0f;
         float capeHeight = 16.0f / 16.0f;
         float capeDepth = 1.0f / 16.0f;
@@ -226,39 +223,39 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
             Vec3d outerBotRight = new Vec3d(x1, nextY - thickYEnd, nextZ - thickZEnd);
 
             // FRONT (facing camera)
-            this.renderCapeQuad(vertexConsumer, matrixStack,
+            this.renderCapeQuad(vertexConsumer, entry,
                     outerBotRight, outerBotLeft, outerTopLeft, outerTopRight,
                     frontU2, frontV1 + (frontPartV * i), frontU1, frontV1 + (frontPartV * (i + 1)),
                     light, overlay, 0, 0, 1, false);
 
             // BACK (Facing player)
-            this.renderCapeQuad(vertexConsumer, matrixStack,
+            this.renderCapeQuad(vertexConsumer, entry,
                     innerBotLeft, innerBotRight, innerTopRight, innerTopLeft,
                     backU2, backV1 + (backPartV * i), backU1, backV1 + (backPartV * (i + 1)),
                     light, overlay, 0, 0, -1, false);
 
             // LEFT EDGE
-            this.renderCapeQuad(vertexConsumer, matrixStack,
+            this.renderCapeQuad(vertexConsumer, entry,
                     innerBotLeft, outerBotLeft, outerTopLeft, innerTopLeft,
                     leftU1, leftV1 + (leftPartV * i), leftU2, leftV1 + (leftPartV * (i + 1)),
                     light, overlay, 1, 0, 0, false);
 
             // RIGHT EDGE
-            this.renderCapeQuad(vertexConsumer, matrixStack,
+            this.renderCapeQuad(vertexConsumer, entry,
                     outerBotRight, innerBotRight, innerTopRight, outerTopRight,
                     rightU1, rightV1 + (rightPartV * i), rightU2, rightV1 + (rightPartV * (i + 1)),
                     light, overlay, -1, 0, 0, false);
 
             // TOP FACE (Only on first segment)
             if (i == 0) {
-                this.renderCapeQuad(vertexConsumer, matrixStack,
+                this.renderCapeQuad(vertexConsumer, entry,
                         outerTopLeft, outerTopRight, innerTopRight, innerTopLeft,
                         topU1, topV1, topU2, topV2, light, overlay, 0, 1, 0, false);
             }
 
             // BOTTOM FACE (Only on last segment)
             if (i == PARTS - 1) {
-                this.renderCapeQuad(vertexConsumer, matrixStack,
+                this.renderCapeQuad(vertexConsumer, entry,
                         innerBotLeft, innerBotRight, outerBotRight, outerBotLeft,
                         bottomU1, bottomV1, bottomU2, bottomV2, light, overlay, 0, -1, 0, false);
             }
@@ -290,8 +287,6 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         }
 
         SaturnPlayer player = state.getData(SaturnRenderState.saturnDataKey);
-
-        player = null;
 
         if (player == null) {
             return;
@@ -342,7 +337,7 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         final int l = light;
 
         queue.submitCustom(matrices, ShaderUtils.getRenderLayer(customCape), (entry, vertexConsumer) -> {
-            renderCape(matrices, vertexConsumer, state, l, OverlayTexture.DEFAULT_UV);
+            renderCape(entry, vertexConsumer, state, l, OverlayTexture.DEFAULT_UV);
         });
 
         matrices.pop();
