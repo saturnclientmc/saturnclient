@@ -116,11 +116,11 @@ public class SaturnScreenFabric extends Screen implements ScreenProvider {
         return super.keyPressed(input);
     }
 
-    @Override
-    public void resize(MinecraftClient client, int width, int height) {
-        screen.resize(width, height);
-        super.resize(client, width, height);
-    }
+    // @Override
+    // public void resize(MinecraftClient client, int width, int height) {
+    //     screen.resize(width, height);
+    //     super.resize(client, width, height);
+    // }
 
     @Override
     public void close() {
