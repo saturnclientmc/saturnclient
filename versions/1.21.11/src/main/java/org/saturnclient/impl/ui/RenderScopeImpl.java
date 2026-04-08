@@ -207,7 +207,7 @@ public class RenderScopeImpl implements RenderScope {
 
         this.state.addSimpleElement(new TexturedQuadGuiElementRenderState(
                 RenderPipelines.GUI_TEXTURED,
-                TextureSetup.withoutGlTexture(gpuTextureView),
+                TextureSetup.method_70900(gpuTextureView),
                 new Matrix3x2f(this.matrices.stack),
                 x1, y1, x2, y2, u1, u2, v1, v2, color,
                 this.scissorStack.peekLast()));
@@ -216,7 +216,7 @@ public class RenderScopeImpl implements RenderScope {
     // Scissor management
     @Override
     public void enableScissor(int x1, int y1, int x2, int y2) {
-        ScreenRect rect = new ScreenRect(x1, y1, x2 - x1, y2 - y1).transform(this.matrices.stack);
+        ScreenRect rect = new ScreenRect(x1, y1, x2 - x1, y2 - y1).method_65185(this.matrices.stack);
         scissorStack.push(rect);
     }
 
