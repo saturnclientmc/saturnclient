@@ -31,6 +31,7 @@ public class WorldFeatureImpl implements WorldFeature {
      */
     @Override
     public long getWorldAge() {
-        return hasWorld() ? mc.world.getTime() : 0L;
+        // return hasWorld() ? mc.world.getTime() : 0L;
+        return 0L;
     }
 }
