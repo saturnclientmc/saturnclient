@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.Final;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.SplashOverlay;
+import net.minecraft.client.util.Window;
 import net.minecraft.resource.ResourceReload;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
@@ -155,7 +156,8 @@ public abstract class SplashOverlayMixin {
             reloadCompleteTime = Util.getMeasuringTimeMs();
 
             if (client.currentScreen != null) {
-                client.currentScreen.init(client, context.getScaledWindowWidth(), context.getScaledWindowHeight());
+                Window window = this.client.getWindow();
+                client.currentScreen.method_25423(this.client, window.getScaledWidth(), window.getScaledHeight());
             }
         }
     }
