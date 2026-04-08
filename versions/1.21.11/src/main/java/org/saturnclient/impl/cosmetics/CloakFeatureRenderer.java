@@ -2,6 +2,10 @@ package org.saturnclient.impl.cosmetics;
 
 import java.util.Arrays;
 
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 import org.saturnclient.client.player.SaturnPlayer;
 import org.saturnclient.common.ref.asset.IdentifierRef;
 import org.saturnclient.config.Config;
@@ -96,48 +100,54 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         }
     }
 
+    private void vertex(VertexConsumer vc, Matrix4f posMat, Matrix3f normalMat,
+            Vec3d pos, int color,
+            float u, float v, int overlay, int light,
+            float nx, float ny, float nz) {
+
+        Vector4f p = new Vector4f((float) pos.x, (float) pos.y, (float) pos.z, 1.0f);
+        p.mul(posMat);
+
+        Vector3f n = new Vector3f(nx, ny, nz);
+        n.mul(normalMat);
+
+        vc.vertex(
+                p.x(), p.y(), p.z(),
+                color,
+                u, v,
+                overlay, light,
+                n.x(), n.y(), n.z());
+    }
+
     private void renderCapeQuad(VertexConsumer vertexConsumer, MatrixStack matrixStack,
             Vec3d bottomLeft, Vec3d bottomRight, Vec3d topRight, Vec3d topLeft,
             float u1, float v1, float u2, float v2, int light, int overlay,
             float normalX, float normalY, float normalZ, boolean flipWinding) {
+
         MatrixStack.Entry entry = matrixStack.peek();
+
+        // Extract matrix (you must transform positions manually now)
+        Matrix4f pos = entry.getPositionMatrix();
+        Matrix3f normalMat = entry.getNormalMatrix();
+
+        int color = 0xFFFFFFFF; // white RGBA
 
         if (!flipWinding) {
             // CCW
-            vertexConsumer.vertex(entry.getPositionMatrix(), (float) bottomLeft.x, (float) bottomLeft.y,
-                    (float) bottomLeft.z)
-                    .color(255, 255, 255, 255).texture(u1, v2).overlay(overlay).light(light)
-                    .normal(normalX, normalY, normalZ);
-            vertexConsumer.vertex(entry.getPositionMatrix(), (float) bottomRight.x, (float) bottomRight.y,
-                    (float) bottomRight.z)
-                    .color(255, 255, 255, 255).texture(u2, v2).overlay(overlay).light(light)
-                    .normal(normalX, normalY, normalZ);
-            vertexConsumer.vertex(entry.getPositionMatrix(), (float) topRight.x, (float) topRight.y,
-                    (float) topRight.z)
-                    .color(255, 255, 255, 255).texture(u2, v1).overlay(overlay).light(light)
-                    .normal(normalX, normalY, normalZ);
-            vertexConsumer.vertex(entry.getPositionMatrix(), (float) topLeft.x, (float) topLeft.y,
-                    (float) topLeft.z)
-                    .color(255, 255, 255, 255).texture(u1, v1).overlay(overlay).light(light)
-                    .normal(normalX, normalY, normalZ);
+            vertex(vertexConsumer, pos, normalMat, bottomLeft, color, u1, v2, overlay, light, normalX, normalY,
+                    normalZ);
+            vertex(vertexConsumer, pos, normalMat, bottomRight, color, u2, v2, overlay, light, normalX, normalY,
+                    normalZ);
+            vertex(vertexConsumer, pos, normalMat, topRight, color, u2, v1, overlay, light, normalX, normalY, normalZ);
+            vertex(vertexConsumer, pos, normalMat, topLeft, color, u1, v1, overlay, light, normalX, normalY, normalZ);
         } else {
             // CW
-            vertexConsumer.vertex(entry.getPositionMatrix(), (float) topLeft.x, (float) topLeft.y,
-                    (float) topLeft.z)
-                    .color(255, 255, 255, 255).texture(u1, v1).overlay(overlay).light(light)
-                    .normal(normalX, normalY, normalZ);
-            vertexConsumer.vertex(entry.getPositionMatrix(), (float) topRight.x, (float) topRight.y,
-                    (float) topRight.z)
-                    .color(255, 255, 255, 255).texture(u2, v1).overlay(overlay).light(light)
-                    .normal(normalX, normalY, normalZ);
-            vertexConsumer.vertex(entry.getPositionMatrix(), (float) bottomRight.x, (float) bottomRight.y,
-                    (float) bottomRight.z)
-                    .color(255, 255, 255, 255).texture(u2, v2).overlay(overlay).light(light)
-                    .normal(normalX, normalY, normalZ);
-            vertexConsumer.vertex(entry.getPositionMatrix(), (float) bottomLeft.x, (float) bottomLeft.y,
-                    (float) bottomLeft.z)
-                    .color(255, 255, 255, 255).texture(u1, v2).overlay(overlay).light(light)
-                    .normal(normalX, normalY, normalZ);
+            vertex(vertexConsumer, pos, normalMat, topLeft, color, u1, v1, overlay, light, normalX, normalY, normalZ);
+            vertex(vertexConsumer, pos, normalMat, topRight, color, u2, v1, overlay, light, normalX, normalY, normalZ);
+            vertex(vertexConsumer, pos, normalMat, bottomRight, color, u2, v2, overlay, light, normalX, normalY,
+                    normalZ);
+            vertex(vertexConsumer, pos, normalMat, bottomLeft, color, u1, v2, overlay, light, normalX, normalY,
+                    normalZ);
         }
     }
 
