@@ -11,10 +11,10 @@ import org.saturnclient.common.ref.asset.IdentifierRef;
 import org.saturnclient.config.Config;
 import org.saturnclient.cosmetics.Cloaks;
 import org.saturnclient.impl.cosmetics.utils.ShaderUtils;
+import org.saturnclient.saturnclient.SaturnRenderState;
 
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.render.entity.equipment.EquipmentModel;
 import net.minecraft.client.render.entity.equipment.EquipmentModelLoader;
@@ -281,78 +281,15 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
 
     private long lastUpdate = 0;
 
-    public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light,
-            PlayerEntityRenderState playerEntityRenderState, float f, float g) {
-        if (playerEntityRenderState.invisible || !playerEntityRenderState.capeVisible
-                || playerEntityRenderState.skinTextures.cape() != null) {
-            return;
-        }
-
-        SaturnPlayer player = SaturnPlayer.get(playerEntityRenderState.playerName.getString());
-
-        if (player == null) {
-            return;
-        }
-
-        IdentifierRef customCape = Cloaks.getCurrentCloakTexture(player.cloak);
-        if (customCape == null
-                || this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack, LayerType.WINGS)) {
-            return;
-        }
-
-        int minBrightness = 7;
-        int blockLight = (light >> 4) & 0xF;
-        int skyLight = (light >> 20) & 0xF;
-        blockLight = Math.max(blockLight, minBrightness);
-        skyLight = Math.max(skyLight, minBrightness);
-        light = (skyLight << 20) | (blockLight << 4);
-
-        VertexConsumer vertexConsumer = vertexConsumerProvider
-                .getBuffer(ShaderUtils.getRenderLayer(customCape));
-
-        matrixStack.push();
-
-        matrixStack.translate(0.0f, 0.0f, 0.12f);
-
-        if (this.hasCustomModelForLayer(playerEntityRenderState.equippedChestStack, LayerType.HUMANOID)) {
-            matrixStack.translate(0.0F, -0.053125F, 0.06875F);
-        }
-
-        if (playerEntityRenderState.isInSneakingPose) {
-            matrixStack.translate(0, 0.16f, 0.0f);
-            matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(29.0f));
-        }
-
-        long now = System.currentTimeMillis();
-        if (now - lastUpdate >= 20) {
-            float velX = Math.min(0.6f, playerEntityRenderState.field_53537 / 108.0f);
-            float rawVelY = playerEntityRenderState.field_53536;
-            float velY = (rawVelY > 3.4f ? rawVelY : rawVelY < -3.4f ? rawVelY : 0.0f) / 16;
-
-            float value = Math.max(0.0f, Math.min(2.0f, playerEntityRenderState.isSwimming ? 0.0f : velX + velY));
-
-            if (Config.cloakPhysics.value) {
-                updateSegmentValues(segmentValues[0] + (value - segmentValues[0]) * 0.3f);
-            } else {
-                Arrays.fill(segmentValues, segmentValues[0] + (value - segmentValues[0]) * 0.05f);
-            }
-            lastUpdate = now;
-        }
-
-        renderCape(matrixStack, vertexConsumer, playerEntityRenderState, light, OverlayTexture.DEFAULT_UV);
-
-        matrixStack.pop();
-    }
-
     @Override
     public void render(MatrixStack matrices, OrderedRenderCommandQueue queue, int light, PlayerEntityRenderState state,
             float limbAngle, float limbDistance) {
-        if (state.playerName == null || state.invisible || !state.capeVisible
+        if (state.invisible || !state.capeVisible
                 || state.skinTextures.cape() != null) {
             return;
         }
 
-        SaturnPlayer player = SaturnPlayer.get(state.playerName.getString());
+        SaturnPlayer player = state.getData(SaturnRenderState.saturnDataKey);
 
         if (player == null) {
             return;

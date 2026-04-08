@@ -155,8 +155,8 @@ public abstract class SplashOverlayMixin {
 
             reloadCompleteTime = Util.getMeasuringTimeMs();
 
+            Window window = client.getWindow();
             if (client.currentScreen != null) {
-                Window window = this.client.getWindow();
                 client.currentScreen.init(window.getScaledWidth(), window.getScaledHeight());
             }
         }

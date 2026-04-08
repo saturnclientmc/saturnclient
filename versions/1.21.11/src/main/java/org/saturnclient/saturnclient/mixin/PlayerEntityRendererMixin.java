@@ -1,6 +1,5 @@
 package org.saturnclient.saturnclient.mixin;
 
-import net.fabricmc.fabric.api.client.rendering.v1.RenderStateDataKey;
 import net.minecraft.client.network.ClientPlayerLikeEntity;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
@@ -12,11 +11,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 
-import org.jspecify.annotations.NonNull;
 import org.saturnclient.client.player.Roles;
 import org.saturnclient.client.player.SaturnPlayer;
 import org.saturnclient.impl.cosmetics.CloakFeatureRenderer;
 import org.saturnclient.impl.cosmetics.HatFeatureRenderer;
+import org.saturnclient.saturnclient.SaturnRenderState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -25,9 +24,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(PlayerEntityRenderer.class)
 public abstract class PlayerEntityRendererMixin
         extends LivingEntityRenderer<PlayerEntity, PlayerEntityRenderState, PlayerEntityModel> {
-
-    @NonNull
-    RenderStateDataKey<SaturnPlayer> saturnDataKey = RenderStateDataKey.create(() -> "saturn-client-player");
 
     protected PlayerEntityRendererMixin() {
         super(null, null, 0.0f);
@@ -49,7 +45,7 @@ public abstract class PlayerEntityRendererMixin
 
         SaturnPlayer player = SaturnPlayer.get(entity.getUuid());
 
-        state.setData(saturnDataKey, player);
+        state.setData(SaturnRenderState.saturnDataKey, player);
 
         if (player != null) {
             MutableText iconText = Text.literal(Roles.getSaturnIndicator())
