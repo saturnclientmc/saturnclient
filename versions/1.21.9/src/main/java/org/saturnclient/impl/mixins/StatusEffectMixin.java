@@ -1,17 +1,16 @@
 package org.saturnclient.impl.mixins;
 
+import org.saturnclient.common.ref.asset.IdentifierRef;
 import org.saturnclient.common.ref.asset.SpriteRef;
 import org.saturnclient.common.ref.game.EffectRef;
-import org.saturnclient.saturnclient.SaturnClient;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.texture.SpriteAtlasTexture;
-import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.util.Identifier;
 
 @Mixin(StatusEffectInstance.class)
 public abstract class StatusEffectMixin implements EffectRef {
@@ -30,10 +29,14 @@ public abstract class StatusEffectMixin implements EffectRef {
 
     @Override
     public SpriteRef getIcon() {
-        SpriteIdentifier identifier = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE,
-                InGameHud.getEffectTexture(getEffectType()));
+        return null;
+    }
 
-        return (SpriteRef) SaturnClient.client.getAtlasManager().getSprite(identifier);
+    @Override
+    public IdentifierRef getIconId() {
+        Identifier id = InGameHud.getEffectTexture(getEffectType());
+
+        return IdentifierRef.of(id.getNamespace(), "textures/" + id.getPath() + ".png");
     }
 
     @Override
