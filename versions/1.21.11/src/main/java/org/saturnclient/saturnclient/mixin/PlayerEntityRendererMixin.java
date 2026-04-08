@@ -41,7 +41,7 @@ public abstract class PlayerEntityRendererMixin
     @Inject(method = "renderLabelIfPresent", at = @At("HEAD"), cancellable = true)
     protected void renderLabelIfPresent(PlayerEntityRenderState state, MatrixStack matrices,
             OrderedRenderCommandQueue queue, CameraRenderState cameraRenderState, CallbackInfo ci) {
-        if (state.displayName == null)
+        if (state.playerName == null || state.displayName == null)
             return;
 
         UUID uuid = isSaturn(state);
@@ -61,7 +61,7 @@ public abstract class PlayerEntityRendererMixin
 
     private UUID isSaturn(PlayerEntityRenderState state) {
         if (state instanceof PlayerEntityRenderState) {
-            String name = ((PlayerEntityRenderState) state).displayName.getString();
+            String name = ((PlayerEntityRenderState) state).playerName.getString();
             SaturnPlayer player = SaturnPlayer.get(name);
             if (player != null) {
                 return player.uuid;

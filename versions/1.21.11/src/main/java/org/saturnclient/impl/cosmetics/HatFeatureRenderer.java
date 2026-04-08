@@ -23,10 +23,10 @@ public class HatFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState,
     // @Override
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light,
             PlayerEntityRenderState state, float limbAngle, float limbDistance) {
-        if (state.displayName == null)
+        if (state.playerName == null)
             return;
 
-        SaturnPlayer player = SaturnPlayer.get(state.displayName.getString());
+        SaturnPlayer player = SaturnPlayer.get(state.playerName.getString());
 
         if (state.invisible || player == null || player.hat.isEmpty()) {
             return;
