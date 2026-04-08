@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.Camera;
 import net.minecraft.entity.Entity;
-import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 
 @Mixin(Camera.class)
 public abstract class CameraMixin {
@@ -24,8 +24,13 @@ public abstract class CameraMixin {
     protected abstract void setRotation(float yaw, float pitch);
 
     @Inject(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Camera;setRotation(FF)V", ordinal = 1, shift = At.Shift.AFTER))
-    public void lockRotation(BlockView focusedBlock, Entity cameraEntity, boolean isThirdPerson, boolean isFrontFacing,
-            float tickDelta, CallbackInfo ci) {
+    public void lockRotation(
+            World focusedBlock,
+            Entity cameraEntity,
+            boolean isThirdPerson,
+            boolean isFrontFacing,
+            float tickDelta,
+            CallbackInfo ci) {
         if (FreelookMod.isFreeLooking() && cameraEntity instanceof ClientPlayerEntity) {
             CameraOverriddenEntity cameraOverriddenEntity = (CameraOverriddenEntity) cameraEntity;
 
