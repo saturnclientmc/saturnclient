@@ -20,6 +20,6 @@ public class RefConstructorImpl implements RefConstructorProvider {
 
     @Override
     public TextRef text(String text) {
-        return (TextRef) Text.literal(text);
+        return (TextRef) (Text) Text.literal(text);
     }
 }

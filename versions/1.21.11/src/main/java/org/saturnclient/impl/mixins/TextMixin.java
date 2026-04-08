@@ -15,7 +15,7 @@ public interface TextMixin extends TextRef {
 
     @Override
     public default TextRef withFont(IdentifierRef font) {
-        return (TextRef) (((Text) this).copy().setStyle(Style.EMPTY.withFont(new Font((Identifier) (Object) font))));
+        return (TextRef) (Text) (((Text) this).copy().setStyle(Style.EMPTY.withFont(new Font((Identifier) (Object) font))));
     }
 
     @Override
