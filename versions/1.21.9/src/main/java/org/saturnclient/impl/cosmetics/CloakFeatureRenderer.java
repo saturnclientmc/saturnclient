@@ -337,6 +337,65 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
     @Override
     public void render(MatrixStack matrices, OrderedRenderCommandQueue queue, int light, PlayerEntityRenderState state,
             float limbAngle, float limbDistance) {
+        if (state.invisible || !state.capeVisible
+                || state.skinTextures.cape() != null) {
+            return;
+        }
 
+        SaturnPlayer player = SaturnPlayer.get(state.displayName.getString());
+
+        if (player == null) {
+            return;
+        }
+
+        IdentifierRef customCape = Cloaks.getCurrentCloakTexture(player.cloak);
+        if (customCape == null
+                || this.hasCustomModelForLayer(state.equippedChestStack, LayerType.WINGS)) {
+            return;
+        }
+
+        int minBrightness = 7;
+        int blockLight = (light >> 4) & 0xF;
+        int skyLight = (light >> 20) & 0xF;
+        blockLight = Math.max(blockLight, minBrightness);
+        skyLight = Math.max(skyLight, minBrightness);
+        light = (skyLight << 20) | (blockLight << 4);
+
+        matrices.push();
+
+        matrices.translate(0.0f, 0.0f, 0.12f);
+
+        if (this.hasCustomModelForLayer(state.equippedChestStack, LayerType.HUMANOID)) {
+            matrices.translate(0.0F, -0.053125F, 0.06875F);
+        }
+
+        if (state.isInSneakingPose) {
+            matrices.translate(0, 0.16f, 0.0f);
+            matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(29.0f));
+        }
+
+        long now = System.currentTimeMillis();
+        if (now - lastUpdate >= 20) {
+            float velX = Math.min(0.6f, state.field_53537 / 108.0f);
+            float rawVelY = state.field_53536;
+            float velY = (rawVelY > 3.4f ? rawVelY : rawVelY < -3.4f ? rawVelY : 0.0f) / 16;
+
+            float value = Math.max(0.0f, Math.min(2.0f, state.isSwimming ? 0.0f : velX + velY));
+
+            if (Config.cloakPhysics.value) {
+                updateSegmentValues(segmentValues[0] + (value - segmentValues[0]) * 0.3f);
+            } else {
+                Arrays.fill(segmentValues, segmentValues[0] + (value - segmentValues[0]) * 0.05f);
+            }
+            lastUpdate = now;
+        }
+
+        final int l = light;
+
+        queue.submitCustom(matrices, ShaderUtils.getRenderLayer(customCape), (entry, vertexConsumer) -> {
+            renderCape(matrices, vertexConsumer, state, l, OverlayTexture.DEFAULT_UV);
+        });
+
+        matrices.pop();
     }
 }
