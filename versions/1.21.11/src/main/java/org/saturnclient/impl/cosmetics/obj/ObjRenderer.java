@@ -10,8 +10,9 @@ import org.saturnclient.impl.cosmetics.utils.ShaderUtils;
 import de.javagl.obj.*;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
@@ -24,9 +25,12 @@ public class ObjRenderer {
         }
     }
 
-    public static void renderObj(Obj obj, Map<String, Mtl> mtlMap, MatrixStack matrices,
-            VertexConsumerProvider vertexConsumers, int light, int overlay) {
-        MatrixStack.Entry entry = matrices.peek();
+    public static void renderObj(Obj obj,
+            Map<String, Mtl> mtlMap,
+            MatrixStack matrices,
+            OrderedRenderCommandQueue queue,
+            int light,
+            int overlay) {
 
         Map<String, Obj> materialGroups = ObjSplitting.splitByMaterialGroups(obj);
 
@@ -36,19 +40,15 @@ public class ObjRenderer {
 
             Mtl mtl = mtlMap != null ? mtlMap.get(materialName) : null;
 
-            // Resolve texture identifier using same logic as ObjUnbakedModelModel
             IdentifierRef texture = IdentifierRef.ofVanilla("textures/misc/white.png");
 
             if (mtl != null) {
                 String mapKd = mtl.getMapKd();
-                if (mapKd != null) {
-                    if (!mapKd.startsWith("#")) {
-                        texture = IdentifierRef.of(mapKd);
-                    }
+                if (mapKd != null && !mapKd.startsWith("#")) {
+                    texture = IdentifierRef.of(mapKd);
                 }
             }
 
-            // Diffuse color (Kd)
             float r = 1f, g = 1f, b = 1f;
             if (mtl != null) {
                 FloatTuple kd = mtl.getKd();
@@ -59,20 +59,24 @@ public class ObjRenderer {
                 }
             }
 
-            VertexConsumer consumer = vertexConsumers.getBuffer(ShaderUtils.getRenderLayer(texture));
+            RenderLayer layer = ShaderUtils.getRenderLayer(texture);
 
-            int faces = groupObj.getNumFaces();
             final float fr = r, fg = g, fb = b;
+            final Obj finalObj = groupObj;
 
-            for (int f = 0; f < faces; f++) {
-                ObjFace face = groupObj.getFace(f);
-                int verts = face.getNumVertices();
+            queue.submitCustom(matrices, layer, (e, vertexConsumer) -> {
 
-                // Your original winding order logic, untouched
-                for (int i = verts - 1; i >= 0; i--) {
-                    writeVertex(groupObj, face, i, consumer, entry, light, overlay, fr, fg, fb);
+                int faces = finalObj.getNumFaces();
+
+                for (int f = 0; f < faces; f++) {
+                    ObjFace face = finalObj.getFace(f);
+                    int verts = face.getNumVertices();
+
+                    for (int i = verts - 1; i >= 0; i--) {
+                        writeVertex(finalObj, face, i, vertexConsumer, e, light, overlay, fr, fg, fb);
+                    }
                 }
-            }
+            });
         }
     }
 

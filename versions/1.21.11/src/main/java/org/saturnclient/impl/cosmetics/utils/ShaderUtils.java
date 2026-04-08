@@ -36,7 +36,7 @@ public class ShaderUtils {
             return RenderLayers.entityAlpha((Identifier) (Object) GifUtils.get(texture));
         } else if (path.endsWith("end.png")) {
             // return END_GATEWAY;
-            return null;
+            return RenderLayers.endGateway();
         } else {
             return RenderLayers.entityAlpha((Identifier) (Object) texture);
         }

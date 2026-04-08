@@ -291,6 +291,8 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
 
         SaturnPlayer player = state.getData(SaturnRenderState.saturnDataKey);
 
+        player = null;
+
         if (player == null) {
             return;
         }

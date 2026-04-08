@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.javagl.obj.Mtl;
 import de.javagl.obj.Obj;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
@@ -78,7 +78,7 @@ public class ObjModel {
         }
     }
 
-    public void render(Map<String, Mtl> mtlMap, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light,
+    public void render(Map<String, Mtl> mtlMap, MatrixStack matrices, OrderedRenderCommandQueue queue, int light,
             int overlay) {
         matrices.push();
 
@@ -95,7 +95,7 @@ public class ObjModel {
             matrices.multiply(net.minecraft.util.math.RotationAxis.POSITIVE_Z.rotationDegrees(config.rotation.z));
         }
 
-        ObjRenderer.renderObj(this.obj, mtlMap, matrices, vertexConsumers, light, overlay);
+        ObjRenderer.renderObj(this.obj, mtlMap, matrices, queue, light, overlay);
 
         matrices.pop();
     }
