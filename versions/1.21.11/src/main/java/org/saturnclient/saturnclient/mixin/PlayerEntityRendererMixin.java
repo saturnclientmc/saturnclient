@@ -10,6 +10,7 @@ import net.minecraft.entity.PlayerLikeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 
 import org.saturnclient.client.player.Roles;
 import org.saturnclient.client.player.SaturnPlayer;
@@ -47,11 +48,14 @@ public abstract class PlayerEntityRendererMixin
 
         state.setData(SaturnRenderState.saturnDataKey, player);
 
-        if (player != null) {
+        if (player != null && state.displayName != null) {
             MutableText iconText = Text.literal(Roles.getSaturnIndicator())
                     .styled(style -> style.withColor(Roles.getIconColor(player.uuid)));
 
-            state.displayName = iconText.append(state.displayName);
+            state.displayName = Text.empty()
+                    .append(iconText.copy())
+                    .append(Text.empty().formatted(Formatting.RESET))
+                    .append(state.displayName.copy());
         }
     }
 }
