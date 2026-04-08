@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.Mixin;
 
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
+import net.minecraft.text.StyleSpriteSource.Font;
 import net.minecraft.util.Identifier;
 
 @Mixin(Text.class)
@@ -14,9 +15,7 @@ public interface TextMixin extends TextRef {
 
     @Override
     public default TextRef withFont(IdentifierRef font) {
-        // return (TextRef) (((Text)
-        // this).copy().setStyle(Style.EMPTY.withFont((Identifier) (Object) font)));
-        return this;
+        return (TextRef) (((Text) this).copy().setStyle(Style.EMPTY.withFont(new Font((Identifier) (Object) font))));
     }
 
     @Override
