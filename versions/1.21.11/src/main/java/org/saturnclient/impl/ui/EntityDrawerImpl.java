@@ -62,7 +62,7 @@ public class EntityDrawerImpl implements EntityDrawer {
         EntityRenderManager entityRenderDispatcher = SaturnClient.client.getEntityRenderDispatcher();
         EntityRenderer<? super LivingEntity, ?> entityRenderer = entityRenderDispatcher.getRenderer(entity);
         EntityRenderState entityRenderState = entityRenderer.getAndUpdateRenderState(entity, 1.0F);
-        entityRenderState.hitbox = null;
+        // entityRenderState.hitbox = null;
 
         if (renderScope instanceof RenderScopeImpl i)
             i.addEntity(entityRenderState, scale, translation, rotation, overrideCameraAngle, x1, y1, x2, y2);
