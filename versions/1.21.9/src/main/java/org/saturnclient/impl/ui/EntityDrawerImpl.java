@@ -8,6 +8,7 @@ import org.saturnclient.ui.ElementContext;
 import org.saturnclient.ui.RenderScope;
 import org.saturnclient.ui.components.SkinPreview.EntityDrawer;
 
+import net.minecraft.client.render.entity.EntityRenderManager;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.entity.LivingEntity;
@@ -58,12 +59,12 @@ public class EntityDrawerImpl implements EntityDrawer {
     public static void drawEntity(RenderScope renderScope, int x1, int y1, int x2, int y2, float scale,
             Vector3f translation, Quaternionf rotation, @Nullable Quaternionf overrideCameraAngle,
             LivingEntity entity) {
-        // EntityRenderDispatcher entityRenderDispatcher = SaturnClient.client.getEntityRenderDispatcher();
-        // EntityRenderer<? super LivingEntity, ?> entityRenderer = entityRenderDispatcher.getRenderer(entity);
-        // EntityRenderState entityRenderState = entityRenderer.getAndUpdateRenderState(entity, 1.0F);
-        // entityRenderState.hitbox = null;
+        EntityRenderManager entityRenderDispatcher = SaturnClient.client.getEntityRenderDispatcher();
+        EntityRenderer<? super LivingEntity, ?> entityRenderer = entityRenderDispatcher.getRenderer(entity);
+        EntityRenderState entityRenderState = entityRenderer.getAndUpdateRenderState(entity, 1.0F);
+        entityRenderState.hitbox = null;
 
-        // if (renderScope instanceof RenderScopeImpl i)
-        //     i.addEntity(entityRenderState, scale, translation, rotation, overrideCameraAngle, x1, y1, x2, y2);
+        if (renderScope instanceof RenderScopeImpl i)
+            i.addEntity(entityRenderState, scale, translation, rotation, overrideCameraAngle, x1, y1, x2, y2);
     }
 }
