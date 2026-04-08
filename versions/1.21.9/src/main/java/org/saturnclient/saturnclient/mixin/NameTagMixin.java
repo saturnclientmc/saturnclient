@@ -35,6 +35,9 @@ public abstract class NameTagMixin<S extends EntityRenderState> {
     @Inject(method = "renderLabelIfPresent", at = @At("HEAD"), cancellable = true)
     protected void renderLabelIfPresent(S state, MatrixStack matrices, OrderedRenderCommandQueue queue,
             CameraRenderState cameraRenderState, CallbackInfo ci) {
+        if (state.displayName == null)
+            return;
+
         UUID uuid = isSaturn(state);
 
         if (uuid != null) {

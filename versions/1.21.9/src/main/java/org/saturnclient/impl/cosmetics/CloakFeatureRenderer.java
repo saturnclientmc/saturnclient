@@ -337,7 +337,7 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
     @Override
     public void render(MatrixStack matrices, OrderedRenderCommandQueue queue, int light, PlayerEntityRenderState state,
             float limbAngle, float limbDistance) {
-        if (state.invisible || !state.capeVisible
+        if (state.displayName == null || state.invisible || !state.capeVisible
                 || state.skinTextures.cape() != null) {
             return;
         }
