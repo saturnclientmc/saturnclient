@@ -7,6 +7,7 @@ import com.mojang.blaze3d.pipeline.RenderPipeline;
 
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.RenderLayers;
 import net.minecraft.client.render.block.entity.EndPortalBlockEntityRenderer;
 import net.minecraft.util.Identifier;
 
@@ -28,12 +29,12 @@ public class ShaderUtils {
     public static RenderLayer getRenderLayer(IdentifierRef texture) {
         String path = texture.toString();
         if (path.endsWith(".gif")) {
-            return RenderLayer.method_23573((Identifier) (Object) GifUtils.get(texture));
+            return RenderLayers.entityAlpha((Identifier) (Object) GifUtils.get(texture));
         } else if (path.endsWith("end.png")) {
             // return END_GATEWAY;
             return null;
         } else {
-            return RenderLayer.method_23573((Identifier) (Object) texture);
+            return RenderLayer.entityAlpha((Identifier) (Object) texture);
         }
     }
 }

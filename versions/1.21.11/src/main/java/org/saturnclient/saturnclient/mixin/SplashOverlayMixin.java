@@ -157,7 +157,7 @@ public abstract class SplashOverlayMixin {
 
             if (client.currentScreen != null) {
                 Window window = this.client.getWindow();
-                client.currentScreen.method_25423(this.client, window.getScaledWidth(), window.getScaledHeight());
+                client.currentScreen.init(window.getScaledWidth(), window.getScaledHeight());
             }
         }
     }
