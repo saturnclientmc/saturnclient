@@ -1,20 +1,18 @@
 package org.saturnclient.saturnclient.mixin;
 
-import net.minecraft.client.render.command.OrderedRenderCommandQueue;
+import net.fabricmc.fabric.api.client.rendering.v1.RenderStateDataKey;
+import net.minecraft.client.network.ClientPlayerLikeEntity;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
-import net.minecraft.client.render.state.CameraRenderState;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.PlayerLikeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 
-import java.util.UUID;
-
+import org.jspecify.annotations.NonNull;
 import org.saturnclient.client.player.Roles;
 import org.saturnclient.client.player.SaturnPlayer;
 import org.saturnclient.impl.cosmetics.CloakFeatureRenderer;
@@ -28,6 +26,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class PlayerEntityRendererMixin
         extends LivingEntityRenderer<PlayerEntity, PlayerEntityRenderState, PlayerEntityModel> {
 
+    @NonNull
+    RenderStateDataKey<SaturnPlayer> saturnDataKey = RenderStateDataKey.create(() -> "saturn-client-player");
+
     protected PlayerEntityRendererMixin() {
         super(null, null, 0.0f);
     }
@@ -38,36 +39,23 @@ public abstract class PlayerEntityRendererMixin
         this.addFeature(new CloakFeatureRenderer(this, ctx.getEquipmentModelLoader()));
     }
 
-    @Inject(method = "renderLabelIfPresent", at = @At("HEAD"), cancellable = true)
-    protected void renderLabelIfPresent(PlayerEntityRenderState state, MatrixStack matrices,
-            OrderedRenderCommandQueue queue, CameraRenderState cameraRenderState, CallbackInfo ci) {
-        if (state.playerName == null || state.displayName == null)
+    @Inject(method = "updateRenderState", at = @At("TAIL"))
+    public <A extends PlayerLikeEntity & ClientPlayerLikeEntity> void updateRenderState(
+            A entity, PlayerEntityRenderState state,
+            float f, CallbackInfo ci) {
+        if (entity == null) {
             return;
+        }
 
-        UUID uuid = isSaturn(state);
+        SaturnPlayer player = SaturnPlayer.get(entity.getUuid());
 
-        if (uuid != null) {
+        state.setData(saturnDataKey, player);
+
+        if (player != null) {
             MutableText iconText = Text.literal(Roles.getSaturnIndicator())
-                    .styled(style -> style.withColor(Roles.getIconColor(uuid)));
+                    .styled(style -> style.withColor(Roles.getIconColor(player.uuid)));
 
-            Text nameText = state.displayName.copy().styled(style -> style.withColor(Formatting.WHITE));
-
-            queue.submitLabel(matrices, state.nameLabelPos, 0, iconText.append(nameText), !state.sneaking, state.light,
-                    state.squaredDistanceToCamera, cameraRenderState);
-
-            ci.cancel();
+            state.displayName = iconText.append(state.displayName);
         }
-    }
-
-    private UUID isSaturn(PlayerEntityRenderState state) {
-        if (state instanceof PlayerEntityRenderState) {
-            String name = ((PlayerEntityRenderState) state).playerName.getString();
-            SaturnPlayer player = SaturnPlayer.get(name);
-            if (player != null) {
-                return player.uuid;
-            }
-        }
-
-        return null;
     }
 }
