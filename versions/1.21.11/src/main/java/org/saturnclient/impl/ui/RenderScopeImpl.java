@@ -34,6 +34,7 @@ import net.minecraft.client.gui.render.state.TexturedQuadGuiElementRenderState;
 import net.minecraft.client.gui.render.state.special.EntityGuiElementRenderState;
 import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.client.render.item.KeyedItemRenderState;
+import net.minecraft.client.texture.AbstractTexture;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.TextureSetup;
 import net.minecraft.entity.LivingEntity;
@@ -144,7 +145,7 @@ public class RenderScopeImpl implements RenderScope {
                             ((Text) Fonts.setFont(line, font)).asOrderedText(),
                             new Matrix3x2f(this.matrices.stack),
                             0, font == 0 ? 1 : 8,
-                            finalColor, 0, false, this.scissorStack.peekLast()));
+                            finalColor, 0, false, false, this.scissorStack.peekLast()));
 
             matrices.pop();
 
@@ -205,9 +206,11 @@ public class RenderScopeImpl implements RenderScope {
         GpuTextureView gpuTextureView = SaturnClient.client.getTextureManager()
                 .getTexture(sprite).getGlTextureView();
 
+        AbstractTexture abstractTexture = SaturnClient.client.getTextureManager().getTexture(sprite);
+
         this.state.addSimpleElement(new TexturedQuadGuiElementRenderState(
                 RenderPipelines.GUI_TEXTURED,
-                TextureSetup.method_70900(gpuTextureView),
+                TextureSetup.of(gpuTextureView, abstractTexture.getSampler()),
                 new Matrix3x2f(this.matrices.stack),
                 x1, y1, x2, y2, u1, u2, v1, v2, color,
                 this.scissorStack.peekLast()));
@@ -216,7 +219,7 @@ public class RenderScopeImpl implements RenderScope {
     // Scissor management
     @Override
     public void enableScissor(int x1, int y1, int x2, int y2) {
-        ScreenRect rect = new ScreenRect(x1, y1, x2 - x1, y2 - y1).method_65185(this.matrices.stack);
+        ScreenRect rect = new ScreenRect(x1, y1, x2 - x1, y2 - y1).transform(this.matrices.stack);
         scissorStack.push(rect);
     }
 
