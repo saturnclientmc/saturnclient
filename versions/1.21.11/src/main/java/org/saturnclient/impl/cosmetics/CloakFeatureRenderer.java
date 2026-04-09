@@ -223,24 +223,34 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
             float xPos = -capeWidth / 2.0f + capeWidth * t;
 
             float centered = t - 0.5f;
-            float curveFactor = centered * 2.0f;
-            float falloff = Math.abs(curveFactor);
-            float zCurve = (curveFactor * falloff * horizontalCurve * 0.3f) / PARTS;
+            float curve = (centered * centered) * 0.3f;
+            float zCurve = (curve * horizontalCurve) / PARTS;
 
             for (int i = 0; i <= PARTS; i++) {
-
                 float y = spineY[i];
                 float z = spineZ[i];
 
                 int idx = Math.min(i, PARTS - 1);
+                // angle: 0 is horizontal (y-flat), PI/2 is vertical (z-flat)
                 float angle = (2.0f - segmentValues[idx]) * ((float) Math.PI / 2f);
 
-                float thickY = (float) Math.sin(angle) * capeDepth;
-                float thickZ = (float) Math.cos(angle) * capeDepth;
+                float cosA = (float) Math.cos(angle);
+                float sinA = (float) Math.sin(angle);
 
-                inner[x][i] = new Vec3d(xPos, y, z + (zCurve * i));
-                outer[x][i] = new Vec3d(xPos, y - thickY, z - thickZ + (zCurve * i));
+                // Calculate how much the horizontal curve shifts the vertex
+                float currentCurve = zCurve * i;
+
+                // Rotate the curve offset so it aligns with the cape's tilt
+                float curveY = sinA * currentCurve;
+                float curveZ = cosA * currentCurve;
+
+                float thickY = sinA * capeDepth;
+                float thickZ = cosA * capeDepth;
+
+                inner[x][i] = new Vec3d(xPos, y - curveY, z - curveZ);
+                outer[x][i] = new Vec3d(xPos, (y - curveY) - thickY, (z - curveZ) - thickZ);
             }
+
         }
 
         // =============================
@@ -388,18 +398,18 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
     @Override
     public void render(MatrixStack matrices, OrderedRenderCommandQueue queue, int light, PlayerEntityRenderState state,
             float limbAngle, float limbDistance) {
-        // if (state.invisible || !state.capeVisible
-        // || state.skinTextures.cape() != null) {
-        // return;
-        // }
+        if (state.invisible || !state.capeVisible
+                || state.skinTextures.cape() != null) {
+            return;
+        }
 
-        // SaturnPlayer player = state.getData(SaturnRenderState.saturnDataKey);
+        SaturnPlayer player = state.getData(SaturnRenderState.saturnDataKey);
 
-        // if (player == null) {
-        // return;
-        // }
+        if (player == null) {
+            return;
+        }
 
-        IdentifierRef customCape = Cloaks.getCurrentCloakTexture("amg_petronas");
+        IdentifierRef customCape = Cloaks.getCurrentCloakTexture(player.cloak);
         if (customCape == null
                 || this.hasCustomModelForLayer(state.equippedChestStack, LayerType.WINGS)) {
             return;
@@ -427,7 +437,7 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
 
         long now = System.currentTimeMillis();
         if (now - lastUpdate >= 20) {
-            float velX = Math.min(0.6f, state.field_53537 / 108.0f);
+            float velX = Math.min(0.8f, state.field_53537 / 108.0f);
             float rawVelY = state.field_53536;
             float velY = (rawVelY > 3.4f ? rawVelY : rawVelY < -3.4f ? rawVelY : 0.0f) / 16;
 
