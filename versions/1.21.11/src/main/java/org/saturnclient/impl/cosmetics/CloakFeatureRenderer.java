@@ -225,7 +225,7 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
             float centered = t - 0.5f;
             float curveFactor = centered * 2.0f;
             float falloff = Math.abs(curveFactor);
-            float zCurve = curveFactor * falloff * horizontalCurve * 0.3f;
+            float zCurve = (curveFactor * falloff * horizontalCurve * 0.3f) / PARTS;
 
             for (int i = 0; i <= PARTS; i++) {
 
@@ -238,8 +238,8 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
                 float thickY = (float) Math.sin(angle) * capeDepth;
                 float thickZ = (float) Math.cos(angle) * capeDepth;
 
-                inner[x][i] = new Vec3d(xPos, y, z + zCurve);
-                outer[x][i] = new Vec3d(xPos, y - thickY, z - thickZ + zCurve);
+                inner[x][i] = new Vec3d(xPos, y, z + (zCurve * i));
+                outer[x][i] = new Vec3d(xPos, y - thickY, z - thickZ + (zCurve * i));
             }
         }
 
@@ -249,11 +249,11 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
 
         for (int x = 0; x < H_PARTS; x++) {
 
-            float uStart = frontU1 + (frontU2 - frontU1) * ((float) x / H_PARTS);
-            float uEnd = frontU1 + (frontU2 - frontU1) * ((float) (x + 1) / H_PARTS);
+            float uStart = frontU1 + (frontU2 - frontU1) * (1.0f - ((float) x / H_PARTS));
+            float uEnd = frontU1 + (frontU2 - frontU1) * (1.0f - ((float) (x + 1) / H_PARTS));
 
-            float buStart = backU1 + (backU2 - backU1) * ((float) x / H_PARTS);
-            float buEnd = backU1 + (backU2 - backU1) * ((float) (x + 1) / H_PARTS);
+            float buStart = backU1 + (backU2 - backU1) * (1.0f - ((float) x / H_PARTS));
+            float buEnd = backU1 + (backU2 - backU1) * (1.0f - ((float) (x + 1) / H_PARTS));
 
             for (int i = 0; i < PARTS; i++) {
 
@@ -276,13 +276,13 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
                 // FRONT
                 renderCapeQuad(vertexConsumer, entry,
                         outerBR, outerBL, outerTL, outerTR,
-                        uEnd, vStart, uStart, vEnd,
+                        uStart, vStart, uEnd, vEnd,
                         light, overlay, 0, 0, 1, false);
 
                 // BACK
                 renderCapeQuad(vertexConsumer, entry,
                         innerBL, innerBR, innerTR, innerTL,
-                        buEnd, bvStart, buStart, bvEnd,
+                        buStart, bvStart, buEnd, bvEnd,
                         light, overlay, 0, 0, -1, false);
             }
         }
@@ -298,10 +298,14 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
             Vec3d outerTop = outer[0][i];
             Vec3d outerBot = outer[0][i + 1];
 
+            float vStart = leftV1 + leftPartV * (PARTS - i);
+            float vEnd = leftV1 + leftPartV * (PARTS - (i + 1));
+
+            // FLIPPED: swap v + swap vertical vertex order
             renderCapeQuad(vertexConsumer, entry,
-                    innerBot, outerBot, outerTop, innerTop,
-                    leftU1, leftV1 + leftPartV * i,
-                    leftU2, leftV1 + leftPartV * (i + 1),
+                    innerTop, outerTop, outerBot, innerBot, // flipped vertically
+                    leftU1, vEnd, // swapped V
+                    leftU2, vStart,
                     light, overlay, 1, 0, 0, false);
         }
 
@@ -316,10 +320,14 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
             Vec3d outerTop = outer[H_PARTS][i];
             Vec3d outerBot = outer[H_PARTS][i + 1];
 
+            float vStart = rightV1 + rightPartV * (PARTS - i);
+            float vEnd = rightV1 + rightPartV * (PARTS - (i + 1));
+
+            // FLIPPED: swap v + swap vertical vertex order
             renderCapeQuad(vertexConsumer, entry,
-                    outerBot, innerBot, innerTop, outerTop,
-                    rightU1, rightV1 + rightPartV * i,
-                    rightU2, rightV1 + rightPartV * (i + 1),
+                    outerTop, innerTop, innerBot, outerBot, // flipped vertically
+                    rightU1, vEnd,
+                    rightU2, vStart,
                     light, overlay, -1, 0, 0, false);
         }
 
@@ -380,18 +388,18 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
     @Override
     public void render(MatrixStack matrices, OrderedRenderCommandQueue queue, int light, PlayerEntityRenderState state,
             float limbAngle, float limbDistance) {
-        if (state.invisible || !state.capeVisible
-                || state.skinTextures.cape() != null) {
-            return;
-        }
+        // if (state.invisible || !state.capeVisible
+        // || state.skinTextures.cape() != null) {
+        // return;
+        // }
 
-        SaturnPlayer player = state.getData(SaturnRenderState.saturnDataKey);
+        // SaturnPlayer player = state.getData(SaturnRenderState.saturnDataKey);
 
-        if (player == null) {
-            return;
-        }
+        // if (player == null) {
+        // return;
+        // }
 
-        IdentifierRef customCape = Cloaks.getCurrentCloakTexture(player.cloak);
+        IdentifierRef customCape = Cloaks.getCurrentCloakTexture("amg_petronas");
         if (customCape == null
                 || this.hasCustomModelForLayer(state.equippedChestStack, LayerType.WINGS)) {
             return;
