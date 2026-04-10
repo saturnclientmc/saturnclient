@@ -417,6 +417,7 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
         int blockLight = (light >> 4) & 0xF;
         int skyLight = (light >> 20) & 0xF;
         blockLight = Math.max(blockLight, minBrightness);
+        
         skyLight = Math.max(skyLight, minBrightness);
         light = (skyLight << 20) | (blockLight << 4);
 
