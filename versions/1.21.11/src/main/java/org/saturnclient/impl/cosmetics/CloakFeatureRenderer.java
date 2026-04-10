@@ -262,8 +262,8 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
             float uStart = frontU1 + (frontU2 - frontU1) * (1.0f - ((float) x / H_PARTS));
             float uEnd = frontU1 + (frontU2 - frontU1) * (1.0f - ((float) (x + 1) / H_PARTS));
 
-            float buStart = backU1 + (backU2 - backU1) * (1.0f - ((float) x / H_PARTS));
-            float buEnd = backU1 + (backU2 - backU1) * (1.0f - ((float) (x + 1) / H_PARTS));
+            float buStart = backU1 + (backU2 - backU1) * ((float) x / H_PARTS);
+            float buEnd = backU1 + (backU2 - backU1) * ((float) (x + 1) / H_PARTS);
 
             for (int i = 0; i < PARTS; i++) {
 
@@ -292,35 +292,13 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
                 // BACK
                 renderCapeQuad(vertexConsumer, entry,
                         innerBL, innerBR, innerTR, innerTL,
-                        buStart, bvStart, buEnd, bvEnd,
+                        buEnd, bvStart, buStart, bvEnd,
                         light, overlay, 0, 0, -1, false);
             }
         }
 
         // =============================
-        // 4. LEFT SIDE (x = 0)
-        // =============================
-
-        for (int i = 0; i < PARTS; i++) {
-
-            Vec3d innerTop = inner[0][i];
-            Vec3d innerBot = inner[0][i + 1];
-            Vec3d outerTop = outer[0][i];
-            Vec3d outerBot = outer[0][i + 1];
-
-            float vStart = leftV1 + leftPartV * (PARTS - i);
-            float vEnd = leftV1 + leftPartV * (PARTS - (i + 1));
-
-            // FLIPPED: swap v + swap vertical vertex order
-            renderCapeQuad(vertexConsumer, entry,
-                    innerTop, outerTop, outerBot, innerBot, // flipped vertically
-                    leftU1, vEnd, // swapped V
-                    leftU2, vStart,
-                    light, overlay, 1, 0, 0, false);
-        }
-
-        // =============================
-        // 5. RIGHT SIDE (x = H_PARTS)
+        // 4. LEFT SIDE (x = H_PARTS)
         // =============================
 
         for (int i = 0; i < PARTS; i++) {
@@ -330,15 +308,35 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
             Vec3d outerTop = outer[H_PARTS][i];
             Vec3d outerBot = outer[H_PARTS][i + 1];
 
-            float vStart = rightV1 + rightPartV * (PARTS - i);
-            float vEnd = rightV1 + rightPartV * (PARTS - (i + 1));
+            float vStart = leftV1 + leftPartV * i;
+            float vEnd = leftV1 + leftPartV * (i + 1);
 
-            // FLIPPED: swap v + swap vertical vertex order
             renderCapeQuad(vertexConsumer, entry,
-                    outerTop, innerTop, innerBot, outerBot, // flipped vertically
+                    innerTop, outerTop, outerBot, innerBot,
+                    leftU1, vEnd,
+                    leftU2, vStart,
+                    light, overlay, -1, 0, 0, false);
+        }
+
+        // =============================
+        // 5. RIGHT SIDE (x = 0)
+        // =============================
+
+        for (int i = 0; i < PARTS; i++) {
+
+            Vec3d innerTop = inner[0][i];
+            Vec3d innerBot = inner[0][i + 1];
+            Vec3d outerTop = outer[0][i];
+            Vec3d outerBot = outer[0][i + 1];
+
+            float vStart = rightV1 + rightPartV * i;
+            float vEnd = rightV1 + rightPartV * (i + 1);
+
+            renderCapeQuad(vertexConsumer, entry,
+                    outerTop, innerTop, innerBot, outerBot,
                     rightU1, vEnd,
                     rightU2, vStart,
-                    light, overlay, -1, 0, 0, false);
+                    light, overlay, 1, 0, 0, false);
         }
 
         // =============================
