@@ -436,7 +436,7 @@ public class CloakFeatureRenderer extends FeatureRenderer<PlayerEntityRenderStat
 
         long now = System.currentTimeMillis();
         if (now - lastUpdate >= 20) {
-            float velX = Math.min(0.6f, playerEntityRenderState.field_53537 / 108.0f);
+            float velX = Math.min(0.8f, playerEntityRenderState.field_53537 / 108.0f);
             float rawVelY = playerEntityRenderState.field_53536;
             float velY = (rawVelY > 3.4f ? rawVelY : rawVelY < -3.4f ? rawVelY : 0.0f) / 16;
 
